@@ -1,11 +1,11 @@
 package com.br.holocronifrn.siadeserver
 
-class Districty {
+class District {
 	
 	String name
 	
 	static belongsTo = [city : City]
-	static hasMany = []
+	static hasMany = [blocks : Block]
 
     static constraints = {
 		name blank : false

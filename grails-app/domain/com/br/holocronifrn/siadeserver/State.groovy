@@ -5,7 +5,7 @@ class State {
 	String name
 	String acronym
 	
-	static hasMany = [city : City]
+	static hasMany = [cities : City]
 	
     static constraints = {
 		name blank : false 

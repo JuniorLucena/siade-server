@@ -1,6 +1,6 @@
 package com.br.holocronifrn.siadeserver
 
-class DistrictyController {
+class DistrictController {
 
 	static scaffold = true
 	

@@ -4,7 +4,7 @@ class City {
 	
 	String name
 	static belongsTo = [state : State]
-	static hasMany = [districty : Districty]
+	static hasMany = [districts : District]
 	
     static constraints = {
 		name blank : false

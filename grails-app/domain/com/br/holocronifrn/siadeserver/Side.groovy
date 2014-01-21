@@ -5,7 +5,7 @@ class Side {
 	String reference
 	String number
 	
-	static hasOne = [street : Street, block : Block]
+	static belongsTo = [street : Street, block : Block]
 		
     static constraints = {
 		reference blank:false 

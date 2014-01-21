@@ -4,7 +4,7 @@ class Street {
 	
 	String name
 	
-	static hasMany = [side : Side]
+	static hasMany = [sides : Side]
 
     static constraints = {
 		name blank:false 

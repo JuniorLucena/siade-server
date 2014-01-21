@@ -4,12 +4,12 @@ class Block {
 	
 	String identification
 	
-	static belongsTo = [districty : Districty]
+	static belongsTo = [district : District]
 	static hasMany = [side : Side]
 	
 
     static constraints = {
-		identification blank:false 
+		identification blank:false, matches : /\d*|(\d*\/\d+)/
     }
 	
 	@Override
