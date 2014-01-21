@@ -4,5 +4,4 @@ class SideController {
 	
 	static scaffold = true
 
-    def index() { }
 }

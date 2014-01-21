@@ -9,7 +9,7 @@ class Block {
 	
 
     static constraints = {
-		identification blank:false, matches : /\d*|(\d*\/\d+)/
+		identification blank:false, matches : /\d+(\/\d+)?/
     }
 	
 	@Override

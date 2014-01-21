@@ -4,5 +4,4 @@ class CityController {
 
 	static scaffold = true
 	
-    def index() { }
 }

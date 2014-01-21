@@ -4,5 +4,4 @@ class BlockController {
 	
 	static scaffold = true
 
-    def index() { }
 }

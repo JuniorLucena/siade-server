@@ -4,5 +4,4 @@ class DistrictController {
 
 	static scaffold = true
 	
-    def index() { }
 }

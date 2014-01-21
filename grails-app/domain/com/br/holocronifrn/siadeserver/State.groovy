@@ -9,7 +9,7 @@ class State {
 	
     static constraints = {
 		name blank : false 
-		acronym blank : false, matches : /\w{2}/
+		acronym blank : false, matches : /[A-Z]{2}/
     }
 	
 	@Override
