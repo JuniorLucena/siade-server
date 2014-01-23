@@ -8,7 +8,6 @@ class Side {
 	static belongsTo = [street : Street, block : Block]
 		
     static constraints = {
-		reference blank:false 
 		number blank:false 
     }
 	
