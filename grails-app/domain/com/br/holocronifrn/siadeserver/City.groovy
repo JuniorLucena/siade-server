@@ -3,6 +3,7 @@ package com.br.holocronifrn.siadeserver
 class City {
 	
 	String name
+	
 	static belongsTo = [state : State]
 	static hasMany = [districts : District]
 	
