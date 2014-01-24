@@ -3,11 +3,12 @@ package com.br.holocronifrn.siadeserver
 class Side {
 	
 	String reference
-	Integer number
+	String number
 	
 	static belongsTo = [street : Street, block : Block]
 		
     static constraints = {
+    	reference blank:false
 		number blank:false 
     }
 	
