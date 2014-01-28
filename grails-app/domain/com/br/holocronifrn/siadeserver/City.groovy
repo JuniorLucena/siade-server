@@ -13,6 +13,6 @@ class City {
 	
 	@Override
 	public String toString() {
-		name
+		"${name} - ${state?.acronym}"  
 	}
 }
