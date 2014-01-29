@@ -1,12 +1,3 @@
-/*class BootStrap {
-
-    def init = { servletContext ->
-    }
-    def destroy = {
-    }
-}
-*/
-
 import com.br.holocronifrn.siadeserver.User
 import com.br.holocronifrn.siadeserver.UserLevel
 import com.br.holocronifrn.siadeserver.UserUserLevel

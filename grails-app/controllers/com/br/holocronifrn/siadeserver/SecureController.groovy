@@ -6,6 +6,6 @@ import grails.plugin.springsecurity.annotation.Secured
 class SecureController {
     
     def index () {
-      render 'Acesso seguro apenas'
+      render view: "/index"
    }
 }
