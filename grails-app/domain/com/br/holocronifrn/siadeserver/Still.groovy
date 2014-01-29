@@ -11,7 +11,7 @@ class Still {
 	static belongsTo = [side : Side]
 
     static constraints = {
-		habitants_amount blank:false
+		habitants_amount blanxk:false
 		dogs_amount blank:false
 		cats_amount blank:false
 		still_number blank:false
@@ -20,6 +20,6 @@ class Still {
 	
 	@Override
 	public String toString() {
-		still_number	
+		"Imóvel número:  ${still_number}"	
 	}
 }
