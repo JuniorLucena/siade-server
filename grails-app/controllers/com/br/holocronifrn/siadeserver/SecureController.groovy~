@@ -5,10 +5,9 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured (['ROLE_ADMIN'])
 class SecureController {
     
-    def index () {
+    def index = {
       render view: "/index"
-   }
-   def logout () {
-      render "<a href="<url="/j_spring_security_logout"/>">Logout</a>"
+
+      redirect url: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
    }
 }
