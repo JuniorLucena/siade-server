@@ -7,7 +7,7 @@
 		<g:message code="state.name.label" default="Name" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="name" required="" value="${stateInstance?.name}"/>
+	<g:textField class="form-control" name="name" required="" value="${stateInstance?.name}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: stateInstance, field: 'acronym', 'error')} required">
@@ -15,7 +15,7 @@
 		<g:message code="state.acronym.label" default="Acronym" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="acronym" pattern="${stateInstance.constraints.acronym.matches}" required="" value="${stateInstance?.acronym}"/>
+	<g:textField class="form-control" name="acronym" pattern="${stateInstance.constraints.acronym.matches}" required="" value="${stateInstance?.acronym}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: stateInstance, field: 'cities', 'error')} ">
