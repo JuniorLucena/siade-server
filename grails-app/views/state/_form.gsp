@@ -24,12 +24,13 @@
 		
 	</label>
 	
-<ul class="one-to-many">
+<ul style="list-style-type:none" class="one-to-many">
 <g:each in="${stateInstance?.cities?}" var="c">
-    <li><g:link controller="city" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
+   <li><g:link controller="city" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
 </g:each>
 <li class="add">
-<g:link controller="city" action="create" params="['state.id': stateInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'city.label', default: 'City')])}</g:link>
+<g:link class="btn btn-default" controller="city" action="create" params="['state.id': stateInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'city.label', default: 'City')])}</g:link>
+<g:link class="list btn btn-default" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 </li>
 </ul>
 
