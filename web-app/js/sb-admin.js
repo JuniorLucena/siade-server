@@ -1,5 +1,5 @@
-$(function() {
 
+$(function(){
     $('#side-menu').metisMenu();
 
 });
@@ -8,6 +8,7 @@ $(function() {
 $(function() {
 
     $(window).bind("load", function() {
+
         console.log($(this).width())
         if ($(this).width() < 768) {
             $('div.sidebar-collapse').addClass('collapse')

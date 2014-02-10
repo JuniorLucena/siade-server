@@ -13,11 +13,19 @@
 		
 		<g:layoutHead/>
 		<g:javascript library="application"/>
+		
+
+		
+		
+		
 		<r:require modules="bootstrap"/>
+		
 		<link href="css/bootstrap.min.css" rel="stylesheet">
  		<link href="css/sb-admin.css" rel="stylesheet">
 		
 		<r:layoutResources />
+		<g:javascript src="plugins/metisMenu/jquery.metisMenu.js" />
+		<g:javascript src="sb-admin.js" />
 	</head>
 	<body>
 		<g:layoutBody/>
