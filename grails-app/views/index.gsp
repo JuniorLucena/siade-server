@@ -5,12 +5,12 @@
 		<title>SIADE</title>
 	</head>
 	<body>
-		<div class="container">
+		<div class="wrapper">
 			<div class="toolbar">
 
 			</div>
 			<div class="menu">
-
+				<g:render template="/menu" />
 			</div>
 			<div class="content">
 
