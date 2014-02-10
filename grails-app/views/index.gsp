@@ -8,7 +8,7 @@
 	<body>
 		<div class="wrapper">
 			<div class="toolbar">
-
+				<g:render template="/toolbar" />
 			</div>
 			<div class="menu">
 				<g:render template="/menu" />
