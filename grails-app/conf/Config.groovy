@@ -116,23 +116,6 @@ log4j = {
 
 grails.plugins.springsecurity.password.algorithm='SHA-512'
 
-
-// Added by the Spring Security Core plugin:
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'siadeserver.User'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'siadeserver.UserUserLevel'
-grails.plugin.springsecurity.authority.className = 'siadeserver.UserLevel'
-grails.plugin.springsecurity.controllerAnnotations.staticRules = [
-	'/':                              ['permitAll'],
-	'/index':                         ['permitAll'],
-	'/index.gsp':                     ['permitAll'],
-	'/**/js/**':                      ['permitAll'],
-	'/**/css/**':                     ['permitAll'],
-	'/**/images/**':                  ['permitAll'],
-	'/**/favicon.ico':                ['permitAll']
-]
-
-
-
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.br.holocronifrn.siadeserver.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.br.holocronifrn.siadeserver.UserUserLevel'
@@ -146,4 +129,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/images/**':                  ['permitAll'],
 	'/**/favicon.ico':                ['permitAll']
 ]
+
+grails.plugins.springsecurity.auth.loginFormUrl = '/'
+
 
