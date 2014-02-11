@@ -26,6 +26,7 @@
 		<r:layoutResources />
 		<g:javascript src="plugins/metisMenu/jquery.metisMenu.js" />
 		<g:javascript src="sb-admin.js" />
+		<g:javascript src="ajax.js" />
 	</head>
 	<body>
 		<g:layoutBody/>
