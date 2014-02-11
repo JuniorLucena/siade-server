@@ -1,13 +1,4 @@
 
-<%@ page import="com.br.holocronifrn.siadeserver.State" %>
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'state.label', default: 'State')}" />
-		<title><g:message code="default.list.label" args="[entityName]" /></title>
-	</head>
-	<body>
 	
 		<div id="list-state"  class="content scaffold-list panel panel-default" role="main">
 			<div class="panel-heading">
@@ -44,5 +35,4 @@
 				<g:paginate total="${stateInstanceCount ?: 0}" />
 			</div>
 		</div>
-	</body>
-</html>
+
