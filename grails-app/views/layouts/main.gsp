@@ -13,11 +13,7 @@
 		
 		<g:layoutHead/>
 		<g:javascript library="application"/>
-		
-
-		
-		
-		
+				
 		<r:require modules="bootstrap"/>
 		
 		<link href="css/bootstrap.min.css" rel="stylesheet">

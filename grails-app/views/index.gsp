@@ -13,8 +13,8 @@
 			<div class="menu">
 				<g:render template="/menu" />
 			</div>
-			<div class="content" style="float:right">
-
+			<div id="page-wrapper">
+				<div class="content"></div>
 			</div>
 		</div>
 	</body>
