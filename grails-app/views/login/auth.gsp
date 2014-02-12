@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Start Bootstrap - SB Admin Version 2.0 Demo</title>
+<title>Siade - Controle de Endemias</title>
 
 <!-- Core CSS - Include with every page -->
 <link href="/siade-server/static/css/bootstrap.min.css" rel="stylesheet">
@@ -27,6 +27,7 @@
 					<div class="panel-heading">
 						<h3 class="panel-title">Please Sign In</h3>
 					</div>
+					
 					<div class="panel-body">
 						<form role="form" method="POST"
 							action="${resource(file: 'j_spring_security_check')}">
@@ -40,17 +41,30 @@
 										name="j_password" type="password" value="">
 								</div>
 								<div class="checkbox">
-									<label> <input name="_spring_security_remember_me" type="checkbox"
-										value="Remember Me">Remember Me
+									<label> <input name="_spring_security_remember_me"
+										type="checkbox" value="Remember Me">Remember Me
 									</label>
 								</div>
 								<!-- Change this to a button or input when using this as a form -->
-								<g:submitButton name="=" login" value="Login"
+								<g:submitButton name="="
+									login" value='${message(code: "springSecurity.login.button")}'
 									class="btn btn-lg btn-success btn-block">Login</g:submitButton>
 							</fieldset>
 						</form>
 					</div>
 				</div>
+				
+					<%--
+					responsável por emitir a mensagem de erro
+					--%>
+					
+					<g:if test='${flash.message}'>
+						<div class='alert alert-danger'>
+							${flash.message}
+						</div>
+					</g:if>
+					
+					
 			</div>
 		</div>
 	</div>
