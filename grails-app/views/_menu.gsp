@@ -50,8 +50,8 @@
 					<!-- MENU PARA STILL -->
 					<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Imóvel<b class="caret"></b></a>
 						<ul class="nav nav-third-level">
-							<li><g:link controller="still" action="create"><span class="glyphicon glyphicon-plus"></span> Criar</g:link></li>
-							<li><g:link controller="still" action="index"><span class="glyphicon glyphicon-list"></span> Listar</g:link></li>
+							<li><a href="#" onClick="loadPage('<g:createLink controller='Still' action='create' />')"><span class="glyphicon glyphicon-list"></span> Criar</a></li>
+							<li><a href="#" onClick="loadPage('<g:createLink controller='Still' action='index' />')"><span class="glyphicon glyphicon-list"></span> Listar</a></li>
 						</ul>
 					</li>
 					
