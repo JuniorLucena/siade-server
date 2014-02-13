@@ -56,10 +56,13 @@
 						<tbody>
 							<g:each in="${stillInstanceList}" status="i" var="stillInstance">
 								<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-
-									<td><g:link action="show" id="${stillInstance.id}">
+									<%--					
+									responsável por fazer a requisição ajax à ação show
+									--%>
+									<td><a href="#"
+										onclick="loadPage('<g:createLink action="show" id="${stillInstance.id}" />')">
 											${fieldValue(bean: stillInstance, field: "habitants_amount")}
-										</g:link></td>
+									</a></td>
 
 									<td>
 										${fieldValue(bean: stillInstance, field: "dogs_amount")}
