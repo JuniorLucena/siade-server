@@ -1,38 +1,47 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'still.label', default: 'Still')}" />
-		<title><g:message code="default.create.label" args="[entityName]" /></title>
-	</head>
-	<body>
-		<a href="#create-still" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="create-still" class="content scaffold-create" role="main">
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+<g:set var="entityName"
+	value="${message(code: 'still.label', default: 'Still')}" />
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">
+			<g:message code="default.create.label" args="[entityName]" />
+		</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<g:message code="default.create.label" args="[entityName]" />
 			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
+				<div class="message" role="status">
+					${flash.message}
+				</div>
 			</g:if>
 			<g:hasErrors bean="${stillInstance}">
-			<ul class="errors" role="alert">
-				<g:eachError bean="${stillInstance}" var="error">
-				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-				</g:eachError>
-			</ul>
+				<ul class="errors" role="alert">
+					<g:eachError bean="${stillInstance}" var="error">
+						<li
+							<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
+								error="${error}" /></li>
+					</g:eachError>
+				</ul>
 			</g:hasErrors>
-			<g:form url="[resource:stillInstance, action:'save']" >
-				<fieldset class="form">
-					<g:render template="form"/>
-				</fieldset>
-				<fieldset class="buttons">
-					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-				</fieldset>
-			</g:form>
 		</div>
-	</body>
-</html>
+
+		<div class="panel-body">
+			<div class="col-lg-6">
+				<g:form role="fomr" url="[resource:stillInstance, action:'save']">
+					<fieldset class="form">
+						<g:render template="form" />
+					</fieldset>
+					<fieldset class="buttons">
+						<g:submitButton name="create" class="save btn btn-primary"
+							value="${message(code: 'default.button.create.label', default: 'Create')}" />
+					</fieldset>
+				</g:form>
+			</div>
+		</div>
+	</div>
+</div>
+
