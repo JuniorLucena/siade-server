@@ -14,7 +14,7 @@
 			</g:eachError>
 		</ul>
 		</g:hasErrors>
-		<g:form url="[resource:stateInstance, action:'save']" onsubmit="sendForm(this)">
+		<g:form onsubmit="sendForm(this);return false" url="[resource:stateInstance, action:'save']" name="Estado">
 			<fieldset class="form">
 				<g:render template="form"/>
 			</fieldset>

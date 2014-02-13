@@ -4,16 +4,17 @@ function loadPage(link){
 }
 
 function sendForm(form){
-	alert ("may work (someday)");
-	/*var dados = form.serialize();
 	var url = form.action;
 	$.ajax({
-		type: "post",
+		type:'POST',
+		data:$(form).serialize(),
 		url: url,
-		data: dados,
-		success: function(page){
-			$(".content").html(page);
-		}
-	});*/
+		success:function(data,textStatus){
+			jQuery('#content').html(data);
+		},
+		error:function(XMLHttpRequest,textStatus,errorThrown){}
+
+	});	
 	return false;
 }
+			

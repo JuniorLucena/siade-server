@@ -10,7 +10,7 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class StateController {
 
-	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+	static allowedMethods = [save: "POST", update: "POST", delete: "DELETE"]
 
 	def index(Integer max) {
 		params.max = Math.min(max ?: 10, 100)

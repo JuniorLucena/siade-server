@@ -14,7 +14,7 @@
 				<g:render template="/menu" />
 			</div>
 			<div id="page-wrapper">
-				<div class="content"></div>
+				<div class="content" id="content"></div>
 			</div>
 		</div>
 	</body>
