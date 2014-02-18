@@ -55,7 +55,7 @@
                         <li class="divider"></li>
                         <li>
                             <a class="text-center" href="#">
-                                <strong>Read All Messages</strong>
+                                <strong>Leia todas as mensagens</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         </li>
@@ -72,7 +72,7 @@
                             <a href="#">
                                 <div>
                                     <p>
-                                        <strong>Task 1</strong>
+                                        <strong>Tarefa 1</strong>
                                         <span class="pull-right text-muted">40% Complete</span>
                                     </p>
                                     <div class="progress progress-striped active">
@@ -88,7 +88,7 @@
                             <a href="#">
                                 <div>
                                     <p>
-                                        <strong>Task 2</strong>
+                                        <strong>Tarefa 2</strong>
                                         <span class="pull-right text-muted">20% Complete</span>
                                     </p>
                                     <div class="progress progress-striped active">
@@ -104,7 +104,7 @@
                             <a href="#">
                                 <div>
                                     <p>
-                                        <strong>Task 3</strong>
+                                        <strong>Tarefa 3</strong>
                                         <span class="pull-right text-muted">60% Complete</span>
                                     </p>
                                     <div class="progress progress-striped active">
@@ -120,7 +120,7 @@
                             <a href="#">
                                 <div>
                                     <p>
-                                        <strong>Task 4</strong>
+                                        <strong>Tarefa 4</strong>
                                         <span class="pull-right text-muted">80% Complete</span>
                                     </p>
                                     <div class="progress progress-striped active">
@@ -134,7 +134,7 @@
                         <li class="divider"></li>
                         <li>
                             <a class="text-center" href="#">
-                                <strong>See All Tasks</strong>
+                                <strong>Ver todas as tarefas</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         </li>
@@ -150,7 +150,7 @@
                         <li>
                             <a href="#">
                                 <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <i class="fa fa-comment fa-fw"></i> Novo comentário
                                     <span class="pull-right text-muted small">4 minutes ago</span>
                                 </div>
                             </a>
@@ -159,7 +159,7 @@
                         <li>
                             <a href="#">
                                 <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <i class="fa fa-twitter fa-fw"></i> 3 Novos seguidores
                                     <span class="pull-right text-muted small">12 minutes ago</span>
                                 </div>
                             </a>
@@ -168,7 +168,7 @@
                         <li>
                             <a href="#">
                                 <div>
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                    <i class="fa fa-envelope fa-fw"></i> Mensagem enviada
                                     <span class="pull-right text-muted small">4 minutes ago</span>
                                 </div>
                             </a>
@@ -177,7 +177,7 @@
                         <li>
                             <a href="#">
                                 <div>
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
+                                    <i class="fa fa-tasks fa-fw"></i> Nova tarefa
                                     <span class="pull-right text-muted small">4 minutes ago</span>
                                 </div>
                             </a>
@@ -186,7 +186,7 @@
                         <li>
                             <a href="#">
                                 <div>
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <i class="fa fa-upload fa-fw"></i> Servidor reiniciado
                                     <span class="pull-right text-muted small">4 minutes ago</span>
                                 </div>
                             </a>
@@ -194,7 +194,7 @@
                         <li class="divider"></li>
                         <li>
                             <a class="text-center" href="#">
-                                <strong>See All Alerts</strong>
+                                <strong>Ver todos os alertas</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         </li>
