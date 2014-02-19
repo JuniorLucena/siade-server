@@ -1,7 +1,7 @@
 <%@ page import="com.br.holocronifrn.siadeserver.Still"%>
 
 <div
-	class="fieldcontain ${hasErrors(bean: stillInstance, field: 'habitants_amount', 'error')} required">
+	class="form-group fieldcontain ${hasErrors(bean: stillInstance, field: 'habitants_amount', 'error')} required">
 	<label for="habitants_amount"> <g:message
 			code="still.habitants_amount.label" default="Habitantsamount" /> <span
 		class="required-indicator">*</span>
@@ -12,7 +12,7 @@
 
 
 <div
-	class="fieldcontain ${hasErrors(bean: stillInstance, field: 'dogs_amount', 'error')} required">
+	class="form-group fieldcontain ${hasErrors(bean: stillInstance, field: 'dogs_amount', 'error')} required">
 	<label for="dogs_amount"> <g:message
 			code="still.dogs_amount.label" default="Dogsamount" /> <span
 		class="required-indicator">*</span>
@@ -22,7 +22,7 @@
 </div>
 
 <div
-	class="fieldcontain ${hasErrors(bean: stillInstance, field: 'cats_amount', 'error')} required">
+	class="form-group fieldcontain ${hasErrors(bean: stillInstance, field: 'cats_amount', 'error')} required">
 	<label for="cats_amount"> <g:message
 			code="still.cats_amount.label" default="Catsamount" /> <span
 		class="required-indicator">*</span>
@@ -32,7 +32,7 @@
 </div>
 
 <div
-	class="fieldcontain ${hasErrors(bean: stillInstance, field: 'still_number', 'error')} required">
+	class="form-group fieldcontain ${hasErrors(bean: stillInstance, field: 'still_number', 'error')} required">
 	<label for="still_number"> <g:message
 			code="still.still_number.label" default="Stillnumber" /> <span
 		class="required-indicator">*</span>
@@ -42,7 +42,7 @@
 </div>
 
 <div
-	class="fieldcontain ${hasErrors(bean: stillInstance, field: 'idStillTipe', 'error')} required">
+	class="form-group fieldcontain ${hasErrors(bean: stillInstance, field: 'idStillTipe', 'error')} required">
 	<label for="idStillTipe"> <g:message
 			code="still.idStillTipe.label" default="Id Still Tipe" /> <span
 		class="required-indicator">*</span>
@@ -53,7 +53,7 @@
 
 
 <div
-	class="fieldcontain ${hasErrors(bean: stillInstance, field: 'numberSequence', 'error')} required">
+	class="form-group fieldcontain ${hasErrors(bean: stillInstance, field: 'numberSequence', 'error')} required">
 	<label for="numberSequence"> <g:message
 			code="still.numberSequence.label" default="numberSequence" /> <span
 		class="required-indicator">*</span>
@@ -63,7 +63,7 @@
 </div>
 
 <div
-	class="fieldcontain ${hasErrors(bean: stillInstance, field: 'side', 'error')} required">
+	class="form-group fieldcontain ${hasErrors(bean: stillInstance, field: 'side', 'error')} required">
 	<label for="side"> <g:message code="still.side.label"
 			default="Side" /> <span class="required-indicator">*</span>
 	</label>

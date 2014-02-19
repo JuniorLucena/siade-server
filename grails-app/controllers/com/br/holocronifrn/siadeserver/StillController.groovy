@@ -119,7 +119,7 @@ class StillController {
 		}
 	}
 
-	private void realocateSequenceNumber(realty) {	
+	private void realocateSequenceNumber(realty) {
 		/* criteria responsável por pegar todos os objetos que tem o 
 		 * numero de sequencia maior ou igual ao do imóvel, e que está no 
 		 * mesmo lado, do imóvel comparado
