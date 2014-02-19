@@ -20,8 +20,10 @@
 		
 		<r:layoutResources />
 		<g:javascript src="plugins/metisMenu/jquery.metisMenu.js" />
+		<g:javascript src="bootstrap.min.js" />
 		<g:javascript src="sb-admin.js" />
 		<g:javascript src="ajax.js" />
+
 
 		<link href="font-awesome/css/font-awesome.css" rel="stylesheet">
  		<link href="css/sb-admin.css" rel="stylesheet">

@@ -1,7 +1,14 @@
 
 <g:set var="entityName" value="${message(code: 'state.label', default: 'State')}" />
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">
+			<g:message code="default.edit.label" args="[entityName]" />
+		</h1>
+	</div>
+</div>
 <div id="edit-state" class="panel panel-default content scaffold-edit" role="main">
-	<div class="panel-heading"><h1><g:message code="default.edit.label" args="[entityName]" /></h1></div>
+	<div class="panel-heading"><g:message code="default.edit.label" args="[entityName]" /></div>
 	<g:if test="${flash.message}">
 	<div class="message" role="status">${flash.message}</div>
 	</g:if>

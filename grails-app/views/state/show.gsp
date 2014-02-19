@@ -2,7 +2,13 @@
 
 
 <g:set var="entityName" value="${message(code: 'state.label', default: 'State')}" />
-
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">
+			<g:message code="default.show.label" args="[entityName]" />
+		</h1>
+	</div>
+</div>
 <div id="show-state" class="panel panel-default content scaffold-show" role="main">
 <div class="panel-heading"><h3><g:message code="default.show.label" args="[entityName]" /></h3></div>
 <g:if test="${flash.message}">

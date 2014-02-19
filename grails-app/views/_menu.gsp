@@ -36,8 +36,8 @@
 					<!-- MENU PARA BLOCK -->
 					<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Quadra<b class="caret"></b></a>
 						<ul class="nav nav-third-level">
-							<li><g:link controller="block" action="create"><span class="glyphicon glyphicon-plus"></span> Criar</g:link></li>
-							<li><g:link controller="block" action="index"><span class="glyphicon glyphicon-list"></span> Listar</g:link></li>
+							<li><a href="#" onClick="loadPage('<g:createLink controller='Block' action='create' />')"><span class="glyphicon glyphicon-plus"></span> Criar</a></li>
+							<li><a href="#" onClick="loadPage('<g:createLink controller='Block' action='index' />')"></span> Listar</a></li>
 						</ul>
 					</li>
 					<!-- MENU PARA SIDE -->
