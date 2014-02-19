@@ -7,6 +7,7 @@ class Still {
 	int cats_amount
 	String still_number
 	int idStillTipe
+	int numberSequence
 
 	static belongsTo = [side : Side]
 
@@ -16,6 +17,7 @@ class Still {
 		cats_amount blank:false
 		still_number blank:false
 		idStillTipe blank:false
+		numberSequence blank:false
     }
 	
 	@Override

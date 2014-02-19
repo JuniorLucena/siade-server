@@ -51,6 +51,17 @@
 		value="${stillInstance.idStillTipe}" required="" />
 </div>
 
+
+<div
+	class="fieldcontain ${hasErrors(bean: stillInstance, field: 'numberSequence', 'error')} required">
+	<label for="numberSequence"> <g:message
+			code="still.numberSequence.label" default="numberSequence" /> <span
+		class="required-indicator">*</span>
+	</label>
+	<g:field class="form-control" name="numberSequence" type="number"
+		value="${stillInstance.numberSequence}" required="" />
+</div>
+
 <div
 	class="fieldcontain ${hasErrors(bean: stillInstance, field: 'side', 'error')} required">
 	<label for="side"> <g:message code="still.side.label"
