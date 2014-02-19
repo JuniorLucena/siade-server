@@ -1,5 +1,4 @@
-<g:set var="entityName"
-	value="${message(code: 'still.label', default: 'Still')}" />
+<g:set var="entityName" value="${message(code: 'still.label', default: 'Still')}" />
 
 <div class="row">
 	<div class="col-lg-12">
