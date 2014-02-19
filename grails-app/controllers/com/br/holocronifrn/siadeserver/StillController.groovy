@@ -14,7 +14,7 @@ class StillController {
 
 	def index(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
-		respond Still.list(params), model:[stillInstanceCount: Still.count()]
+		respond Still.list(max: params.max, sort: "numberSequence", order: "asc"), model:[stillInstanceCount: Still.count()]
 	}
 
 	def show(Still stillInstance) {
@@ -27,6 +27,7 @@ class StillController {
 
 	@Transactional
 	def save(Still stillInstance) {
+
 		if (stillInstance == null) {
 			notFound()
 			return
@@ -37,6 +38,8 @@ class StillController {
 			return
 		}
 
+
+		realocateSequenceNumber(stillInstance)
 		stillInstance.save flush:true
 
 		request.withFormat {
@@ -113,6 +116,22 @@ class StillController {
 				redirect action: "index", method: "GET"
 			}
 			'*'{ render status: NOT_FOUND }
+		}
+	}
+
+	private void realocateSequenceNumber(realty) {	
+		/* criteria responsável por pegar todos os objetos que tem o 
+		 * numero de sequencia maior ou igual ao do imóvel, e que está no 
+		 * mesmo lado, do imóvel comparado
+		 */
+		def realties = Still.withCriteria  {
+			ge "numberSequence", realty.numberSequence
+			like "side", realty.side
+		}
+
+		realties.each {
+			it.numberSequence += 1
+			it.save flush:true
 		}
 	}
 }
