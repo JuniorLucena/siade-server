@@ -13,19 +13,25 @@
 	</g:hasErrors>
 	<div class="panel panel-default">
 		<div class="panel-heading">Criar Quadra</div>
-		<div class="panel-boby">
+		<div class="panel-body">
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#block" data-toogle="tab">Dados Básicos</a></li>
 				<li><a href="#side" data-toogle="tab">Lados</a></li>
 				<li><a href="#still" data-toogle="tab">Imóveis</a></li>
 			</ul>
 			<div class="tab-content">
-				<div class="tab-pane fade active in" id="block"><g:render template="block" /></div>
-				<div class="tab-pane fade" id="side"><g:render template="side" /></div>
-				<div class="tab-pane fade" id="still"><g:render template="still" /></div>
+				<div class="tab-pane fade active in" id="block" data-toogle="tab"><g:render template="block" /></div>
+				<div class="tab-pane fade" id="side"  data-toogle="tab"><g:render template="side" /></div>
+				<div class="tab-pane fade" id="still"  data-toogle="tab"><g:render template="still" /></div>
 			</div>
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$('.panel-body a').click(function (e) {
+  		e.preventDefault()
+  		$(this).tab('show')
+	})
+</script>
 
 
