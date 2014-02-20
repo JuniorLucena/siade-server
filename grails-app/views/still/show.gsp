@@ -78,16 +78,16 @@
 				</g:if>
 
 			</ol>
-			<g:form url="[resource:stillInstance, action:'delete']"
-				method="DELETE">
+			<g:form onsubmit="sendForm(this);return false"
+				url="[resource:stillInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">
 
-					<a href="#"
-						onclick="loadPage('<g:createLink action="edit" id="${stillInstance.id}" />')"><g:message code="default.button.edit.label" default="Edit" />
-						${fieldValue(bean: stillInstance, field: "habitants_amount")}
+					<a href="#" class="edit btn btn-default"
+						onclick="loadPage('<g:createLink action="edit" id="${stillInstance.id}" />')"><g:message
+							code="default.button.edit.label" default="Edit" /> ${fieldValue(bean: stillInstance, field: "habitants_amount")}
 					</a>
 
-					<g:actionSubmit class="delete" action="delete"
+					<g:actionSubmit class="delete btn btn-danger" action="delete"
 						value="${message(code: 'default.button.delete.label', default: 'Delete')}"
 						onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>

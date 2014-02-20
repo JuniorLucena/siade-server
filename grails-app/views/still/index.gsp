@@ -38,6 +38,9 @@
 								<g:sortableColumn property="habitants_amount"
 									title="${message(code: 'still.habitants_amount.label', default: 'Habitantsamount')}" />
 
+								<g:sortableColumn property="numberSequence"
+									title="${message(code: 'still.numberSequence.label', default: 'numberSequence')}" />
+
 								<g:sortableColumn property="dogs_amount"
 									title="${message(code: 'still.dogs_amount.label', default: 'Dogsamount')}" />
 
@@ -63,6 +66,10 @@
 										onclick="loadPage('<g:createLink action="show" id="${stillInstance.id}" />')">
 											${fieldValue(bean: stillInstance, field: "habitants_amount")}
 									</a></td>
+									
+									<td>
+										${fieldValue(bean: stillInstance, field: "numberSequence")}
+									</td>
 
 									<td>
 										${fieldValue(bean: stillInstance, field: "dogs_amount")}

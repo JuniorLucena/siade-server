@@ -1,5 +1,4 @@
-<g:set var="entityName"
-	value="${message(code: 'still.label', default: 'Still')}" />
+<g:set var="entityName" value="${message(code: 'still.label', default: 'Still')}" />
 
 <div class="row">
 	<div class="col-lg-12">
@@ -31,7 +30,7 @@
 
 		<div class="panel-body">
 			<div class="col-lg-6">
-				<g:form role="fomr" url="[resource:stillInstance, action:'save']">
+				<g:form onsubmit="sendForm(this);return false" url="[resource:stillInstance, action:'save']">
 					<fieldset class="form">
 						<g:render template="form" />
 					</fieldset>

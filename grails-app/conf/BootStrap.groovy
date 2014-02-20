@@ -32,7 +32,6 @@ class BootStrap {
 	  Street street1 = new Street(name: "Planalt0 1").save(flush: true)
 	  Block block1 = new Block(identification: "1", district: district1).save(flush: true)
 	  Side side1 = new Side(reference: "prox. a X", number: 12, street: street1, block: block1).save(flush: true)
-	  Still still1 = new Still(habitants_amount: 5, dogs_amount: 2, cats_amount: 1, still_number: "12/a", idStillTipe: 1, side: side1).save(flush: true)
    }
 }
 

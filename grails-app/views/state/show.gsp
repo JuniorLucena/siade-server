@@ -46,7 +46,7 @@
 		</ol>
 	</div>
 </div>
-<g:form url="[resource:stateInstance, action:'delete']" method="DELETE">
+<g:form onsubmit="sendForm(this);return false" url="[resource:stateInstance, action:'delete']" method="DELETE">
 	<fieldset class="buttons">
 		<a class="edit btn btn-default" onclick="loadPage('<g:createLink action="edit" resource="${stateInstance}" id="${stateInstance.id}" />')"><g:message code="default.button.edit.label" default="Edit" /></a>
 		<g:actionSubmit class="delete btn btn-danger" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
