@@ -209,7 +209,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil de Usuário</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
+                        <li><a href="#"><i class="fa fa-user fa-fw" data-toggle="modal" data-target="#myModal"> Configurações</i></a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="j_spring_security_logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
@@ -223,3 +223,5 @@
 
         </nav>
 </div>
+
+<g:render template="/settings/state_city" />
