@@ -3,6 +3,7 @@ package com.br.holocronifrn.siadeserver
 
 
 import static org.springframework.http.HttpStatus.*
+import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 
@@ -16,6 +17,7 @@ class StateController {
 		params.max = Math.min(max ?: 10, 100)
 		respond State.list(params), model:[stateInstanceCount: State.count()]
 	}
+
 
 	def show(State stateInstance) {
 		respond stateInstance

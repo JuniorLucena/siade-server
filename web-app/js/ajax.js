@@ -17,4 +17,23 @@ function sendForm(form){
 	});	
 	return false;
 }
+
+//metodo responsavel por buscar as cidades de um estado, e atribuir os valores na lista de localizacao nas configuracoes.
+function selectedState() {
+	var myselect = document.getElementById("state.id")
+	var dados = {'idState': myselect.options[myselect.selectedIndex].value}
+	
+	$.ajax({
+		dataType: "json",
+		type:'POST',
+		data: dados,
+		url: "/siade-server/city/listCityState",
+		sucesss: function(data, textStatus) {
+			console.log("response " + data)
+			$.each( data, function( key, value ) {
+				$('#settingsCity').append('<option value="' + value.id + '">'+ value.name + '</option>')
+			});
+		}
+	});
+}
 			
