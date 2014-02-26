@@ -1,6 +1,12 @@
 <g:set var="entityName" value="${message(code: 'block.label', default: 'Block')}" />
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">
+			<g:message code="default.create.label" args="[entityName]" />
+		</h1>
+	</div>
+</div>
 <div id="create-block" class="content scaffold-create" role="main">
-	<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 	<g:if test="${flash.message}">
 	<div class="message" role="status">${flash.message}</div>
 	</g:if>
