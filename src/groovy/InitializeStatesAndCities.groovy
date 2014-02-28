@@ -10,7 +10,6 @@ static def init() {
 	initCities()
 }
 
-
 static getPath(file) {
 	ServletContextHolder.getServletContext().getRealPath("/WEB-INF/json/${file}")
 }
@@ -24,7 +23,7 @@ static def getJSON(path) {
 static def initCities() {
 	def jsonCities = getJSON(getPath("Cidades.json"))
 	jsonCities.each {c ->
-		def city = new City([id: c.ID, name: c.Nome, state: State.get(c.Estado)]).save(flush: true)
+		def city = new City([id: c.ID, name: c.Nome, state: State.get(c.Estado)]).save()
 	}
 }
 
@@ -32,6 +31,6 @@ static def initCities() {
 static def initStates() {
 	def jsonStates =  getJSON(getPath("Estados.json"))
 	jsonStates.each { s ->
-		def state = new State([id: s.ID, name: s.Nome,acronym: s.Sigla]).save(flush: true)
+		def state = new State([id: s.ID, name: s.Nome,acronym: s.Sigla]).save()
 	}
 }

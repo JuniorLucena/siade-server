@@ -28,7 +28,7 @@ function selectedState() {
 		type:'POST',
 		data: dados,
 		url: "/siade-server/city/listCityState",
-		sucesss: function(data, textStatus) {
+		success: function(data, textStatus) {
 			console.log("response " + data)
 			$.each( data, function( key, value ) {
 				$('#settingsCity').append('<option value="' + value.id + '">'+ value.name + '</option>')
