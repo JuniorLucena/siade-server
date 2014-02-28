@@ -5,20 +5,6 @@
 			
 			<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastros Básicos</a>
 				<ul class="nav nav-second-level">
-					<!-- MENU PARA STATE -->
-					<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Estado<b class="caret"></b></a>
-						<ul class="nav nav-third-level">
-							<li><a href="#" onClick="loadPage('<g:createLink controller='State' action='create' />')"><span class="glyphicon glyphicon-plus"></span></span> Criar</a></li>
-							<li><a href="#" onClick="loadPage('<g:createLink controller='State' action='index' />')"><span class="glyphicon glyphicon-list"></span> Listar</a></li>
-						</ul>
-					</li>
-					<!-- MENU PARA CITY -->
-					<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Cidade<b class="caret"></b></a>
-						<ul class="nav nav-third-level">	
-							<li><g:link controller="city" action="create"><span class="glyphicon glyphicon-plus"></span> Criar</g:link></li>
-							<li><g:link controller="city" action="index"><span class="glyphicon glyphicon-list"></span> Listar</g:link></li>
-						</ul>
-					</li>
 					<!-- MENU PARA DISTRICT -->
 					<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Bairro<b class="caret"></b></a>
 						<ul class="nav nav-third-level">

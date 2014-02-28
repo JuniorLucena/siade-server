@@ -14,7 +14,7 @@
 			default="City" />
 	</label>
 	<g:select class="form-control" id="city" name="city.id"
-		from="${com.br.holocronifrn.siadeserver.City.list()}" optionKey="id"
+		from="${com.br.holocronifrn.siadeserver.Settings.list().city}" optionKey="id"
 		required="" value="${districtInstance?.city?.id}" />
 </div>
 <br />

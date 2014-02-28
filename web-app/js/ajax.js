@@ -27,11 +27,11 @@ function selectedState() {
 		dataType: "json",
 		type:'POST',
 		data: dados,
-		url: "/siade-server/city/listCityState",
+		url: "/siade-server/settings/getCitiesByStateId",
 		success: function(data, textStatus) {
-			console.log("response " + data)
+			$('.settingsCity').html('')
 			$.each( data, function( key, value ) {
-				$('#settingsCity').append('<option value="' + value.id + '">'+ value.name + '</option>')
+				$('.settingsCity').append('<option value="' + value.id + '">'+ value.name + '</option>')
 			});
 		}
 	});
