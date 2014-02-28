@@ -1,5 +1,5 @@
 <!-- modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="myModalLocation" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -9,7 +9,7 @@
 				<h4 class="modal-title" id="myModalLabel">Localização</h4>
 			</div>
 			<div class="modal-body">
-				<g:form
+				<g:form onsubmit="sendFormModal(this);return false"
 					url="[resource:settingsInstance, controller:'settings', action:'save']">
 					<fieldset class="form">
 						<div class="form-group">
