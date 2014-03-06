@@ -18,6 +18,29 @@
 	<g:textField name="password" required="" value="${userInstance?.password}"/>
 </div>
 
+
+
+<div class="fieldcontain ${hasErrors(bean: userLevelInstance, field: 'authority', 'error')} required">
+	<label for="authority">
+		<g:message code="userLevel.authority.label" default="Authority" />
+		<span class="required-indicator">*</span>
+	</label>
+	<div>
+		<label>
+			<g:message code="userLevel.authority.label" default="Administrator" />
+		</label>
+		<g:radio name="authority" required="" value="${userLevelInstance?.admin}"/>
+	</div>
+	<div>
+		<label>
+			<g:message code="userLevel.authority.label" default="Agent" />
+		</label>
+		<g:radio name="authority" required="" value="${userLevelInstance?.agent}"/>
+	</div>
+</div>
+
+
+
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'accountExpired', 'error')} ">
 	<label for="accountExpired">
 		<g:message code="user.accountExpired.label" default="Account Expired" />
