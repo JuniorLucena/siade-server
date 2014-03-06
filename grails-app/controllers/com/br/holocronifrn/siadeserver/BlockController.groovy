@@ -6,7 +6,7 @@ import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured (['ROLE_ADMIN'])
+@Secured (['ROLE_ADMIN', 'ROLE_USER'])
 @Transactional(readOnly = true)
 class BlockController {
 
