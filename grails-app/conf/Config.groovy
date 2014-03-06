@@ -132,4 +132,9 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 
 grails.plugins.springsecurity.auth.loginFormUrl = '/'
 
+android.gcm.api.key = 'AIzaSyDr8V_tQi6rJ0TyvMN32KGRuakGj6tiPw8'
+android.gcm.time.to.live=1419200
+android.gcm.delay.'while'.idle=false
+android.gcm.retries=3
+
 
