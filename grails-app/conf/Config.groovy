@@ -114,7 +114,7 @@ log4j = {
            'net.sf.ehcache.hibernate'
 }
 
-grails.plugins.springsecurity.password.algorithm='SHA-512'
+grails.plugin.springsecurity.password.algorithm='SHA-512'
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.br.holocronifrn.siadeserver.User'
@@ -130,7 +130,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/favicon.ico':                ['permitAll']
 ]
 
-grails.plugins.springsecurity.auth.loginFormUrl = '/'
+grails.plugin.springsecurity.auth.loginFormUrl = '/'
 
 android.gcm.api.key = 'AIzaSyDr8V_tQi6rJ0TyvMN32KGRuakGj6tiPw8'
 android.gcm.time.to.live=1419200
