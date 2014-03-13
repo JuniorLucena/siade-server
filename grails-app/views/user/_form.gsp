@@ -7,7 +7,7 @@
 		<g:message code="user.username.label" default="Username" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="username" required="" value="${userInstance?.username}"/>
+	<g:textField class="form-control" name="username" required="" value="${userInstance?.username}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'password', 'error')} required">
@@ -15,7 +15,7 @@
 		<g:message code="user.password.label" default="Password" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="password" required="" value="${userInstance?.password}"/>
+	<g:textField class="form-control" name="password" required="" value="${userInstance?.password}"/>
 </div>
 
 
@@ -30,8 +30,6 @@
 			<g:message code="userLevel.authority.label" default="Administrator" />
 		</label>
 		<g:radio name="authority" required="" value="${userLevelInstance?.admin}"/>
-	</div>
-	<div>
 		<label>
 			<g:message code="userLevel.authority.label" default="Agent" />
 		</label>
@@ -40,7 +38,7 @@
 </div>
 
 
-
+<!--
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'accountExpired', 'error')} ">
 	<label for="accountExpired">
 		<g:message code="user.accountExpired.label" default="Account Expired" />
@@ -72,4 +70,4 @@
 	</label>
 	<g:checkBox name="passwordExpired" value="${userInstance?.passwordExpired}" />
 </div>
-
+-->

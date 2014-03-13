@@ -30,8 +30,8 @@
 					<!-- MENU PARA SIDE -->
 					<li ><a href="#" class="dropdown-toggle" data-toggle="dropdown">Lado<b class="caret"></b></a>
 						<ul class="nav nav-third-level">
-							<li><g:link controller="side" action="create"><span class="glyphicon glyphicon-plus"></span> Criar</g:link></li>
-							<li><g:link controller="side" action="index"><span class="glyphicon glyphicon-list"></span> Listar</g:link></li>
+							<li><a href="#" onClick="loadPage('<g:createLink controller='Side' action='create' />')"><span class="glyphicon glyphicon-plus"></span> Criar</a></li>
+							<li><a href="#" onClick="loadPage('<g:createLink controller='Side' action='index' />')"><span class="glyphicon glyphicon-list"> Listar</a></li>
 						</ul>
 					</li>
 					<!-- MENU PARA STILL -->

@@ -1,12 +1,5 @@
 <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
-		
-<div class="row">
-	<div class="col-lg-12">
-		<h1 class="page-header">
-			<g:message code="default.create.label" args="[entityName]" />
-		</h1>
-	</div>
-</div>
+<br />
 <div class="row">
 	<div class="panel panel-default">
 		<div class="panel-heading">
