@@ -1,11 +1,5 @@
 <g:set var="entityName" value="${message(code: 'street.label', default: 'Street')}" />
-<div class="row">
-	<div class="col-lg-12">
-		<h1 class="page-header">
-			<g:message code="default.create.label" args="[entityName]" />
-		</h1>
-	</div>
-</div>
+<br />
 <div id="create-street" class="panel panel-default content scaffold-create" role="main">
 	<div class="panel-heading">
 		<g:message code="default.create.label" args="[entityName]" />

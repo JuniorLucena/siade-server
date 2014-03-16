@@ -1,17 +1,9 @@
 <g:set var="entityName" value="${message(code: 'street.label', default: 'Street')}" />
-<div class="row">
-	<div class="col-lg-12">
-		<h1 class="page-header">
-			<g:message code="default.show.label" args="[entityName]" />
-		</h1>
-	</div>
-</div>
+<br />
 <div id="show-street" class="panel panel-default content scaffold-show" role="main">
 	<div class="panel-heading">
-		<h3>
 			<g:message code="default.show.label" args="[entityName]" />
-		</h3>
-			</div>
+	</div>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -40,7 +32,7 @@
 			
 			</ol>
 		</div>
-	</div>
+</div>
 			<g:form onsubmit="sendForm(this);return false" url="[resource:streetInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">
 					<a class="edit btn btn-default" onclick="loadPage('<g:createLink action="edit" resource="${streetInstance}" id="${streetInstance.id}" />')">

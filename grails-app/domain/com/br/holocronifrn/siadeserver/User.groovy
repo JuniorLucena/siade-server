@@ -11,7 +11,10 @@ class User {
 	boolean accountLocked
 	boolean passwordExpired
 	String name
-
+	String code
+	char gender
+	String phone
+	String cell
 
 	static transients = ['springSecurityService']
 
@@ -19,6 +22,10 @@ class User {
 		username blank: false, unique: true
 		password blank: false
 		name blank: false, nullable: false
+		code blank: false, nullable: false
+		gender blank: true
+		phone blank: true, nullable: true
+		cell blank: true, nullable: true
 	}
 
 	static mapping = {
