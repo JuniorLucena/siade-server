@@ -1,1 +1,2 @@
-<h1 style="color:'blue'">Lorem ipsun dolor sit amet</h1>
+<div id="sides">
+</div>
