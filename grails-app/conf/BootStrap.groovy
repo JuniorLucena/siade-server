@@ -19,7 +19,7 @@ class BootStrap {
 		def adminUserLevel = new UserLevel(authority: 'ROLE_ADMIN').save(flush: true)
 		def userUserLevel = new UserLevel(authority: 'ROLE_USER').save(flush: true)
 
-		def testUser = new User(username: 'admin', password: 'pass')
+		def testUser = new User(username: 'admin', password: 'pass', name:'administrador', code:'ag-00')
 		testUser.save(flush: true)
 
 		UserUserLevel.create testUser, adminUserLevel, true

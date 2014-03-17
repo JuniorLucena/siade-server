@@ -1,21 +1,21 @@
-<g:set var="entityName" value="${message(code: 'street.label', default: 'Street')}" />
+<g:set var="entityName" value="${message(code: 'side.label', default: 'Side')}" />
 <br />
-<div id="create-street" class="panel panel-default content scaffold-create" role="main">
+<div id="create-side" class="panel panel-default content scaffold-create" role="main">
 	<div class="panel-heading">
 		<g:message code="default.create.label" args="[entityName]" />
 	</div>
 	<div class="panel-body">
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
+		<g:if test="${flash.message}">
+		<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<g:hasErrors bean="${streetInstance}">
+			<g:hasErrors bean="${sideInstance}">
 			<ul class="errors" role="alert">
-				<g:eachError bean="${streetInstance}" var="error">
+				<g:eachError bean="${sideInstance}" var="error">
 				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form onsubmit="sendForm(this);return false" url="[resource:streetInstance, action:'save']" name="Rua">
+			<g:form onsubmit="sendForm(this);return false" url="[resource:sideInstance, action:'save']" name="Lado">
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>

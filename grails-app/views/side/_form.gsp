@@ -1,4 +1,3 @@
-
 <%@ page import="com.br.holocronifrn.siadeserver.Side" %>
 
 
@@ -34,3 +33,4 @@
 	</label>
 	<g:select id="street" name="street.id" from="${com.br.holocronifrn.siadeserver.Street.list()}" optionKey="id" required="" value="${sideInstance?.street?.id}" class="many-to-one"/>
 </div>
+
