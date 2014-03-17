@@ -1,3 +1,5 @@
+
+<%@ page import="com.br.holocronifrn.siadeserver.Side" %>
 <g:set var="entityName" value="${message(code: 'block.label', default: 'Block')}" />
 <div class="row">
 	<div class="col-lg-12">

@@ -30,10 +30,12 @@
 
 <script type="text/javascript">
 	$(function($){
+		var html = $("#sides").html()
+		
 		$("#number_sides").blur(function(){
 			$("#sides").html("")
 			for(var i= 1; i <=$("#number_sides").val(); i++){
-				$("#sides").append("Lado <p><input type='text' value='"+i+"' /> Referência<input type='text' value='referência' /></p><hr />")
+				$("#sides").append(html)
 			}
 		});
 	});
