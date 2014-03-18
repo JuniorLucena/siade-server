@@ -6,8 +6,4 @@ import grails.converters.JSON
 class DistrictController {
 
    	static scaffold = true
-
-   	def getDistricts() {
-   		render District.list() as JSON
-   	}
 }
