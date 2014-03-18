@@ -26,7 +26,7 @@
                 </td>
 
                 <td>                                    
-                    <input class="form-control" id="user_${it.id}" placeholder="Enter text" type="text" data-provide="typeahead" onfocus="searchDistricts('user_${it.id}')">
+                    <input class="form-control" id="user_${it.id}" placeholder="Enter text" type="text" data-provide="typeahead">
                 </td>
 
                 <td>
