@@ -8,10 +8,8 @@
 		<meta charset="utf-8">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title><g:layoutTitle default="Grails"/></title>
+		<title><g:layoutTitle default="Siade"/></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
-		<link rel="stylesheet" href="${resource(dir: 'font-awesome/css/', file: 'font-awesome.min.css')}" type="text/css">
 		
 		<g:layoutHead/>
 		<g:javascript library="application"/>
@@ -23,12 +21,20 @@
 		<g:javascript src="plugins/metisMenu/jquery.metisMenu.js" />
 		<g:javascript src="sb-admin.js" />
 		<g:javascript src="ajax.js" />
+		<g:javascript src="jquery-ui-1.10.4.custom.min.js" />
+		<g:javascript src="bootstrap-datepicker.js"/>
+		<g:javascript src="bootstrap/bootstrap-typeahead.js" />
+    	<!-- Page-Level Plugin Scripts - Tables -->
+    	<g:javascript src="plugins/dataTables/jquery.dataTables.js" />
+    	<g:javascript src="plugins/dataTables/dataTables.bootstrap.js" />
+    	<g:javascript src="plugins/metisMenu/jquery.metisMenu.js" />
 
-
-		<link href="font-awesome/css/font-awesome.css" rel="stylesheet">
- 		<link href="css/sb-admin.css" rel="stylesheet">
-		<link href="css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
-    	<link href="css/plugins/timeline/timeline.css" rel="stylesheet">
+		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
+		<link href="${resource(dir: 'css/font-awesome/css/', file: 'font-awesome.min.css')}" rel="stylesheet" type="text/css">
+		<link href="${resource(dir: 'css/font-awesome/css', file: 'font-awesome.css')}" rel="stylesheet" type="text/css">
+ 		<link href="${resource(dir: 'css', file:'sb-admin.css')}" rel="stylesheet" type="text/css">		
+		<link href="${resource(dir: 'css/plugins/morris', file: 'morris-0.4.3.min.css')}" rel="stylesheet" type="text/css">    	
+    	<link href="${resource(dir: 'css/plugins/timeline', file: 'timeline.css')}" rel="stylesheet" type="text/css">
    		
 	</head>
 	<body>
