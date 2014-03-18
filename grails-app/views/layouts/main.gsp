@@ -24,6 +24,10 @@
 		<g:javascript src="jquery-ui-1.10.4.custom.min.js" />
 		<g:javascript src="bootstrap-datepicker.js"/>
 		<g:javascript src="bootstrap/bootstrap-typeahead.js" />
+    	<!-- Page-Level Plugin Scripts - Tables -->
+    	<g:javascript src="plugins/dataTables/jquery.dataTables.js" />
+    	<g:javascript src="plugins/dataTables/dataTables.bootstrap.js" />
+    	<g:javascript src="plugins/metisMenu/jquery.metisMenu.js" />
 
 		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
 		<link href="${resource(dir: 'css/font-awesome/css/', file: 'font-awesome.min.css')}" rel="stylesheet" type="text/css">

@@ -9,8 +9,31 @@
 	</head>
 	<body>
 
+		<div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Novo ciclo</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Agentes de Endemias
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                        	<g:render template="user_table" />
+                        	<g:render template="form2" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+       	</div>
 
-
+       	<!--
 		<a href="#create-period" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div class="nav" role="navigation">
 			<ul>
@@ -39,7 +62,6 @@
 				</fieldset>
 			</g:form>
 		</div>
-
-		<g:render template="user_table" />
+	-->
 	</body>
 </html>

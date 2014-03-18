@@ -8,4 +8,8 @@ class Settings {
 		state unique: true
 		city unique: true
     }
+
+    def getCity() {
+    	Settings.findAllByCity()
+    }
 }
