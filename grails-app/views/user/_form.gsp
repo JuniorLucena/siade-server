@@ -7,7 +7,7 @@
 		<g:message code="user.username.label" default="Username" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField class="form-control" name="username" required="" value="${userInstance?.username}"/>
+	<g:textField id="create_username"class="form-control" name="username" required="" value="${userInstance?.username}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'password', 'error')} required">
@@ -18,6 +18,12 @@
 	<g:textField class="form-control" name="password" required="" value="${userInstance?.password}"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'address', 'error')} required">
+	<label for="address">
+		<g:message code="user.address.label" default="Address" />
+	</label>
+	<g:select id="address" name="address.id" from="${com.br.holocronifrn.siadeserver.Address.list()}" optionKey="id" value="${userInstance?.address?.id}" class="form-control"/>
+</div>
 
 
 <div class="fieldcontain ${hasErrors(bean: userLevelInstance, field: 'authority', 'error')} required">
@@ -27,11 +33,11 @@
 	</label>
 	<div>
 		<label>
-			<g:message code="userLevel.authority.label" default="Administrator" />
+			<g:message code="userLevel.authority.admin.label" default="Supervisor" />
 		</label>
 		<g:radio name="authority" required="" value='ROLE_ADMIN'/>
 		<label>
-			<g:message code="userLevel.authority.label" default="Agent" />
+			<g:message code="userLevel.authority.user.label" default="Agent" />
 		</label>
 		<g:radio name="authority" required="" value='ROLE_USER'/>
 	</div>
@@ -54,17 +60,19 @@
 </div>
 
 
+
+
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'gender', 'error')} required">
 	<label for="gender">
 		<g:message code="user.gender.label" default="Gender" />
 	</label>
 	<div>
 		<label>
-			<g:message code="user.gender.label" default="Male" />
+			<g:message code="user.gender.male.label" default="Male" />
 		</label>
 		<g:radio name="gender" value="m" />
 		<label>
-			<g:message code="user.gender.label" default="Female" />
+			<g:message code="user.gender.feme.label" default="Female" />
 		</label>
 		<g:radio name="gender" value="f"/>
 	</div>
@@ -85,6 +93,8 @@
 	<g:textField class="form-control" name="cell" value="${userInstance?.cell}"/>
 </div>
 <br />
+
+
 <!--
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'accountExpired', 'error')} ">
 	<label for="accountExpired">
