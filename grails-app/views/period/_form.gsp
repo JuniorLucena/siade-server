@@ -1,44 +1,45 @@
-<%@ page import="com.br.holocronifrn.siadeserver.Period" %>
+<script>
+	$(document).ready(function() {
+		$("#dp1").datepicker();
+	});
 
+	$(document).ready(function() {
+		$("#dp2").datepicker();
+	});
+</script>
 
+<div class="row">	
+	<div class="col-lg-3">
+		<label>Data Inicial</label>
+		<div class="input-append date form-group input-group" id="dp1" data-date="" data-date-format="dd-mm-yyyy">
+         	<input type="text" class="form-control">
+            <span class="input-group-btn add-on">
+                <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i>
+                </button>
+            </span>
+        </div>
+	</div>
 
-<div class="fieldcontain ${hasErrors(bean: periodInstance, field: 'startDate', 'error')} required">
-	<label for="startDate">
-		<g:message code="period.startDate.label" default="Start Date" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:datePicker name="startDate" precision="day"  value="${periodInstance?.startDate}"  />
+	<div class="col-lg-3">
+		<label>Data Final</label>
+		<div class="input-append date form-group input-group" id="dp2" data-date="" data-date-format="dd-mm-yyyy">
+         	<input type="text" class="form-control">
+            <span class="input-group-btn add-on">
+                <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i>
+                </button>
+            </span>
+        </div>
+	</div>
+	
+	<div class="col-lg-3">
+		<label>Atividade</label>
+		<select class="form-control">
+			<option>Tratamento</option>
+			<option>Pesquisa</option>
+			<option>Tratamento + Pesquisa</option>
+		</select>
+	</div>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: periodInstance, field: 'endDate', 'error')} required">
-	<label for="endDate">
-		<g:message code="period.endDate.label" default="End Date" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:datePicker name="endDate" precision="day"  value="${periodInstance?.endDate}"  />
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: periodInstance, field: 'number', 'error')} required">
-	<label for="number">
-		<g:message code="period.number.label" default="Number" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:field name="number" type="number" value="${periodInstance.number}" required=""/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: periodInstance, field: 'baseYear', 'error')} required">
-	<label for="baseYear">
-		<g:message code="period.baseYear.label" default="Base Year" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:field name="baseYear" type="number" value="${periodInstance.baseYear}" required=""/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: periodInstance, field: 'users', 'error')} ">
-	<label for="users">
-		<g:message code="period.users.label" default="Users" />
-		
-	</label>
-	<g:select name="users" from="${com.br.holocronifrn.siadeserver.User.list()}" multiple="multiple" optionKey="id" size="5" value="${periodInstance?.users*.id}" class="many-to-many"/>
-</div>
-
+<button type="reset" class="btn btn-default">Reset Button</button>
+<button type="submit" class="btn btn-primary">Submit Button</button>

@@ -26,7 +26,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                         	<g:render template="user_table" />
-                        	<g:render template="form2" />
+                        	<g:render template="form" />
                         </div>
                     </div>
                 </div>
