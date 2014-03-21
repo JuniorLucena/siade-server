@@ -2,7 +2,8 @@ package com.br.holocronifrn.siadeserver
 
 class Settings {
 
-	static belongsTo = [state: State, city: City]
+	State state
+	City city
 	
     static constraints = {
 		state unique: true
