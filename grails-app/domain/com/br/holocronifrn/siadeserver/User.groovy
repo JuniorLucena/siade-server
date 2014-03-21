@@ -15,6 +15,8 @@ class User {
 	char gender
 	String phone
 	String cell
+	Address address
+
 
 	static transients = ['springSecurityService']
 

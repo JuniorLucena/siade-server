@@ -11,4 +11,6 @@ class UserLevel {
 	static constraints = {
 		authority blank: false, unique: true
 	}
+
+
 }

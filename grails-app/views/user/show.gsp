@@ -1,3 +1,4 @@
+
 <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
 <br />
 <div id="show-user" class="panel panel-default content scaffold-show" role="main">
@@ -52,6 +53,15 @@
 					<span id="gender-label" class="property-label"><g:message code="user.gender.label" default="Gender" /></span>
 					
 						<span class="property-value" aria-labelledby="gender-label"><g:fieldValue bean="${userInstance}" field="gender"/></span>
+					
+				</li>
+				</g:if>
+				
+				<g:if test="${userInstance?.address}">
+				<li class="fieldcontain">
+					<span id="address-label" class="property-label"><g:message code="user.address.label" default="Address" /></span>
+					
+						<span class="property-value" aria-labelledby="address-label"><g:link controller="address" action="show" id="${userInstance?.address?.id}">${userInstance?.address?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>
