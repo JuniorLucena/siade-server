@@ -1,7 +1,4 @@
 <%@ page import="com.br.holocronifrn.siadeserver.District" %>
-
-
-
 <div class="fieldcontain ${hasErrors(bean: districtInstance, field: 'name', 'error')} required">
 	<label for="name">
 		<g:message code="district.name.label" default="Name" />
@@ -17,4 +14,3 @@
 		from="${com.br.holocronifrn.siadeserver.Settings.list().city}" optionKey="id"
 		required="" value="${districtInstance?.city?.id}" />
 </div>
-<br />
