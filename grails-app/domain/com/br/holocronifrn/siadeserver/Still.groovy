@@ -6,17 +6,18 @@ class Still {
 	int dogs_amount
 	int cats_amount
 	String still_number
-	int idStillTipe
 	int numberSequence
+	RealtyType idStillTipe
 
 	static belongsTo = [side : Side]
+	//static hasOne = [idStillTipe: RealtyType]
 
     static constraints = {
-		habitants_amount blanxk:false
+		habitants_amount blank:false
 		dogs_amount blank:false
 		cats_amount blank:false
 		still_number blank:false
-		idStillTipe blank:false
+		//idStillTipe blank:false
 		numberSequence blank:false
     }
 	

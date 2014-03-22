@@ -11,7 +11,7 @@
 </div>
 
 
-<div
+<div></div>
 	class="form-group fieldcontain ${hasErrors(bean: stillInstance, field: 'dogs_amount', 'error')} required">
 	<label for="dogs_amount"> <g:message
 			code="still.dogs_amount.label" default="Dogsamount" /> <span

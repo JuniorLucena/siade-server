@@ -1,5 +1,6 @@
 
 <%@ page import="com.br.holocronifrn.siadeserver.Side" %>
+<%@ page import="com.br.holocronifrn.siadeserver.RealtyType" %>
 <g:set var="entityName" value="${message(code: 'block.label', default: 'Block')}" />
 <div class="row">
 	<div class="col-lg-12">
@@ -32,7 +33,9 @@
 				<div class="tab-pane fade" id="side"  data-toogle="tab"><g:render template="side" /></div>
 				<div class="tab-pane fade" id="still"  data-toogle="tab"><g:render template="still" /></div>
 			</div>
+			
 		</div>
+		<button class="btn btn-success save">Salvar</button>
 	</div>
 </div>
 <script type="text/javascript">
