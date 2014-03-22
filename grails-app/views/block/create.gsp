@@ -2,13 +2,7 @@
 <%@ page import="com.br.holocronifrn.siadeserver.Side" %>
 <%@ page import="com.br.holocronifrn.siadeserver.RealtyType" %>
 <g:set var="entityName" value="${message(code: 'block.label', default: 'Block')}" />
-<div class="row">
-	<div class="col-lg-12">
-		<h1 class="page-header">
-			<g:message code="default.create.label" args="[entityName]" />
-		</h1>
-	</div>
-</div>
+
 <div id="create-block" class="content scaffold-create" role="main">
 	<g:if test="${flash.message}">
 	<div class="message" role="status">${flash.message}</div>
