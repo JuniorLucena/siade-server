@@ -28,8 +28,7 @@ function sendFormModal(form){
 		url: url,
 		success:function(data,textStatus){
 			$('#myModalLocation').modal('hide');
-			$('#content').prepend('<div id ="success-settings" class="alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' + data + '</div>');
-			$('#success-settings').dialog()
+			bootbox.alert(data);
 		}
 	});	
 	return false;
