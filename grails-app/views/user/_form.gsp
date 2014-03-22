@@ -1,7 +1,5 @@
 <%@ page import="com.br.holocronifrn.siadeserver.User" %>
 
-
-
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'username', 'error')} required">
 	<label for="username">
 		<g:message code="user.username.label" default="Username" />
@@ -93,38 +91,3 @@
 	<g:textField class="form-control" name="cell" value="${userInstance?.cell}"/>
 </div>
 <br />
-
-
-<!--
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'accountExpired', 'error')} ">
-	<label for="accountExpired">
-		<g:message code="user.accountExpired.label" default="Account Expired" />
-		
-	</label>
-	<g:checkBox name="accountExpired" value="${userInstance?.accountExpired}" />
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'accountLocked', 'error')} ">
-	<label for="accountLocked">
-		<g:message code="user.accountLocked.label" default="Account Locked" />
-		
-	</label>
-	<g:checkBox name="accountLocked" value="${userInstance?.accountLocked}" />
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'enabled', 'error')} ">
-	<label for="enabled">
-		<g:message code="user.enabled.label" default="Enabled" />
-		
-	</label>
-	<g:checkBox name="enabled" value="${userInstance?.enabled}" />
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'passwordExpired', 'error')} ">
-	<label for="passwordExpired">
-		<g:message code="user.passwordExpired.label" default="Password Expired" />
-		
-	</label>
-	<g:checkBox name="passwordExpired" value="${userInstance?.passwordExpired}" />
-</div>
--->

@@ -48,6 +48,11 @@
 							<li><a href="#" onClick="loadPage('<g:createLink controller='User' action='index' />')"><span class="glyphicon glyphicon-list"></span> Listar</a></li>
 						</ul>
 					</li>
+					<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Ciclo<b class="caret"></b></a>
+						<ul class="nav nav-third-level">
+							<li><a href="#" onClick="loadPage('<g:createLink controller='period' action='create' />')"><span class="glyphicon glyphicon-plus"></span> Criar</a></li>
+						</ul>
+					</li>
 				</ul>
 		</ul>
 	</div>

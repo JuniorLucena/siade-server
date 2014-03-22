@@ -37,8 +37,21 @@ class UserController {
             return
         }
 
-        userInstance.save flush:true
+        
 
+        def adminUserLevel = new UserLevel(authority: 'ROLE_ADMIN').save(flush: true)
+        def userUserLevel = new UserLevel(authority: 'ROLE_USER').save(flush: true)
+
+        userInstance.save(flush: true)
+
+        UserUserLevel.create userInstance, adminUserLevel, true
+
+
+
+
+
+
+        
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'userInstance.label', default: 'User'), userInstance.id])
