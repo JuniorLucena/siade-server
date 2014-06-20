@@ -1,0 +1,126 @@
+digraph classes {
+	fontname = "Helvetica"
+	fontsize = 12
+
+	node [
+		fontname = "Helvetica"
+		fontsize = 12
+		shape = "record"
+	]
+
+	edge [
+		fontname = "Helvetica"
+		fontsize = 12
+	]
+
+	// Classes
+	subgraph cadastro {
+		label = "cadastro"
+
+		Usuario [
+			label="{Usuario|+ ativo : boolean\l+ login : string\l+ nome : string\l+ senha : string\l+ sobrenome : string\l}"
+		]
+
+		Agente [
+			label="{Agente}"
+		]
+	}
+	subgraph enderecamento {
+		label = "endereçamento"
+
+		UF [
+			label="{UF|+ nome : string\l+ sigla : string\l}"
+		]
+
+		Municipio [
+			label="{Municipio|+ uf : UF\l+ codigo : int\l+ nome : string\l}"
+		]
+
+		Bairro [
+			label="{Bairro|+ municipio : Municipio\l+ codigo : int\l+ nome : string\l}"
+		]
+
+		Logradouro [
+			label="{Logradouro|+ municipio : Municipio\l+ nome : string\l}"
+		]
+
+		Quadra [
+			label="{Quadra|+ bairro : Bairro\l+ numero : int\l}"
+		]
+
+		Lado [
+			label="{LadoQuadra|+ logradouro : Logradouro\l+ quadra : Quadra\l+ numero : int\l}"
+		]
+
+		TipoImovel [
+			label="{TipoImovel|+ nome : string\l+ sigla : string\l}"
+		]
+
+		Imovel [
+			label="{Imovel|+ lado : LadoQuadra\l+ tipo : TipoImovel\l+ caes : int\l+ gatos : int\l+ habitantes : int\l+ numero : int\l+ ordem : int\l}"
+		]
+	}
+
+	subgraph atividades {
+		label = "atividades"
+
+		Campanha [
+			label="{Campanha|+ nome : string\l}"
+		]
+
+		Atividade [
+			label="{Atividade|+ nome : string\l+ sigla : string\l}"
+		]
+
+		Ciclo [
+			label="{Ciclo|+ ano_base : int\l+ data_inicio : date\l+ date_fim : date\l+ numero : int\l+fechado : boolean\l}"
+		]
+
+		Trabalho [
+			label="{Trabalho|+ agente : Agente\l+ campanha : Campanha\l+ ciclo : Ciclo\l+ quadra : Quadra\l+ concluido : boolean\l}"
+		]
+
+		Visita [
+			label="{Visita|+ agente : Agente\l+ ciclo : Ciclo\l+ imovel : Imovel\l+ data : date\l+ hora : time\l+ pendencia : int\l+ tipo : int\l+ atividade : Atividade\l}"
+		]
+
+		/*Pesquisa [
+			label="{Pesquisa|+ A1 : int\l+ A2 : int\l+ B : int\l+ C : int\l+ D1 : int\l+ D2 : int\l+ E : int\l+ amostra_inicio : int\l+ amostra_final : int\l+ tubitos : int\l}"
+		]*/
+
+		/*Tratamento [
+			label="{Tratamento|+ tratado : boolean\l+ depositos_tratados : int\l+ depositos_eliminados : int\l+ larvicida : Larvicida\l+ qtd_larvicida : Larvicida\l}"
+		]*/
+
+		/*Larvicida [
+			label="{Larvicida|+ nome : string\l}"
+		]*/
+	}
+
+	// Relations
+	edge [arrowhead = "none"]
+	Municipio -> UF
+	Bairro -> Municipio
+	Logradouro -> Municipio
+	Quadra -> Bairro
+	Lado -> Quadra
+	Lado -> Logradouro
+	Imovel -> Lado
+	Imovel -> TipoImovel
+	Trabalho -> Agente
+	Trabalho -> Campanha
+	Trabalho -> Ciclo
+	Trabalho -> Quadra
+	Visita -> Ciclo
+	Visita -> Agente
+	Visita -> Imovel
+	Visita -> Atividade
+	/*Pesquisa -> Visita
+	Tratamento -> Visita
+	Tratamento -> Larvicida*/
+
+	// Generalization
+	edge [arrowhead = "empty"]
+	Agente -> Usuario
+}
+
