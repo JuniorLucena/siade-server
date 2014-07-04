@@ -1,29 +1,25 @@
 # SIADE
 
-SIADE é um sistema web para coleta de dados realizada pelos agentes de endemias, eliminando todo o trabalho manual.
+SIADE é um sistema para coleta de dados realizada pelos agentes de endemias, eliminando todo o trabalho manual.
 
-## Requerimentos
+## Requisitos
 
-	Django==1.6.5
-	South==0.8.4
-	django-choices>=1.1.12
-	django-extensions>=1.3.7
-	django-filter>=0.7
-	django-oauth2-provider==0.2.6.1
-	django-xadmin>=0.5.0
-	djangorestframework>=2.3.14
-	djangorestframework-bulk>=0.1.3
-	reportlab>=3.1.8
+* Python (2.6.5+, 2.7, 3.2, 3.3)
+* Django (1.6)
+* South
+* django-oauth2-provider
+* reportlab (3.1+)
+* djangorestframework (2.3+)
 
 ## Instalando
 
 Baixar o SIADE pelo repositõrio git
 
-	git clone https://github.com/roldaojr/siade.git
+	git clone https://github.com/holocronifrn/siade-server.git
 
 Instalar requisitos
-	
-	pip install -r requirements-dev.txt
+
+	pip install -r requirements.txt
 
 Criar o banco de dados execute os comandos
 
