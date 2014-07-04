@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db.models import Avg, Count, Sum
 from rest_framework import viewsets, mixins, generics
+from rest_framework.views import APIView
 from rest_framework.decorators import link, action
 from rest_framework.response import Response
 from .serializers import *
@@ -120,10 +121,17 @@ class TrabalhoViewSet(viewsets.ModelViewSet):
 	model = Trabalho
 	filter_fields = ('ciclo', 'agente', 'campanha', 'quadra', 'concluido')
 
-	@link()
-	def distribuir(self, request, pk=None):
-		quadras = Quadra.objects.all().order_by('bairro').values('id').annotate(imoveis=Count('lados__imoveis'))
-		return Response(quadras)
+
+class DistribuirTrabalhosView(viewsets.ViewSet):
+	def list(self, request):
+		quadras = Quadra.objects.all().values('id').annotate(imoveis=Count('lados__imoveis')).order_by('bairro')
+		agentes = Agente.objects.all()
+		serializer = SerializerForModel(Agente, fields=('id', 'first_name', 'last_name', 'username'))
+		data = {
+			'quadras': quadras,
+			'sgentes': serializer(agentes, many=True).data
+		}
+		return Response(data)
 
 class VisitaViewSet(viewsets.ModelViewSet):
 	'''

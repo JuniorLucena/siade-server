@@ -27,6 +27,8 @@ INSTALLED_APPS = (
 	#
 	'siade.imoveis',
 	'siade.trabalhos',
+	'siade.api',
+	'siade.relatorios',
 )
 
 # middleware definition

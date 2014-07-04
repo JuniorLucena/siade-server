@@ -128,10 +128,16 @@ class Imovel(models.Model):
 	ordem = models.PositiveIntegerField(verbose_name=_('ordem'), editable=False, null=True)
 
 	def __unicode__(self):
-		if self.numero is None or self.numero == 0:
-			return "%s, %s" % (self.lado.logradouro.nome, 'S/N')
-		else:
-			return "%s, %d" % (self.lado.logradouro.nome, self.numero)
+		numero = 'S/N' if bool(self.numero) == False else self.numero
+		return "%s, %s" % (self.lado.logradouro.nome, numero)
+		return self.endereco
+
+	@property
+	def endereco(self):
+		numero = 'S/N' if bool(self.numero) == False else self.numero
+		logradouro = self.lado.logradouro.nome
+		bairro = self.lado.quadra.bairro
+		return "%s, %s, %s" % (logradouro, numero, bairro)
 
 	@property
 	def quadra(self):
