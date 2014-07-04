@@ -6,7 +6,6 @@ from .common import *
 DEBUG = True
 TEMPLATE_DEBUG = True
 INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
-SECRET_KEY = '18(*)p%y$vq!_5bsq=nqi^-+63=wp@do55^(@yny8*d@9pv^bl'
 INSTALLED_APPS = list(INSTALLED_APPS) + ['debug_toolbar']
 DATABASES = {
     'default': {

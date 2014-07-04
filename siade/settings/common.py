@@ -9,6 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 ROOT_URLCONF = 'siade.urls'
 WSGI_APPLICATION = 'siade.wsgi.application'
 ALLOWED_HOSTS = []
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '18(*)p%y$vq!_5bsq=nqi^-+63=wp@do55^(@yny8*d@9pv^bl')
 
 # Application definition
 INSTALLED_APPS = (
@@ -24,7 +25,6 @@ INSTALLED_APPS = (
 	'xadmin',
 	'crispy_forms',
 	'rest_framework',
-	'gunicorn',
 	#
 	'siade.imoveis',
 	'siade.trabalhos',
