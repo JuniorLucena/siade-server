@@ -31,17 +31,8 @@ def SerializerForModel(model_class, *args, **kwargs):
 			depth = _depth
 	return Serializer
 
-class LadoSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = LadoQuadra
-		fields = ('logradouro', 'numero')
-
-class QuadraSerializer(serializers.ModelSerializer):
-	lados = LadoSerializer(many=True, allow_add_remove=True)
-	class Meta:
-		model = Quadra
-		fields = ('id', 'numero', 'bairro', 'lados')
-		depth = 1
+LadoSerializer = SerializerForModel(LadoQuadra)
+QuadraSerializer = SerializerForModel(Quadra)
 
 ImovelSerializer = SerializerForModel(Imovel)
 VisitaSerializer = SerializerForModel(Visita)

@@ -48,6 +48,12 @@ class QuadraViewSet(viewsets.ModelViewSet):
 	serializer_class = QuadraSerializer
 	filter_fields = ('numero', 'bairro')
 
+class LadoQuadraViewSet(viewsets.ModelViewSet):
+	'''
+	Lado de uma Quadra
+	'''
+	model = LadoQuadra
+
 class TipoImovelViewSet(viewsets.ModelViewSet):
 	'''
 	Tipos de imóvel

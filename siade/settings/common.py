@@ -24,6 +24,7 @@ INSTALLED_APPS = (
 	'xadmin',
 	'crispy_forms',
 	'rest_framework',
+	'gunicorn',
 	#
 	'siade.imoveis',
 	'siade.trabalhos',

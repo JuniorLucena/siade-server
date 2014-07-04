@@ -8,6 +8,7 @@ register = {
 	'imoveis/municipio': MunicipioViewSet,
 	'imoveis/bairro': BairroViewSet,
 	'imoveis/quadra': QuadraViewSet,
+	'imoveis/lado-quadra': LadoQuadraViewSet,
 	'imoveis/logradouro': LogradouroViewSet,
 	'imoveis/tipo-imovel': TipoImovelViewSet,
 	'imoveis/imovel': ImovelViewSet,
@@ -23,6 +24,6 @@ router = DefaultRouter()
 for (prefix, view) in register.items():
 	router.register(prefix, view)
 
-router.register(r'trabalhos/distribuir-trabalhos', DistribuirTrabalhosView, 'distribuir-trabalhos')
+#router.register(r'trabalhos/distribuir-trabalhos', DistribuirTrabalhosView, 'distribuir-trabalhos')
 
 urlpatterns = router.urls
