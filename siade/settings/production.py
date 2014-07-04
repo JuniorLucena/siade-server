@@ -10,6 +10,6 @@ ALLOWED_HOSTS = ['*']
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-SECRET_KEY = '18(*)p%y$vq!_5bsq=nqi^-+63=wp@do55^(@yny8*d@9pv^bl'
+SECRET_KEY = get_env_setting('DJANGO_SECRET_KEY')
 DEBUG = False
 TEMPLATE_DEBUG = False

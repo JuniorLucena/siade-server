@@ -1,7 +1,7 @@
 """
 Django settings for SIADE (development).
 """
-from .base import *
+from .common import *
 
 DEBUG = True
 TEMPLATE_DEBUG = True
