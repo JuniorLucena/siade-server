@@ -69,6 +69,9 @@ class Quadra(models.Model):
 	bairro = models.ForeignKey(Bairro, related_name='quadras', verbose_name=_('bairro'))
 	numero = models.PositiveIntegerField(verbose_name=_('número'))
 
+	def imoveis_count(self):
+		return Imovel.objects.filter(lado__quadra=self.pk).count()
+
 	def __unicode__(self):
 		return "%s quadra #%d" % (self.bairro.nome, self.numero)
 	
