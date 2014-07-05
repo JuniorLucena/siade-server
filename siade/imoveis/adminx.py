@@ -16,6 +16,7 @@ class BairroAdmin(object):
 	list_display = ('nome', 'municipio')
 	search_fields = ('nome',)
 	list_filter = ('municipio',)
+	relfield_style = 'fk-ajax'
 
 class LadoQuadraInline(object):
 	model = LadoQuadra
@@ -35,13 +36,14 @@ class LogradouroAdmin(object):
 	list_display = ('nome', 'municipio')
 	search_fields = ('nome',)
 	list_filter = ('municipio',)
+	relfield_style = 'fk-ajax'
 
 class TipoImovelAdmin(object):
 	list_display = ('nome', 'sigla')
 	search_fields = ('nome',)
 
 class ImovelAdmin(object):
-	list_display = ('numero', 'tipo', 'lado', 'habitantes')
+	list_display = ('numero', 'lado', 'tipo', 'habitantes')
 	list_filter = ('tipo', 'lado__logradouro', 'lado__quadra__bairro',)
 	actions = (BatchChangeAction,)
 	batch_fields = ('lado',)
