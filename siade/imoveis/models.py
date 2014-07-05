@@ -52,7 +52,7 @@ class Logradouro(models.Model):
 	Logradouro de um município
 	'''
 	nome = models.CharField(max_length=100, verbose_name=_('nome'))
-	municipio = models.ForeignKey(Municipio, verbose_name=_('município'))
+	municipio = models.ForeignKey(Municipio, blank=True, null=True, verbose_name=_('município'))
 
 	def __unicode__(self):
 		return self.nome
@@ -86,10 +86,7 @@ class LadoQuadra(models.Model):
 	logradouro = models.ForeignKey(Logradouro, verbose_name=_('logradouro'))
 
 	def __unicode__(self):
-		if self.numero is None:
-			return _('%s, %s') % (self.logradouro.nome, self.quadra.bairro)
-		else:
-			return _('%s, %s #%d') % (self.logradouro.nome, self.quadra.bairro, self.quadra.numero)
+		return _('%s, %s') % (self.logradouro.nome, self.quadra)
 
 	@property
 	def imoveis_total(self):
@@ -130,7 +127,6 @@ class Imovel(models.Model):
 	def __unicode__(self):
 		numero = 'S/N' if bool(self.numero) == False else self.numero
 		return "%s, %s" % (self.lado.logradouro.nome, numero)
-		return self.endereco
 
 	@property
 	def endereco(self):
