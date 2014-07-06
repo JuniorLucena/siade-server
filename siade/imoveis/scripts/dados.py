@@ -75,33 +75,47 @@ class Gerador(object):
 			for y in range(qtd_y):
 				w = randint(1,8) * 2 + 4
 				pontos = (x1, y1, x1+w, y1+h)
-				li = (x-1) * qtd_y + y
-
-				x2 = x1+w
-				y2 = y1+h
-
-				if x > 0 and quadras[li]['pontos'][1] == y1:
-					ruas[1] = quadras[li]['ruas'][1]
-				elif y > 0:
-					ruas[1] = ruas[3]
+				i = len(quadras)
+				li = len(quadras) - qtd_y
+				ti = len(quadras) - 1
+				# rua 0
+				if y > 0:
+					ruas[0] = ruas[2]
+				elif x > 0:
+					ruas[0] = quadras[li]['ruas'][0]
+				else:
+					ruas[0] = self.gerar_rua()			
+				# rua 1
+				if y > 0 and quadras[ti]['pontos'][1] == pontos[1]:
+					ruas[1] = quadras[ti]['ruas'][1]
 				else:
 					ruas[1] = self.gerar_rua()
-
-				if x > 0 and quadras[li]['pontos'][3] == y2:
-					ruas[3] = quadras[li]['ruas'][3]
+				# rua 2
+				ruas[2] = self.gerar_rua()
+				# rua 3
+				if x > 0:
+					ruas[3] = quadras[li]['ruas'][1]
+				elif y > 0:
+					ruas[3] = quadras[ti]['ruas'][3]
 				else:
 					ruas[3] = self.gerar_rua()
 
 				numero = x * qtd_y + abs((qtd_y * (x % 2) - y)) + 1 - (x % 2)
 				quadras += [{'pontos': pontos, 'ruas': list(ruas)}]
 				tamanhos = [w, h]*2
-				lados = [self.gerar_lado_quadra(ruas[i], tamanhos[i], i+1) for i in range(4)]
+				imoveis_numeros = [
+					range(x*20+1, (x+1)*20+1, 2),
+					range(y*10+1, (y+1)*10+1, 2),
+					range(x*20+2, (x+1)*20+2, 2),
+					range(y*10+2, (y+1)*10+2, 2),
+				]
+				lados = [self.gerar_lado_quadra(ruas[i], imoveis_numeros[i], i+1) for i in range(4)]
 				quadras_lista += [self.gerar_quadra(numero, lados, pontos)]
 				x1 += w+2
 			y1 += h+2
 		return quadras_lista
 
-	def gerar_imovel(self, ordem=0):
+	def gerar_imovel(self, ordem=0, numero=None):
 		tipos = {'Residênca': 3, 'Comércio': 2, 'Terreno Baldio': 1, 'Ponto estratégico': 1, 'Outros': 1}
 		habitantes = {1: 2, 2: 3, 3: 3, 4: 2, 5: 1}
 		caes = {0: 2, 1: 3, 2: 1, 3: 1}
@@ -113,12 +127,17 @@ class Gerador(object):
 			'gatos': weighted_choice_dict(gatos),
 			'ordem': ordem,
 		}
+		if numero:
+			imovel['numero'] = numero
 		if imovel['tipo'] == 'Terreno Baldio':
 			imovel['habitantes'] = 0
 		return imovel
 
-	def gerar_imoveis(self, qtd):
-		return [self.gerar_imovel(i+1) for i in range(qtd)]
+	def gerar_imoveis(self, numeros):
+		if hasattr(numeros, '__iter__'):
+			return [self.gerar_imovel(i+1, num) for i, num in enumerate(numeros)]
+		else:
+			return [self.gerar_imovel(i+1) for i in range(numeros)]
 
 	def gerar_agente(self, qtd):
 		return {

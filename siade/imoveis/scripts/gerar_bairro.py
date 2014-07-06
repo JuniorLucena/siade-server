@@ -25,13 +25,14 @@ class Gerador_de_bairro(Gerador):
 		return mu
 
 	def gerar_rua(self):
-		lo, c = Logradouro.objects.get_or_create(nome=Gerador.gerar_rua(self), municipio=self.municipio)
-		return lo
+		return Logradouro.objects.create(nome=Gerador.gerar_rua(self), municipio=self.municipio)
 
 	def gerar_lado_quadra(self, logradouro, qtd_imoveis, numero=1):
 		imoveis = self.gerar_imoveis(qtd_imoveis)
 		lado = LadoQuadra(logradouro=logradouro, numero=numero)
 		lado.imoveis_list = imoveis
+		from pprint import pprint
+		print numero, qtd_imoveis
 		return lado
 
 	def gerar_quadra(self, numero, lados, pontos=None):
@@ -39,8 +40,8 @@ class Gerador_de_bairro(Gerador):
 		quadra.lados_list = lados
 		return quadra
 
-	def gerar_imovel(self, ordem=0):
-		imovel = Gerador.gerar_imovel(self, ordem)
+	def gerar_imovel(self, ordem=0, numero=None):
+		imovel = Gerador.gerar_imovel(self, ordem, numero)
 		tipo, created = TipoImovel.objects.get_or_create(nome=imovel['tipo'])
 		imovel['tipo'] = tipo
 		return Imovel(**imovel)

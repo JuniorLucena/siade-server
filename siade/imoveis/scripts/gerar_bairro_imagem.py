@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 from random import randint
 from PIL import Image, ImageDraw
-from siade.tests.gerador import Gerador
+from .dados import Gerador
 
 def run():
 	img = Image.new('RGB', (200, 180), 'white')
 	dw = ImageDraw.Draw(img)
 	gen = Gerador()
 
-	def draw_quadra(numero, lados, pontos):
-		print pontos
+	def draw_quadra(numero, lados, pontos=None):
 		dw.rectangle(pontos, fill=0)
 		return Gerador.gerar_quadra(gen, numero, lados, pontos)
 
