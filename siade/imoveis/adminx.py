@@ -47,6 +47,7 @@ class ImovelAdmin(object):
 	list_filter = ('tipo', 'lado__logradouro', 'lado__quadra__bairro',)
 	actions = (BatchChangeAction,)
 	batch_fields = ('lado',)
+	relfield_style = 'fk-ajax'
 
 xadmin.site.register(UF, UfAdmin)
 xadmin.site.register(Municipio, MunicipioAdmin)
