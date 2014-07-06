@@ -26,6 +26,9 @@ def weighted_choice_dict(weights_dict):
 			return weights_dict.keys()[i]
 
 class Gerador(object):
+	'''
+	Gera dados de imoveis e endereços
+	'''
 	def gerar_uf(self):
 		return faker.estado()
 
