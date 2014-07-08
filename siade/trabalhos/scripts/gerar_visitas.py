@@ -14,7 +14,8 @@ faker = Factory.create('pt_BR')
 class Gerador_de_visitas(Gerador):
 	def gerar_agente(self):
 		nome, sobrenome = Gerador.gerar_agente(self)
-		return Agente.objects.create(first_name=nome, last_name=sobrenome, username='%s.%s' % (nome, sobrenome))
+		username = '%s.%s' % (nome.lower().replace(' ', ''), sobrenome.lower().replace(' ', ''))
+		return Agente.objects.create(first_name=nome, last_name=sobrenome, username=username)
 
 	def gerar_ciclo(self, qtd, ano_base):
 		ciclo = Gerador.gerar_ciclo(self, qtd, ano_base)
@@ -30,7 +31,7 @@ class Gerador_de_visitas(Gerador):
 			ciclo=ciclo,
 			agente=agente,
 			imovel=imovel,
-			atividade=atividades
+			atividade=atividade
 		)
 
 def run():
