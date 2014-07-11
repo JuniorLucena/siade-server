@@ -53,6 +53,8 @@ class LadoQuadraViewSet(viewsets.ModelViewSet):
 	Lado de uma Quadra
 	'''
 	model = LadoQuadra
+	serializer_class = LadoSerializer
+	filter_fields = ('quadra', 'logradouro')
 
 class TipoImovelViewSet(viewsets.ModelViewSet):
 	'''
@@ -73,8 +75,9 @@ class AgenteViewSet(viewsets.ModelViewSet):
 	Agentes de endemias
 	'''
 	model = Agente
-	search_fields = ('nome', 'sobrenome')
-	filter_fields = ('ativo',)
+	serializer_class = AgenteSerializer
+	search_fields = ('first_name', 'last_name')
+	filter_fields = ('is_active', 'is_staff')
 
 ####
 class CampanhaViewSet(viewsets.ModelViewSet):
@@ -99,27 +102,6 @@ class CicloViewSet(viewsets.ModelViewSet):
 	search_fields = ('numero',)
 	filter_fields = ('ano_base', 'data_inicio', 'data_fim')
 
-	@link()
-	def trabalhos(self, request, pk=None):
-		qs = Trabalho.objects.filter(ciclo=pk)
-		filter_class = AutoFilterSet(qs)
-		trabalhos = filter_class(request.QUERY_PARAMS, queryset=qs).qs
-		quadras = Quadra.objects.filter(trabalhos=trabalhos)
-		imoveis = Imovel.objects.filter(lado__quadra=quadras)
-		visitas = Visita.objects.filter(imovel__lado__quadra=quadras)
-		por_tipo = imoveis.values('tipo', 'tipo__nome').annotate(total=Count('id')).order_by()
-		data = {
-			'imoveis': {
-				'total': imoveis.count(),
-				'por_tipo': por_tipo,
-				'trabalhados': {
-					'total': imoveis.filter(visitas=visitas).count(),
-					'por_tipo': por_tipo.filter(visitas=visitas),
-				}
-			}
-		}
-		return Response(data)
-
 class TrabalhoViewSet(viewsets.ModelViewSet):
 	'''
 	Trabalho realizado por um agente em um ciclo
@@ -127,17 +109,6 @@ class TrabalhoViewSet(viewsets.ModelViewSet):
 	model = Trabalho
 	filter_fields = ('ciclo', 'agente', 'campanha', 'quadra', 'concluido')
 
-
-class DistribuirTrabalhosView(viewsets.ViewSet):
-	def list(self, request):
-		quadras = Quadra.objects.all().values('id').annotate(imoveis=Count('lados__imoveis')).order_by('bairro')
-		agentes = Agente.objects.all()
-		serializer = SerializerForModel(Agente, fields=('id', 'first_name', 'last_name', 'username'))
-		data = {
-			'quadras': quadras,
-			'sgentes': serializer(agentes, many=True).data
-		}
-		return Response(data)
 
 class VisitaViewSet(viewsets.ModelViewSet):
 	'''
