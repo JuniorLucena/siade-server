@@ -14,17 +14,6 @@ def weighted_choice(weights):
 		if rnd < 0:
 			return i
 
-def weighted_choice_dict(weights_dict):
-	'''
-	Escolhe aleatoreamente de acordo com os pesos usando um dicionario
-	'''
-	weights = weights_dict.values()
-	rnd = random() * sum(weights)
-	for i, w in enumerate(weights):
-		rnd -= w
-		if rnd < 0:
-			return weights_dict.keys()[i]
-
 class Gerador(object):
 	'''
 	Gera dados de ciclos e visitas

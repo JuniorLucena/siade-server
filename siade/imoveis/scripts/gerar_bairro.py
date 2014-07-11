@@ -42,7 +42,8 @@ class Gerador_de_bairro(Gerador):
 
 	def gerar_imovel(self, ordem=0, numero=None):
 		imovel = Gerador.gerar_imovel(self, ordem, numero)
-		tipo, created = TipoImovel.objects.get_or_create(nome=imovel['tipo'])
+		tipo_nome, tipo_sigla = imovel['tipo']
+		tipo, created = TipoImovel.objects.get_or_create(nome=tipo_nome, sigla=tipo_sigla)
 		imovel['tipo'] = tipo
 		return Imovel(**imovel)
 

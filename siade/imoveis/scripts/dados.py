@@ -14,21 +14,18 @@ def weighted_choice(weights):
 		if rnd < 0:
 			return i
 
-def weighted_choice_dict(weights_dict):
-	'''
-	Escolhe aleatoreamente de acordo com os pesos usando um dicionario
-	'''
-	weights = weights_dict.values()
-	rnd = random() * sum(weights)
-	for i, w in enumerate(weights):
-		rnd -= w
-		if rnd < 0:
-			return weights_dict.keys()[i]
-
 class Gerador(object):
 	'''
 	Gera dados de imoveis e endereços
 	'''
+	imovel_tipos = (
+		('Residênca', 'RE'),
+		('Comércio', 'CO'),
+		('Terreno Baldio', 'TB'),
+		('Ponto estratégico', 'PE'),
+		('Outros', 'OU'),
+	)
+
 	def gerar_uf(self):
 		return faker.estado()
 
@@ -116,15 +113,11 @@ class Gerador(object):
 		return quadras_lista
 
 	def gerar_imovel(self, ordem=0, numero=None):
-		tipos = {'Residênca': 3, 'Comércio': 2, 'Terreno Baldio': 1, 'Ponto estratégico': 1, 'Outros': 1}
-		habitantes = {1: 2, 2: 3, 3: 3, 4: 2, 5: 1}
-		caes = {0: 2, 1: 3, 2: 1, 3: 1}
-		gatos = {0: 2, 1: 3, 2: 1, 3: 1}
 		imovel = {
-			'tipo': weighted_choice_dict(tipos),
-			'habitantes': weighted_choice_dict(habitantes),
-			'caes': weighted_choice_dict(caes),
-			'gatos': weighted_choice_dict(gatos),
+			'tipo': self.imovel_tipos[weighted_choice((3, 3, 1, 2, 1))],
+			'habitantes': weighted_choice((0, 2, 3, 3, 2, 1)),
+			'caes': weighted_choice((2, 3, 1, 1)),
+			'gatos': weighted_choice((2, 3, 1, 1)),
 			'ordem': ordem,
 		}
 		if numero:

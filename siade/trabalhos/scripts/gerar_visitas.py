@@ -15,7 +15,7 @@ class Gerador_de_visitas(Gerador):
 	def gerar_agente(self):
 		nome, sobrenome = Gerador.gerar_agente(self)
 		username = '%s.%s' % (nome.lower().replace(' ', ''), sobrenome.lower().replace(' ', ''))
-		return Agente.objects.create(first_name=nome, last_name=sobrenome, username=username)
+		return Agente.objects.create(first_name=nome, last_name=sobrenome, username=username, is_staff=True)
 
 	def gerar_ciclo(self, qtd, ano_base):
 		ciclo = Gerador.gerar_ciclo(self, qtd, ano_base)
