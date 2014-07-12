@@ -67,7 +67,7 @@ class Quadra(models.Model):
 	Quadra de imóveis de um bairro
 	'''
 	bairro = models.ForeignKey(Bairro, related_name='quadras', verbose_name=_('bairro'))
-	numero = models.PositiveIntegerField(verbose_name=_('número'))
+	numero = models.CharField(max_length=10, verbose_name=_('número'))
 
 	def imoveis_count(self):
 		return Imovel.objects.filter(lado__quadra=self.pk).count()
@@ -120,7 +120,7 @@ class Imovel(models.Model):
 	Detalhes de um imóvel
 	'''
 	lado = models.ForeignKey(LadoQuadra, related_name='imoveis')
-	numero = models.PositiveIntegerField(verbose_name=_('número'), blank=True, null=True)
+	numero = models.CharField(max_length=10, blank=True, verbose_name=_('número'))
 	tipo = models.ForeignKey(TipoImovel, verbose_name=_('tipo de imóvel'))
 	habitantes = models.PositiveIntegerField(verbose_name=_('qtd. habitantes'))
 	caes = models.PositiveIntegerField(verbose_name=_('qtd. cães'))
