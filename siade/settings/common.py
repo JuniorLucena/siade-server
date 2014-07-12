@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 ROOT_URLCONF = 'siade.urls'
 WSGI_APPLICATION = 'siade.wsgi.application'
 ALLOWED_HOSTS = []
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '18(*)p%y$vq!_5bsq=nqi^-+63=wp@do55^(@yny8*d@9pv^bl')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dummy')
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Application definition
@@ -28,7 +28,6 @@ INSTALLED_APPS = (
 	'provider',
 	'provider.oauth2',
 	'rest_framework',
-	#
 	'siade.imoveis',
 	'siade.trabalhos',
 	'siade.api',
@@ -44,15 +43,6 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
-
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': os.path.join(BASE_DIR, 'siade.db'),
-	}
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
