@@ -10,6 +10,7 @@ ROOT_URLCONF = 'siade.urls'
 WSGI_APPLICATION = 'siade.wsgi.application'
 ALLOWED_HOSTS = []
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '18(*)p%y$vq!_5bsq=nqi^-+63=wp@do55^(@yny8*d@9pv^bl')
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Application definition
 INSTALLED_APPS = (
@@ -24,6 +25,8 @@ INSTALLED_APPS = (
 	'south',
 	'xadmin',
 	'crispy_forms',
+	'provider',
+	'provider.oauth2',
 	'rest_framework',
 	#
 	'siade.imoveis',
@@ -72,6 +75,11 @@ TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
 REST_FRAMEWORK = {
 	'DEFAULT_FILTER_BACKENDS': (
 		'rest_framework.filters.DjangoFilterBackend',
+	),
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+		'rest_framework.authentication.BasicAuthentication',
+		'rest_framework.authentication.SessionAuthentication',
+		'rest_framework.authentication.OAuth2Authentication',
 	),
 	'DEFAULT_PERMISSION_CLASSES': (
 		'rest_framework.permissions.DjangoModelPermissions',
