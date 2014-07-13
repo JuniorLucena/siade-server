@@ -4,12 +4,12 @@ SIADE é um sistema para coleta de dados realizada pelos agentes de endemias, el
 
 ## Requisitos
 
-* Python (2.6.5+, 2.7, 3.2, 3.3)
+* Python (2.7)
 * Django (1.6)
 * South
-* django-oauth2-provider
 * reportlab (3.1+)
 * djangorestframework (2.3+)
+* django-oauth-toolkit
 
 ## Instalando
 
