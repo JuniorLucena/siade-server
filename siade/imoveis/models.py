@@ -73,7 +73,7 @@ class Quadra(models.Model):
 		return Imovel.objects.filter(lado__quadra=self.pk).count()
 
 	def __unicode__(self):
-		return "%s quadra #%d" % (self.bairro.nome, self.numero)
+		return "%s quadra #%s" % (self.bairro.nome, self.numero)
 	
 	class Meta:
 		verbose_name = _('quadra')
@@ -89,7 +89,7 @@ class LadoQuadra(models.Model):
 	logradouro = models.ForeignKey(Logradouro, verbose_name=_('logradouro'))
 
 	def __unicode__(self):
-		return _('%s, %s') % (self.logradouro.nome, self.quadra)
+		return '%s, %s' % (self.logradouro.nome, self.quadra)
 
 	@property
 	def imoveis_total(self):
