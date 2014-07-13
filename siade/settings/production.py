@@ -5,7 +5,7 @@ import os
 import dj_database_url
 from .common import *
 
-DATABASES['default'] =  dj_database_url.config()
+DATABASES = {'default': dj_database_url.config()}
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = list(INSTALLED_APPS) + ['gunicorn']
