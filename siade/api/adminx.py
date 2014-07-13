@@ -1,20 +1,13 @@
 from django.utils.translation import gettext as _
 import xadmin
-from provider.oauth2.models import AccessToken, Grant, Client, RefreshToken
+from oauth2_provider.models import Grant, AccessToken, RefreshToken, get_application_model
 
-class AccessTokenAdmin(object):
-    list_display = ('user', 'client', 'token', 'expires', 'scope',)
+class RawIDAdmin(object):
     raw_id_fields = ('user',)
 
-class GrantAdmin(object):
-    list_display = ('user', 'client', 'code', 'expires',)
-    raw_id_fields = ('user',)
+Application = get_application_model()
 
-class ClientAdmin(object):
-    list_display = ('url', 'user', 'redirect_uri', 'client_id', 'client_type')
-    raw_id_fields = ('user',)
-
-xadmin.site.register(AccessToken, AccessTokenAdmin)
-xadmin.site.register(Grant, GrantAdmin)
-xadmin.site.register(Client, ClientAdmin)
-xadmin.site.register(RefreshToken)
+xadmin.site.register(Application, RawIDAdmin)
+xadmin.site.register(Grant, RawIDAdmin)
+xadmin.site.register(AccessToken, RawIDAdmin)
+xadmin.site.register(RefreshToken, RawIDAdmin)

@@ -25,8 +25,7 @@ INSTALLED_APPS = (
 	'south',
 	'xadmin',
 	'crispy_forms',
-	'provider',
-	'provider.oauth2',
+	'oauth2_provider',
 	'rest_framework',
 	'siade.imoveis',
 	'siade.trabalhos',
@@ -67,9 +66,8 @@ REST_FRAMEWORK = {
 		'rest_framework.filters.DjangoFilterBackend',
 	),
 	'DEFAULT_AUTHENTICATION_CLASSES': (
-		'rest_framework.authentication.BasicAuthentication',
 		'rest_framework.authentication.SessionAuthentication',
-		'rest_framework.authentication.OAuth2Authentication',
+		'oauth2_provider.ext.rest_framework.OAuth2Authentication',
 	),
 	'DEFAULT_PERMISSION_CLASSES': (
 		'rest_framework.permissions.DjangoModelPermissions',
