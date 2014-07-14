@@ -10,7 +10,6 @@ ROOT_URLCONF = 'siade.urls'
 WSGI_APPLICATION = 'siade.wsgi.application'
 ALLOWED_HOSTS = []
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dummy')
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Application definition
 INSTALLED_APPS = (
