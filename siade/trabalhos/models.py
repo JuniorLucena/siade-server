@@ -4,7 +4,6 @@ from django.db import models
 from django.utils.translation import gettext as _
 from djchoices import DjangoChoices, ChoiceItem
 from siade.imoveis.models import Imovel, Quadra, Bairro
-
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -74,15 +73,48 @@ class Atividade(models.Model):
 		verbose_name_plural = _('atividades')
 		ordering = ('nome',)
 
-class Visita(models.Model):
+class Tratamento(models.Model):
+	'''
+	Tratamento feito por um agente durante uma visita
+	'''
+	imovel_tratado = models.NullBooleanField(blank=True, null=True, verbose_name=_('imóvel tratado'))
+	depositos_tratados = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('depósitos tratados'))
+	depositos_eliminados = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('depósitos eliminados'))
+	larvicida = models.CharField(max_length=50, blank=True, null=True, verbose_name=_('larvicida'))
+	qtd_larvicida = models.FloatField(blank=True, null=True, verbose_name=_('qtd. larvicida'))
+
+	class Meta:
+		abstract = True
+
+class Pesquisa(models.Model):
+	'''
+	Pesquisa feita por um agente durante uma visita
+	'''
+	A1 = models.PositiveIntegerField(blank=True, null=True)
+	A2 = models.PositiveIntegerField(blank=True, null=True)
+	B = models.PositiveIntegerField(blank=True, null=True)
+	C = models.PositiveIntegerField(blank=True, null=True)
+	D1 = models.PositiveIntegerField(blank=True, null=True)
+	D2 = models.PositiveIntegerField(blank=True, null=True)
+	E = models.PositiveIntegerField(blank=True, null=True)
+	amostra_inicial = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('amostra inicial'))
+	amostra_final = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('amostra final'))
+	tubitos = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('qtd. tubitos'))
+
+	class Meta:
+		abstract = True
+
+class Visita(Tratamento, Pesquisa):
 	'''
 	Visita de um agente a um determinado imovel em um ciclo
 	'''
 	class Tipo(DjangoChoices):
+		'''Possiveis tipos para uma visita'''
 		Normal = ChoiceItem(1, label=_('Normal'))
 		Recuperada = ChoiceItem(2, label=_('Recuperada'))
 
 	class Pendencia(DjangoChoices):
+		'''Possiveis tipos de pendencia para uma visita'''
 		Nenhuma = ChoiceItem(0, label=_('Nenhuma'))
 		Fechada = ChoiceItem(1, label=_('Fechada'))
 		Recusada = ChoiceItem(2, label=_('Recusada'))
