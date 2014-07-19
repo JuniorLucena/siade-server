@@ -13,7 +13,6 @@ register = {
 	'imoveis/tipo-imovel': TipoImovelViewSet,
 	'imoveis/imovel': ImovelViewSet,
 	'trabalhos/agente': AgenteViewSet,
-	'trabalhos/campanha': CampanhaViewSet,
 	'trabalhos/atividade': AtividadeViewSet,
 	'trabalhos/trabalho': TrabalhoViewSet,
 	'trabalhos/ciclo': CicloViewSet,

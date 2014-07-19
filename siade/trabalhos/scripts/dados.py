@@ -18,7 +18,6 @@ class Gerador(object):
 	'''
 	Gera dados de ciclos e visitas
 	'''
-	campanhas = ('Calazar', 'Chagas', 'Dengue', 'Febre Amarela', 'Raiva')
 	atividades = (
 		('Delimitação de Foco', 'DF'),
 		('Levantamento de índice', 'LI'),

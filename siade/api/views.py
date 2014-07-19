@@ -80,13 +80,6 @@ class AgenteViewSet(viewsets.ModelViewSet):
 	filter_fields = ('is_active', 'is_staff')
 
 ####
-class CampanhaViewSet(viewsets.ModelViewSet):
-	'''
-	Campanhas de combate a endemias
-	'''
-	model = Campanha
-	search_fields = ('nome',)
-
 class AtividadeViewSet(viewsets.ModelViewSet):
 	'''
 	Tipos de atividades que podem ser realizadas
@@ -107,8 +100,7 @@ class TrabalhoViewSet(viewsets.ModelViewSet):
 	Trabalho realizado por um agente em um ciclo
 	'''
 	model = Trabalho
-	filter_fields = ('ciclo', 'agente', 'campanha', 'quadra', 'concluido')
-
+	filter_fields = ('ciclo', 'agente', 'quadra', 'concluido')
 
 class VisitaViewSet(viewsets.ModelViewSet):
 	'''

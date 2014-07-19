@@ -19,20 +19,6 @@ class Agente(User):
 		verbose_name = _('agente')
 		verbose_name_plural = _('agentes')
 
-class Campanha(models.Model):
-	'''
-	Campanha de combate a endemia
-	'''
-	nome = models.CharField(max_length=100, verbose_name=_('nome'))
-
-	def __unicode__(self):
-		return self.nome
-
-	class Meta:
-		verbose_name = _('campanha')
-		verbose_name_plural = _('campanhas')
-		ordering = ('nome',)
-
 class Ciclo(models.Model):
 	''' 
 	Ciclo de combate a uma endemia
@@ -58,7 +44,6 @@ class Trabalho(models.Model):
 	Trabalho realizado em um ciclo por um agente
 	'''
 	agente = models.ForeignKey(Agente, related_name='trabalhos', verbose_name=_('agente'))
-	campanha = models.ForeignKey(Campanha, related_name='trabalhos', verbose_name=_('campanha'))
 	ciclo = models.ForeignKey(Ciclo, related_name='trabalhos', verbose_name=_('ciclo'))
 	quadra = models.ForeignKey(Quadra, related_name='trabalhos')
 	concluido = models.BooleanField(default=False, editable=False)

@@ -5,10 +5,6 @@ class AgenteAdmin(object):
 	list_display = ('first_name', 'last_name', 'username')
 	relfield_style = 'fk-ajax'
 
-class CampanhaAdmin(object):
-	list_display = ('nome',)
-	search_fields = ('nome',)
-
 class AtividadeAdmin(object):
 	list_display = ('nome', 'sigla')
 	search_fields = ('nome',)
@@ -19,15 +15,14 @@ class CicloAdmin(object):
 	relfield_style = 'fk-ajax'
 
 class TrabalhoAdmin(object):
-	list_display = ('ciclo', 'agente', 'campanha', 'quadra', 'concluido')
-	list_filter = ('ciclo', 'agente', 'campanha', 'quadra', 'concluido')
+	list_display = ('ciclo', 'agente', 'quadra', 'concluido')
+	list_filter = ('ciclo', 'agente', 'quadra', 'concluido')
 
 class VisitaAdmin(object):
 	list_display = ('data', 'hora', 'imovel', 'ciclo', 'agente', 'tipo', 'atividade', 'pendencia')
 	list_filter = ('data', 'imovel', 'ciclo', 'agente', 'tipo', 'atividade', 'pendencia')
 
 xadmin.site.register(Agente, AgenteAdmin)
-xadmin.site.register(Campanha, CampanhaAdmin)
 xadmin.site.register(Atividade, AtividadeAdmin)
 xadmin.site.register(Ciclo, CicloAdmin)
 xadmin.site.register(Trabalho, TrabalhoAdmin)
