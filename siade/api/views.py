@@ -108,4 +108,4 @@ class VisitaViewSet(viewsets.ModelViewSet):
 	'''
 	model = Visita
 	serializer_class = VisitaSerializer
-	filter_fields = ('data', 'ciclo', 'agente', 'imovel', 'tipo', 'pendencia')
+	filter_fields = ('data', 'ciclo', 'agente', 'imovel', 'atividade', 'tipo', 'pendencia')
