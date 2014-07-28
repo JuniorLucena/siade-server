@@ -1,8 +1,0 @@
-from django.conf.urls import patterns, include, url
-from .views import cidade_create
-from .views import bairro_create
-
-urlpatterns = patterns('',
-	url(r'^cidade/add', cidade_create.as_view()),
-	url(r'^bairro/add', bairro_create.as_view()),
-)
