@@ -23,8 +23,8 @@ Instalar requisitos
 
 Criar o banco de dados execute os comandos
 
-	python manage.py syncdb
-	python manage.py migrate
+	python manage.py syncdb --all
+	python manage.py migrate --fake
 
 Para inicar o servidor de desenvolvimento basta executar o comando:
 
