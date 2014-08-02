@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="wrapper">
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">SIADE</a>
+        </div>
+        <!-- /.navbar-header -->
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#perfil"><i class="fa fa-user fa-fw"></i> Perfil de usuário</a>
+                    </li>
+                    <li><a href="#configuracao"><i class="fa fa-gear fa-fw"></i> Configura&ccedil;&atilde;o</a>
+                    </li>
+                    <li><a href="#alterar-senha"><i class="fa fa-gear fa-fw"></i> Alterar senha</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="#logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <!-- /input-group -->
+                    </li>
+                    <li>
+                        <a class="active" href="#/"><i class="fa fa-home"></i> Inicio</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-edit"></i> Cadastrar<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#/agentes"> Agente</a>
+                            </li>
+                            <li>
+                                <a href="#/cidades"> Cidade</a>
+                            </li>
+                            <li>
+                                <a href="#/bairros"> Bairro</a>
+                            </li>
+                            <li>
+                                <a href="#/quadras"> Quadra</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#/lira"><i class="fa fa-table fa-fw"></i> LIRA</a>
+                    </li>
+                    <li>
+                        <a href="#/estatisticas"><i class="fa fa-bar-chart-o"></i> Estatisticas</a>
+                    </li>
+                    <li>
+                        <a href="#/ciclo"><i class="fa fa-repeat"></i> Gerenciamento de ciclo</a>
+                    </li>
+                    <li>
+                        <a href="#/acompanhar-agentes"><i class="fa fa-table"></i>Acompanhamento de agente</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+    <div ng-view></div>
+</div>
+{% endblock %}
