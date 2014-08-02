@@ -86,7 +86,7 @@ class LadoQuadra(models.Model):
 	'''
 	numero = models.PositiveIntegerField(verbose_name=_('número'), blank=True, null=True)
 	quadra = models.ForeignKey(Quadra, verbose_name=_('quadra'), related_name='lados')
-	logradouro = models.ForeignKey(Logradouro, verbose_name=_('logradouro'))
+	logradouro = models.ForeignKey(Logradouro, null=True, verbose_name=_('logradouro'))
 
 	def __unicode__(self):
 		return '%s, %s' % (self.logradouro.nome, self.quadra)
