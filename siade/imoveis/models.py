@@ -132,7 +132,7 @@ class TipoImovel(models.Model):
         ordering = ('nome',)
 
 
-class Imovel(SyncModelMixin):
+class Imovel(models.Model):
     '''
     Detalhes de um imóvel
     '''
