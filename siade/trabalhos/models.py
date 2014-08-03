@@ -53,8 +53,8 @@ class Trabalho(models.Model):
     concluido = models.BooleanField(default=False, editable=False)
 
     def __unicode__(self):
-        return "agente %s, ciclo %s, quadra %s" %
-        (self.agente.first_name, self.ciclo, self.quadra)
+        return "agente %s, ciclo %s, quadra %s" % (
+            self.agente.first_name, self.ciclo, self.quadra)
 
     @property
     def bairros(self):
