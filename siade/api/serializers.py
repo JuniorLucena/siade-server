@@ -16,7 +16,9 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
 
         request = self.context.get('request', None)
         if request:
-            fields = request.QUERY_PARAMS.get('fields', '').split(',')
+            fields = request.QUERY_PARAMS.get('fields', None)
+            if fields:
+                fields = fields.split(',')
         else:
             fields = None
         if fields:
