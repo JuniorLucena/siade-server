@@ -10,7 +10,7 @@ INSTALLED_APPS = list(INSTALLED_APPS) + ['debug_toolbar']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(os.path.dirname(BASE_DIR), 'siade.db'),
+        'NAME': os.path.join(BASE_DIR, 'siade.db'),
     }
 }
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
