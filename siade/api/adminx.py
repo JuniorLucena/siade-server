@@ -1,6 +1,8 @@
 from django.utils.translation import gettext as _
 import xadmin
-from oauth2_provider.models import Grant, AccessToken, RefreshToken, get_application_model
+from oauth2_provider.models import Grant, AccessToken, RefreshToken
+from oauth2_provider.models import get_application_model
+
 
 class RawIDAdmin(object):
     raw_id_fields = ('user',)

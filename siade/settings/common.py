@@ -13,33 +13,34 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dummy')
 
 # Application definition
 INSTALLED_APPS = (
-	'django.contrib.admin',
-	'django.contrib.auth',
-	'django.contrib.contenttypes',
-	'django.contrib.sessions',
-	'django.contrib.messages',
-	'django.contrib.staticfiles',
-	'django.contrib.humanize',
-	'django_extensions',
-	'south',
-	'xadmin',
-	'crispy_forms',
-	'oauth2_provider',
-	'rest_framework',
-	'siade.imoveis',
-	'siade.trabalhos',
-	'siade.api',
-	'siade.relatorios',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'django_extensions',
+    'south',
+    'xadmin',
+    'crispy_forms',
+    'oauth2_provider',
+    'rest_framework',
+    'siade.imoveis',
+    'siade.trabalhos',
+    'siade.api',
+    'siade.sync',
+    'siade.relatorios',
 )
 
 # middleware definition
 MIDDLEWARE_CLASSES = (
-	'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.middleware.common.CommonMiddleware',
-	'django.middleware.csrf.CsrfViewMiddleware',
-	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.messages.middleware.MessageMiddleware',
-	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -71,16 +72,16 @@ STATIC_ROOT = 'staticfiles'
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
 
 REST_FRAMEWORK = {
-	'DEFAULT_FILTER_BACKENDS': (
-		'rest_framework.filters.DjangoFilterBackend',
-	),
-	'DEFAULT_AUTHENTICATION_CLASSES': (
-		'rest_framework.authentication.SessionAuthentication',
-		'oauth2_provider.ext.rest_framework.OAuth2Authentication',
-	),
-	'DEFAULT_PERMISSION_CLASSES': (
-		'rest_framework.permissions.DjangoModelPermissions',
-	),
-	'PAGINATE_BY_PARAM': 'page_size',
-	'MAX_PAGINATE_BY': 100
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.DjangoFilterBackend',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.DjangoModelPermissions',
+    ),
+    'PAGINATE_BY_PARAM': 'page_size',
+    'MAX_PAGINATE_BY': 100
 }
