@@ -2,9 +2,11 @@
 from datetime import date
 from django.db import models
 from django.utils.translation import gettext as _
-from djchoices import DjangoChoices, ChoiceItem
-from siade.imoveis.models import Imovel, Quadra, Bairro
 from django.contrib.auth import get_user_model
+from djchoices import DjangoChoices, ChoiceItem
+from simple_history.models import HistoricalRecords
+from siade.imoveis.models import Imovel, Quadra, Bairro
+
 User = get_user_model()
 
 
@@ -148,11 +150,12 @@ class Visita(Tratamento, Pesquisa):
                                verbose_name=_('imóvel'))
     atividade = models.ForeignKey(Atividade, related_name='visitas',
                                   verbose_name=_('atividade'))
-    tipo = models.PositiveIntegerField(
-        choices=Tipo.choices, default=Tipo.Normal, verbose_name=_('tipo'))
-    pendencia = models.PositiveIntegerField(
-        choices=Pendencia.choices, default=Pendencia.Nenhuma,
-        verbose_name=_('pendencia'))
+    tipo = models.PositiveIntegerField(choices=Tipo.choices,
+                                       default=Tipo.Normal,
+                                       verbose_name=_('tipo'))
+    pendencia = models.PositiveIntegerField(choices=Pendencia.choices,
+                                            default=Pendencia.Nenhuma,
+                                            verbose_name=_('pendencia'))
 
     class Meta:
         verbose_name = _('visita')

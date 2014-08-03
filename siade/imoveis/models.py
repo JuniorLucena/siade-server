@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.utils.translation import gettext as _
-from siade.sync.models import SyncModelMixin
+from simple_history.models import HistoricalRecords
 
 
 class UF(models.Model):
@@ -41,10 +41,11 @@ class Bairro(models.Model):
     Bairro de um município
     '''
     nome = models.CharField(max_length=100, verbose_name=_('nome'))
-    municipio = models.ForeignKey(
-        Municipio, related_name='bairros', verbose_name=_('Município'))
-    codigo = models.IntegerField(
-        blank=True, null=True, verbose_name=_('código'))
+    municipio = models.ForeignKey(Municipio, related_name='bairros',
+                                  verbose_name=_('Município'))
+    codigo = models.IntegerField(blank=True, null=True,
+                                 verbose_name=_('código'))
+    history = HistoricalRecords()
 
     def __unicode__(self):
         return "%s" % (self.nome,)
@@ -60,8 +61,9 @@ class Logradouro(models.Model):
     Logradouro de um município
     '''
     nome = models.CharField(max_length=100, verbose_name=_('nome'))
-    municipio = models.ForeignKey(
-        Municipio, blank=True, null=True, verbose_name=_('município'))
+    municipio = models.ForeignKey(Municipio, blank=True, null=True,
+                                  verbose_name=_('município'))
+    history = HistoricalRecords()
 
     def __unicode__(self):
         return self.nome
@@ -76,9 +78,10 @@ class Quadra(models.Model):
     '''
     Quadra de imóveis de um bairro
     '''
-    bairro = models.ForeignKey(
-        Bairro, related_name='quadras', verbose_name=_('bairro'))
+    bairro = models.ForeignKey(Bairro, related_name='quadras',
+                               verbose_name=_('bairro'))
     numero = models.CharField(max_length=10, verbose_name=_('número'))
+    history = HistoricalRecords()
 
     def imoveis_count(self):
         return Imovel.objects.filter(lado__quadra=self.pk).count()
@@ -102,6 +105,7 @@ class LadoQuadra(models.Model):
         Quadra, verbose_name=_('quadra'), related_name='lados')
     logradouro = models.ForeignKey(
         Logradouro, null=True, verbose_name=_('logradouro'))
+    history = HistoricalRecords()
 
     def __unicode__(self):
         return '%s, %s' % (self.logradouro.nome, self.quadra)
@@ -122,6 +126,7 @@ class TipoImovel(models.Model):
     '''
     nome = models.CharField(max_length=100, verbose_name=_('nome'))
     sigla = models.CharField(max_length=3, verbose_name=_('sigla'))
+    history = HistoricalRecords()
 
     def __unicode__(self):
         return self.nome
@@ -143,8 +148,9 @@ class Imovel(models.Model):
     habitantes = models.PositiveIntegerField(verbose_name=_('qtd. habitantes'))
     caes = models.PositiveIntegerField(verbose_name=_('qtd. cães'))
     gatos = models.PositiveIntegerField(verbose_name=_('qtd. gatos'))
-    ordem = models.PositiveIntegerField(
-        verbose_name=_('ordem'), editable=False, null=True)
+    ordem = models.PositiveIntegerField(editable=False, null=True,
+                                        verbose_name=_('ordem'))
+    history = HistoricalRecords()
 
     def __unicode__(self):
         numero = self.numero if bool(self.numero) else 'S/N'

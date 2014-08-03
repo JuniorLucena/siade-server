@@ -22,6 +22,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django_extensions',
     'south',
+    'simple_history',
     'xadmin',
     'crispy_forms',
     'oauth2_provider',
