@@ -30,7 +30,6 @@ INSTALLED_APPS = (
     'siade.imoveis',
     'siade.trabalhos',
     'siade.api',
-    'siade.sync',
     'siade.relatorios',
 )
 
