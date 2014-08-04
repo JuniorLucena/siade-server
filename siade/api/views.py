@@ -1,16 +1,22 @@
 # -*- coding: utf-8 -*-
-from django.db.models import Avg, Count, Sum
-from rest_framework import viewsets, mixins, generics
-from rest_framework.views import APIView
-from rest_framework.decorators import link, action
-from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework import mixins
+from rest_framework_bulk import mixins as bulk_mixins
 from .serializers import *
 from .filters import AutoFilterSet
 from siade.imoveis.models import *
 from siade.trabalhos.models import *
 
 
-class UfViewSet(viewsets.ModelViewSet):
+class BulkViewSet(GenericViewSet,
+                  mixins.ListModelMixin,
+                  bulk_mixins.BulkCreateModelMixin,
+                  bulk_mixins.BulkUpdateModelMixin,
+                  bulk_mixins.BulkDestroyModelMixin):
+    pass
+
+
+class UfViewSet(ModelViewSet):
     '''
     Unidades Federativas
     '''
@@ -18,7 +24,7 @@ class UfViewSet(viewsets.ModelViewSet):
     search_fields = ('nome', 'sigla')
 
 
-class MunicipioViewSet(viewsets.ModelViewSet):
+class MunicipioViewSet(ModelViewSet):
     '''
     Municípios de uma UF
     '''
@@ -27,7 +33,7 @@ class MunicipioViewSet(viewsets.ModelViewSet):
     filter_fields = ('uf',)
 
 
-class BairroViewSet(viewsets.ModelViewSet):
+class BairroViewSet(ModelViewSet):
     '''
     Bairros de um município
     '''
@@ -36,7 +42,7 @@ class BairroViewSet(viewsets.ModelViewSet):
     filter_fields = ('municipio',)
 
 
-class LogradouroViewSet(viewsets.ModelViewSet):
+class LogradouroViewSet(BulkViewSet):
     '''
     Logradouros de um município
     '''
@@ -45,7 +51,7 @@ class LogradouroViewSet(viewsets.ModelViewSet):
     filter_fields = ('municipio',)
 
 
-class QuadraViewSet(viewsets.ModelViewSet):
+class QuadraViewSet(BulkViewSet):
     '''
     Quadras de imóveis de um bairro
     '''
@@ -54,7 +60,7 @@ class QuadraViewSet(viewsets.ModelViewSet):
     filter_fields = ('numero', 'bairro')
 
 
-class LadoQuadraViewSet(viewsets.ModelViewSet):
+class LadoQuadraViewSet(BulkViewSet):
     '''
     Lado de uma Quadra
     '''
@@ -63,14 +69,14 @@ class LadoQuadraViewSet(viewsets.ModelViewSet):
     filter_fields = ('quadra', 'logradouro')
 
 
-class TipoImovelViewSet(viewsets.ModelViewSet):
+class TipoImovelViewSet(ModelViewSet):
     '''
     Tipos de imóvel
     '''
     model = TipoImovel
 
 
-class ImovelViewSet(viewsets.ModelViewSet):
+class ImovelViewSet(BulkViewSet):
     '''
     Dados de imóvel
     '''
@@ -80,7 +86,7 @@ class ImovelViewSet(viewsets.ModelViewSet):
                      'lado__logradouro', 'lado__quadra__bairro')
 
 
-class AgenteViewSet(viewsets.ModelViewSet):
+class AgenteViewSet(ModelViewSet):
     '''
     Agentes de endemias
     '''
@@ -90,7 +96,7 @@ class AgenteViewSet(viewsets.ModelViewSet):
     filter_fields = ('is_active', 'is_staff')
 
 
-class AtividadeViewSet(viewsets.ModelViewSet):
+class AtividadeViewSet(ModelViewSet):
     '''
     Tipos de atividades que podem ser realizadas
     '''
@@ -98,7 +104,7 @@ class AtividadeViewSet(viewsets.ModelViewSet):
     search_fields = ('nome', 'sigla')
 
 
-class CicloViewSet(viewsets.ModelViewSet):
+class CicloViewSet(ModelViewSet):
     '''
     Ciclos de combate a endemias
     '''
@@ -107,7 +113,7 @@ class CicloViewSet(viewsets.ModelViewSet):
     filter_fields = ('ano_base', 'data_inicio', 'data_fim')
 
 
-class TrabalhoViewSet(viewsets.ModelViewSet):
+class TrabalhoViewSet(ModelViewSet):
     '''
     Trabalho realizado por um agente em um ciclo
     '''
@@ -115,7 +121,7 @@ class TrabalhoViewSet(viewsets.ModelViewSet):
     filter_fields = ('ciclo', 'agente', 'quadra', 'concluido')
 
 
-class VisitaViewSet(viewsets.ModelViewSet):
+class VisitaViewSet(BulkViewSet):
     '''
     Visita de um agente a um determinado imovel em um ciclo
     '''
