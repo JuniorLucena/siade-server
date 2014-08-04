@@ -10,7 +10,6 @@ urlpatterns = patterns('',
     url(r'^api/', include('siade.api.urls')),
     url(r'^api-auth/', include('rest_framework.urls',
         namespace='rest_framework')),
-    url(r'^sync/', include('siade.sync.urls')),
     url(r'^o/', include('oauth2_provider.urls')),
     url(r'^relatorios/', include('siade.relatorios.urls'))
 )
