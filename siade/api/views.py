@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth import get_user_model
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework import mixins
 from rest_framework_bulk import mixins as bulk_mixins
@@ -14,6 +15,14 @@ class BulkViewSet(GenericViewSet,
                   bulk_mixins.BulkUpdateModelMixin,
                   bulk_mixins.BulkDestroyModelMixin):
     pass
+
+
+class UsuarioViewSet(ModelViewSet):
+    '''
+    Usuário do sistema
+    '''
+    model = get_user_model()
+    serializer_class = UsuarioSerializer
 
 
 class UfViewSet(ModelViewSet):

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from siade.imoveis.models import *
 from siade.trabalhos.models import *
@@ -49,3 +50,11 @@ VisitaSerializer = SerializerForModel(Visita)
 AgenteSerializer = SerializerForModel(Agente, fields=(
     'first_name', 'last_name', 'username', 'email', 'date_joined', 'last_login'
 ))
+
+
+class UsuarioSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = get_user_model()
+        fields = ('id', 'first_name', 'last_name', 'username',
+                  'email', 'groups', 'user_permissions')

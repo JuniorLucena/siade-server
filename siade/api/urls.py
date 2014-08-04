@@ -4,6 +4,7 @@ from rest_framework.routers import DefaultRouter
 from .views import *
 
 register = {
+    'usuario': UsuarioViewSet,
     'imoveis/uf': UfViewSet,
     'imoveis/municipio': MunicipioViewSet,
     'imoveis/bairro': BairroViewSet,
