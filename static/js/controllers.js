@@ -6,37 +6,31 @@ siadeCtrls.controller('homeCtrl', ['$scope', function($scope) {
 }])
 
 siadeCtrls.controller('bairroCtrl', ['$scope', function($scope) {
-	
-      
+
 }])
 
-siadeCtrls.controller('cidadeCtrl', ['$scope','$http', '$window', function ($scope,$http,$window) {
-	$scope.municipio ={};
+siadeCtrls.controller('cidadeCtrl', ['$scope','$http', '$window', function($scope, $http, $window) {
+	$scope.municipio = {};
 
 	$scope.save = function(){
-		
-		$http.post('/api/imoveis/municipio', $scope.municipio)
+		$http.post('/api/imoveis/municipio/', $scope.municipio)
 		.success(function (data){
 			console.log(data)
 			}).error(function(data){
 			alert("erro no angularjs!")		
-		})
-	
+		})	
 	}
 	
 	$scope.edit = function(municipio){
 		$window.console.log(municipio)
-	}	
+	}
 
-
-$http.get('/api/imoveis/municipio')
+	$http.get('/api/imoveis/municipio/')
 		.success(function (data){
 			console.log(data)
 		}).error(function(data){
 			alert("erro no angularjs!")		
 		})
- 
-
 
 }])
 .controller('quadraCtrl', ['$scope', function($scope) {
@@ -45,7 +39,6 @@ $http.get('/api/imoveis/municipio')
 .controller('imovelCtrl', ['$scope', function($scope) {
 	$scope.valor = 1
 }])
-
 
 siadeCtrls.controller('estadoCtrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
 	$scope.uf ={};
