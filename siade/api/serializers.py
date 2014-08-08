@@ -52,9 +52,10 @@ class SyncSerializer(serializers.ModelSerializer):
     sync_deleted = serializers.BooleanField()
 
     def to_native(self, obj):
-        obj.sync_changed = obj.history.first().history_date
-        obj.sync_version = obj.history.first().history_id
-        obj.sync_deleted = obj.history.first().history_type == '-'
+        last = obj.history.first()
+        obj.sync_changed = last.history_date
+        obj.sync_version = last.history_id
+        obj.sync_deleted = last.history_type == '-'
         return super(SyncSerializer, self).to_native(obj)
 
 
