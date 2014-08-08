@@ -46,3 +46,7 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		redirectTo: '/'
 	})*/
 }])
+siadeApp.config(['$httpProvider', function($httpProvider) {
+	$httpProvider.defaults.xsrfCookieName = 'csrftoken';
+	$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+}])
