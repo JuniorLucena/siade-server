@@ -11,11 +11,22 @@ class SyncSerializer(serializers.ModelSerializer):
     sync_deleted = serializers.BooleanField()
 
     def to_native(self, obj):
-        last = obj.history.first()
-        obj.sync_changed = last.history_date
-        obj.sync_version = last.history_id
-        obj.sync_deleted = last.history_type == '-'
+        # set sync attributes if object has history
+        try:
+            last = obj.history.first()
+            obj.sync_changed = last.history_date
+            obj.sync_version = last.history_id
+            obj.sync_deleted = last.history_type == '-'
+        except AttributeError:
+            pass
         return super(SyncSerializer, self).to_native(obj)
+
+    def save_object(obj, **kwargs):
+        print obj.sync_version
+        if obj.sync_deleted:
+            obj.delete()
+        else:
+            obj.save()
 
 
 def SyncSerializerForModel(model_class, *args, **kwargs):
