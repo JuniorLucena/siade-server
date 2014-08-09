@@ -3,10 +3,10 @@ from django.contrib.auth import get_user_model
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework import mixins
 from rest_framework_bulk import mixins as bulk_mixins
-from ..serializers import *
-from ..filters import AutoFilterSet
 from siade.imoveis.models import *
 from siade.trabalhos.models import *
+from .serializers import *
+from .filters import AutoFilterSet
 
 
 class UsuarioViewSet(ModelViewSet):

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from siade.imoveis.models import *
-from siade.trabalhos.models import *
 
 
 class SyncSerializer(serializers.ModelSerializer):
