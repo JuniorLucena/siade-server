@@ -14,6 +14,11 @@ class Agente(User):
     '''
     Um agente de endemias
     '''
+    imovel = models.ForeignKey(Imovel, blank=True, null=True)
+    bairro = models.ForeignKey(Bairro, blank=True, null=True)
+    telefone = models.BigIntegerField(blank=True, null=True)
+    #history = HistoricalRecords()
+
     def __unicode__(self):
         return self.get_short_name()
 
@@ -30,6 +35,7 @@ class Ciclo(models.Model):
     data_fim = models.DateField(verbose_name=_('data final'))
     numero = models.PositiveIntegerField(verbose_name=_('número'))
     ano_base = models.PositiveIntegerField(verbose_name=_('ano base'))
+    #history = HistoricalRecords()
 
     def __unicode__(self):
         return '%d/%d' % (self.numero, self.ano_base)
@@ -53,6 +59,7 @@ class Trabalho(models.Model):
                               verbose_name=_('ciclo'))
     quadra = models.ForeignKey(Quadra, related_name='trabalhos')
     concluido = models.BooleanField(default=False, editable=False)
+    #history = HistoricalRecords()
 
     def __unicode__(self):
         return "agente %s, ciclo %s, quadra %s" % (
@@ -74,6 +81,7 @@ class Atividade(models.Model):
     '''
     nome = models.CharField(max_length=100, verbose_name=_('nome'))
     sigla = models.CharField(max_length=5, verbose_name=_('sigla'))
+    #history = HistoricalRecords()
 
     def __unicode__(self):
         return self.nome
@@ -156,6 +164,7 @@ class Visita(Tratamento, Pesquisa):
     pendencia = models.PositiveIntegerField(choices=Pendencia.choices,
                                             default=Pendencia.Nenhuma,
                                             verbose_name=_('pendencia'))
+    #history = HistoricalRecords()
 
     class Meta:
         verbose_name = _('visita')
