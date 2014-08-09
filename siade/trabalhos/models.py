@@ -5,7 +5,6 @@ from django.utils.translation import gettext as _
 from django.contrib.auth import get_user_model
 from djchoices import DjangoChoices, ChoiceItem
 from simple_history.models import HistoricalRecords
-from siade.imoveis.models import Imovel, Quadra, Bairro
 
 User = get_user_model()
 
@@ -14,8 +13,8 @@ class Agente(User):
     '''
     Um agente de endemias
     '''
-    imovel = models.ForeignKey(Imovel, blank=True, null=True)
-    bairro = models.ForeignKey(Bairro, blank=True, null=True)
+    imovel = models.ForeignKey('siade.imoveis.Imovel', blank=True, null=True)
+    bairro = models.ForeignKey('siade.imoveis.Bairro', blank=True, null=True)
     telefone = models.BigIntegerField(blank=True, null=True)
     #history = HistoricalRecords()
 
@@ -57,7 +56,8 @@ class Trabalho(models.Model):
                                verbose_name=_('agente'))
     ciclo = models.ForeignKey(Ciclo, related_name='trabalhos',
                               verbose_name=_('ciclo'))
-    quadra = models.ForeignKey(Quadra, related_name='trabalhos')
+    quadra = models.ForeignKey('siade.imoveis.Quadra',
+                               related_name='trabalhos')
     concluido = models.BooleanField(default=False, editable=False)
     #history = HistoricalRecords()
 
@@ -67,11 +67,13 @@ class Trabalho(models.Model):
 
     @property
     def bairros(self):
+        Bairro = get_model(self, 'imoveis', 'Bairro')
         return Bairro.objects.filter(quadras__trabalhos=self.id).values(
             'bairro').distinct()
 
     @property
     def imoveis(self):
+        Bairro = get_model(self, 'imoveis', 'Imovel')
         return Imovel.objects.filter(lado__quadra__trabalhos=self.id)
 
 
@@ -154,7 +156,7 @@ class Visita(Tratamento, Pesquisa):
                               verbose_name=_('ciclo'))
     agente = models.ForeignKey(Agente, related_name='visitas',
                                verbose_name=_('agente'))
-    imovel = models.ForeignKey(Imovel, related_name='visitas',
+    imovel = models.ForeignKey('siade.imoveis.Imovel', related_name='visitas',
                                verbose_name=_('imóvel'))
     atividade = models.ForeignKey(Atividade, related_name='visitas',
                                   verbose_name=_('atividade'))
