@@ -206,4 +206,4 @@ $RECYCLE.BIN/
 # Project specific
 # =========================
 siade.db
->>>>>>> 4d3cffc8d136a1870a9e49d4b30e2aad19b96b12
+*.sublime-workspace

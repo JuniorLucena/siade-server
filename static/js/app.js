@@ -76,5 +76,12 @@ siadeApp.config(['$routeProvider', function($routeProvider,$httpProvider) {
 siadeApp.run(['authService', function (authService) {
     authService.fillAuthData();
 }])
+<<<<<<< HEAD
 
 
+=======
+siadeApp.config(['$httpProvider', function($httpProvider) {
+	$httpProvider.defaults.xsrfCookieName = 'csrftoken';
+	$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+}])
+>>>>>>> 935d66791ea2717da55b2b131e6987c71364f0fd

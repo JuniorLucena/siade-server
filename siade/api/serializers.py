@@ -5,15 +5,14 @@ from siade.imoveis.models import *
 from siade.trabalhos.models import *
 
 
-class DynamicFieldsModelSerializer(serializers.ModelSerializer):
+class FieldsModelSerializer(serializers.ModelSerializer):
     '''
     Um ModelSerializer que recebe um argumento `fields` que controla quais
     campos serão exibidos.
     '''
-
     def __init__(self, *args, **kwargs):
         # Instantiate the superclass normally
-        super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
+        super(FieldsModelSerializer, self).__init__(*args, **kwargs)
 
         request = self.context.get('request', None)
         if request:
@@ -31,10 +30,13 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
 
 
 def SerializerForModel(model_class, *args, **kwargs):
+    '''
+    Retorna um FieldsModelSerializer para um model
+    '''
     _fields = kwargs.get('fields', None)
     _depth = kwargs.get('depth', 0)
 
-    class Serializer(DynamicFieldsModelSerializer):
+    class Serializer(FieldsModelSerializer):
 
         class Meta:
             model = model_class
@@ -43,14 +45,6 @@ def SerializerForModel(model_class, *args, **kwargs):
 
     return Serializer
 
-LadoSerializer = SerializerForModel(LadoQuadra)
-QuadraSerializer = SerializerForModel(Quadra)
-ImovelSerializer = SerializerForModel(Imovel)
-VisitaSerializer = SerializerForModel(Visita)
-AgenteSerializer = SerializerForModel(Agente, fields=(
-    'first_name', 'last_name', 'username', 'email', 'date_joined', 'last_login'
-))
-
 
 class UsuarioSerializer(serializers.ModelSerializer):
 
@@ -58,3 +52,11 @@ class UsuarioSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = ('id', 'first_name', 'last_name', 'username',
                   'email', 'groups', 'user_permissions')
+
+LadoSerializer = SerializerForModel(LadoQuadra)
+QuadraSerializer = SerializerForModel(Quadra)
+ImovelSerializer = SerializerForModel(Imovel)
+VisitaSerializer = SerializerForModel(Visita)
+AgenteSerializer = SerializerForModel(Agente, fields=(
+    'first_name', 'last_name', 'username', 'email', 'date_joined', 'last_login'
+))
