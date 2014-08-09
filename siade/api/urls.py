@@ -2,6 +2,7 @@
 from django.conf.urls import patterns, include, url
 from rest_framework.routers import DefaultRouter
 from .views import *
+from .sync.views import SyncView
 
 register = {
     'usuario': UsuarioViewSet,
@@ -25,3 +26,6 @@ for (prefix, view) in register.items():
     router.register(prefix, view)
 
 urlpatterns = router.urls
+urlpatterns += patterns(
+    url(r'sync', SyncView.as_view())
+)
