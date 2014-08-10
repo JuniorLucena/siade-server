@@ -25,7 +25,6 @@ router = DefaultRouter()
 for (prefix, view) in register.items():
     router.register(prefix, view)
 
-urlpatterns = router.urls
-urlpatterns += patterns(
-    url(r'sync', SyncView.as_view())
-)
+urlpatterns = patterns('',
+    url(r'^sync$', SyncView.as_view(), name='api-sync')
+) + router.urls

@@ -39,7 +39,7 @@ class ApiTest(APITestCase):
         data['id'] = response.data['id']
         self.assertEqual(data, response.data)
 
-    def test_sync_serialize(self):
+    def test_sync_serializer(self):
         self._doLogin()
         # Criar um registro
         url = reverse('logradouro-list')
