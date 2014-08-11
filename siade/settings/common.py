@@ -86,3 +86,10 @@ REST_FRAMEWORK = {
     'PAGINATE_BY_PARAM': 'page_size',
     'MAX_PAGINATE_BY': 100
 }
+
+REST_SYNC_MODELS = (
+    'imoveis.Logradouro',
+    'imoveis.Quadra',
+    'imoveis.LadoQuadra',
+    'imoveis.Imovel',
+)
