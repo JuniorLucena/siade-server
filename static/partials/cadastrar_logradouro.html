@@ -10,7 +10,7 @@
           </div>
         </div><!-- /.row -->
 	
-	<div class="panel panel-default">
+	<div class="panel panel-default" ng-controller="logradouroCtrl">
 
               <div class="panel-body">
                 <div class="row">
@@ -25,13 +25,9 @@
               </div>
 
               <div class="form-group">
-                     <label>Cidade:</label>
-                       <select class="form-control">
-		          <option>Pau dos ferros</option>
-		          <option></option>
-		          <option></option>
-		          <option></option>
-		        </select>
+               <label>Cidade:</label>
+                  <select ng-model="logradouro.municipio.id" ng-options="municipio.id as municipio.nome for municipio in municipios">
+		              </select>
              	   </div>
 
 	

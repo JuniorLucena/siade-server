@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-lg-12">
-      <h1>Listar <small>Estado</small></h1>
+      <h1>Listar <small>Bairros</small></h1>
       <ol class="breadcrumb">
         <li><a href="index.html"><i class="fa fa-home"></i> Início</a></li>
-        <li class="active"><i class="fa fa-edit"></i> Listar Estado</li>
+        <li class="active"><i class="fa fa-edit"></i> Listar Bairros</li>
       </ol>          
     </div>
   </div><!-- /.row -->
@@ -12,21 +12,21 @@
         <thead>
         <tr>
             <th style="min-width: 80px;">Nome</th>
-            <th style="min-width: 80px;">Sigla</th>
+            <th style="min-width: 80px;">Cidade</th>
             <th style="width:20px;"> </th>
             <th style="width:20px;"> </th>
         </tr>
         </thead>
-        <tbody >
-        <tr ng-repeat="uf in lista">
-            <td>{{ uf.nome }}</td>
-            <td>{{ uf.sigla }}</td>
-            <td ><a ng-click="updateUf(uf)" >edit</a></td>
-            <td><a ng-click="excluir(uf.id)" >delete</a></td>
+        <tbody>
+        <tr ng-repeat="bairro in lista">
+            <td>{{ bairro.nome}}</td>
+            <td>{{ bairro.municipio}}</td>
+            <td><a ng-click="editCidade(municipio.id)" >edit</a></td>
+            <td><a ng-click="deleteCidade(municipio.id)" >delete</a></td>
         </tr>
         </tbody>
     </table>
-    <a ng-click="addUf()" class="btn btn-small">Cadastrar Estado</a>
+    <a ng-click="addBairro()" class="btn btn-small">Cadastrar Bairros</a>
 </div>
 
 
