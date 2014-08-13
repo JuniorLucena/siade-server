@@ -8,7 +8,7 @@
     </div>
   </div><!-- /.row -->
 <div class="span6">
-    <table class="table table-striped table-condensed">
+    <table class="table table-striped table-condensed" ng-controller="estadoCtrl">
         <thead>
         <tr>
             <th style="min-width: 80px;">Nome</th>
@@ -18,10 +18,10 @@
         </tr>
         </thead>
         <tbody >
-        <tr ng-repeat="uf in lista">
+        <tr ng-repeat="uf in ufs">
             <td>{{ uf.nome }}</td>
             <td>{{ uf.sigla }}</td>
-            <td ><a ng-click="updateUf(uf)" >edit</a></td>
+            <td ><a ng-click="editUf(uf.id)" >edit</a></td>
             <td><a ng-click="excluir(uf.id)" >delete</a></td>
         </tr>
         </tbody>

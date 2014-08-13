@@ -1,6 +1,11 @@
 'use strict'
 var siadeCtrls = angular.module('siadeControllers', []);
       
+
+siadeCtrls.controller('loginController', ['$scope', '$location', 'authService', function ($scope, $location, authService) {
+ 
+}])
+
 siadeCtrls.controller('homeCtrl', ['$scope', function($scope) {
 	$scope.valor = 1
 }])
@@ -100,62 +105,74 @@ siadeCtrls.controller('cidade_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 
 
 siadeCtrls.controller('estadoCtrl', ['$scope','$http', '$location', '$window', function ($scope,$http,$location,$window) {
-	
+	  
+	  var load = function() {
+            console.log('call load()...');
+            $http.get('/api/imoveis/uf')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.ufs = data;
+                        angular.copy($scope.ufs, $scope.copy);
+                    });
+        }
+
+        load();
 
 	$scope.addUf = function(){
 		$location.path('/cadastrar_uf/')
 	}
 
- 	
-	var init = function(){
-		$http.get('/api/imoveis/uf')
-		.success(function (data){
-			$scope.lista = data
-		}).error(function(data){
-			alert("erro no angularjs!")		
-		})
- 	   
+	$scope.editUf = function(index){
+		console.log('call editUf()...')
+		$location.path('/edit_uf/' + $scope.ufs[index].id);
 	}
-	
-	init();
 
-}])
-
-siadeCtrls.controller('estadoDelCtrl', ['$scope', '$location', '$http', function ($scope, $http, $location) {
-
-       $scope.excluir = function(uf){
-		var confirm = $window.confirm('Tem certeza que deseja excluir o produto '+ uf.index+ '?');
+	$scope.excluir = function(uf){
+		var confirm = $window.confirm('Tem certeza que deseja excluir o produto '+ uf+ '?');
 		if(confirm){
-			$http.delete('/api/imoveis/uf/'+uf.id).success(function(data){
+			$http.delete('/api/imoveis/uf/'+uf).success(function(data){
 				var index = $scope.lista.indexOf(uf);
 				$scope.lista.splice(index, 1);
 			});
 		}
 	};
 
-	var init = function(){
-		$http.get('/api/imoveis/uf')
-		.success(function (data){
-			$scope.lista = data
-		}).error(function(data){
-			alert("erro no angularjs!")		
-		})
- 	   
-	}
-	
-	init();
+}])
 
-         
-}]);
 
 siadeCtrls.controller('estadoEditCtrl', ['$scope', '$location', '$http', function ($scope, $http, $location) {
 
       
-        $scope.updateUf = function (uf) {
-            $scope.update($scope.uf);
-            $location.path('/estados');
-        };
+      var load = function() {
+            console.log('call load()...');
+            $http.get('/api/imoveis/uf')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.ufs = data;
+                        angular.copy($scope.ufs, $scope.copy);
+                    });
+        }
 
+        load();
+
+         $scope.uf = {};
+
+        $scope.updateUf = function() {
+            console.log('call updateUf');
+            $http
+			.put('/api/imoveis/uf/' + $scope.uf.id + $scope.uf)
+			.success(function(data, status, headers, config) {
+				if(!data.error) {
+					showMessage('Registro salvo com exito', 'success');
+					$location.path('/categorias');
+				} else {
+					showMessage(data.error, 'error');
+				}
+			}).error(function(data, status, headers, config) {
+				showMessage($.i18n.prop('SaveError'), 'success');
+			});
+
+		}
          
 }]);
 
@@ -187,13 +204,14 @@ siadeCtrls.controller('estado_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 	
 	init();
 
+
 }])
 
 
 siadeCtrls.controller('logradouroCtrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
 	
 
-	$scope.addUf = function(){
+	$scope.addLogradouro = function(){
 		$location.path('/cadastrar_logradouro/')
 	}
 		
@@ -210,3 +228,4 @@ siadeCtrls.controller('logradouroCtrl', ['$scope','$http', '$location', function
 	init();
 
 }])
+

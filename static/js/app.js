@@ -4,38 +4,35 @@ var siadeApp = angular.module('siadeApp', [
 	'siadeControllers',
 	'ui.select2'
 ])
-siadeApp.config(['$routeProvider', function($routeProvider,$httpProvider) {
+siadeApp.config(['$routeProvider', function($routeProvider) {
 	$routeProvider
-	$httpProvider.interceptors.push('authInterceptorService')
-
-	
-	.when('/index', {
-		templateUrl: DJANGO_STATIC_URL + 'authentication/index.html',
-		controller: 'indexController'
-	})
 
 	.when('/', {
 		templateUrl: DJANGO_STATIC_URL+'partials/home.html',
 		controller: 'homeCtrl'
 	})
+
 	.when('/estados', {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_uf.html',
 		controller: 'estadoCtrl'
 	})
+
 	.when('/cadastrar_uf', {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_uf.html',
 		controller: 'estado_Cadastro_Ctrl'
 	})
+
 	.when('/edit_uf', {
 		templateUrl: DJANGO_STATIC_URL+'partials/edit_uf.html',
-		controller: 'estadoEditCtrl'
+		controller: 'estadoCtrl'
 	})
+
 	.when('/logradouros', {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_logradouro.html',
 		controller: 'logradouroCtrl'
 	})
 	.when('/cadastrar_logradouro', {
-		templateUrl: DJANGO_STATIC_URL+'partials/listar_logradouro.html',
+		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_logradouro.html',
 		controller: 'cadastrar_logradouro_Ctrl'
 	})
 	
@@ -43,41 +40,34 @@ siadeApp.config(['$routeProvider', function($routeProvider,$httpProvider) {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_cidade.html',
 		controller: 'cidadeCtrl'
 	})
+
 	.when('/cadastrar_cidade/', {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_cidade.html',
 		controller: 'cidade_Cadastro_Ctrl'
 	})
+
 	.when('/bairros', {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_bairro.html',
 		controller: 'bairroCtrl'
 	})
+
 	.when('/cadastrar_bairro', {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_bairro.html',
 		controller: 'cadastrar_bairro_Ctrl'
 	})
+
 	.when('/quadras', {
 		templateUrl: DJANGO_STATIC_URL+'partials/quadra.html',
 		controller: 'quadraCtrl'
 	})
+
 	.when('/imoveis', {
 		templateUrl: DJANGO_STATIC_URL+'partials/imovel.html',
 		controller: 'imovelCtrl'
 	})
  
-    .when("/login", {
-        controller: "loginController",
-        templateUrl: "authentication/login.html"
-    })
- 
-    .when("/signup", {
-        controller: "signupController",
-        templateUrl: "authentication/signup.html"
-    })
- 
-    .when("/orders", {
-        controller: "ordersController",
-        templateUrl: "authentication/orders.html"
-    })
+   
+
  
     .otherwise({ redirectTo: "/index" })
 
@@ -86,11 +76,4 @@ siadeApp.config(['$routeProvider', function($routeProvider,$httpProvider) {
 
 }])
 
-siadeApp.run(['authService', function (authService) {
-    authService.fillAuthData();
-}])
 
-siadeApp.config(['$httpProvider', function($httpProvider) {
-	$httpProvider.defaults.xsrfCookieName = 'csrftoken';
-	$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-}])
