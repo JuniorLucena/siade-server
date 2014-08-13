@@ -1,7 +1,8 @@
 'use strict'
 var siadeApp = angular.module('siadeApp', [
 	'ngRoute',
-	'siadeControllers'
+	'siadeControllers',
+	'ui.select2'
 ])
 siadeApp.config(['$routeProvider', function($routeProvider) {
 	$routeProvider
@@ -18,7 +19,7 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 
 	.when('/cadastrar_uf', {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_uf.html',
-		controller: 'estadoCtrl'
+		controller: 'estado_Cadastro_Ctrl'
 	})
 
 	.when('/edit_uf', {
@@ -27,18 +28,32 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 	})
 
 	.when('/logradouros', {
-		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_logradouro.html',
+		templateUrl: DJANGO_STATIC_URL+'partials/listar_logradouro.html',
 		controller: 'logradouroCtrl'
+	})
+	.when('/cadastrar_logradouro', {
+		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_logradouro.html',
+		controller: 'cadastrar_logradouro_Ctrl'
 	})
 	
 	.when('/cidades', {
-		templateUrl: DJANGO_STATIC_URL+'partials/cidade.html',
+		templateUrl: DJANGO_STATIC_URL+'partials/listar_cidade.html',
 		controller: 'cidadeCtrl'
 	})
 
+	.when('/cadastrar_cidade/', {
+		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_cidade.html',
+		controller: 'cidade_Cadastro_Ctrl'
+	})
+
 	.when('/bairros', {
-		templateUrl: DJANGO_STATIC_URL+'partials/bairro.html',
+		templateUrl: DJANGO_STATIC_URL+'partials/listar_bairro.html',
 		controller: 'bairroCtrl'
+	})
+
+	.when('/cadastrar_bairro', {
+		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_bairro.html',
+		controller: 'cadastrar_bairro_Ctrl'
 	})
 
 	.when('/quadras', {
@@ -51,9 +66,14 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		controller: 'imovelCtrl'
 	})
  
-    .when("/login", {
-        controller: "loginController",
-        templateUrl: "authentication/login.html"
-    })
+   
+
  
+    .otherwise({ redirectTo: "/index" })
+
+ //  	$httpProvider.defaults.headers.common['X-CSRFToken'] = $cookies.csrftoken
+
+
 }])
+
+
