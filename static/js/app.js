@@ -62,8 +62,13 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 	})
 
 	.when('/imoveis', {
-		templateUrl: DJANGO_STATIC_URL+'partials/imovel.html',
+		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_imovel.html',
 		controller: 'imovelCtrl'
+	})
+
+	.when('/agentes', {
+		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_agente.html',
+		controller: 'agenteCtrl'
 	})
  
    

@@ -35,6 +35,11 @@ siadeCtrls.controller('bairroCtrl', ['$scope', '$http', '$window', '$location', 
       
 }])
 
+siadeCtrls.controller('agenteCtrl', ['$scope', function($scope) {
+	$scope.valor = 1
+}])
+
+
 siadeCtrls.controller('cidadeCtrl', ['$scope','$http', '$window', '$location', function ($scope,$http,$window,$location) {
 	
 	$scope.addCidade = function(){
@@ -93,8 +98,10 @@ siadeCtrls.controller('cidade_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 	init();
 }])
 
-.controller('quadraCtrl', ['$scope', function($scope) {
-	$scope.valor = 1
+.controller('quadraCtrl', ['$scope', '$location', function($scope,$location) {
+	$scope.addImovel = function(){
+		$location.path('/imoveis/')
+	}
 }])
 
 
