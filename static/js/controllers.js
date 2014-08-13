@@ -105,16 +105,6 @@ siadeCtrls.controller('estadoCtrl', ['$scope','$http', '$location', '$window', f
 	$scope.addUf = function(){
 		$location.path('/cadastrar_uf/')
 	}
-	
-	$scope.excluir = function(uf){
-		var confirm = $window.confirm('Tem certeza que deseja excluir o produto '+ uf.id+ '?');
-		if(confirm){
-			$http.delete('/api/imoveis/uf/'+uf.id).success(function(data){
-				var index = $scope.lista.indexOf(uf);
-				$scope.lista.splice(index, 1);
-			});
-		}
-	};
 
  	
 	var init = function(){
@@ -133,7 +123,28 @@ siadeCtrls.controller('estadoCtrl', ['$scope','$http', '$location', '$window', f
 
 siadeCtrls.controller('estadoDelCtrl', ['$scope', '$location', '$http', function ($scope, $http, $location) {
 
-       
+       $scope.excluir = function(uf){
+		var confirm = $window.confirm('Tem certeza que deseja excluir o produto '+ uf.index+ '?');
+		if(confirm){
+			$http.delete('/api/imoveis/uf/'+uf.id).success(function(data){
+				var index = $scope.lista.indexOf(uf);
+				$scope.lista.splice(index, 1);
+			});
+		}
+	};
+
+	var init = function(){
+		$http.get('/api/imoveis/uf')
+		.success(function (data){
+			$scope.lista = data
+		}).error(function(data){
+			alert("erro no angularjs!")		
+		})
+ 	   
+	}
+	
+	init();
+
          
 }]);
 

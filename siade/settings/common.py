@@ -41,6 +41,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -85,3 +86,10 @@ REST_FRAMEWORK = {
     'PAGINATE_BY_PARAM': 'page_size',
     'MAX_PAGINATE_BY': 100
 }
+
+REST_SYNC_MODELS = (
+    'imoveis.Logradouro',
+    'imoveis.Quadra',
+    'imoveis.LadoQuadra',
+    'imoveis.Imovel',
+)

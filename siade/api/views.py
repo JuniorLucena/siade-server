@@ -3,18 +3,10 @@ from django.contrib.auth import get_user_model
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework import mixins
 from rest_framework_bulk import mixins as bulk_mixins
-from .serializers import *
-from .filters import AutoFilterSet
 from siade.imoveis.models import *
 from siade.trabalhos.models import *
-
-
-class BulkViewSet(GenericViewSet,
-                  mixins.ListModelMixin,
-                  bulk_mixins.BulkCreateModelMixin,
-                  bulk_mixins.BulkUpdateModelMixin,
-                  bulk_mixins.BulkDestroyModelMixin):
-    pass
+from .serializers import *
+from .filters import AutoFilterSet
 
 
 class UsuarioViewSet(ModelViewSet):
@@ -51,7 +43,7 @@ class BairroViewSet(ModelViewSet):
     filter_fields = ('municipio',)
 
 
-class LogradouroViewSet(BulkViewSet):
+class LogradouroViewSet(ModelViewSet):
     '''
     Logradouros de um município
     '''
@@ -60,7 +52,7 @@ class LogradouroViewSet(BulkViewSet):
     filter_fields = ('municipio',)
 
 
-class QuadraViewSet(BulkViewSet):
+class QuadraViewSet(ModelViewSet):
     '''
     Quadras de imóveis de um bairro
     '''
@@ -69,7 +61,7 @@ class QuadraViewSet(BulkViewSet):
     filter_fields = ('numero', 'bairro')
 
 
-class LadoQuadraViewSet(BulkViewSet):
+class LadoQuadraViewSet(ModelViewSet):
     '''
     Lado de uma Quadra
     '''
@@ -85,7 +77,7 @@ class TipoImovelViewSet(ModelViewSet):
     model = TipoImovel
 
 
-class ImovelViewSet(BulkViewSet):
+class ImovelViewSet(ModelViewSet):
     '''
     Dados de imóvel
     '''
@@ -130,7 +122,7 @@ class TrabalhoViewSet(ModelViewSet):
     filter_fields = ('ciclo', 'agente', 'quadra', 'concluido')
 
 
-class VisitaViewSet(BulkViewSet):
+class VisitaViewSet(ModelViewSet):
     '''
     Visita de um agente a um determinado imovel em um ciclo
     '''

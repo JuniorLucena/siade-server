@@ -24,4 +24,5 @@ router = DefaultRouter()
 for (prefix, view) in register.items():
     router.register(prefix, view)
 
-urlpatterns = router.urls
+urlpatterns = patterns('',
+) + router.urls
