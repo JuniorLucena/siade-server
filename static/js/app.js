@@ -71,9 +71,13 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
  
     .otherwise({ redirectTo: "/index" })
 
- //  	$httpProvider.defaults.headers.common['X-CSRFToken'] = $cookies.csrftoken
+   	//$httpProvider.defaults.headers.common['X-CSRFToken'] = $cookies.csrftoken
 
 
 }])
 
 
+siadeApp.config(['$httpProvider', function($httpProvider) {
+	$httpProvider.defaults.xsrfCookieName = 'csrftoken';
+	$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+}])
