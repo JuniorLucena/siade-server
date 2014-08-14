@@ -92,4 +92,5 @@ REST_SYNC_MODELS = (
     'imoveis.Quadra',
     'imoveis.LadoQuadra',
     'imoveis.Imovel',
+    'trabalhos.Visita',
 )
