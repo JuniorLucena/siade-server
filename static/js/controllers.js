@@ -36,7 +36,17 @@ siadeCtrls.controller('bairroCtrl', ['$scope', '$http', '$window', '$location', 
 }])
 
 siadeCtrls.controller('agenteCtrl', ['$scope', function($scope) {
-	$scope.valor = 1
+	var load = function() {
+            console.log('call load()...');
+            $http.get('/api/trabalhos/agente')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.agentes = data;
+                        angular.copy($scope.agentes, $scope.copy);
+                    });
+        }
+
+        load();
 }])
 
 
@@ -98,10 +108,61 @@ siadeCtrls.controller('cidade_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 	init();
 }])
 
-.controller('quadraCtrl', ['$scope', '$location', function($scope,$location) {
-	$scope.addImovel = function(){
-		$location.path('/imoveis/')
+//Listar Quadras
+
+.controller('quadraCtrl', ['$scope', '$location', '$http', function($scope,$location, $http) {
+	
+	$scope.addCidade = function(){
+		$location.path('/cadastrar_quadras/')
 	}
+
+	var load = function() {
+            console.log('call load()...');
+            $http.get('/api/imoveis/quadra')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.quadras = data;
+                        angular.copy($scope.quadras, $scope.copy);
+                    });
+        }
+
+        load();
+}])
+
+//Cadastrar Quadras
+
+siadeCtrls.controller('cadastrar_quadra_Ctrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
+
+	$scope.quadra ={};
+
+	$scope.saveQuadra = function(){
+		
+		$http.post('/api/imoveis/quadra/add/', $scope.quadra)
+		.success(function (data){
+			console.log(data)
+			//$location.path('/cadastrar_imoveis/')
+			}).error(function(data){
+			alert("erro no angularjs!")		
+		})
+	
+	}
+	
+	$scope.edit = function(quadra){
+		$window.console.log(quadra)
+	}	
+
+
+	var init = function(){
+		$http.get('/api/imoveis/quadra/add')
+		.success(function (data){
+			$scope.lista = data
+		}).error(function(data){
+			alert("erro no angularjs!")		
+		})
+ 	   
+	}
+	
+	init();
 }])
 
 

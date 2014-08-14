@@ -13,21 +13,20 @@
         <tr>
             <th style="min-width: 80px;">Bairro</th>
             <th style="min-width: 80px;">N° Quadra</th>
-            <th style="min-width: 80px;">Seq</th>
             <th style="width:20px;"> </th>
             <th style="width:20px;"> </th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="quadra in lista">
+        <tr ng-repeat="quadra in quadras">
             <td>{{ quadra.bairro}}</td>
-            <td>{{ }}</td>
-            <td><a ng-click="editCidade(municipio.id)" >edit</a></td>
-            <td><a ng-click="deleteCidade(municipio.id)" >delete</a></td>
+            <td>{{ quadra.numero}}</td>
+            <td><a ng-click="editQuadra(quadra.id)" >edit</a></td>
+            <td><a ng-click="deleteQuadra(quadra.id)" >delete</a></td>
         </tr>
         </tbody>
     </table>
-    <a ng-click="addBairro()" class="btn btn-small">Cadastrar Bairros</a>
+    <a ng-click="addQuadra()" class="btn btn-small">Cadastrar Quadras</a>
 </div>
 
 

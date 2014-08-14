@@ -56,13 +56,18 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		controller: 'cadastrar_bairro_Ctrl'
 	})
 
-	.when('/quadras', {
-		templateUrl: DJANGO_STATIC_URL+'partials/quadra.html',
+	.when('/cadastrar_quadras', {
+		templateUrl: DJANGO_STATIC_URL+'partials/cadastar_quadra.html',
+		controller: 'cadastrar_quadra_Ctrl'
+	})
+
+	.when('/listar_quadras', {
+		templateUrl: DJANGO_STATIC_URL+'partials/listar_quadra.html',
 		controller: 'quadraCtrl'
 	})
 
 	.when('/imoveis', {
-		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_imovel.html',
+		templateUrl: DJANGO_STATIC_URL+'partials/listar_imovel.html',
 		controller: 'imovelCtrl'
 	})
 
@@ -70,10 +75,7 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_agente.html',
 		controller: 'agenteCtrl'
 	})
- 
-   
-
- 
+  
     .otherwise({ redirectTo: "/index" })
 
  //  	$httpProvider.defaults.headers.common['X-CSRFToken'] = $cookies.csrftoken
