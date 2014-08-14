@@ -18,11 +18,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="logradouro in lista">
+        <tr ng-repeat="logradouro in logradouros">
             <td>{{ logradouro.nome}}</td>
             <td>{{ logradouro.municipio}}</td>
-            <td><a ng-click="editCidade(municipio.id)" >edit</a></td>
-            <td><a ng-click="deleteCidade(municipio.id)" >delete</a></td>
+            <td><a ng-click="editCidade(logradouro.id)" >edit</a></td>
+            <td><a ng-click="deleteCidade(logradouro.id)" >delete</a></td>
         </tr>
         </tbody>
     </table>
