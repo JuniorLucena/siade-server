@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -24,13 +25,30 @@ def get_model_or_404(app_name, model_name):
     raise Http404("This model does not exist!")
 
 
+class ListSyncModelsView(APIView):
+    '''
+    Listar entidades que podem ser sincronizadas
+    '''
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        urls = dict()
+        for item in getattr(settings, 'REST_SYNC_MODELS', []):
+            app_name, model_name = item.split('.')
+            url = reverse('rest-synchro', kwargs={
+                'app': app_name, 'model': model_name
+            })
+            urls[item] = request.build_absolute_uri(url)
+        return Response(urls)
+
+
 class SyncView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
         app_name = kwargs.get('app', None)
         model_name = kwargs.get('model', None)
-        model = get_model_or_404(app_name, model_name)
+        model = get_model_or_404(app_name, model_name.capitalize())
 
         qs = model.objects.all()
         serializerClass = model_syncserializer_factory(model)
@@ -38,7 +56,7 @@ class SyncView(APIView):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        if not type(request.DATA) is dict:
+        if not type(request.DATA) is list:
             return Response('Invalid format',
                             status=status.HTTP_400_BAD_REQUEST)
 
