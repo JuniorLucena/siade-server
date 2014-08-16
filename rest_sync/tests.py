@@ -10,7 +10,6 @@ from simple_history.models import HistoricalRecords
 
 class SycTest(APITestCase):
     def setUp(self):
-        self.url = reverse('rest-synchro')
         # autenticar-se
         User = get_user_model()
         self.user = User.objects.create_superuser(
@@ -35,38 +34,48 @@ class SycTest(APITestCase):
         self.bairro._history_user = self.user
         self.bairro.save()
 
-    def test_get_no_params(self):
-        REST_SYNC_MODELS = getattr(settings, 'REST_SYNC_MODELS', [])
-        data = {k: [] for k in REST_SYNC_MODELS}
+    def test_sync_new_quadra(self):
+        self.url = reverse('rest-synchro', kwargs={
+            'app': 'imoveis', 'model': 'Quadra',
+        })
+        data = [{
+            'id': 2,
+            'bairro': self.bairro.id,
+            'numero': '1A',
+            'sync_changed': '2014-08-07T20:18:07.147',
+            'sync_version': None,
+            'sync_deleted': False,
+        }]
+        self.client.post(self.url, data, format='json')
         response = self.client.get(self.url)
-        self.assertEqual(response.data, data)
+        # pegar a quadra salva
+        posted = data[0]
+        saved = response.data[0]
+        # remover dados que sempre mudam
+        posted['id'] = saved['id']
+        posted['sync_version'] = saved['sync_version']
+        posted['sync_changed'] = saved['sync_changed']
+        self.assertEqual(posted, saved)
 
-    def test_sync_new(self):
-        data = {
-            'imoveis.Quadra': [
-                {
-                    'id': 2,
-                    'bairro': self.bairro.id,
-                    'numero': '1A',
-                    'sync_changed': '2014-08-07T20:18:07.147',
-                    'sync_version': None,
-                    'sync_deleted': 0,
-                }
-            ]
-        }
-        response = self.client.post(self.url, data, format='json')
-
-    def test_sync_existing(self):
-        data = {
-            'imoveis.Quadra': [
-                {
-                    'id': 2,
-                    'bairro': self.bairro.id,
-                    'numero': '1A',
-                    'sync_changed': '2014-08-07T20:18:07.147',
-                    'sync_version': 1,
-                    'sync_deleted': 0,
-                }
-            ]
-        }
-        response = self.client.post(self.url, data, format='json')
+    def test_sync_existing_quadra(self):
+        self.url = reverse('rest-synchro', kwargs={
+            'app': 'imoveis', 'model': 'Quadra',
+        })
+        data = [{
+            'id': 1,
+            'bairro': self.bairro.id,
+            'numero': '2A',
+            'sync_changed': '2014-08-07T20:18:07.147',
+            'sync_version': 1,
+            'sync_deleted': False,
+        }]
+        self.client.post(self.url, data, format='json')
+        response = self.client.get(self.url)
+        # pegar a quadra salva
+        posted = data[0]
+        saved = response.data[0]
+        # remover dados que sempre mudam
+        posted['id'] = saved['id']
+        posted['sync_version'] = saved['sync_version']
+        posted['sync_changed'] = saved['sync_changed']
+        self.assertEqual(posted, saved)
