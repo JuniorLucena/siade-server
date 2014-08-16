@@ -4,9 +4,9 @@ from rest_framework import serializers
 
 
 class ModelSyncSerializer(serializers.ModelSerializer):
-    sync_changed = serializers.DateTimeField()
+    sync_changed = serializers.DateTimeField(required=False)
     sync_version = serializers.IntegerField(required=False)
-    sync_deleted = serializers.BooleanField()
+    sync_deleted = serializers.BooleanField(required=False)
 
     def to_native(self, obj):
         # set sync attributes if object has history
@@ -20,7 +20,7 @@ class ModelSyncSerializer(serializers.ModelSerializer):
         return super(ModelSyncSerializer, self).to_native(obj)
 
     def from_native(self, data, files=None):
-        if not data.get('sync_version', None):
+        if data.get('sync_version', None) is None:
             data.pop('id', None)
         return super(ModelSyncSerializer, self).from_native(data, files)
 
@@ -37,7 +37,7 @@ class ModelSyncSerializer(serializers.ModelSerializer):
                 if obj.sync_deleted:
                     return obj.delete()
             else:
-                if obj.sync_changed < obj.history.first().history_data:
+                if obj.sync_changed < obj.history.first().history_date:
                     return
         return super(ModelSyncSerializer, self).save_object(obj, **kwargs)
 
