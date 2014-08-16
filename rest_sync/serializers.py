@@ -25,18 +25,19 @@ class ModelSyncSerializer(serializers.ModelSerializer):
         return super(ModelSyncSerializer, self).from_native(data, files)
 
     def restore_object(self, attrs, instance=None):
-        #sync_changed = attrs.pop('sync_changed', None)
-        #sync_version = attrs.pop('sync_version', None)
-        #sync_deleted = attrs.pop('sync_deleted', None)
-        #print attrs
+        sync_changed = attrs.get('sync_changed', None)
+        if instance and sync_changed:
+            instance._history_date = sync_changed
         return super(ModelSyncSerializer, self).restore_object(attrs, instance)
 
     def save_object(self, obj, **kwargs):
         if obj.sync_version and obj.id:
+            # check if is same version of record
             if obj.sync_version == obj.history.first().history_id:
                 if obj.sync_deleted:
                     return obj.delete()
             else:
+                # oh no! it's a conflict. Use the last write wins
                 if obj.sync_changed < obj.history.first().history_date:
                     return
         return super(ModelSyncSerializer, self).save_object(obj, **kwargs)
