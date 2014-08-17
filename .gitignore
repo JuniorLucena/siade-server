@@ -207,3 +207,4 @@ $RECYCLE.BIN/
 # =========================
 siade.db
 *.sublime-workspace
+.idea
