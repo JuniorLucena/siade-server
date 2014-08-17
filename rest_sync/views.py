@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from rest_framework.views import APIView
@@ -45,12 +46,11 @@ class ListSyncModelsView(APIView):
 class SyncView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, *args, **kwargs):
-        app_name = kwargs.get('app', None)
-        model_name = kwargs.get('model', None)
-        model = get_model_or_404(app_name, model_name.capitalize())
+    def get(self, request, app=None, model=None):
+        # pegar a classe do model
+        model_class = get_model_or_404(app, model.capitalize())
 
-        qs = model.objects.all()
+        qs = model_class.objects.all()
         serializerClass = model_syncserializer_factory(model)
         serializer = serializerClass(qs, many=True)
         return Response(serializer.data)
