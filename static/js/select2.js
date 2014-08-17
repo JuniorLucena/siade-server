@@ -1,10 +1,10 @@
 /**
-* Enhanced Select2 Dropmenus
-*
-* @AJAX Mode - When in this mode, your value will be an object (or array of objects) of the data used by Select2
-* This change is so that you do not have to do an additional query yourself on top of Select2's own query
-* @params [options] {object} The configuration options passed to $.fn.select2(). Refer to the documentation
-*/
+ * Enhanced Select2 Dropmenus
+ *
+ * @AJAX Mode - When in this mode, your value will be an object (or array of objects) of the data used by Select2
+ *     This change is so that you do not have to do an additional query yourself on top of Select2's own query
+ * @params [options] {object} The configuration options passed to $.fn.select2(). Refer to the documentation
+ */
 angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelect2', ['uiSelect2Config', '$timeout', function (uiSelect2Config, $timeout) {
   var options = {};
   if (uiSelect2Config) {
@@ -35,8 +35,8 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
         var opts = angular.extend({}, options, scope.$eval(attrs.uiSelect2));
 
         /*
-Convert from Select2 view-model to Angular view-model.
-*/
+        Convert from Select2 view-model to Angular view-model.
+        */
         var convertToAngularModel = function(select2_data) {
           var model;
           if (opts.simple_tags) {
@@ -51,8 +51,8 @@ Convert from Select2 view-model to Angular view-model.
         };
 
         /*
-Convert from Angular view-model to Select2 view-model.
-*/
+        Convert from Angular view-model to Select2 view-model.
+        */
         var convertToSelect2Model = function(angular_data) {
           var model = [];
           if (!angular_data) {
@@ -96,12 +96,27 @@ Convert from Angular view-model to Select2 view-model.
               elm.select2('val', controller.$viewValue);
             } else {
               if (opts.multiple) {
+                controller.$isEmpty = function (value) {
+                  return !value || value.length === 0;
+                };
                 var viewValue = controller.$viewValue;
                 if (angular.isString(viewValue)) {
                   viewValue = viewValue.split(',');
                 }
                 elm.select2(
                   'data', convertToSelect2Model(viewValue));
+                if (opts.sortable) {
+                  elm.select2("container").find("ul.select2-choices").sortable({
+                    containment: 'parent',
+                    start: function () {
+                      elm.select2("onSortStart");
+                    },
+                    update: function () {
+                      elm.select2("onSortEnd");
+                      elm.trigger('change');
+                    }
+                  });
+                }                  
               } else {
                 if (angular.isObject(controller.$viewValue)) {
                   elm.select2('data', controller.$viewValue);
@@ -124,7 +139,7 @@ Convert from Angular view-model to Select2 view-model.
               $timeout(function () {
                 elm.select2('val', controller.$viewValue);
                 // Refresh angular to remove the superfluous option
-                elm.trigger('change');
+                controller.$render();
                 if(newVal && !oldVal && controller.$setPristine) {
                   controller.$setPristine(true);
                 }
@@ -206,13 +221,14 @@ Convert from Angular view-model to Select2 view-model.
 
           // Not sure if I should just check for !isSelect OR if I should check for 'tags' key
           if (!opts.initSelection && !isSelect) {
-            var isPristine = controller.$pristine;
-            controller.$setViewValue(
-              convertToAngularModel(elm.select2('data'))
-            );
-            if (isPristine) {
-              controller.$setPristine();
-            }
+              var isPristine = controller.$pristine;
+              controller.$pristine = false;
+              controller.$setViewValue(
+                  convertToAngularModel(elm.select2('data'))
+              );
+              if (isPristine) {
+                  controller.$setPristine();
+              }
             elm.prev().toggleClass('ng-pristine', controller.$pristine);
           }
         });

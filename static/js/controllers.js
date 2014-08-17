@@ -11,6 +11,8 @@ siadeCtrls.controller('homeCtrl', ['$scope', function($scope) {
 }])
 
 
+
+
 //lista Bairro
 
 siadeCtrls.controller('bairroCtrl', ['$scope', '$http', '$window', '$location', function($scope,$http,$window,$location) {
@@ -24,25 +26,68 @@ siadeCtrls.controller('bairroCtrl', ['$scope', '$http', '$window', '$location', 
 	}	
 	
  	
-	var init = function(){
-		$http.get('/api/imoveis/bairro')
-		.success(function (data){
-			$scope.lista = data
-		}).error(function(data){
-			alert("erro no angularjs!")		
-		})
- 	   
-	}
-	
-	init();
+	var load = function() {
+            console.log('call load()...');
+            $http.get('/api/imoveis/bairro')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.bairros = data;
+                        angular.copy($scope.bairros, $scope.copy);
+                    });
+        }
+
+        load();
       
 }])
 
+//cadastrar Bairro...
 
-//lista Cidade...
+siadeCtrls.controller('bairro_Cadastro_Ctrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
+
+	$scope.bairro ={};
+
+	$scope.saveBairro = function(){
+		
+		$http.post('/api/imoveis/bairro/', $scope.bairro)
+		.success(function (data){
+			$scope.bairros.unshift(data)
+			
+			$location.path('/bairros')
+		}).error(function(data){
+			alert("erro no codigo!")		
+		})
+	
+	}
+		
+	 var load = function() {
+            console.log('call cadastro load()...');
+            $http.get('/api/imoveis/bairro')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.bairros = data;
+                        angular.copy($scope.bairros, $scope.copy);
+                    });
+        }
+
+        load();
+
+         $http.get('/api/imoveis/municipio')
+			.success(function(data, status, headers, config) {
+				$scope.municipios = data;
+			});
+
+		
+}])
+
+
+
+
+
+
+//listar Agente
 siadeCtrls.controller('agenteCtrl', ['$scope', function($scope) {
 	var load = function() {
-            console.log('call load()...');
+            console.log('call list load()...');
             $http.get('/api/trabalhos/agente')
                     .success(function(data, status, headers, config) {
                         console.log(data)
@@ -54,7 +99,46 @@ siadeCtrls.controller('agenteCtrl', ['$scope', function($scope) {
         load();
 }])
 
+//cadastrar Agente
 
+siadeCtrls.controller('Agente_Cadastro_Ctrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
+
+	$scope.agente ={};
+
+	$scope.saveAgente = function(){
+		
+		$http.post('/api/trabalhos/agente/', $scope.agente)
+		.success(function (data){
+			$scope.agentes.unshift(data)
+			showMessage('Save success')
+			$location.path('/agentes')
+		}).error(function(data){
+			alert("erro no codigo!")		
+		})
+	
+	}
+		
+	 var load = function() {
+            console.log('call load()...');
+            $http.get('/api/trabalhos/agente')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.agentes = data;
+                        angular.copy($scope.agentes, $scope.copy);
+                    });
+        }
+
+        load();
+
+}])
+
+
+
+
+
+
+
+//lista Cidade...
 siadeCtrls.controller('cidadeCtrl', ['$scope','$http', '$window', '$location', function ($scope,$http,$window,$location) {
 	
 	$scope.addCidade = function(){
@@ -91,29 +175,29 @@ siadeCtrls.controller('cidade_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 		$http.post('/api/imoveis/municipio/', $scope.municipio)
 		.success(function (data){
 			console.log(data)
+			$location.path('/cidades')
 			}).error(function(data){
 			alert("erro no angularjs!")		
 		})
 	
 	}
-	
-	$scope.edit = function(municipio){
-		$window.console.log(municipio)
-	}	
 
+	 var load = function() {
+            console.log('call load()...');
+            $http.get('/api/imoveis/municipio')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.municipios = data;
+                        angular.copy($scope.municipios, $scope.copy);
+                    });
+        }
 
-	var init = function(){
-		$http.get('/api/imoveis/municipio')
-		.success(function (data){
-			$scope.lista = data
-		}).error(function(data){
-			alert("erro no angularjs!")		
-		})
- 	   
-	}
-	
-	init();
+        load();
 }])
+
+
+
+
 
 //Listar Quadras
 
@@ -174,9 +258,16 @@ siadeCtrls.controller('cadastrar_quadra_Ctrl', ['$scope','$http', '$location', f
 
 
 
+
+
+
 .controller('imovelCtrl', ['$scope', function($scope) {
 	$scope.valor = 1
 }])
+
+
+
+
 
 
 //lista Estado...
@@ -208,8 +299,8 @@ siadeCtrls.controller('estadoCtrl', ['$scope','$http', '$location', '$window', f
 		var confirm = $window.confirm('Tem certeza que deseja excluir o produto '+ uf+ '?');
 		if(confirm){
 			$http.delete('/api/imoveis/uf/'+uf).success(function(data){
-				var index = $scope.lista.indexOf(uf);
-				$scope.lista.splice(index, 1);
+				var index = $scope.ufs.indexOf(uf);
+				$scope.ufs.splice(index, 1);
 			});
 		}
 	};
@@ -219,12 +310,11 @@ siadeCtrls.controller('estadoCtrl', ['$scope','$http', '$location', '$window', f
 
 //editar Estado...
 
-siadeCtrls.controller('estadoEditCtrl', ['$scope', '$location', '$http', function ($scope, $http, $location) {
-
+siadeCtrls.controller('estadoEditCtrl', ['$scope', '$location', '$http', '$routeParams', function ($scope, $http, $location,$routeParams) {
       
       var load = function() {
             console.log('call load()...');
-            $http.get('/api/imoveis/uf')
+            $http.get('/api/imoveis/uf'+$routeParams.id)
                     .success(function(data, status, headers, config) {
                         console.log(data)
                         $scope.ufs = data;
@@ -243,7 +333,7 @@ siadeCtrls.controller('estadoEditCtrl', ['$scope', '$location', '$http', functio
 			.success(function(data, status, headers, config) {
 				if(!data.error) {
 					showMessage('Registro salvo com exito', 'success');
-					$location.path('/categorias');
+					$location.path('/estado_Cadastro_Ctrl');
 				} else {
 					showMessage(data.error, 'error');
 				}
@@ -266,8 +356,9 @@ siadeCtrls.controller('estado_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 		
 		$http.post('/api/imoveis/uf/', $scope.uf)
 		.success(function (data){
-			alert("post ")
 			$scope.ufs.unshift(data)
+			
+			$location.path('/estados')
 		}).error(function(data){
 			alert("erro no codigo!")		
 		})
@@ -288,6 +379,9 @@ siadeCtrls.controller('estado_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 
 
 }])
+
+
+
 
 
 //lista logradouro...
@@ -327,7 +421,7 @@ siadeCtrls.controller('logradouroCtrl', ['$scope','$http', '$location', function
 // cadastro Logradouro...
 siadeCtrls.controller('logradouro_Cadastro_Ctrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
 	
-	$scope.logradouro ={};
+	$scope.logradouro ={}
 
 	$scope.saveLogradouro = function(){
 		

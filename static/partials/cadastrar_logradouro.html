@@ -10,7 +10,7 @@
           </div>
         </div><!-- /.row -->
 	
-	<div class="panel panel-default" ng-controller="logradouroCtrl">
+	<div class="panel panel-default" ng-controller="logradouro_Cadastro_Ctrl">
 
               <div class="panel-body">
                 <div class="row">
@@ -26,13 +26,14 @@
 
               <div class="form-group">
                <label>Cidade:</label>
-                  <select ng-model="logradouro.municipio.id" ng-options="municipio.id as municipio.nome for municipio in municipios">
+                  <select ng-model="logradouro" ng-options="logradouro.nome for logradouro in logradouros">
+                  </select>
                       
-		              </select>
-             	   </div>
+		             
+             	</div>
 
 	
-	      <button type="submit" class="btn btn-default">Salvar</button>
+	      <button type="submit" ng-clik="saveLogradouro" class="btn btn-default">Salvar</button>
 	</div>
 	</div>
               </div>

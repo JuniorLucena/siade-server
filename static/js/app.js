@@ -53,7 +53,7 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 
 	.when('/cadastrar_bairro', {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_bairro.html',
-		controller: 'cadastrar_bairro_Ctrl'
+		controller: 'bairro_Cadastro_Ctrl'
 	})
 
 	.when('/cadastrar_quadras', {

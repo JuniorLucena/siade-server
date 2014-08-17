@@ -7,15 +7,15 @@
       </ol>          
     </div>
   </div><!-- /.row -->
-  <div class="panel panel-default" ng-controller="bairroCtrl">
+  <div class="panel panel-default">
     <div class="panel-body">
       <div class="row">
         <div class="col-lg-6">
           <form role="form">
 
-           <div class="form-group">
+           <div class="form-group" ng-controller="bairro_Cadastro_Ctrl">
             <label>Cidade:</label>
-           <select ng-model="bairro.municipio.id" ng-options="municipio.nome for municipio in Municipios">
+              <select ui-select2="municipiosOptions" ng-model="bairro.municipio.id" ng-options="municipio.id as municipio.nome for municipio in municipios" class="input-block-level"></select>
           </div>
 
           <div class="form-group">
@@ -29,7 +29,7 @@
             <input class="form-control" ng-model="bairro.nome" placeholder="Informar Nome Bairro">
           </div>
 
-          <button type="submit" g-click="saveBairro()" class="btn btn-default">Salvar</button>
+          <button type="submit" ng-click="saveBairro()" class="btn btn-default">Salvar</button>
         </div>
       </div>
     </div>

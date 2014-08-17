@@ -21,7 +21,7 @@
         <tr ng-repeat="uf in ufs">
             <td>{{ uf.nome }}</td>
             <td>{{ uf.sigla }}</td>
-            <td ><a ng-click="editUf(uf.id)" >edit</a></td>
+            <td ><a ng-click="editUf($index)" >edit</a></td>
             <td><a ng-click="excluir(uf.id)" >delete</a></td>
         </tr>
         </tbody>
