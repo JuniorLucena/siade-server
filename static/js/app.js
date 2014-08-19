@@ -33,7 +33,7 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 	})
 	.when('/cadastrar_logradouro', {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_logradouro.html',
-		controller: 'cadastrar_logradouro_Ctrl'
+		controller: 'logradouro_Cadastro_Ctrl'
 	})
 	
 	.when('/cidades', {
