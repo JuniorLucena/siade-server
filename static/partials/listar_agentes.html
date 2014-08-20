@@ -23,8 +23,9 @@
         <tr ng-repeat="agente in agentes">
             <td>{{ agente.codigo }}</td>
             <td>{{ agente.nome }}</td>
-            <td><a ng-click="editCidade(municipio.id)" >edit</a></td>
-            <td><a ng-click="deleteCidade(municipio.id)" >delete</a></td>
+            <td><button  ng-click="editAgente($index)" class="btn btn-default">Editar</button></td>
+            <td ><button  ng-click="excluir(agente.id)" class="btn btn-default">Deletar</button></td>
+
         </tr>
         </tbody>
     </table>

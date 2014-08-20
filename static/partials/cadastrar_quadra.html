@@ -18,22 +18,12 @@
          <form role="form">
            <div class="form-group">
              <label>Bairro:</label>
-             <select class="form-control">
-              <option>São Judas Tadeu</option>
-              <option>São João</option>
-              <option>São benedito</option>
-              <option>Chico Cajá</option>
-            </select>
+             <select ng-model="quadra.bairro" ng-options="bairro.id as bairro.nome for bairro in bairros" ></select>
           </div>
 
           <div class="form-group">
-            <label>N° Quadra:</label>
-            <input class="form-control" placeholder="" width="10px">
-          </div>
-
-          <div class="form-group">
-            <label>Seq.:</label>
-            <input class="form-control" placeholder="">
+            <label>Numero:</label>
+            <input class="form-control" ng-model="quadra.numero" placeholder="Informe o numero da Quadra" width="10px">
           </div>
 
         </div>

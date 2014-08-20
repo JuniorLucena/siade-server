@@ -21,8 +21,9 @@
         <tr ng-repeat="logradouro in logradouros">
             <td>{{ logradouro.nome}}</td>
             <td>{{ logradouro.municipio}}</td>
-            <td><a ng-click="editCidade(logradouro.id)" >edit</a></td>
-            <td><a ng-click="deleteCidade(logradouro.id)" >delete</a></td>
+            <td><button  ng-click="editLogradouro($index)" class="btn btn-default">Editar</button></td>
+            <td ><button  ng-click="excluir(logradouro.id)" class="btn btn-default">Deletar</button></td>
+
         </tr>
         
         </tbody>

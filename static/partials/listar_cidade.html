@@ -21,8 +21,9 @@
         <tr ng-repeat="municipio in municipios">
             <td>{{ municipio.codigo }}</td>
             <td>{{ municipio.nome }}</td>
-            <td><a ng-click="editCidade(municipio.id)" >edit</a></td>
-            <td><a ng-click="deleteCidade(municipio.id)" >delete</a></td>
+            <td><button  ng-click="editCidade($index)" class="btn btn-default">Editar</button></td>
+            <td ><button  ng-click="excluir(municipio.id)" class="btn btn-default">Deletar</button></td>
+
         </tr>
         </tbody>
     </table>

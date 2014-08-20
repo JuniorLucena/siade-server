@@ -22,9 +22,9 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		controller: 'estado_Cadastro_Ctrl'
 	})
 
-	.when('/edit_uf', {
+	.when('/edit_uf/:id', {
 		templateUrl: DJANGO_STATIC_URL+'partials/edit_uf.html',
-		controller: 'estadoCtrl'
+		controller: 'estadoEditCtrl'
 	})
 
 	.when('/logradouros', {
@@ -56,14 +56,14 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		controller: 'bairro_Cadastro_Ctrl'
 	})
 
-	.when('/cadastrar_quadras', {
-		templateUrl: DJANGO_STATIC_URL+'partials/cadastar_quadra.html',
-		controller: 'cadastrar_quadra_Ctrl'
-	})
-
 	.when('/listar_quadras', {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_quadra.html',
 		controller: 'quadraCtrl'
+	})
+
+	.when('/cadastrar_quadras', {
+		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_quadra.html',
+		controller: 'cadastrar_quadra_Ctrl'
 	})
 
 	.when('/imoveis', {

@@ -21,8 +21,9 @@
         <tr ng-repeat="uf in ufs">
             <td>{{ uf.nome }}</td>
             <td>{{ uf.sigla }}</td>
-            <td ><a ng-click="editUf($index)" >edit</a></td>
-            <td><a ng-click="excluir(uf.id)" >delete</a></td>
+            <td ><button  ng-click="editUf($index)" class="btn btn-default">Editar</button></td>
+            <td ><button  ng-click="excluir(uf.id)" class="btn btn-default">Deletar</button></td>
+
         </tr>
         </tbody>
     </table>

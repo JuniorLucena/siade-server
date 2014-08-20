@@ -49,7 +49,6 @@ siadeCtrls.controller('bairroCtrl', ['$scope', '$http', '$window', '$location', 
 }])
 
 //cadastrar Bairro...
-
 siadeCtrls.controller('bairro_Cadastro_Ctrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
 	
 	$scope.bairro ={};
@@ -160,7 +159,7 @@ siadeCtrls.controller('cidadeCtrl', ['$scope','$http', '$window', '$location', f
 		$location.path('/cadastrar_cidade/')
 	}
 	
-	$scope.editUf = function(municipio){
+	$scope.editCidade = function(municipio){
 		$location.path('/edit_municipio/'+ municipio)
 	}	
 	
@@ -179,13 +178,12 @@ siadeCtrls.controller('cidadeCtrl', ['$scope','$http', '$window', '$location', f
 
         $scope.excluir = function(municipio){
 			$http.delete('/api/imoveis/municipio/'+municipio).success(function(data){
-				var index = $scope.municipios.indexOf(uf);
+				var index = $scope.municipios.indexOf(municipio);
 				$scope.municipios.splice(index, 1);
 			});
 		
 	};
 }])
-
 
 //cadastrar Cidade...
 
@@ -231,8 +229,8 @@ siadeCtrls.controller('cidade_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 
 .controller('quadraCtrl', ['$scope', '$location', '$http', function($scope,$location, $http) {
 	
-	$scope.addCidade = function(){
-		$location.path('/cadastrar_quadras/')
+	$scope.addQuadra = function(){
+		$location.path('/cadastrar_quadras')
 	}
 
 	var load = function() {
@@ -264,32 +262,34 @@ siadeCtrls.controller('cadastrar_quadra_Ctrl', ['$scope','$http', '$location', f
 
 	$scope.saveQuadra = function(){
 		
-		$http.post('/api/imoveis/quadra/add/', $scope.quadra)
+		$http.post('/api/imoveis/quadra/', $scope.quadra)
 		.success(function (data){
 			console.log(data)
-			//$location.path('/cadastrar_imoveis/')
+			$location.path('/listar_quadras/')
 			}).error(function(data){
 			alert("erro no angularjs!")		
 		})
 	
 	}
-	
-	$scope.edit = function(quadra){
-		$window.console.log(quadra)
-	}	
 
 
-	var init = function(){
-		$http.get('/api/imoveis/quadra/add')
-		.success(function (data){
-			$scope.lista = data
-		}).error(function(data){
-			alert("erro no angularjs!")		
-		})
- 	   
-	}
+	var load = function() {
+            console.log('call load()...');
+            $http.get('/api/imoveis/quadra')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.quadras = data;
+                        angular.copy($scope.quadras, $scope.copy);
+                    });
+        }
+
+        load();
+
+        $http.get('/api/imoveis/bairro/')
+			.success(function(data, status, headers, config) {
+				$scope.bairros = data;
+			});
 	
-	init();
 }])
 
 
@@ -327,8 +327,8 @@ siadeCtrls.controller('estadoCtrl', ['$scope','$http', '$location', '$window', f
 	}
 
 	$scope.editUf = function(index){
-		console.log('call editUf()...')
-		$location.path('/edit_uf' + $scope.ufs[index].id);
+		console.log('call editUf()...'+ $scope.ufs[index].id)
+		$location.path('/edit_uf/' + $scope.ufs[index].id);
 	}
 
 	$scope.excluir = function(uf){
@@ -344,35 +344,34 @@ siadeCtrls.controller('estadoCtrl', ['$scope','$http', '$location', '$window', f
 
 //editar Estado...
 
-siadeCtrls.controller('estadoEditCtrl', ['$scope', '$location', '$http', '$routeParams', function ($scope, $http, $location,$routeParams) {
+siadeCtrls.controller('estadoEditCtrl', ['$scope', '$http','$routeParams', '$location', function ($scope, $http, $routeParams,$location) {
       
       var load = function() {
-            console.log('call load()...');
-            $http.get('/api/imoveis/uf'+$routeParams.id)
+            console.log('load()... editUf'+$routeParams.id)
+            $http.get('/api/imoveis/uf/'+$routeParams.id)
                     .success(function(data, status, headers, config) {
                         console.log(data)
-                        $scope.ufs = data;
+                        $scope.ufs = data
                         angular.copy($scope.ufs, $scope.copy);
-                    });
+                    })
         }
 
-        load();
+        load()
 
-         $scope.uf = {};
+         $scope.ufs = {};
 
         $scope.updateUf = function() {
-            console.log('call updateUf');
+            console.log('updateUf');
             $http
-			.put('/api/imoveis/uf/' + $scope.uf.id + $scope.uf)
+			.put('/api/imoveis/uf/' + $scope.ufs.id , $scope.ufs)
 			.success(function(data, status, headers, config) {
 				if(!data.error) {
-					showMessage('Registro salvo com exito', 'success');
-					$location.path('/estado_Cadastro_Ctrl');
+					$location.path('/estados');
 				} else {
-					showMessage(data.error, 'error');
+					alert('erro')
 				}
 			}).error(function(data, status, headers, config) {
-				showMessage($.i18n.prop('SaveError'), 'success');
+				
 			});
 
 		}

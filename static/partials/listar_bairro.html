@@ -21,8 +21,9 @@
         <tr ng-repeat="bairro in bairros">
             <td>{{ bairro.nome}}</td>
             <td>{{ bairro.municipio}}</td>
-            <td><a ng-click="editBairro(bairro.id)" >edit</a></td>
-            <td><a ng-click="deleteBairro(bairro.id)" >delete</a></td>
+            <td ><button  ng-click="editBairro($index)" class="btn btn-default">Editar</button></td>
+            <td ><button  ng-click="excluir(bairro.id)" class="btn btn-default">Deletar</button></td>
+
         </tr>
         </tbody>
     </table>

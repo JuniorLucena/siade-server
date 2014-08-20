@@ -21,8 +21,9 @@
         <tr ng-repeat="quadra in quadras">
             <td>{{ quadra.bairro}}</td>
             <td>{{ quadra.numero}}</td>
-            <td><a ng-click="editQuadra(quadra.id)" >edit</a></td>
-            <td><a ng-click="deleteQuadra(quadra.id)" >delete</a></td>
+            <td><button  ng-click="editQuadra($index)" class="btn btn-default">Editar</button></td>
+            <td ><button  ng-click="excluir(quadra.id)" class="btn btn-default">Deletar</button></td>
+
         </tr>
         </tbody>
     </table>
