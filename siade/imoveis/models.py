@@ -83,8 +83,28 @@ class Quadra(models.Model):
     numero = models.CharField(max_length=10, verbose_name=_('número'))
     history = HistoricalRecords()
 
+    @property
     def imoveis_count(self):
         return Imovel.objects.filter(lado__quadra=self.pk).count()
+
+    @property
+    def predios_count(self):
+        try:
+            tipo = TipoImovel.objects.get(nome='Terreno Baldio')
+            return Imovel.objects.filter(
+                lado__quadra=self.pk).exclude(tipo=tipo).count()
+        except:
+            return self.imoveis_count
+
+    @property
+    def total_caes(self):
+        return Imovel.objects.filter(
+            lado__quadra=self.pk).aggregate(Sum('caes'))
+
+    @property
+    def total_gatos(self):
+        return Imovel.objects.filter(
+            lado__quadra=self.pk).aggregate(Sum('gatos'))
 
     def __unicode__(self):
         return "%s quadra #%s" % (self.bairro.nome, self.numero)
