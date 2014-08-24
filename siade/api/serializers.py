@@ -45,14 +45,6 @@ def FieldsModelSerializer_factory(model_class, *args, **kwargs):
 
     return Serializer
 
-
-class UsuarioSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = get_user_model()
-        fields = ('id', 'first_name', 'last_name', 'username',
-                  'email', 'groups', 'user_permissions')
-
 LadoSerializer = FieldsModelSerializer_factory(LadoQuadra)
 QuadraSerializer = FieldsModelSerializer_factory(Quadra)
 ImovelSerializer = FieldsModelSerializer_factory(Imovel)
