@@ -9,14 +9,6 @@ from .serializers import *
 from .filters import AutoFilterSet
 
 
-class UsuarioViewSet(ModelViewSet):
-    '''
-    Usuário do sistema
-    '''
-    model = get_user_model()
-    serializer_class = UsuarioSerializer
-
-
 class UfViewSet(ModelViewSet):
     '''
     Unidades Federativas
@@ -93,8 +85,8 @@ class AgenteViewSet(ModelViewSet):
     '''
     model = Agente
     serializer_class = AgenteSerializer
-    search_fields = ('first_name', 'last_name')
-    filter_fields = ('is_active', 'is_staff')
+    #search_fields = ('first_name', 'last_name')
+    #filter_fields = ('is_active', 'is_staff')
 
 
 class AtividadeViewSet(ModelViewSet):

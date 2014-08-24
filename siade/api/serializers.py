@@ -50,6 +50,6 @@ QuadraSerializer = FieldsModelSerializer_factory(Quadra)
 ImovelSerializer = FieldsModelSerializer_factory(Imovel)
 VisitaSerializer = FieldsModelSerializer_factory(Visita)
 AgenteSerializer = FieldsModelSerializer_factory(Agente, fields=(
-    'first_name', 'last_name', 'username', 'email',
-    'codigo', 'bairro', 'telefone', 'nascimento'
+    'nome', 'sobrenome', 'email', 'telefone', 'nascimento',
+    'codigo', 'nivel', 'ativo'
 ))

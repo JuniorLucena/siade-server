@@ -27,6 +27,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'oauth2_provider',
     'rest_framework',
+    'siade.agentes',
     'siade.imoveis',
     'siade.trabalhos',
     'siade.api',

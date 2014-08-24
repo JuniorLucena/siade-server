@@ -3,11 +3,6 @@ from .models import *
 from xadmin.layout import Col, Row, Tab, TabHolder
 
 
-class AgenteAdmin(object):
-    list_display = ('first_name', 'last_name', 'username')
-    relfield_style = 'fk-ajax'
-
-
 class AtividadeAdmin(object):
     list_display = ('nome', 'sigla')
     search_fields = ('nome',)
@@ -61,7 +56,6 @@ class VisitaAdmin(object):
         )
     )
 
-xadmin.site.register(Agente, AgenteAdmin)
 xadmin.site.register(Atividade, AtividadeAdmin)
 xadmin.site.register(Ciclo, CicloAdmin)
 xadmin.site.register(Trabalho, TrabalhoAdmin)

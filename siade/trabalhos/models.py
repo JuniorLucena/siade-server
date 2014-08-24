@@ -2,30 +2,10 @@
 from datetime import date
 from django.db import models
 from django.utils.translation import gettext as _
-from django.contrib.auth import get_user_model
 from djchoices import DjangoChoices, ChoiceItem
 from simple_history.models import HistoricalRecords
 from siade.imoveis.models import Imovel, Quadra, Bairro
-
-User = get_user_model()
-
-
-class Agente(User):
-    '''
-    Um agente de endemias
-    '''
-    codigo = models.CharField(max_length=20, blank=True)
-    bairro = models.ForeignKey(Bairro, blank=True, null=True)
-    telefone = models.BigIntegerField(blank=True, null=True)
-    nascimento = models.DateField(blank=True, null=True)
-    history = HistoricalRecords()
-
-    def __unicode__(self):
-        return self.get_short_name()
-
-    class Meta:
-        verbose_name = _('agente')
-        verbose_name_plural = _('agentes')
+from siade.agentes.models import Agente
 
 
 class Ciclo(models.Model):
