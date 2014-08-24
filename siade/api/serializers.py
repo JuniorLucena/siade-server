@@ -29,7 +29,7 @@ class FieldsModelSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 
-def SerializerForModel(model_class, *args, **kwargs):
+def FieldsModelSerializer_factory(model_class, *args, **kwargs):
     '''
     Retorna um FieldsModelSerializer para um model
     '''
@@ -53,10 +53,11 @@ class UsuarioSerializer(serializers.ModelSerializer):
         fields = ('id', 'first_name', 'last_name', 'username',
                   'email', 'groups', 'user_permissions')
 
-LadoSerializer = SerializerForModel(LadoQuadra)
-QuadraSerializer = SerializerForModel(Quadra)
-ImovelSerializer = SerializerForModel(Imovel)
-VisitaSerializer = SerializerForModel(Visita)
-AgenteSerializer = SerializerForModel(Agente, fields=(
-    'first_name', 'last_name', 'username', 'email', 'date_joined', 'last_login'
+LadoSerializer = FieldsModelSerializer_factory(LadoQuadra)
+QuadraSerializer = FieldsModelSerializer_factory(Quadra)
+ImovelSerializer = FieldsModelSerializer_factory(Imovel)
+VisitaSerializer = FieldsModelSerializer_factory(Visita)
+AgenteSerializer = FieldsModelSerializer_factory(Agente, fields=(
+    'first_name', 'last_name', 'username', 'email',
+    'codigo', 'bairro', 'telefone', 'nascimento'
 ))
