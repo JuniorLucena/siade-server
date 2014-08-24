@@ -55,7 +55,7 @@ class Gerador_de_bairro(Gerador):
 def run():
     gen = Gerador_de_bairro()
     print 'Gerando dados do bairro'
-    quadras = gen.gerar_quadras(randint(4, 8), randint(4, 8))
+    quadras = gen.gerar_quadras(randint(3, 5), randint(3, 5))
     print 'Salvando no banco de dados'
     for quadra in quadras:
         quadra.bairro = gen.bairro
