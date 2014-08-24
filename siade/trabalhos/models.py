@@ -14,10 +14,11 @@ class Agente(User):
     '''
     Um agente de endemias
     '''
-    imovel = models.ForeignKey(Imovel, blank=True, null=True)
+    codigo = models.CharField(max_length=20, blank=True)
     bairro = models.ForeignKey(Bairro, blank=True, null=True)
     telefone = models.BigIntegerField(blank=True, null=True)
-    #history = HistoricalRecords()
+    nascimento = models.DateField(blank=True, null=True)
+    history = HistoricalRecords()
 
     def __unicode__(self):
         return self.get_short_name()
@@ -29,19 +30,18 @@ class Agente(User):
 
 class Ciclo(models.Model):
     '''
-    Ciclo de combate a uma endemia
+    Ciclo de trabalho de um agente em um ciclo
     '''
     data_inicio = models.DateField(verbose_name=_('data inicial'))
     data_fim = models.DateField(verbose_name=_('data final'))
+    fechado_em = models.DateField(editable=False, null=True,
+                                  verbose_name=_('finalizado em'))
     numero = models.PositiveIntegerField(verbose_name=_('número'))
     ano_base = models.PositiveIntegerField(verbose_name=_('ano base'))
-    #history = HistoricalRecords()
+    history = HistoricalRecords()
 
     def __unicode__(self):
         return '%d/%d' % (self.numero, self.ano_base)
-
-    def distribuir_trabalhos(self):
-        pass
 
     class Meta:
         verbose_name = _('ciclo')
@@ -51,7 +51,7 @@ class Ciclo(models.Model):
 
 class Trabalho(models.Model):
     '''
-    Trabalho realizado em um ciclo por um agente
+    Trabalho realizado por um agente em um ciclo
     '''
     agente = models.ForeignKey(Agente, related_name='trabalhos',
                                verbose_name=_('agente'))
@@ -60,20 +60,11 @@ class Trabalho(models.Model):
     quadra = models.ForeignKey(Quadra,
                                related_name='trabalhos')
     concluido = models.BooleanField(default=False, editable=False)
-    #history = HistoricalRecords()
+    history = HistoricalRecords()
 
     def __unicode__(self):
-        return "agente %s, ciclo %s, quadra %s" % (
-            self.agente.first_name, self.ciclo, self.quadra)
-
-    @property
-    def bairros(self):
-        return Bairro.objects.filter(quadras__trabalhos=self.id).values(
-            'bairro').distinct()
-
-    @property
-    def imoveis(self):
-        return Imovel.objects.filter(lado__quadra__trabalhos=self.id)
+        return 'agente %s na quadra %s (ciclo %s)' % (
+            self.agente.first_name, self.quadra, self.ciclo)
 
 
 class Atividade(models.Model):
@@ -82,7 +73,6 @@ class Atividade(models.Model):
     '''
     nome = models.CharField(max_length=100, verbose_name=_('nome'))
     sigla = models.CharField(max_length=5, verbose_name=_('sigla'))
-    #history = HistoricalRecords()
 
     def __unicode__(self):
         return self.nome
@@ -130,6 +120,10 @@ class Pesquisa(models.Model):
     tubitos = models.PositiveIntegerField(
         blank=True, null=True, verbose_name=_('qtd. tubitos'))
 
+    @property
+    def amostra_total(self):
+        return self.amostra_final - self.amostra_inicial
+
     class Meta:
         abstract = True
 
@@ -165,7 +159,7 @@ class Visita(Tratamento, Pesquisa):
     pendencia = models.PositiveIntegerField(choices=Pendencia.choices,
                                             default=Pendencia.Nenhuma,
                                             verbose_name=_('pendencia'))
-    #history = HistoricalRecords()
+    history = HistoricalRecords()
 
     class Meta:
         verbose_name = _('visita')
