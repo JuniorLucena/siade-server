@@ -32,10 +32,11 @@ class Agente(AbstractBaseUser):
                                   verbose_name=_('data de nasc.'))
     codigo = models.CharField(max_length=20, blank=True, unique=True,
                               verbose_name=_('codigo'))
-    nivel = models.IntegerField(default=0)
+    nivel = models.PositiveIntegerField(default=1)
     ativo = models.BooleanField(default=True, verbose_name=_('ativo'))
 
     _default_manager = AgenteManager()
+    objects = _default_manager
     USERNAME_FIELD = 'codigo'
     REQUIRED_FIELDS = []
 
