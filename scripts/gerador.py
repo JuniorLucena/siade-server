@@ -16,7 +16,7 @@ def weighted_choice(weights):
             return i
 
 
-class Gerador(object):
+class GeradorBairro(object):
 
     '''
     Gera dados de imoveis e endereços
