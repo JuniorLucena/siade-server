@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
 import trml2pdf
 
 
@@ -12,5 +13,11 @@ def render_to_pdf_response(templateName, data, context=None):
     return response
 
 
-def teste(request):
+@login_required
+def rel_diario(request, ano, mes, dia):
+    return render_to_pdf_response('relatorios/teste.rml', {})
+
+
+@login_required
+def rel_semanal(request, semana):
     return render_to_pdf_response('relatorios/teste.rml', {})
