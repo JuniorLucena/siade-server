@@ -31,6 +31,10 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_logradouro.html',
 		controller: 'logradouroCtrl'
 	})
+	.when('/edit_logradouro/:id', {
+		templateUrl: DJANGO_STATIC_URL+'partials/edit_logradouro.html',
+		controller: 'logradouroEditCtrl'
+	})
 	.when('/cadastrar_logradouro', {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_logradouro.html',
 		controller: 'logradouro_Cadastro_Ctrl'
@@ -45,10 +49,18 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_cidade.html',
 		controller: 'cidade_Cadastro_Ctrl'
 	})
+	.when('/edit_municipio/:id', {
+		templateUrl: DJANGO_STATIC_URL+'partials/edit_municipio.html',
+		controller: 'cidadeEditCtrl'
+	})
 
 	.when('/bairros', {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_bairro.html',
 		controller: 'bairroCtrl'
+	})
+	.when('/edit_bairro/:id', {
+		templateUrl: DJANGO_STATIC_URL+'partials/edit_bairro.html',
+		controller: 'bairroEditCtrl'
 	})
 
 	.when('/cadastrar_bairro', {
@@ -59,6 +71,10 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 	.when('/listar_quadras', {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_quadra.html',
 		controller: 'quadraCtrl'
+	})
+	.when('/edit_quadra/:id', {
+		templateUrl: DJANGO_STATIC_URL+'partials/edit_quadra.html',
+		controller: 'quadraEditCtrl'
 	})
 
 	.when('/cadastrar_quadras', {
@@ -72,8 +88,16 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 	})
 
 	.when('/agentes', {
-		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_agente.html',
+		templateUrl: DJANGO_STATIC_URL+'partials/listar_agentes.html',
 		controller: 'agenteCtrl'
+	})
+	.when('/edit_agente/:id', {
+		templateUrl: DJANGO_STATIC_URL+'partials/edit_agente.html',
+		controller: 'agenteEditCtrl'
+	})
+	.when('/cadastrar_agente', {
+		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_agente.html',
+		controller: 'Agente_Cadastro_Ctrl'
 	})
   
     .otherwise({ redirectTo: "/index" })
