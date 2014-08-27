@@ -45,6 +45,13 @@ class SycTest(APITestCase):
             'sync_changed': '2014-08-07T20:18:07.147',
             'sync_version': None,
             'sync_deleted': False,
+        }, {
+            'id': 3,
+            'bairro': self.bairro.id,
+            'numero': '4',
+            'sync_changed': '2014-08-12T20:18:07.147',
+            'sync_version': 1,
+            'sync_deleted': False,
         }]
         self.client.post(self.url, data, format='json')
         response = self.client.get(self.url)
@@ -66,6 +73,13 @@ class SycTest(APITestCase):
             'bairro': self.bairro.id,
             'numero': '2A',
             'sync_changed': '2014-08-07T20:18:07.147',
+            'sync_version': 1,
+            'sync_deleted': False,
+        }, {
+            'id': 3,
+            'bairro': self.bairro.id,
+            'numero': '4',
+            'sync_changed': '2014-08-12T20:18:07.147',
             'sync_version': 1,
             'sync_deleted': False,
         }]
