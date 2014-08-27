@@ -51,7 +51,7 @@ class SyncView(APIView):
         model_class = get_model_or_404(app, model.capitalize())
 
         qs = model_class.objects.all()
-        serializerClass = model_syncserializer_factory(model)
+        serializerClass = model_syncserializer_factory(model_class)
         serializer = serializerClass(qs, many=True)
         return Response(serializer.data)
 
