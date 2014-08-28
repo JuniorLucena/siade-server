@@ -93,3 +93,50 @@ class SycTest(APITestCase):
         posted['sync_version'] = saved['sync_version']
         posted['sync_changed'] = saved['sync_changed']
         self.assertEqual(posted, saved)
+
+    def test_sync_raw_data(self):
+        self.url = reverse('rest-synchro', kwargs={
+            'app': 'imoveis', 'model': 'Logradouro',
+        })
+        data = '''[{
+            "municipio":1,
+            "nome":"Independencia",
+            "id":1,
+            "sync_changed":"2014-08-14T18:04:25.968",
+            "sync_deleted":false,
+            "sync_version":4
+        },{
+            "municipio":1,
+            "nome":"Abiorama",
+            "id":2,
+            "sync_changed":"2014-08-14T18:04:25.968",
+            "sync_deleted":false,
+            "sync_version":3
+        },{
+            "municipio":1,
+            "nome":"13 de maio",
+            "id":4,"sync_changed":"2014-08-14T18:04:25.968",
+            "sync_deleted":false,"sync_version":1
+        },{
+            "municipio":1,
+            "nome":"13 de maio",
+            "id":5,
+            "sync_changed":"2014-08-14T18:04:25.968",
+            "sync_deleted":false,"sync_version":2
+        },{
+            "municipio":1,
+            "nome":"Nova rua",
+            "id":6,"sync_changed":"2014-08-14T18:04:25.968",
+            "sync_deleted":false,
+            "sync_version":5
+        },{
+            "municipio":1,
+            "nome":"Nova rua",
+            "id":7,
+            "sync_changed":"2014-08-14T18:04:25.968",
+            "sync_deleted":false,
+            "sync_version":6
+        }]'''
+        self.client.post(self.url, data, content_type='application/json')
+        response = self.client.get(self.url)
+        self.assertEqual(len(response.data), 6)
