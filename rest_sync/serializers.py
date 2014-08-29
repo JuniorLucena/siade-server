@@ -19,7 +19,7 @@ class ModelSyncSerializer(serializers.ModelSerializer):
         else:
             obj.sync_changed = now()
             obj.sync_version = None
-            obj.sync_deleted = '+'
+            obj.sync_deleted = False
         return super(ModelSyncSerializer, self).to_native(obj)
 
     def from_native(self, data, files=None):
