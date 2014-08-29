@@ -8,34 +8,50 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Agente'
-        db.create_table(u'trabalhos_agente', (
-            (u'user_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, primary_key=True)),
+        # Adding model 'HistoricalCiclo'
+        db.create_table(u'trabalhos_historicalciclo', (
+            (u'id', self.gf('django.db.models.fields.IntegerField')(db_index=True, blank=True)),
+            ('data_inicio', self.gf('django.db.models.fields.DateField')()),
+            ('data_fim', self.gf('django.db.models.fields.DateField')()),
+            ('fechado_em', self.gf('django.db.models.fields.DateField')(null=True)),
+            ('numero', self.gf('django.db.models.fields.PositiveIntegerField')()),
+            ('ano_base', self.gf('django.db.models.fields.PositiveIntegerField')()),
+            (u'history_id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            (u'history_date', self.gf('django.db.models.fields.DateTimeField')()),
+            (u'history_user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True)),
+            (u'history_type', self.gf('django.db.models.fields.CharField')(max_length=1)),
         ))
-        db.send_create_signal(u'trabalhos', ['Agente'])
-
-        # Adding model 'Campanha'
-        db.create_table(u'trabalhos_campanha', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('nome', self.gf('django.db.models.fields.CharField')(max_length=100)),
-        ))
-        db.send_create_signal(u'trabalhos', ['Campanha'])
+        db.send_create_signal(u'trabalhos', ['HistoricalCiclo'])
 
         # Adding model 'Ciclo'
         db.create_table(u'trabalhos_ciclo', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('data_inicio', self.gf('django.db.models.fields.DateField')()),
             ('data_fim', self.gf('django.db.models.fields.DateField')()),
+            ('fechado_em', self.gf('django.db.models.fields.DateField')(null=True)),
             ('numero', self.gf('django.db.models.fields.PositiveIntegerField')()),
             ('ano_base', self.gf('django.db.models.fields.PositiveIntegerField')()),
         ))
         db.send_create_signal(u'trabalhos', ['Ciclo'])
 
+        # Adding model 'HistoricalTrabalho'
+        db.create_table(u'trabalhos_historicaltrabalho', (
+            (u'id', self.gf('django.db.models.fields.IntegerField')(db_index=True, blank=True)),
+            ('agente_id', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
+            ('ciclo_id', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
+            ('quadra_id', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
+            ('concluido', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            (u'history_id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            (u'history_date', self.gf('django.db.models.fields.DateTimeField')()),
+            (u'history_user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True)),
+            (u'history_type', self.gf('django.db.models.fields.CharField')(max_length=1)),
+        ))
+        db.send_create_signal(u'trabalhos', ['HistoricalTrabalho'])
+
         # Adding model 'Trabalho'
         db.create_table(u'trabalhos_trabalho', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('agente', self.gf('django.db.models.fields.related.ForeignKey')(related_name='trabalhos', to=orm['trabalhos.Agente'])),
-            ('campanha', self.gf('django.db.models.fields.related.ForeignKey')(related_name='trabalhos', to=orm['trabalhos.Campanha'])),
+            ('agente', self.gf('django.db.models.fields.related.ForeignKey')(related_name='trabalhos', to=orm['agentes.Agente'])),
             ('ciclo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='trabalhos', to=orm['trabalhos.Ciclo'])),
             ('quadra', self.gf('django.db.models.fields.related.ForeignKey')(related_name='trabalhos', to=orm['imoveis.Quadra'])),
             ('concluido', self.gf('django.db.models.fields.BooleanField')(default=False)),
@@ -50,13 +66,61 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'trabalhos', ['Atividade'])
 
+        # Adding model 'HistoricalVisita'
+        db.create_table(u'trabalhos_historicalvisita', (
+            (u'id', self.gf('django.db.models.fields.IntegerField')(db_index=True, blank=True)),
+            ('imovel_tratado', self.gf('django.db.models.fields.NullBooleanField')(null=True, blank=True)),
+            ('depositos_tratados', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('depositos_eliminados', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('larvicida', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
+            ('qtd_larvicida', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
+            ('A1', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('A2', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('B', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('C', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('D1', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('D2', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('E', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('amostra_inicial', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('amostra_final', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('tubitos', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('data', self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2014, 8, 28, 0, 0))),
+            ('hora', self.gf('django.db.models.fields.TimeField')()),
+            ('ciclo_id', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
+            ('agente_id', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
+            ('imovel_id', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
+            ('atividade_id', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
+            ('tipo', self.gf('django.db.models.fields.PositiveIntegerField')(default=1)),
+            ('pendencia', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
+            (u'history_id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            (u'history_date', self.gf('django.db.models.fields.DateTimeField')()),
+            (u'history_user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True)),
+            (u'history_type', self.gf('django.db.models.fields.CharField')(max_length=1)),
+        ))
+        db.send_create_signal(u'trabalhos', ['HistoricalVisita'])
+
         # Adding model 'Visita'
         db.create_table(u'trabalhos_visita', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('data', self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2014, 7, 12, 0, 0))),
+            ('imovel_tratado', self.gf('django.db.models.fields.NullBooleanField')(null=True, blank=True)),
+            ('depositos_tratados', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('depositos_eliminados', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('larvicida', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
+            ('qtd_larvicida', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
+            ('A1', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('A2', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('B', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('C', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('D1', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('D2', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('E', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('amostra_inicial', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('amostra_final', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('tubitos', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('data', self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2014, 8, 28, 0, 0))),
             ('hora', self.gf('django.db.models.fields.TimeField')()),
             ('ciclo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='visitas', to=orm['trabalhos.Ciclo'])),
-            ('agente', self.gf('django.db.models.fields.related.ForeignKey')(related_name='visitas', to=orm['trabalhos.Agente'])),
+            ('agente', self.gf('django.db.models.fields.related.ForeignKey')(related_name='visitas', to=orm['agentes.Agente'])),
             ('imovel', self.gf('django.db.models.fields.related.ForeignKey')(related_name='visitas', to=orm['imoveis.Imovel'])),
             ('atividade', self.gf('django.db.models.fields.related.ForeignKey')(related_name='visitas', to=orm['trabalhos.Atividade'])),
             ('tipo', self.gf('django.db.models.fields.PositiveIntegerField')(default=1)),
@@ -66,14 +130,14 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        # Deleting model 'Agente'
-        db.delete_table(u'trabalhos_agente')
-
-        # Deleting model 'Campanha'
-        db.delete_table(u'trabalhos_campanha')
+        # Deleting model 'HistoricalCiclo'
+        db.delete_table(u'trabalhos_historicalciclo')
 
         # Deleting model 'Ciclo'
         db.delete_table(u'trabalhos_ciclo')
+
+        # Deleting model 'HistoricalTrabalho'
+        db.delete_table(u'trabalhos_historicaltrabalho')
 
         # Deleting model 'Trabalho'
         db.delete_table(u'trabalhos_trabalho')
@@ -81,11 +145,28 @@ class Migration(SchemaMigration):
         # Deleting model 'Atividade'
         db.delete_table(u'trabalhos_atividade')
 
+        # Deleting model 'HistoricalVisita'
+        db.delete_table(u'trabalhos_historicalvisita')
+
         # Deleting model 'Visita'
         db.delete_table(u'trabalhos_visita')
 
 
     models = {
+        u'agentes.agente': {
+            'Meta': {'object_name': 'Agente'},
+            'ativo': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'codigo': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20', 'blank': 'True'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'nascimento': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
+            'nivel': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1'}),
+            'nome': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'sobrenome': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'telefone': ('django.db.models.fields.BigIntegerField', [], {'null': 'True', 'blank': 'True'})
+        },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -136,14 +217,14 @@ class Migration(SchemaMigration):
             'habitantes': ('django.db.models.fields.PositiveIntegerField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'lado': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'imoveis'", 'to': u"orm['imoveis.LadoQuadra']"}),
-            'numero': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'numero': ('django.db.models.fields.CharField', [], {'max_length': '10', 'blank': 'True'}),
             'ordem': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
             'tipo': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['imoveis.TipoImovel']"})
         },
         u'imoveis.ladoquadra': {
             'Meta': {'ordering': "('numero',)", 'object_name': 'LadoQuadra'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'logradouro': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['imoveis.Logradouro']"}),
+            'logradouro': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['imoveis.Logradouro']", 'null': 'True'}),
             'numero': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'quadra': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'lados'", 'to': u"orm['imoveis.Quadra']"})
         },
@@ -164,7 +245,7 @@ class Migration(SchemaMigration):
             'Meta': {'ordering': "('bairro', 'numero')", 'object_name': 'Quadra'},
             'bairro': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'quadras'", 'to': u"orm['imoveis.Bairro']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'numero': ('django.db.models.fields.PositiveIntegerField', [], {})
+            'numero': ('django.db.models.fields.CharField', [], {'max_length': '10'})
         },
         u'imoveis.tipoimovel': {
             'Meta': {'ordering': "('nome',)", 'object_name': 'TipoImovel'},
@@ -178,49 +259,111 @@ class Migration(SchemaMigration):
             'nome': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'sigla': ('django.db.models.fields.CharField', [], {'max_length': '3'})
         },
-        u'trabalhos.agente': {
-            'Meta': {'object_name': 'Agente', '_ormbases': [u'auth.User']},
-            u'user_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True', 'primary_key': 'True'})
-        },
         u'trabalhos.atividade': {
             'Meta': {'ordering': "('nome',)", 'object_name': 'Atividade'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nome': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'sigla': ('django.db.models.fields.CharField', [], {'max_length': '5'})
         },
-        u'trabalhos.campanha': {
-            'Meta': {'ordering': "('nome',)", 'object_name': 'Campanha'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'nome': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
         u'trabalhos.ciclo': {
             'Meta': {'ordering': "('-ano_base', '-numero')", 'object_name': 'Ciclo'},
             'ano_base': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'data_fim': ('django.db.models.fields.DateField', [], {}),
             'data_inicio': ('django.db.models.fields.DateField', [], {}),
+            'fechado_em': ('django.db.models.fields.DateField', [], {'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'numero': ('django.db.models.fields.PositiveIntegerField', [], {})
         },
+        u'trabalhos.historicalciclo': {
+            'Meta': {'ordering': "(u'-history_date', u'-history_id')", 'object_name': 'HistoricalCiclo'},
+            'ano_base': ('django.db.models.fields.PositiveIntegerField', [], {}),
+            'data_fim': ('django.db.models.fields.DateField', [], {}),
+            'data_inicio': ('django.db.models.fields.DateField', [], {}),
+            'fechado_em': ('django.db.models.fields.DateField', [], {'null': 'True'}),
+            u'history_date': ('django.db.models.fields.DateTimeField', [], {}),
+            u'history_id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            u'history_type': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
+            u'history_user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True'}),
+            u'id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'blank': 'True'}),
+            'numero': ('django.db.models.fields.PositiveIntegerField', [], {})
+        },
+        u'trabalhos.historicaltrabalho': {
+            'Meta': {'ordering': "(u'-history_date', u'-history_id')", 'object_name': 'HistoricalTrabalho'},
+            'agente_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'ciclo_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'concluido': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            u'history_date': ('django.db.models.fields.DateTimeField', [], {}),
+            u'history_id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            u'history_type': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
+            u'history_user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True'}),
+            u'id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'blank': 'True'}),
+            'quadra_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'})
+        },
+        u'trabalhos.historicalvisita': {
+            'A1': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'A2': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'B': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'C': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'D1': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'D2': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'E': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'Meta': {'ordering': "(u'-history_date', u'-history_id')", 'object_name': 'HistoricalVisita'},
+            'agente_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'amostra_final': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'amostra_inicial': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'atividade_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'ciclo_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'data': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2014, 8, 28, 0, 0)'}),
+            'depositos_eliminados': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'depositos_tratados': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            u'history_date': ('django.db.models.fields.DateTimeField', [], {}),
+            u'history_id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            u'history_type': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
+            u'history_user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True'}),
+            'hora': ('django.db.models.fields.TimeField', [], {}),
+            u'id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'blank': 'True'}),
+            'imovel_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'imovel_tratado': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'larvicida': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
+            'pendencia': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
+            'qtd_larvicida': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
+            'tipo': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1'}),
+            'tubitos': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'})
+        },
         u'trabalhos.trabalho': {
             'Meta': {'object_name': 'Trabalho'},
-            'agente': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'trabalhos'", 'to': u"orm['trabalhos.Agente']"}),
-            'campanha': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'trabalhos'", 'to': u"orm['trabalhos.Campanha']"}),
+            'agente': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'trabalhos'", 'to': u"orm['agentes.Agente']"}),
             'ciclo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'trabalhos'", 'to': u"orm['trabalhos.Ciclo']"}),
             'concluido': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'quadra': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'trabalhos'", 'to': u"orm['imoveis.Quadra']"})
         },
         u'trabalhos.visita': {
+            'A1': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'A2': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'B': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'C': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'D1': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'D2': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'E': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'Meta': {'ordering': "('data', 'hora', 'ciclo')", 'object_name': 'Visita'},
-            'agente': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'visitas'", 'to': u"orm['trabalhos.Agente']"}),
+            'agente': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'visitas'", 'to': u"orm['agentes.Agente']"}),
+            'amostra_final': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'amostra_inicial': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'atividade': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'visitas'", 'to': u"orm['trabalhos.Atividade']"}),
             'ciclo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'visitas'", 'to': u"orm['trabalhos.Ciclo']"}),
-            'data': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2014, 7, 12, 0, 0)'}),
+            'data': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2014, 8, 28, 0, 0)'}),
+            'depositos_eliminados': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'depositos_tratados': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'hora': ('django.db.models.fields.TimeField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'imovel': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'visitas'", 'to': u"orm['imoveis.Imovel']"}),
+            'imovel_tratado': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'larvicida': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
             'pendencia': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
-            'tipo': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1'})
+            'qtd_larvicida': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
+            'tipo': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1'}),
+            'tubitos': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'})
         }
     }
 
