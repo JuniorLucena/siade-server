@@ -48,7 +48,7 @@ class SyncView(APIView):
 
     def get(self, request, app=None, model=None):
         # pegar a classe do model
-        model_class = get_model_or_404(app, model.capitalize())
+        model_class = get_model_or_404(app, model)
 
         qs = model_class.objects.all()
         serializerClass = model_syncserializer_factory(model_class)
