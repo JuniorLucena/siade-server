@@ -101,3 +101,6 @@ REST_SYNC_MODELS = (
     'imoveis.Imovel',
     'trabalhos.Visita',
 )
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/api-auth/login'
