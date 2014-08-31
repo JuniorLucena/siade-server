@@ -1,73 +1,79 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.db.models.base import ModelBase
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
 from rest_framework import status
-from .serializers import model_syncserializer_factory
+from .serializers import ModelSyncSerializer
 
 
-def get_model_or_404(app_name, model_name):
-    """
-    Attempt to get a model from the ``AppCache``
-    and raise ``Http404`` if it cannot be found
-    """
-    from django.db.models import get_model
-    from django.http import Http404
-
-    sync_enabled_models = getattr(settings, 'REST_SYNC_MODELS', [])
-
-    if '%s.%s' % (app_name, model_name) in sync_enabled_models:
-        model_class = get_model(app_name, model_name)
-        if not model_class is None:
-            return model_class
-
-    raise Http404("This model does not exist!")
-
-
-class ListSyncModelsView(APIView):
-    '''
-    Listar entidades que podem ser sincronizadas
-    '''
+class ModelSyncView(GenericAPIView):
+    renderer_classes = (JSONRenderer,)
     permission_classes = (IsAuthenticated,)
+    object = None
 
-    def get(self, request, *args, **kwargs):
-        urls = dict()
-        for item in getattr(settings, 'REST_SYNC_MODELS', []):
-            app_name, model_name = item.split('.')
-            url = reverse('rest-synchro', kwargs={
-                'app': app_name, 'model': model_name
-            })
-            urls[item] = request.build_absolute_uri(url)
-        return Response(urls)
-
-
-class SyncView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request, app=None, model=None):
-        # pegar a classe do model
-        model_class = get_model_or_404(app, model)
-
-        qs = model_class.objects.all()
-        serializerClass = model_syncserializer_factory(model_class)
-        serializer = serializerClass(qs, many=True)
+    def get(self, request):
+        self.object_list = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(self.object_list, many=True)
         return Response(serializer.data)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         if not type(request.DATA) is list:
             return Response('Invalid format',
                             status=status.HTTP_400_BAD_REQUEST)
 
-        app_name = kwargs.get('app', None)
-        model_name = kwargs.get('model', None)
-        model = get_model_or_404(app_name, model_name)
-        serializerClass = model_syncserializer_factory(model)
-        serializer = serializerClass(data=request.DATA, many=True)
-        if serializer.is_valid():
-            serializer.save()
-            return self.get(request, app_name, model_name)
-            #return Response('Update successful', status=status.HTTP_200_OK)
+        #self.object_list = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(many=True,
+                                         data=request.DATA,
+                                         files=request.FILES)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if not serializer.is_valid():
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            self.pre_save(serializer.object)
+        except ValidationError as err:
+            return Response(err.message_dict,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        serializer.save()
+        self.post_save(self.object)
+        return self.get(request)
+
+    def get_serializer(self, instance=None, data=None, files=None, many=False,
+                       partial=False, allow_add_remove=False):
+        serializer_class = self.get_serializer_class()
+        context = self.get_serializer_context()
+        return serializer_class(instance, data=data, files=files,
+                                many=many, partial=partial,
+                                allow_add_remove=allow_add_remove,
+                                context=context)
+
+    def get_serializer_class(self):
+        serializer_class = self.serializer_class
+        if serializer_class is not None:
+            return serializer_class
+
+        model_class = self.get_queryset().model
+
+        class DefaultSerializer(ModelSyncSerializer):
+            class Meta:
+                model = model_class
+        return DefaultSerializer
+
+    def get_object(self):
+        return self.get_queryset()
+
+
+def ModelSyncView_factory(instance, serializer=None):
+
+    class DefaultModelSync(ModelSyncView):
+        model = instance
+        serializer_class = serializer
+
+    return DefaultModelSync

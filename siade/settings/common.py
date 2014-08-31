@@ -94,13 +94,5 @@ REST_FRAMEWORK = {
     'MAX_PAGINATE_BY': 100
 }
 
-REST_SYNC_MODELS = (
-    'imoveis.Logradouro',
-    'imoveis.Quadra',
-    'imoveis.LadoQuadra',
-    'imoveis.Imovel',
-    'trabalhos.Visita',
-)
-
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/api-auth/login'

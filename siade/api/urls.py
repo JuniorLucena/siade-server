@@ -23,5 +23,11 @@ router = DefaultRouter()
 for (prefix, view) in register.items():
     router.register(prefix, view)
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',  # sync views
+    url(r'^sync/imoveis/logradouro/', LogradouroSyncView.as_view()),
+    url(r'^sync/imoveis/quadra/', QuadraSyncView.as_view()),
+    url(r'^sync/imoveis/ladoquadra/', LadoQuadraSyncView.as_view()),
+    url(r'^sync/imoveis/imovel/', ImovelSyncView.as_view()),
+    url(r'^sync/trabalhos/visita/', VisitaSyncView.as_view())
 ) + router.urls

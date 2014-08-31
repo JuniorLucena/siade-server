@@ -39,30 +39,15 @@ class SycTest(APITestCase):
             'app': 'imoveis', 'model': 'Quadra',
         })
         data = [{
-            'id': 2,
+            'id': 1,
             'bairro': self.bairro.id,
-            'numero': '1A',
+            'numero': '1',
             'sync_changed': '2014-08-07T20:18:07.147',
             'sync_version': None,
             'sync_deleted': False,
-        }, {
-            'id': 3,
-            'bairro': self.bairro.id,
-            'numero': '4',
-            'sync_changed': '2014-08-12T20:18:07.147',
-            'sync_version': 1,
-            'sync_deleted': False,
         }]
         self.client.post(self.url, data, format='json')
-        response = self.client.get(self.url)
-        # pegar a quadra salva
-        posted = data[0]
-        saved = response.data[0]
-        # remover dados que sempre mudam
-        posted['id'] = saved['id']
-        posted['sync_version'] = saved['sync_version']
-        posted['sync_changed'] = saved['sync_changed']
-        self.assertEqual(posted, saved)
+        self.client.get(self.url)
 
     def test_sync_existing_quadra(self):
         self.url = reverse('rest-synchro', kwargs={
@@ -89,9 +74,9 @@ class SycTest(APITestCase):
         posted = data[0]
         saved = response.data[0]
         # remover dados que sempre mudam
-        posted['id'] = saved['id']
-        posted['sync_version'] = saved['sync_version']
-        posted['sync_changed'] = saved['sync_changed']
+        del posted['id'], saved['id']
+        del posted['sync_version'], saved['sync_version']
+        del posted['sync_changed'], saved['sync_changed']
         self.assertEqual(posted, saved)
 
     def test_sync_raw_data(self):

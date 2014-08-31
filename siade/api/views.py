@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import get_user_model
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
-from rest_framework import mixins
-from rest_framework_bulk import mixins as bulk_mixins
+from rest_framework.viewsets import ModelViewSet
+from rest_sync.views import ModelSyncView, ModelSyncView_factory
+from .serializers import ModelFieldsSerializer_factory
+from .filters import AutoFilterSet
 from siade.imoveis.models import *
 from siade.trabalhos.models import *
-from .serializers import *
-from .filters import AutoFilterSet
 
 
 class UfViewSet(ModelViewSet):
@@ -49,7 +48,7 @@ class QuadraViewSet(ModelViewSet):
     Quadras de imóveis de um bairro
     '''
     model = Quadra
-    serializer_class = QuadraSerializer
+    serializer_class = ModelFieldsSerializer_factory(Quadra)
     filter_fields = ('numero', 'bairro')
 
 
@@ -58,7 +57,7 @@ class LadoQuadraViewSet(ModelViewSet):
     Lado de uma Quadra
     '''
     model = LadoQuadra
-    serializer_class = LadoSerializer
+    serializer_class = ModelFieldsSerializer_factory(LadoQuadra)
     filter_fields = ('quadra', 'logradouro')
 
 
@@ -74,19 +73,9 @@ class ImovelViewSet(ModelViewSet):
     Dados de imóvel
     '''
     model = Imovel
-    serializer_class = ImovelSerializer
+    serializer_class = ModelFieldsSerializer_factory(Imovel)
     filter_fields = ('tipo', 'caes', 'gatos', 'lado__quadra',
                      'lado__logradouro', 'lado__quadra__bairro')
-
-
-class AgenteViewSet(ModelViewSet):
-    '''
-    Agentes de endemias
-    '''
-    model = Agente
-    serializer_class = AgenteSerializer
-    #search_fields = ('first_name', 'last_name')
-    #filter_fields = ('is_active', 'is_staff')
 
 
 class AtividadeViewSet(ModelViewSet):
@@ -119,6 +108,35 @@ class VisitaViewSet(ModelViewSet):
     Visita de um agente a um determinado imovel em um ciclo
     '''
     model = Visita
-    serializer_class = VisitaSerializer
+    serializer_class = ModelFieldsSerializer_factory(Visita)
     filter_fields = (
         'data', 'ciclo', 'agente', 'imovel', 'atividade', 'tipo', 'pendencia')
+
+
+class AgenteViewSet(ModelViewSet):
+    '''
+    Agentes de endemias
+    '''
+    model = Agente
+    serializer_class = ModelFieldsSerializer_factory(Agente)
+
+
+### SyncViews
+class LogradouroSyncView(ModelSyncView):
+    queryset = Logradouro.objects.all()
+
+
+class QuadraSyncView(ModelSyncView):
+    queryset = Quadra.objects.all()
+
+
+class LadoQuadraSyncView(ModelSyncView):
+    queryset = LadoQuadra.objects.all()
+
+
+class ImovelSyncView(ModelSyncView):
+    queryset = Imovel.objects.all()
+
+
+class VisitaSyncView(ModelSyncView):
+    queryset = Visita.objects.all()

@@ -11,25 +11,25 @@ class ModelSyncSerializer(serializers.ModelSerializer):
 
     def to_native(self, obj):
         # set sync attributes if object has history
-        last = obj.history.first()
-        if last:
-            obj.sync_changed = last.history_date
-            obj.sync_version = last.history_id
-            obj.sync_deleted = last.history_type == '-'
-        else:
-            obj.sync_changed = now()
-            obj.sync_version = None
-            obj.sync_deleted = False
+        if hasattr(obj, 'history'):
+            last = obj.history.first()
+            if last is not None:
+                obj.sync_changed = last.history_date
+                obj.sync_version = last.history_id
+                obj.sync_deleted = last.history_type == '-'
+
         return super(ModelSyncSerializer, self).to_native(obj)
 
     def from_native(self, data, files=None):
-        if data.get('sync_version', None) is None:
-            data.pop('id', None)
+        #if data is not None:
+            #print data
+            #if data.get('sync_version', None) is None:
+            #    data.pop('id', None)
         return super(ModelSyncSerializer, self).from_native(data, files)
 
     def restore_object(self, attrs, instance=None):
         sync_changed = attrs.get('sync_changed', None)
-        if instance and sync_changed:
+        if instance is not None and sync_changed:
             instance._history_date = sync_changed
         return super(ModelSyncSerializer, self).restore_object(attrs, instance)
 
@@ -40,7 +40,7 @@ class ModelSyncSerializer(serializers.ModelSerializer):
                 if obj.sync_deleted:
                     return obj.delete()
             else:
-                # oh no! it's a conflict. Use the last write wins
+                # oh no! it's a conflict. The last update wins
                 if obj.sync_changed < obj.history.first().history_date:
                     return
         return super(ModelSyncSerializer, self).save_object(obj, **kwargs)
@@ -51,7 +51,6 @@ def model_syncserializer_factory(model_class, *args, **kwargs):
     Retorna um ModelSyncSerializer para um model
     '''
     _fields = kwargs.get('fields', None)
-    _depth = kwargs.get('depth', 0)
 
     class Serializer(ModelSyncSerializer):
 
