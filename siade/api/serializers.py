@@ -10,7 +10,7 @@ class ModelFieldsSerializer(serializers.ModelSerializer):
     '''
     def __init__(self, *args, **kwargs):
         # Instantiate the superclass normally
-        super(FieldsModelSerializer, self).__init__(*args, **kwargs)
+        super(ModelFieldsSerializer, self).__init__(*args, **kwargs)
 
         request = self.context.get('request', None)
         if request:
