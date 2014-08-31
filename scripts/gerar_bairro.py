@@ -52,10 +52,11 @@ class GeradorBairro_de_bairro(GeradorBairro):
         return Imovel(**imovel)
 
 
-def run():
+def run(size_x=randint(4, 6), size_y=randint(4, 6)):
+    size_x, size_y = int(size_x), int(size_y)
+    print 'Gerando bairro (%d por %d quadras)' % (size_x, size_y)
     gen = GeradorBairro_de_bairro()
-    print 'Gerando dados do bairro'
-    quadras = gen.gerar_quadras(randint(4, 6), randint(4, 6))
+    quadras = gen.gerar_quadras()
     print 'Salvando no banco de dados'
     for quadra in quadras:
         quadra.bairro = gen.bairro

@@ -13,6 +13,7 @@ def gerar_agentes(qtd):
         print '%s %s (%s)' % (nome, sobrenome, codigo)
 
 
-def run():
+def run(qtd=5):
+    qtd = int(qtd)
     Agente.objects.all().delete()
-    gerar_agentes(5)
+    gerar_agentes(qtd)

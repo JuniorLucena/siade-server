@@ -21,6 +21,7 @@ trabalho_atividades = (
     ('Levantamento de índice + Tratamento', 'LI+T'),
 )
 
+
 def gerar_ciclo(numero, ano_base, data_inicio):
     '''Gerar um ciclo'''
     ciclo = Ciclo.objects.create(
@@ -33,10 +34,10 @@ def gerar_ciclo(numero, ano_base, data_inicio):
     return ciclo
 
 
-def gerar_ciclos(ano_base):
+def gerar_ciclos(qtd, ano_base):
     '''Gerar ciclos para um ano'''
     data_inicio = date(ano_base, 1, 1) + timedelta(days=randint(5, 7))
-    for i in range(5):
+    for i in range(qtd):
         ciclo = gerar_ciclo(i + 1, ano_base, data_inicio)
         data_inicio = ciclo.data_inicio + timedelta(days=randint(5, 10))
 
@@ -80,11 +81,12 @@ def gerar_visitas(ciclo):
             gerar_visita(trabalho.ciclo, trabalho.agente, imovel)
 
 
-def run():
+def run(qtd=2, ano=2013):
+    qtd, ano = int(qtd), int(ano)
     Ciclo.objects.all().delete()
     Trabalho.objects.all().delete()
     Visita.objects.all().delete()
-    gerar_ciclos(2013)
+    gerar_ciclos(qtd, ano)
     ciclos = Ciclo.objects.all()
     for ciclo in ciclos:
         gerar_trabalhos(ciclo)
