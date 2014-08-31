@@ -23,6 +23,10 @@ class Ciclo(models.Model):
     def __unicode__(self):
         return '%d/%d' % (self.numero, self.ano_base)
 
+    @staticmethod
+    def atual():
+        return Ciclo.objects.first()
+
     class Meta:
         verbose_name = _('ciclo')
         verbose_name_plural = _('ciclos')

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_sync.serializers import ModelSyncSerializer
+from siade.imoveis.models import Imovel
+from siade.trabalhos.models import Ciclo
 
 
 class ModelFieldsSerializer(serializers.ModelSerializer):
@@ -42,3 +45,20 @@ def ModelFieldsSerializer_factory(model_class, *args, **kwargs):
             depth = _depth
 
     return Serializer
+
+
+class ImovelSyncSerializer(ModelSyncSerializer):
+    pendencia = serializers.IntegerField(read_only=True)
+
+    def to_native(self, obj):
+        obj.pendencia = 0
+
+        if hasattr(obj, 'visitas'):
+            visita = obj.visitas.filter(ciclo=Ciclo.atual()).first()
+            if visita is not None:
+                obj.pendencia = visita.pendencia
+
+        return super(ImovelSyncSerializer, self).to_native(obj)
+
+    class Meta:
+        model = Imovel

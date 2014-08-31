@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.viewsets import ModelViewSet
 from rest_sync.views import ModelSyncView, ModelSyncView_factory
 from .serializers import ModelFieldsSerializer_factory
+from .serializers import ImovelSyncSerializer
 from .filters import AutoFilterSet
 from siade.imoveis.models import *
 from siade.trabalhos.models import *
@@ -144,6 +145,7 @@ class LadoQuadraSyncView(ModelSyncView):
 
 class ImovelSyncView(ModelSyncView):
     queryset = Imovel.objects.all()
+    serializer_class = ImovelSyncSerializer
 
 
 class VisitaSyncView(ModelSyncView):
