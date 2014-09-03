@@ -8,9 +8,10 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 	$routeProvider
 
 	.when('/', {
-		templateUrl: DJANGO_STATIC_URL+'partials/home.html',
-		controller: 'homeCtrl'
+		templateUrl: DJANGO_STATIC_URL+'login.html',
+		controller: 'loginController'
 	})
+
 
 	.when('/estados', {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_uf.html',
@@ -98,6 +99,26 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 	.when('/cadastrar_agente', {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_agente.html',
 		controller: 'Agente_Cadastro_Ctrl'
+	})
+
+	.when('/relatorioD7', {
+		templateUrl: DJANGO_STATIC_URL+'partials/relatorio_d7.html',
+		controller: 'relatorio_d7'
+	})
+
+	.when('/relatorioD1', {
+		templateUrl: DJANGO_STATIC_URL+'partials/relatorio_d1.html',
+		controller: 'relatorio_d1'
+	})
+
+	.when('/relatorioCiclo', {
+		templateUrl: DJANGO_STATIC_URL+'partials/relatorio_ciclo.html',
+		controller: 'relatorio_ciclo'
+	})
+
+	.when('/relatorioPendente', {
+		templateUrl: DJANGO_STATIC_URL+'partials/relatorio_pendente.html',
+		controller: 'relatorio_pendente'
 	})
   
     .otherwise({ redirectTo: "/index" })

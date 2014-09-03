@@ -2,7 +2,7 @@
 var siadeCtrls = angular.module('siadeControllers', []);
       
 
-siadeCtrls.controller('loginController', ['$scope', '$location', 'authService', function ($scope, $location, authService) {
+siadeCtrls.controller('loginController', ['$scope', '$location', function ($scope, $location) {
  
 }])
 
@@ -198,6 +198,8 @@ siadeCtrls.controller('agenteEditCtrl', ['$scope', '$http','$routeParams', '$loc
 		}
          
 }]);
+
+
 //cadastrar Agente
 siadeCtrls.controller('Agente_Cadastro_Ctrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
 
@@ -691,4 +693,23 @@ siadeCtrls.controller('logradouroEditCtrl', ['$scope', '$http','$routeParams', '
 				$scope.municipios = data;
 			});
          
-}]);
+}])
+
+//Relatorios
+
+siadeCtrls.controller('relatorio_d7', ['$scope', function($scope) {
+	$scope.valor = 1
+}])
+
+siadeCtrls.controller('relatorio_d1', ['$scope', function($scope) {
+	$scope.valor = 1
+}])
+
+siadeCtrls.controller('relatorio_ciclo', ['$scope', function($scope) {
+	$scope.valor = 1
+}])
+
+siadeCtrls.controller('relatorio_pendente', ['$scope', function($scope) {
+	$scope.valor = 1
+}])
+
