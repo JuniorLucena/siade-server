@@ -54,7 +54,7 @@ class ImovelSyncSerializer(ModelSyncSerializer):
         obj.pendencia = 0
 
         if hasattr(obj, 'visitas'):
-            visita = obj.visitas.filter(ciclo=Ciclo.atual()).first()
+            visita = obj.visitas.first()
             if visita is not None:
                 obj.pendencia = visita.pendencia
 

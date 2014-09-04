@@ -12,12 +12,12 @@ class Ciclo(models.Model):
     '''
     Ciclo de trabalho de um agente em um ciclo
     '''
-    data_inicio = models.DateField(verbose_name=_('data inicial'))
-    data_fim = models.DateField(verbose_name=_('data final'))
+    data_inicio = models.DateField(verbose_name='data inicial')
+    data_fim = models.DateField(verbose_name='data final')
     fechado_em = models.DateField(editable=False, null=True,
-                                  verbose_name=_('finalizado em'))
-    numero = models.PositiveIntegerField(verbose_name=_('número'))
-    ano_base = models.PositiveIntegerField(verbose_name=_('ano base'))
+                                  verbose_name='finalizado em')
+    numero = models.PositiveIntegerField(verbose_name='número')
+    ano_base = models.PositiveIntegerField()
     history = HistoricalRecords()
 
     def __unicode__(self):
@@ -28,8 +28,6 @@ class Ciclo(models.Model):
         return Ciclo.objects.first()
 
     class Meta:
-        verbose_name = _('ciclo')
-        verbose_name_plural = _('ciclos')
         ordering = ('-ano_base', '-numero')
 
 
@@ -37,12 +35,9 @@ class Trabalho(models.Model):
     '''
     Trabalho realizado por um agente em um ciclo
     '''
-    agente = models.ForeignKey(Agente, related_name='trabalhos',
-                               verbose_name=_('agente'))
-    ciclo = models.ForeignKey(Ciclo, related_name='trabalhos',
-                              verbose_name=_('ciclo'))
-    quadra = models.ForeignKey(Quadra,
-                               related_name='trabalhos')
+    agente = models.ForeignKey(Agente, related_name='trabalhos')
+    ciclo = models.ForeignKey(Ciclo, related_name='trabalhos')
+    quadra = models.ForeignKey(Quadra, related_name='trabalhos')
     concluido = models.BooleanField(default=False, editable=False)
     history = HistoricalRecords()
 
@@ -62,8 +57,6 @@ class Atividade(models.Model):
         return self.nome
 
     class Meta:
-        verbose_name = _('atividade')
-        verbose_name_plural = _('atividades')
         ordering = ('nome',)
 
 
@@ -72,15 +65,15 @@ class Tratamento(models.Model):
     Tratamento feito por um agente durante uma visita
     '''
     imovel_tratado = models.NullBooleanField(
-        blank=True, null=True, verbose_name=_('imóvel tratado'))
+        blank=True, null=True, verbose_name='imóvel tratado')
     depositos_tratados = models.PositiveIntegerField(
-        blank=True, null=True, verbose_name=_('depósitos tratados'))
+        blank=True, null=True)
     depositos_eliminados = models.PositiveIntegerField(
-        blank=True, null=True, verbose_name=_('depósitos eliminados'))
+        blank=True, null=True)
     larvicida = models.CharField(
-        max_length=50, blank=True, null=True, verbose_name=_('larvicida'))
+        max_length=50, blank=True, null=True)
     qtd_larvicida = models.FloatField(
-        blank=True, null=True, verbose_name=_('qtd. larvicida'))
+        blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -98,11 +91,11 @@ class Pesquisa(models.Model):
     D2 = models.PositiveIntegerField(blank=True, null=True)
     E = models.PositiveIntegerField(blank=True, null=True)
     amostra_inicial = models.PositiveIntegerField(
-        blank=True, null=True, verbose_name=_('amostra inicial'))
+        blank=True, null=True, verbose_name='amostra inicial')
     amostra_final = models.PositiveIntegerField(
-        blank=True, null=True, verbose_name=_('amostra final'))
+        blank=True, null=True, verbose_name='amostra final')
     tubitos = models.PositiveIntegerField(
-        blank=True, null=True, verbose_name=_('qtd. tubitos'))
+        blank=True, null=True, verbose_name='qtd. tubitos')
 
     @property
     def amostra_total(self):
@@ -118,34 +111,30 @@ class Visita(Tratamento, Pesquisa):
     '''
     class Tipo(DjangoChoices):
         '''Possiveis tipos para uma visita'''
-        Normal = ChoiceItem(1, label=_('Normal'))
-        Recuperada = ChoiceItem(2, label=_('Recuperada'))
+        Normal = ChoiceItem(1, label='Normal')
+        Recuperada = ChoiceItem(2, label='Recuperada')
 
     class Pendencia(DjangoChoices):
         '''Possiveis tipos de pendencia para uma visita'''
-        Nenhuma = ChoiceItem(0, label=_('Nenhuma'))
-        Fechada = ChoiceItem(1, label=_('Fechada'))
-        Recusada = ChoiceItem(2, label=_('Recusada'))
+        Nenhuma = ChoiceItem(0, label='Nenhuma')
+        Fechada = ChoiceItem(1, label='Fechada')
+        Recusada = ChoiceItem(2, label='Recusada')
 
-    data = models.DateField(default=date.today(), verbose_name=_('data'))
-    hora = models.TimeField(verbose_name=_('hora'))
-    ciclo = models.ForeignKey(Ciclo, related_name='visitas',
-                              verbose_name=_('ciclo'))
-    agente = models.ForeignKey(Agente, related_name='visitas',
-                               verbose_name=_('agente'))
+    data = models.DateField()
+    hora = models.TimeField()
+    ciclo = models.ForeignKey(Ciclo, related_name='visitas')
+    agente = models.ForeignKey(Agente, related_name='visitas')
     imovel = models.ForeignKey(Imovel, related_name='visitas',
-                               verbose_name=_('imóvel'))
-    atividade = models.ForeignKey(Atividade, related_name='visitas',
-                                  verbose_name=_('atividade'))
+                               verbose_name='imóvel')
+    atividade = models.ForeignKey(Atividade, related_name='visitas')
     tipo = models.PositiveIntegerField(choices=Tipo.choices,
-                                       default=Tipo.Normal,
-                                       verbose_name=_('tipo'))
+                                       default=Tipo.Normal)
     pendencia = models.PositiveIntegerField(choices=Pendencia.choices,
-                                            default=Pendencia.Nenhuma,
-                                            verbose_name=_('pendencia'))
+                                            default=0,
+                                            verbose_name='pendência')
     history = HistoricalRecords()
 
     class Meta:
-        verbose_name = _('visita')
-        verbose_name_plural = _('visitas')
+        verbose_name = 'visita'
+        verbose_name_plural = 'visitas'
         ordering = ('data', 'hora', 'ciclo')

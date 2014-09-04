@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import get_user_model
+from django.db.models import Prefetch
 from rest_framework.viewsets import ModelViewSet
 from rest_sync.views import ModelSyncView, ModelSyncView_factory
 from .serializers import ModelFieldsSerializer_factory
@@ -144,7 +145,9 @@ class LadoQuadraSyncView(ModelSyncView):
 
 
 class ImovelSyncView(ModelSyncView):
-    queryset = Imovel.objects.all()
+    queryset = Imovel.objects.all().prefetch_related(
+        Prefetch('visitas', Visita.objects.filter(ciclo=Ciclo.atual()))
+    )
     serializer_class = ImovelSyncSerializer
 
 
