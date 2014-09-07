@@ -24,6 +24,7 @@ INSTALLED_APPS = (
     'simple_history',
     'oauth2_provider',
     'rest_framework',
+    'rest_sync',
     'siade.agentes',
     'siade.imoveis',
     'siade.trabalhos',

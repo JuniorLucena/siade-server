@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, include, url
 from rest_framework.routers import DefaultRouter
+from rest_sync import synchonizer
 from .views import *
 
 register = {
@@ -25,9 +26,5 @@ for (prefix, view) in register.items():
 
 urlpatterns = patterns(
     '',  # sync views
-    url(r'^sync/imoveis/logradouro/', LogradouroSyncView.as_view()),
-    url(r'^sync/imoveis/quadra/', QuadraSyncView.as_view()),
-    url(r'^sync/imoveis/ladoquadra/', LadoQuadraSyncView.as_view()),
-    url(r'^sync/imoveis/imovel/', ImovelSyncView.as_view()),
-    url(r'^sync/trabalhos/visita/', VisitaSyncView.as_view())
+    url(r'^sync/', include(synchonizer.urls)),
 ) + router.urls

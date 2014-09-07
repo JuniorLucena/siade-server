@@ -22,7 +22,6 @@ class ModelSyncSerializer(serializers.ModelSerializer):
 
     def from_native(self, data, files=None):
         #if data is not None:
-            #print data
             #if data.get('sync_version', None) is None:
             #    data.pop('id', None)
         return super(ModelSyncSerializer, self).from_native(data, files)
@@ -46,7 +45,7 @@ class ModelSyncSerializer(serializers.ModelSerializer):
         return super(ModelSyncSerializer, self).save_object(obj, **kwargs)
 
 
-def model_syncserializer_factory(model_class, *args, **kwargs):
+def ModelSyncSerializer_factory(model_class, *args, **kwargs):
     '''
     Retorna um ModelSyncSerializer para um model
     '''

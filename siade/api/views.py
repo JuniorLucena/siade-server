@@ -132,18 +132,6 @@ class AgenteViewSet(ModelViewSet):
 
 
 ### SyncViews
-class LogradouroSyncView(ModelSyncView):
-    queryset = Logradouro.objects.all()
-
-
-class QuadraSyncView(ModelSyncView):
-    queryset = Quadra.objects.all()
-
-
-class LadoQuadraSyncView(ModelSyncView):
-    queryset = LadoQuadra.objects.all()
-
-
 class ImovelSyncView(ModelSyncView):
     queryset = Imovel.objects.all().prefetch_related(
         Prefetch('visitas', Visita.objects.filter(ciclo=Ciclo.atual()))
@@ -151,5 +139,10 @@ class ImovelSyncView(ModelSyncView):
     serializer_class = ImovelSyncSerializer
 
 
-class VisitaSyncView(ModelSyncView):
-    queryset = Visita.objects.all()
+from rest_sync import synchonizer
+synchonizer.register(Logradouro)
+synchonizer.register(Quadra)
+synchonizer.register(LadoQuadra)
+synchonizer.register(Imovel, view_class=ImovelSyncView)
+synchonizer.register(Trabalho)
+synchonizer.register(Visita)
