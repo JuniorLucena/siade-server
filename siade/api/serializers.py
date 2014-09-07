@@ -51,12 +51,13 @@ class ImovelSyncSerializer(ModelSyncSerializer):
     pendencia = serializers.IntegerField(read_only=True)
 
     def to_native(self, obj):
-        obj.pendencia = 0
+        if not obj is None:
+            obj.pendencia = 0
 
-        if hasattr(obj, 'visitas'):
-            visita = obj.visitas.first()
-            if visita is not None:
-                obj.pendencia = visita.pendencia
+            if hasattr(obj, 'visitas'):
+                visita = obj.visitas.first()
+                if visita is not None:
+                    obj.pendencia = visita.pendencia
 
         return super(ImovelSyncSerializer, self).to_native(obj)
 
