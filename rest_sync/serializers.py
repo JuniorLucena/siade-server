@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.utils.timezone import now
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
+from .models import SyncState
 
 
 class ModelSyncSerializer(serializers.ModelSerializer):
@@ -10,14 +12,11 @@ class ModelSyncSerializer(serializers.ModelSerializer):
     sync_deleted = serializers.BooleanField(required=False)
 
     def to_native(self, obj):
-        # set sync attributes if object has history
-        if hasattr(obj, 'history'):
-            last = obj.history.first()
-            if last is not None:
-                obj.sync_changed = last.history_date
-                obj.sync_version = last.history_id
-                obj.sync_deleted = last.history_type == '-'
-
+        if not obj is None:
+            state = SyncState.get_for_object(obj)
+            obj.sync_changed = state.changed
+            obj.sync_version = state.version
+            obj.sync_deleted = state.deleted
         return super(ModelSyncSerializer, self).to_native(obj)
 
     def from_native(self, data, files=None):

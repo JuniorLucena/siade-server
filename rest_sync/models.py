@@ -5,24 +5,21 @@ from django.contrib.contenttypes.models import ContentType
 from django_extensions.db.fields import ShortUUIDField
 
 
+def gen_sync_version_id():
+    return getrandbits(32)
+
+
 class SyncState(models.Model):
     object_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     object = GenericForeignKey('object_type', 'object_id')
     changed = models.DateTimeField(auto_now=True)
     deleted = models.BooleanField(default=False)
-    version = models.PositiveIntegerField()
+    version = models.PositiveIntegerField(default=gen_sync_version_id)
 
     def update(self, instance, delete=False):
-        object_type = ContentType.objects.get_for_model(type(instance))
-        try:
-            change = self.objects.get_or_create(object_type=object_type,
-                                                object_id=instance.id)
-        except DoesNotExist:
-            change = self.__class__(object_type=object_type,
-                                    object_id=instance.id)
+        change = self.get_for_object(instance)
         change.deleted = delete
-        change.revision = getrandbits(32)
         change.save()
 
     def post_save(self, instance, **kwargs):
@@ -30,6 +27,13 @@ class SyncState(models.Model):
 
     def post_delete(self, instance, **kwargs):
         self.update(instance, True)
+
+    @staticmethod
+    def get_for_object(obj):
+        object_type = ContentType.objects.get_for_model(type(obj))
+        ret, c = SyncState.objects.get_or_create(object_type=object_type,
+                                                 object_id=obj.id)
+        return ret
 
     class Meta:
         unique_together = ("object_type", "object_id")
