@@ -145,7 +145,7 @@ siadeCtrls.controller('agenteCtrl', ['$scope', '$http','$routeParams', '$locatio
 
 	var load = function() {
             console.log('call list load()...');
-            $http.get('/api/trabalhos/agente')
+            $http.get('/api/agente/')
                     .success(function(data, status, headers, config) {
                         console.log(data)
                         $scope.agentes = data;
@@ -156,7 +156,7 @@ siadeCtrls.controller('agenteCtrl', ['$scope', '$http','$routeParams', '$locatio
         load();
 
         $scope.excluir = function(agente){
-			$http.delete('/api/trabalhos/agente/'+agente).success(function(data){
+			$http.delete('/api/agente/'+agente).success(function(data){
 				var index = $scope.agentes.indexOf(agente);
 				$scope.agentes.splice(index, 1);
 			});
@@ -169,7 +169,7 @@ siadeCtrls.controller('agenteEditCtrl', ['$scope', '$http','$routeParams', '$loc
       
       var load = function() {
             console.log('load()... editAgente'+$routeParams.id)
-            $http.get('/api/trabalhos/agente/'+$routeParams.id)
+            $http.get('/api/agente/'+$routeParams.id)
                     .success(function(data, status, headers, config) {
                         console.log(data)
                         $scope.agentes = data
@@ -184,7 +184,7 @@ siadeCtrls.controller('agenteEditCtrl', ['$scope', '$http','$routeParams', '$loc
         $scope.updateAgente = function() {
             console.log('updateAgente');
             $http
-			.put('/api/trabalhos/agente/' + $scope.agentes.id , $scope.agentes)
+			.put('/api/agente/' + $scope.agentes.id , $scope.agentes)
 			.success(function(data, status, headers, config) {
 				if(!data.error) {
 					$location.path('/agentes');
@@ -205,7 +205,7 @@ siadeCtrls.controller('Agente_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 
 	$scope.saveAgente = function(){
 		
-		$http.post('/api/trabalhos/agente/', $scope.agente)
+		$http.post('/api/agente/', $scope.agente)
 		.success(function (data){
 			$scope.agentes.unshift(data)
 			showMessage('Save success')
@@ -218,7 +218,7 @@ siadeCtrls.controller('Agente_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 		
 	 var load = function() {
             console.log('call load()...');
-            $http.get('/api/trabalhos/agente')
+            $http.get('/api/agente/')
                     .success(function(data, status, headers, config) {
                         console.log(data)
                         $scope.agentes = data;
@@ -418,8 +418,8 @@ siadeCtrls.controller('quadraEditCtrl', ['$scope', '$http','$routeParams', '$loc
 				$scope.bairros = data;
 			});
 }]);
-//Cadastrar Quadras
 
+//Cadastrar Quadras
 siadeCtrls.controller('cadastrar_quadra_Ctrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
 
 	$scope.quadra ={};
@@ -456,22 +456,230 @@ siadeCtrls.controller('cadastrar_quadra_Ctrl', ['$scope','$http', '$location', f
 	
 }])
 
+//cadastrar Lado...
+siadeCtrls.controller('ladoQuadra_Cadastro_Ctrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
+
+	$scope.lado ={};
+
+	$scope.saveLado = function(){
+		
+		$http.post('/api/imoveis/lado-quadra/', $scope.lado)
+		.success(function (data){
+			$scope.lados.unshift(data)
+			$location.path('/lado_quadra')
+			}).error(function(data){
+				
+		})
+	
+	}
+
+	 var load = function() {
+            console.log('call load()...');
+            $http.get('/api/imoveis/lado-quadra/')
+                    .success(function(data, status, headers, config) {
+                        $scope.lados = data;
+                        angular.copy($scope.lados, $scope.copy);
+                    });
+        }
+
+        load();
+
+        $http.get('/api/imoveis/quadra/')
+			.success(function(data, status, headers, config) {
+				$scope.quadras = data;
+			});
+
+
+         $http.get('/api/imoveis/logradouro/')
+			.success(function(data, status, headers, config) {
+				$scope.logradouros = data;
+			});   
+}])
+
+//Listar Lados
+.controller('lado_quadraCtrl', ['$scope', '$location', '$http', function($scope,$location, $http) {
+	
+	$scope.addLado= function(){
+		$location.path('/cadastrar_lado_quadra')
+	}
+
+	$scope.editLado = function(index){
+		console.log('call editLado()...'+ $scope.lados[index].id)
+		$location.path('/edit_lado/' + $scope.lados[index].id);
+	}
+
+	var load = function() {
+            console.log('call load()...');
+            $http.get('/api/imoveis/lado-quadra/')
+                    .success(function(data, status, headers, config) {
+                        $scope.lados = data;
+                        angular.copy($scope.lados, $scope.copy);
+                    });
+        }
+
+        load();
+
+        $scope.excluir = function(lado){
+			$http.delete('/api/imoveis/lado-quadra/'+lado).success(function(data){
+				var index = $scope.lados.indexOf(lado);
+				$scope.lados.splice(index, 1);
+			});
+		
+	};
+}])
 
 
 
 
+//cadastrar Tipo de imovel...
+siadeCtrls.controller('tipoImovel_Cadastro_Ctrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
+	$scope.tipo_imovel ={};
 
-.controller('imovelCtrl', ['$scope', function($scope) {
-	$scope.valor = 1
+	$scope.saveTipoImovel = function(){
+		
+		$http.post('api/imoveis/tipo-imovel/', $scope.tipo_imovel)
+		.success(function (data){
+			$scope.tipos.unshift(data)
+		    $location.path('/tipo-imovel')
+		}).error(function(data){
+				
+		})
+	
+	}
+		
+	 var load = function() {
+            console.log('call load()...');
+            $http.get('api/imoveis/tipo-imovel')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.tipos = data;
+                        angular.copy($scope.tipos, $scope.copy);
+                    });
+        }
+
+        load()
+
+
+}])
+
+//lista Tipo do Imovel...
+siadeCtrls.controller('tipoImovelCtrl', ['$scope','$http', '$location', '$window', function ($scope,$http,$location,$window) {
+	  
+	  var load = function() {
+            console.log('call load()...');
+            $http.get('api/imoveis/tipo-imovel')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.tipos = data;
+                        angular.copy($scope.tipos, $scope.copy);
+                    });
+        }
+
+        load();
+
+	$scope.addTipoImovel = function(){
+		$location.path('/cadastrar_tipo_imovel/')
+	}
+
+	$scope.editTipoImovel = function(index){
+		console.log('call edittipoImovel()...'+ $scope.tipos[index].id)
+		$location.path('/edit_tipoImovel/' + $scope.tipos[index].id);
+	}
+
+	$scope.excluir = function(tipo){
+			$http.delete('/api/imoveis/tipo-imovel/'+tipo).success(function(data){
+				var index = $scope.tipos.indexOf(tipo);
+				$scope.tipos.splice(	index, 1);
+			});
+		
+	};
+
+}])
+
+
+
+//cadastrar Imovel...
+siadeCtrls.controller('Imovel_Cadastro_Ctrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
+	$scope.imovel ={};
+
+	$scope.saveImovel = function(){
+		
+		$http.post('/api/imoveis/imovel/', $scope.imovel)
+		.success(function (data){
+			$scope.imoveis.unshift(data)
+			$location.path('/imoveis')
+		}).error(function(data){
+				
+		})
+	
+	}
+		
+	 var load = function() {
+            console.log('call load()...');
+            $http.get('/api/imoveis/imovel/')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.imoveis = data;
+                        angular.copy($scope.imoveis, $scope.copy);
+                    });
+       		 }
+
+        load()
+
+        $http.get('/api/imoveis/tipo-imovel/')
+			.success(function(data, status, headers, config) {
+				$scope.tipos = data;
+			});
+
+		$http.get('/api/imoveis/lado-quadra/')
+			.success(function(data, status, headers, config) {
+				$scope.lados = data;
+			});
+
+
+}])
+//lista Imovel...
+siadeCtrls.controller('ImovelCtrl', ['$scope','$http', '$location', '$window', function ($scope,$http,$location,$window) {
+	  
+	  var load = function() {
+            console.log('call load()...');
+            $http.get('/api/imoveis/imovel/')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.imoveis = data;
+                        angular.copy($scope.imoveis, $scope.copy);
+                    });
+        }
+
+        load();
+
+	$scope.addImovel = function(){
+		$location.path('/cadastrar_imovel/')
+	}
+
+	$scope.editImovel = function(index){
+		console.log('call editImovel()...'+ $scope.imoveis[index].id)
+		$location.path('/edit_imovel/' + $scope.imoveis[index].id);
+	}
+
+	$scope.excluir = function(imovel){
+			$http.delete('/api/imoveis/imovel/'+imovel).success(function(data){
+				var index = $scope.imoveis.indexOf(imovel);
+				$scope.imoveis.splice(index, 1);
+			});
+		
+	};
+
+	 
+	 
+
 }])
 
 
 
 
 
-
 //lista Estado...
-
 siadeCtrls.controller('estadoCtrl', ['$scope','$http', '$location', '$window', function ($scope,$http,$location,$window) {
 	  
 	  var load = function() {
@@ -507,7 +715,6 @@ siadeCtrls.controller('estadoCtrl', ['$scope','$http', '$location', '$window', f
 
 
 //editar Estado...
-
 siadeCtrls.controller('estadoEditCtrl', ['$scope', '$http','$routeParams', '$location', function ($scope, $http, $routeParams,$location) {
       
       var load = function() {
@@ -543,7 +750,6 @@ siadeCtrls.controller('estadoEditCtrl', ['$scope', '$http','$routeParams', '$loc
 }]);
 
 //cadastrar Estado...
-
 siadeCtrls.controller('estado_Cadastro_Ctrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
 	$scope.uf ={};
 
@@ -579,7 +785,6 @@ siadeCtrls.controller('estado_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 
 
 //lista logradouro...
-
 siadeCtrls.controller('logradouroCtrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
 	
 
@@ -692,3 +897,89 @@ siadeCtrls.controller('logradouroEditCtrl', ['$scope', '$http','$routeParams', '
 			});
          
 }]);
+
+
+
+
+//Gerenciar Ciclo
+siadeCtrls.controller('gerenciar_ciclo_Ctrl', ['$scope','$http', '$location', '$filter', '$rootScope', '$routeParams', function ($scope,$http,$location,$filter,$rootScope,$routeParams) {
+
+	
+/*
+	//data do dia...
+	$scope.dataInicio  = $filter('date')(new Date(), 'yyyy-MM-dd');
+*/
+
+}]);
+
+
+
+
+//cadastrar Atividade
+siadeCtrls.controller('Atividade_Cadastro_Ctrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
+
+	$scope.atividade ={};
+
+	$scope.saveAtividade = function(){
+		
+		$http.post('/api/trabalhos/atividade/', $scope.atividade)
+		.success(function (data){
+			$scope.atividades.unshift(data)
+			$location.path('/atividades')
+			
+		}).error(function(data){
+				
+		})
+	
+	}
+		
+	 var load = function() {
+            console.log('call load()...');
+            $http.get('/api/trabalhos/atividade')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.atividades = data;
+                        angular.copy($scope.atividades, $scope.copy);
+                    });
+        }
+
+        load();
+
+}])
+
+//lista Atividade...
+siadeCtrls.controller('atividadeCtrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
+	
+
+	$scope.addAtividade = function(){
+		$location.path('/cadastrar_atividade/')
+	}
+	$scope.editAtividade = function(index){
+		console.log('call editAtividade()...'+ $scope.atividades[index].id)
+		$location.path('/edit_atividade/' + $scope.atividades[index].id);
+	}
+		
+	$scope.excluir = function(atividade){
+		
+			$http.delete('/api/trabalhos/atividade/'+atividade).success(function(data){
+				var index = $scope.atividades.indexOf(atividade);
+				$scope.atividades.splice(index, 1);
+			});
+		
+	};
+
+	 var load = function() {
+            console.log('call load()...');
+            $http.get('api/trabalhos/atividade/')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.atividades = data
+                        angular.copy($scope.atividades, $scope.copy)
+                    })
+        }
+
+        load()
+
+}])
+
+

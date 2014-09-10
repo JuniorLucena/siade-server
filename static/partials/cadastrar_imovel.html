@@ -1,185 +1,45 @@
-    <!-- Cabeçalho Conteudo Cadastrar Cidade -->
-
-    <div id="page-wrapper col-lg-12">
-
-      <div class="row">
-        <div class="col-lg-12">
-          <h1>Listar <small> Imóvel</small></h1>
-          <ol class="breadcrumb">
-            <li><a href="index.html"><i class="fa fa-home"></i> Início</a></li>
-            <li class="active"><i class="fa fa-edit"></i> Lista Imóveis</li>
-          </ol>          
-        </div>
-      </div><!-- /.row -->
-      
-      <div class="panel panel-default">
-       <div class="panel-body">
-         <div class="row">
-          <div class="col-lg-12">
-            <div class="panel panel-default">
-             <div class="panel-heading">
-               <h3 class="panel-title">Imóveis</h3>
-             </div>
-             <div class="panel-body">
-              <div class="row">
-                <div class="form-group col-lg-4">
-                 <label>Lado:</label>
-                 <input class="form-control" placeholder="Lado...">
-               </div>
-               <br/><button class="btn btn-default" data-toggle="modal" data-target="#myModal">Adcionar Imóveis</button>
-               <a href="cadastrar_quadra.html"  class="btn btn-default">Salvar</a>
-               <a href="cadastrar_quadra.html"  class="btn btn-default">Voltar</a>
-             </div>
-
-
-             <div class="table-responsive"> 
-              <table class="table table-hover">
-                <thead>
-                 <tr>
-                   <th>Lado</th>
-                   <th>Logradouro</th>
-                   <th>Número</th>
-                   <th>Sequência.:</th>
-                   <th>Tipo Imóvel</th>
-                   <th>Quant. Habitantes</th>
-                   <th>Quant. Cães</th>
-                   <th>Quant. Gatos</th>
-                 </tr>
-               </thead>
-               <tbody>
-                 <tr>
-                   <td>A1</td>
-                   <td>Rua José Pinheiro</td>
-                   <td>320</td>
-                   <td>123</td>
-                   <td>Nao Sei</td>
-                   <td>Casa</td>
-                   <td>2</td>
-                   <td>1</td>
-                 </tr>
-                 <tr>
-                   <td>A1</td>
-                   <td>Rua José Pinheiro</td>
-                   <td>320</td>
-                   <td>123</td>
-                   <td>Nao Sei</td>
-                   <td>Casa</td>
-                   <td>2</td>
-                   <td>1</td>
-                 </tr>
-                 <tr>
-                   <td>A1</td>
-                   <td>Rua José Pinheiro</td>
-                   <td>320</td>
-                   <td>123</td>
-                   <td>Nao Sei</td>
-                   <td>Casa</td>
-                   <td>2</td>
-                   <td>1</td>
-                 </tr>
-                 <tr>
-                   <td>A1</td>
-                   <td>Rua José Pinheiro</td>
-                   <td>320</td>
-                   <td>123</td>
-                   <td>Nao Sei</td>
-                   <td>Casa</td>
-                   <td>2</td>
-                   <td>1</td>
-                 </tr>
-               </tbody>
-             </table>
-           </div>
-         </div>
-       </div>
-     </div> <!-- Fim Row -->
-   </div>  
- </div>
-</div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h1>Adcionando <small> Imóveis</small></h1>          
-      </div>
-      <div class="modal-body">
-
-       <div class="panel-body">
-         <div class="row">
-           <div class="col-lg-6">
-
-            <div class="form-group">
-              <label>Logradouro:</label>
-              <input class="form-control" placeholder="" width="10px">
-            </div>
-
-            <div class="form-group">
-              <label>Número:</label>
-              <input class="form-control" placeholder="">
-            </div>
-            <div class="form-group">
-              <label>Sequência:</label>
-              <input class="form-control" placeholder="">
-            </div>
-
-            <div class="form-group">
-              <label>Tipo Imóvel:</label>
-              <input class="form-control" placeholder="">
-            </div>
-
-            <div class="form-group">
-              <label>Quantidade Habitantes:</label>
-              <input class="form-control" placeholder="">
-            </div>
-
-            <div class="form-group">
-              <label>Quantidade de Cães:</label>
-              <input class="form-control" placeholder="">
-            </div>
-
-            <div class="form-group">
-              <label>Quantidade de Gatos:</label>
-              <input class="form-control" placeholder="">
-            </div>
-          </div>
-        </div><!-- Fim Row -->
-      </div>
-
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Cadastrar <small>Imovel</small></h1>
+      <ol class="breadcrumb">
+        <li><a href="index.html"><i class="fa fa-home"></i> Início</a></li>
+        <li class="active"><i class="fa fa-edit"></i> Cadastrar Imovel</li>
+      </ol>          
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-      <button type="button" class="btn btn-default">Salvar Imóveis</button>
+  </div><!-- /.row -->
+  <div class="panel panel-default" ng-controller="Imovel_Cadastro_Ctrl">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-lg-6">
+          <form role="form">
+
+            <div class="form-group">
+            <label>Lado:</label>
+              <select ng-model="imovel.lado" ng-options="lado.id as lado.numero for lado in lados" ></select>
+          </div>  
+          <div class="form-group">
+            <label>Número:</label>
+            <input class="form-control" ng-model="imovel.numero" placeholder="Informar Número do imóvel">
+          </div>
+           <div class="form-group">
+            <label>Tipo de Imóvel:</label>
+            <select ng-model="imovel.tipo" ng-options="tipo.id as tipo.nome for tipo in tipos" ></select>
+          </div>
+          <div class="form-group">
+            <label>Qtd. Habitantes:</label>
+            <input class="form-control" ng-model="imovel.habitantes" placeholder="Informar Quantidade de Habitantes">
+          </div>
+          <div class="form-group">
+            <label>Qtd. Cães:</label>
+            <input class="form-control" ng-model="imovel.caes" placeholder="Informar Quantidade de Cães">
+          </div>
+          <div class="form-group">
+            <label>Qtd. Gatos:</label>
+            <input class="form-control" ng-model="imovel.gatos" placeholder="Informar Quantidade de Gatos">
+          </div>
+          <button type="submit" ng-click="saveImovel()" class="btn btn-primary btn-lg">Salvar</button>
+          
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
-
-
-<!-- Java Script Modal -->
-
-<script type="text/javascript">
-$(document).ready(function(){
-  $('#test_modal').modal('show');
-});
-</script>
-
-<script type="text/javascript">
-$('#test_modal').modal('hide')
-</script>
-
-<script type="text/javascript">
-$('#test_modal').modal({
-  backdrop: true,
-  keyboard: true,
-  show: false 
-}).css({
-  width: 'auto',
-  'margin-left': function () {
-    return -($(this).width()/2);
-  }
-});
-</script>

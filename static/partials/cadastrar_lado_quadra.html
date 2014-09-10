@@ -1,0 +1,36 @@
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Cadastrar <small>Lado</small></h1>
+      <ol class="breadcrumb">
+        <li><a href="index.html"><i class="fa fa-home"></i> Início</a></li>
+        <li class="active"><i class="fa fa-edit"></i> Cadastrar Lado</li>
+      </ol>          
+    </div>
+  </div><!-- /.row -->
+  <div class="panel panel-default" ng-controller="ladoQuadra_Cadastro_Ctrl">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-lg-6">
+          <form role="form">
+
+          <div class="form-group">
+            <label>Número:</label>
+            <input class="form-control" ng-model="lado.numero" placeholder="Informar Número">
+          </div>
+          <div class="form-group">
+            <label>Quadra:</label>
+            <select ng-model="lado.quadra" ng-options="quadra.id as quadra.numero for quadra in quadras" >
+            </select>
+          </div>
+           <div class="form-group">
+            <label>Logradouro:</label>
+            <select ng-model="lado.logradouro" ng-options="logradouro.id as logradouro.nome for logradouro in logradouros" ></select>
+          </div>
+       
+      
+          <button type="submit" ng-click="saveLado()" class="btn btn-default">Salvar</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
