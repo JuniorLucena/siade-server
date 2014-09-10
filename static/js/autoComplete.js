@@ -29,14 +29,3 @@ var states = ['Março', 'Abril', 'Maio', 'Junho', 'Julho',
 '12', 'Cristiano Nunes', 'Arthur Henrique', 'Evangilo', 'Junior Lucena', 'Luziana Feitosa',
 'Demétrios Coutinho', 'Lucas', 'Jefferson Lima'
 ];
-
-$('#the-basics .typeahead').typeahead({
-	hint: true,
-	highlight: true,
-	minLength: 1
-},
-{
-	name: 'states',
-	displayKey: 'value',
-	source: substringMatcher(states)
-});
