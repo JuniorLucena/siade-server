@@ -29,11 +29,11 @@ class ModelSyncView(GenericAPIView):
 
         sync_time = datetime_from_string(sync_from)
         object_type = ContentType.objects.get_for_model(queryset.model)
-        obj_ids = SyncState.objects.filter(object_type=object_type,
-                                           changed__range=(sync_time, datetime.now())) \
-                                   .values_list('object_id', flat=True)
+        change_range = (sync_time, datetime.now())
+        obj_qs = SyncState.objects.filter(object_type=object_type,
+                                          changed__range=change_range)
+        obj_ids = obj_qs.values_list('object_id', flat=True)
         queryset = queryset.filter(id__in=obj_ids)
-        print queryset.query
         return queryset
 
     def get(self, request):
@@ -90,7 +90,7 @@ class ModelSyncView(GenericAPIView):
 
 
 def ModelSyncView_factory(model_class, serializer=None):
-    serializer_name = '%sSyncView' % model_class._meta.object_name
+    view_name = '%sSyncView' % model_class._meta.object_name
     attrs = {'model': model_class, 'serializer_class': serializer}
-    model_sync_view = type(str(serializer_name), (ModelSyncView,), attrs)
+    model_sync_view = type(str(view_name), (ModelSyncView,), attrs)
     return model_sync_view
