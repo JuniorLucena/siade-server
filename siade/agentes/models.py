@@ -16,7 +16,7 @@ class AgenteManager(BaseUserManager):
         return user
 
     def create_superuser(self, cpf, password):
-        user = self.create_user(cpf, Agente.Tipos.Administrador,
+        user = self.create_user(cpf, Agente.Tipo.Administrador,
                                 password=password)
         return user
 
@@ -31,7 +31,7 @@ class Agente(AbstractBaseUser):
         Supervisor = ChoiceItem(2, label='Supervisor')
         Administrador = ChoiceItem(99, label='Administrador')
 
-    cpf = models.BigIntegerField(verbose_name='CPF')
+    cpf = models.BigIntegerField(verbose_name='CPF', unique=True)
     nome = models.CharField(max_length=30)
     sobrenome = models.CharField(max_length=30)
     email = models.EmailField(blank=True, verbose_name='e-mail')
@@ -43,11 +43,12 @@ class Agente(AbstractBaseUser):
     tipo = models.PositiveIntegerField(choices=Tipo.choices,
                                        default=Tipo.AgenteCampo)
     ativo = models.BooleanField(default=True)
+    is_staff = True
 
     _default_manager = AgenteManager()
     objects = _default_manager
     USERNAME_FIELD = 'cpf'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['nome', 'sobrenome']
 
     def __unicode__(self):
         return self.get_short_name()
@@ -59,7 +60,7 @@ class Agente(AbstractBaseUser):
         return '%s %s' % (self.nome, self.sobrenome)
 
     def has_perm(self, perm, obj=None):
-        if self.tipo == Tipos.Administrador:
+        if self.tipo == self.Tipo.Administrador:
             return True
         return True
 
@@ -74,7 +75,7 @@ class Agente(AbstractBaseUser):
 
     @property
     def is_superuser(self):
-        return self.tipo == Tipos.Administrador
+        return self.tipo == Tipo.Administrador
 
     @property
     def is_active(self):
