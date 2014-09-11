@@ -30,7 +30,7 @@ class ModelFieldsSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 
-def serializer_factory(model_class, base_class=ModelFieldsSerializer,
+def serializer_factory(model_class, base=ModelFieldsSerializer,
                        *args, **kwargs):
     '''
     Retorna um ModelFieldsSerializer para um model
@@ -39,7 +39,7 @@ def serializer_factory(model_class, base_class=ModelFieldsSerializer,
     attrs = kwargs
     attrs.update({'model': model_class})
     meta = type('Meta', (), attrs)
-    serializer_class = type(str(serializer_name), (base_class,),
+    serializer_class = type(str(serializer_name), (base,),
                             {'Meta': meta})
     return serializer_class
 
