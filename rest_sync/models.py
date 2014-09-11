@@ -17,22 +17,25 @@ class SyncState(models.Model):
     deleted = models.BooleanField(default=False)
     version = models.PositiveIntegerField(default=gen_sync_version_id)
 
+    @classmethod
     def update(self, instance, delete=False):
         change = self.get_for_object(instance)
         change.deleted = delete
         change.save()
 
+    @classmethod
     def post_save(self, instance, **kwargs):
         self.update(instance, False)
 
+    @classmethod
     def post_delete(self, instance, **kwargs):
         self.update(instance, True)
 
-    @staticmethod
-    def get_for_object(obj):
+    @classmethod
+    def get_for_object(cls, obj):
         object_type = ContentType.objects.get_for_model(type(obj))
-        ret, c = SyncState.objects.get_or_create(object_type=object_type,
-                                                 object_id=obj.id)
+        ret, c = cls.objects.get_or_create(object_type=object_type,
+                                           object_id=obj.id)
         return ret
 
     class Meta:
