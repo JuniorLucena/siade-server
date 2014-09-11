@@ -11,8 +11,6 @@ siadeCtrls.controller('homeCtrl', ['$scope', function($scope) {
 }])
 
 
-
-
 //lista Bairro
 
 siadeCtrls.controller('bairroCtrl', ['$scope', '$http', '$window', '$location', function($scope,$http,$window,$location) {
