@@ -42,11 +42,6 @@ class LogradouroAdmin(admin.ModelAdmin):
     relfield_style = 'fk-ajax'
 
 
-class TipoImovelAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'sigla')
-    search_fields = ('nome',)
-
-
 class ImovelAdmin(admin.ModelAdmin):
     list_display = ('numero', 'lado', 'tipo', 'habitantes')
     list_filter = ('tipo', 'lado__logradouro', 'lado__quadra__bairro',)
@@ -57,5 +52,4 @@ admin.site.register(Municipio, MunicipioAdmin)
 admin.site.register(Bairro, BairroAdmin)
 admin.site.register(Quadra, QuadraAdmin)
 admin.site.register(Logradouro, LogradouroAdmin)
-admin.site.register(TipoImovel, TipoImovelAdmin)
 admin.site.register(Imovel, ImovelAdmin)

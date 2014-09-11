@@ -2,39 +2,36 @@
 from django.db import models
 from django.utils.translation import gettext as _
 from djchoices import DjangoChoices, ChoiceItem
-from simple_history.models import HistoricalRecords
 
 
 class UF(models.Model):
     '''
     Uma Unidade Federativa
     '''
-    nome = models.CharField(max_length=100, verbose_name=_('nome'))
-    sigla = models.CharField(max_length=3, verbose_name=_('sigla'))
+    nome = models.CharField(max_length=100)
+    sigla = models.CharField(max_length=3)
 
     def __unicode__(self):
         return self.nome
 
     class Meta:
-        verbose_name = _('estado')
-        verbose_name_plural = _('estados')
+        verbose_name = 'estado'
 
 
 class Municipio(models.Model):
     '''
     Município de uma UF
     '''
-    nome = models.CharField(max_length=100, verbose_name=_('nome'))
-    uf = models.ForeignKey(UF, verbose_name=_('UF'))
+    nome = models.CharField(max_length=100)
+    uf = models.ForeignKey(UF, verbose_name='UF')
     codigo = models.IntegerField(
-        blank=True, null=True, verbose_name=_('código'))
+        blank=True, null=True, verbose_name='código')
 
     def __unicode__(self):
         return "%s, %s" % (self.nome, self.uf.sigla)
 
     class Meta:
-        verbose_name = _('município')
-        verbose_name_plural = _('municípios')
+        verbose_name = 'município'
 
 
 class Bairro(models.Model):
@@ -46,14 +43,11 @@ class Bairro(models.Model):
                                   verbose_name=_('Município'))
     codigo = models.IntegerField(blank=True, null=True,
                                  verbose_name=_('código'))
-    history = HistoricalRecords()
 
     def __unicode__(self):
         return "%s" % (self.nome,)
 
     class Meta:
-        verbose_name = _('bairro')
-        verbose_name_plural = _('bairros')
         ordering = ('municipio',)
 
 
@@ -64,14 +58,11 @@ class Logradouro(models.Model):
     nome = models.CharField(max_length=100)
     municipio = models.ForeignKey(Municipio, blank=True, null=True,
                                   verbose_name='município')
-    history = HistoricalRecords()
 
     def __unicode__(self):
         return self.nome
 
     class Meta:
-        verbose_name = _('logradouro')
-        verbose_name_plural = _('logradouros')
         ordering = ('nome',)
 
 
@@ -81,7 +72,6 @@ class Quadra(models.Model):
     '''
     bairro = models.ForeignKey(Bairro, related_name='quadras')
     numero = models.CharField(max_length=10, verbose_name='número')
-    history = HistoricalRecords()
 
     @property
     def imoveis_count(self):
@@ -119,7 +109,6 @@ class LadoQuadra(models.Model):
                                          verbose_name='número')
     quadra = models.ForeignKey(Quadra, related_name='lados')
     logradouro = models.ForeignKey(Logradouro, null=True)
-    history = HistoricalRecords()
 
     def __unicode__(self):
         return '%s, %s' % (self.logradouro.nome, self.quadra)
@@ -132,23 +121,6 @@ class LadoQuadra(models.Model):
         verbose_name = 'lado de quadra'
         verbose_name_plural = 'lados de quadra'
         ordering = ('numero',)
-
-
-class TipoImovel(models.Model):
-    '''
-    Tipo de imóvel
-    '''
-    nome = models.CharField(max_length=100, verbose_name=_('nome'))
-    sigla = models.CharField(max_length=3, verbose_name=_('sigla'))
-    history = HistoricalRecords()
-
-    def __unicode__(self):
-        return self.nome
-
-    class Meta:
-        verbose_name = 'tipo de imóvel'
-        verbose_name_plural = 'tipos de imóvel'
-        ordering = ('nome',)
 
 
 class Imovel(models.Model):
@@ -166,13 +138,14 @@ class Imovel(models.Model):
     lado = models.ForeignKey(LadoQuadra, related_name='imoveis')
     numero = models.CharField(max_length=10, blank=True,
                               verbose_name='número')
-    tipo = models.ForeignKey(TipoImovel, verbose_name='tipo de imóvel')
+    tipo = models.PositiveIntegerField(choices=Tipo.choices,
+                                       default=Tipo.Residencia,
+                                       verbose_name='tipo de imóvel')
     habitantes = models.PositiveIntegerField(verbose_name='qtd. habitantes')
     caes = models.PositiveIntegerField(default=0, verbose_name='qtd. cães')
     gatos = models.PositiveIntegerField(default=0, verbose_name='qtd. gatos')
     ponto_estrategico = models.BooleanField(default=False,
                                             verbose_name='ponto estratégico')
-    history = HistoricalRecords()
 
     def __unicode__(self):
         numero = self.numero if bool(self.numero) else 'S/N'
@@ -194,6 +167,6 @@ class Imovel(models.Model):
         return self.lado_quadra.logradouro
 
     class Meta:
-        verbose_name = _('imóvel')
-        verbose_name_plural = _('imóveis')
+        verbose_name = 'imóvel'
+        verbose_name_plural = 'imóveis'
         ordering = ('numero',)

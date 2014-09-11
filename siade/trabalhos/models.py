@@ -3,7 +3,6 @@ from datetime import date
 from django.db import models
 from django.utils.translation import gettext as _
 from djchoices import DjangoChoices, ChoiceItem
-from simple_history.models import HistoricalRecords
 from siade.imoveis.models import Imovel, Quadra, Bairro
 from siade.agentes.models import Agente
 
@@ -18,7 +17,6 @@ class Ciclo(models.Model):
                                   verbose_name='finalizado em')
     numero = models.PositiveIntegerField(verbose_name='número')
     ano_base = models.PositiveIntegerField()
-    history = HistoricalRecords()
 
     def __unicode__(self):
         return '%d/%d' % (self.numero, self.ano_base)
@@ -39,7 +37,6 @@ class Trabalho(models.Model):
     ciclo = models.ForeignKey(Ciclo, related_name='trabalhos')
     quadra = models.ForeignKey(Quadra, related_name='trabalhos')
     concluido = models.BooleanField(default=False, editable=False)
-    history = HistoricalRecords()
 
     def __unicode__(self):
         return 'agente %s na quadra %s (ciclo %s)' % (
@@ -132,7 +129,6 @@ class Visita(Tratamento, Pesquisa):
     pendencia = models.PositiveIntegerField(choices=Pendencia.choices,
                                             default=0,
                                             verbose_name='pendência')
-    history = HistoricalRecords()
 
     class Meta:
         verbose_name = 'visita'

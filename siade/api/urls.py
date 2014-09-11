@@ -12,7 +12,6 @@ register = {
     'imoveis/quadra': QuadraViewSet,
     'imoveis/lado-quadra': LadoQuadraViewSet,
     'imoveis/logradouro': LogradouroViewSet,
-    'imoveis/tipo-imovel': TipoImovelViewSet,
     'imoveis/imovel': ImovelViewSet,
     'trabalhos/atividade': AtividadeViewSet,
     'trabalhos/trabalho': TrabalhoViewSet,
@@ -23,6 +22,8 @@ register = {
 router = DefaultRouter()
 for (prefix, view) in register.items():
     router.register(prefix, view)
+
+router.register('imoveis/tipo-imovel', TipoImovelViewSet, 'TipoImovel')
 
 urlpatterns = patterns(
     '',  # sync views
