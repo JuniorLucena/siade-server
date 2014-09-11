@@ -40,7 +40,7 @@ class ApiTest(APITestCase):
         self.assertEqual(data, response.data)
 
 
-class SycTest(APITestCase):
+class SyncTest(APITestCase):
     def setUp(self):
         # autenticar-se
         User = get_user_model()

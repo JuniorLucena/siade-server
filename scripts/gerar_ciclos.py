@@ -44,10 +44,10 @@ def gerar_ciclos(qtd, ano_base):
 
 def gerar_trabalhos(ciclo):
     quadras_count = Quadra.objects.count()
-    agentes_count = Agente.objects.filter(nivel=1).count()
+    agentes_count = Agente.objects.filter(tipo=Agente.Tipo.AgenteCampo).count()
     quadras_por_agente = int(ceil(float(quadras_count) / agentes_count))
     quadras = iter(Quadra.objects.all())
-    for agente in Agente.objects.filter(nivel=1):
+    for agente in Agente.objects.filter(tipo=Agente.Tipo.AgenteCampo):
         for i in range(quadras_por_agente):
             try:
                 quadra = next(quadras)
@@ -71,7 +71,8 @@ def gerar_visita(ciclo, agente, imovel):
         ciclo=ciclo,
         agente=agente,
         imovel=imovel,
-        atividade=atividade
+        atividade=atividade,
+        pendencia=0
     )
 
 

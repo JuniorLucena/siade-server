@@ -2,7 +2,7 @@
 var siadeCtrls = angular.module('siadeControllers', []);
       
 
-siadeCtrls.controller('loginController', ['$scope', '$location', 'authService', function ($scope, $location, authService) {
+siadeCtrls.controller('loginController', ['$scope', '$location', function ($scope, $location) {
  
 }])
 
@@ -198,6 +198,8 @@ siadeCtrls.controller('agenteEditCtrl', ['$scope', '$http','$routeParams', '$loc
 		}
          
 }]);
+
+
 //cadastrar Agente
 siadeCtrls.controller('Agente_Cadastro_Ctrl', ['$scope','$http', '$location', function ($scope,$http,$location) {
 
@@ -316,7 +318,7 @@ siadeCtrls.controller('cidade_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 		
 		$http.post('/api/imoveis/municipio/', $scope.municipio)
 		.success(function (data){
-			console.log(data)
+			$scope.municipios.unshift(data)
 			$location.path('/cidades')
 			}).error(function(data){
 				
@@ -895,10 +897,41 @@ siadeCtrls.controller('logradouroEditCtrl', ['$scope', '$http','$routeParams', '
 			.success(function(data, status, headers, config) {
 				$scope.municipios = data;
 			});
-         
+
 }]);
 
+//Cadastrar Ciclo
+siadeCtrls.controller('cadastrar_ciclo_Ctrl', ['$scope','$http', '$location', '$filter', '$rootScope', '$routeParams', function ($scope,$http,$location,$filter,$rootScope,$routeParams) {
 
+	$scope.ciclo ={};
+
+	$scope.saveCiclo = function(){
+		
+		$http.post('/api/trabalhos/ciclo/', $scope.ciclo)
+		.success(function (data){
+			$scope.ciclos.unshift(data)
+			$location.path('/gerenciar_ciclo')
+		}).error(function(data){
+			
+		})
+		
+	}
+		
+	 var load = function() {
+            console.log('call load()...');
+            $http.get('/api/trabalhos/ciclo/')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.ciclos = data;
+                        angular.copy($scope.ciclos, $scope.copy);
+                    });
+        }
+
+        load();
+
+	$scope.data_inicio  = $filter('date')(new Date(), 'yyyy-MM-dd');
+
+}]);
 
 
 //Gerenciar Ciclo
@@ -909,6 +942,7 @@ siadeCtrls.controller('gerenciar_ciclo_Ctrl', ['$scope','$http', '$location', '$
 	//data do dia...
 	$scope.dataInicio  = $filter('date')(new Date(), 'yyyy-MM-dd');
 */
+
 
 }]);
 
@@ -980,6 +1014,26 @@ siadeCtrls.controller('atividadeCtrl', ['$scope','$http', '$location', function 
 
         load()
 
+}])
+
+
+
+//Relatorios
+
+siadeCtrls.controller('relatorio_d7', ['$scope', function($scope) {
+	$scope.valor = 1
+}])
+
+siadeCtrls.controller('relatorio_d1', ['$scope', function($scope) {
+	$scope.valor = 1
+}])
+
+siadeCtrls.controller('relatorio_ciclo', ['$scope', function($scope) {
+	$scope.valor = 1
+}])
+
+siadeCtrls.controller('relatorio_pendente', ['$scope', function($scope) {
+	$scope.valor = 1
 }])
 
 

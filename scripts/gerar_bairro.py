@@ -56,7 +56,7 @@ def run(size_x=randint(4, 6), size_y=randint(4, 6)):
     size_x, size_y = int(size_x), int(size_y)
     print 'Gerando bairro (%d por %d quadras)' % (size_x, size_y)
     gen = GeradorBairro_de_bairro()
-    quadras = gen.gerar_quadras()
+    quadras = gen.gerar_quadras(size_x, size_y)
     print 'Salvando no banco de dados'
     for quadra in quadras:
         quadra.bairro = gen.bairro

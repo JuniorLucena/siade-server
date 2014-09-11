@@ -19,7 +19,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="quadra in quadras">
-            <td>{{ quadra.bairro}}</td>
+            <td>{{ quadra.bairro.nome}}</td>
             <td>{{ quadra.numero}}</td>
             <td><button  ng-click="editQuadra($index)" class="btn btn-default">Editar</button></td>
             <td ><button  ng-click="excluir(quadra.id)" class="btn btn-default">Deletar</button></td>

@@ -25,7 +25,6 @@ class GeradorBairro(object):
         ('Residênca', 'RE'),
         ('Comércio', 'CO'),
         ('Terreno Baldio', 'TB'),
-        ('Ponto estratégico', 'PE'),
         ('Outros', 'OU'),
     )
 

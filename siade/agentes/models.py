@@ -1,21 +1,23 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-from django.utils.translation import gettext as _
+from djchoices import DjangoChoices, ChoiceItem
 from simple_history.models import HistoricalRecords
 
 
 class AgenteManager(BaseUserManager):
-    def create_user(self, codigo, nivel, password=None):
-        if not codigo:
-            raise ValueError('Agentes devem possuir codigo')
+    def create_user(self, cpf, tipo, password=None):
+        if not cpf:
+            raise ValueError('Agentes devem possuir CPF')
 
-        user = self.model(codigo=codigo, nivel=nivel)
+        user = self.model(cpf=cpf, tipo=tipo)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, codigo, password):
-        user = self.create_user(codigo, 3, password=password)
+    def create_superuser(self, cpf, password):
+        user = self.create_user(cpf, Agente.Tipos.Administrador,
+                                password=password)
         return user
 
 
@@ -23,21 +25,28 @@ class Agente(AbstractBaseUser):
     '''
     Um agente de endemias
     '''
-    nome = models.CharField(max_length=30, verbose_name=_('nome'))
-    sobrenome = models.CharField(max_length=30, verbose_name=_('sobrenome'))
-    email = models.EmailField(blank=True, verbose_name=_('e-mail'))
-    telefone = models.BigIntegerField(blank=True, null=True,
-                                      verbose_name=_('telefone'))
+    class Tipo(DjangoChoices):
+        '''Possiveis tipos para uma visita'''
+        AgenteCampo = ChoiceItem(1, label='Agente de campo')
+        Supervisor = ChoiceItem(2, label='Supervisor')
+        Administrador = ChoiceItem(99, label='Administrador')
+
+    cpf = models.BigIntegerField(verbose_name='CPF')
+    nome = models.CharField(max_length=30)
+    sobrenome = models.CharField(max_length=30)
+    email = models.EmailField(blank=True, verbose_name='e-mail')
+    telefone = models.BigIntegerField(blank=True, null=True)
     nascimento = models.DateField(blank=True, null=True,
-                                  verbose_name=_('data de nasc.'))
+                                  verbose_name='data de nasc.')
     codigo = models.CharField(max_length=20, blank=True, unique=True,
-                              verbose_name=_('codigo'))
-    nivel = models.PositiveIntegerField(default=1)
-    ativo = models.BooleanField(default=True, verbose_name=_('ativo'))
+                              verbose_name='código')
+    tipo = models.PositiveIntegerField(choices=Tipo.choices,
+                                       default=Tipo.AgenteCampo)
+    ativo = models.BooleanField(default=True)
 
     _default_manager = AgenteManager()
     objects = _default_manager
-    USERNAME_FIELD = 'codigo'
+    USERNAME_FIELD = 'cpf'
     REQUIRED_FIELDS = []
 
     def __unicode__(self):
@@ -50,6 +59,8 @@ class Agente(AbstractBaseUser):
         return '%s %s' % (self.nome, self.sobrenome)
 
     def has_perm(self, perm, obj=None):
+        if self.tipo == Tipos.Administrador:
+            return True
         return True
 
     def has_perms(self, perm_list, obj=None):
@@ -63,12 +74,12 @@ class Agente(AbstractBaseUser):
 
     @property
     def is_superuser(self):
-        return self.nivel == 3
+        return self.tipo == Tipos.Administrador
 
     @property
     def is_active(self):
         return self.ativo
 
     class Meta:
-        verbose_name = _('agente')
-        verbose_name_plural = _('agentes')
+        verbose_name = 'agente'
+        verbose_name_plural = 'agentes'

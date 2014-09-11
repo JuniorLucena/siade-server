@@ -30,33 +30,31 @@ class ModelFieldsSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 
-def ModelFieldsSerializer_factory(model_class, *args, **kwargs):
+def serializer_factory(model_class, base_class=ModelFieldsSerializer,
+                       *args, **kwargs):
     '''
     Retorna um ModelFieldsSerializer para um model
     '''
-    _fields = kwargs.get('fields', None)
-    _depth = kwargs.get('depth', 0)
-
-    class Serializer(ModelFieldsSerializer):
-
-        class Meta:
-            model = model_class
-            fields = _fields
-            depth = _depth
-
-    return Serializer
+    serializer_name = '%sSerializer' % model_class._meta.object_name
+    attrs = kwargs
+    attrs.update({'model': model_class})
+    meta = type('Meta', (), attrs)
+    serializer_class = type(str(serializer_name), (base_class,),
+                            {'Meta': meta})
+    return serializer_class
 
 
 class ImovelSyncSerializer(ModelSyncSerializer):
     pendencia = serializers.IntegerField(read_only=True)
 
     def to_native(self, obj):
-        obj.pendencia = 0
+        if not obj is None:
+            obj.pendencia = 0
 
-        if hasattr(obj, 'visitas'):
-            visita = obj.visitas.filter(ciclo=Ciclo.atual()).first()
-            if visita is not None:
-                obj.pendencia = visita.pendencia
+            if hasattr(obj, 'visitas'):
+                visita = obj.visitas.first()
+                if visita is not None:
+                    obj.pendencia = visita.pendencia
 
         return super(ImovelSyncSerializer, self).to_native(obj)
 
