@@ -11,6 +11,7 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: DJANGO_STATIC_URL+'login.html',
 		controller: 'loginController'
 	})
+
 	.when('/estados', {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_uf.html',
 		controller: 'estadoCtrl'
@@ -154,6 +155,11 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: DJANGO_STATIC_URL+'partials/relatorio_pendente.html',
 		controller: 'relatorio_pendente'
 
+	})
+
+	.when('/inicio_ciclo', {
+		templateUrl: DJANGO_STATIC_URL+'partials/iniciar_ciclo.html',
+		controller: 'inicio_ciclo'
 	})
   
     .otherwise({ redirectTo: "/index" })

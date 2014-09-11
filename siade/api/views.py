@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import get_user_model
 from django.db.models import Prefetch
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ViewSet, ModelViewSet
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_sync.views import ModelSyncView, ModelSyncView_factory
 from .serializers import serializer_factory
 from .serializers import ImovelSyncSerializer
@@ -67,12 +70,17 @@ class LadoQuadraViewSet(ModelViewSet):
     filter_fields = ('quadra', 'logradouro')
 
 
-class TipoImovelViewSet(ModelViewSet):
+class TipoImovelViewSet(ViewSet):
     '''
     Tipos de imóvel
     '''
-    queryset = TipoImovel.objects.all()
-    serializer_class = serializer_factory(TipoImovel)
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request):
+        choices = []
+        for val, label in Imovel.Tipo.choices:
+            choices.append({'id': val, 'nome': label})
+        return Response(choices)
 
 
 class ImovelViewSet(ModelViewSet):
