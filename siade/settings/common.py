@@ -13,6 +13,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dummy')
 
 # Application definition
 INSTALLED_APPS = (
+    'siade.agentes',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -21,11 +22,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_extensions',
-    'simple_history',
     'oauth2_provider',
     'rest_framework',
     'rest_sync',
-    'siade.agentes',
     'siade.imoveis',
     'siade.trabalhos',
     'siade.api',
