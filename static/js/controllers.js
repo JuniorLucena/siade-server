@@ -711,3 +711,9 @@ siadeCtrls.controller('relatorio_pendente', ['$scope', function($scope) {
 	$scope.valor = 1
 }])
 
+
+//Relatorios
+
+siadeCtrls.controller('inicio_ciclo', ['$scope', function($scope) {
+	$scope.valor = 1
+}])
