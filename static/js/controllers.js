@@ -712,8 +712,36 @@ siadeCtrls.controller('relatorio_pendente', ['$scope', function($scope) {
 }])
 
 
-//Relatorios
+//Ciclos
 
-siadeCtrls.controller('inicio_ciclo', ['$scope', function($scope) {
+siadeCtrls.controller('inicio_cicloCtrl', ['$scope', '$http','$location', '$filter', '$routeScope','$routeParams', function($scope, $http, $location, $filter, $routeScope, $routeParams) {
+	$scope.ciclo = {};
+
+	$scope.saveCiclo = function(){
+
+	    $http.post('/api/trabalhos/ciclo/', $scope.ciclo)
+	    .success(function (data){
+	        $scope.ciclos.unshift(data)
+	        $location.path('/gerenciar_ciclo')
+	    }).error(function(data){
+
+	    })
+	}
+
+	var load = function(){
+	    console.log('call load()...');
+	    $http.get('/api/trabalhos/ciclo/')
+	        .success(function(data, status, headers, config){
+	            console.log(data)
+	            .scope.ciclos = data;
+	            angular.copy($scope.ciclos, $scope.copy);
+	        });
+	}
+
+	load();
+
+}])
+
+siadeCtrls.controller('gerenciar_cicloCtrl', ['$scope', function($scope) {
 	$scope.valor = 1
 }])

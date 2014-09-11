@@ -122,8 +122,15 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 
 	.when('/inicio_ciclo', {
 		templateUrl: DJANGO_STATIC_URL+'partials/iniciar_ciclo.html',
-		controller: 'inicio_ciclo'
+		controller: 'inicio_cicloCtrl'
 	})
+
+
+	.when('/gerenciar_ciclo', {
+		templateUrl: DJANGO_STATIC_URL+'partials/gerenciar_ciclo.html',
+		controller: 'gerenciar_cicloCtrl'
+	})
+
   
     .otherwise({ redirectTo: "/index" })
 
