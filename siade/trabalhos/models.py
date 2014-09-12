@@ -13,8 +13,7 @@ class Ciclo(models.Model):
     '''
     data_inicio = models.DateField(verbose_name='data inicial')
     data_fim = models.DateField(verbose_name='data final')
-    fechado_em = models.DateField(editable=False, null=True,
-                                  verbose_name='finalizado em')
+    fechado_em = models.DateField(editable=False, null=True, verbose_name='finalizado em')
     numero = models.PositiveIntegerField(verbose_name='número')
     ano_base = models.PositiveIntegerField()
 

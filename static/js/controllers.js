@@ -927,15 +927,15 @@ siadeCtrls.controller('cadastrar_ciclo_Ctrl', ['$scope','$http', '$location', '$
 
         load();
 
-	$scope.data_inicio  = $filter('date')(new Date(), 'yyyy-MM-dd');
+	//$scope.data_inicio  = $filter('date')(new Date(), 'yyyy-MM-dd');
 
 }]);
 
 
 //Gerenciar Ciclo
-siadeCtrls.controller('gerenciar_ciclo_Ctrl', ['$scope','$http', '$location', '$filter', '$rootScope', '$routeParams', function ($scope,$http,$location,$filter,$rootScope,$routeParams) {
+siadeCtrls.controller('gerenciar_cicloCtrl', ['$scope','$http', '$location', '$filter', '$rootScope', '$routeParams', function ($scope,$http,$location,$filter,$rootScope,$routeParams) {
 
-	
+
 /*
 	//data do dia...
 	$scope.dataInicio  = $filter('date')(new Date(), 'yyyy-MM-dd');

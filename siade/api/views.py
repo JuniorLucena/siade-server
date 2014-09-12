@@ -5,6 +5,7 @@ from rest_framework.viewsets import ViewSet, ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.serializers import HyperlinkedModelSerializer
 from rest_sync.views import ModelSyncView, ModelSyncView_factory
 from .serializers import serializer_factory
 from .serializers import ImovelSyncSerializer
@@ -116,7 +117,7 @@ class TrabalhoViewSet(ModelViewSet):
     '''
     Trabalho realizado por um agente em um ciclo
     '''
-    queryset = Trabalho.objects.all()
+    queryset = Trabalho.objects.filter(ciclo=Ciclo.atual())
     serializer_class = serializer_factory(Trabalho)
     filter_fields = ('ciclo', 'agente', 'quadra', 'concluido')
 
@@ -125,7 +126,7 @@ class VisitaViewSet(ModelViewSet):
     '''
     Visita de um agente a um determinado imovel em um ciclo
     '''
-    queryset = Visita.objects.all()
+    queryset = Visita.objects.filter(ciclo=Ciclo.atual())
     serializer_class = serializer_factory(Visita)
     filter_fields = ('data', 'ciclo', 'agente', 'imovel',
                      'atividade', 'tipo', 'pendencia')

@@ -131,9 +131,15 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_atividade.html',
 		controller: 'Atividade_Cadastro_Ctrl'
 	})
+
 	.when('/cadastrar_ciclo', {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_ciclo.html',
 		controller: 'cadastrar_ciclo_Ctrl'
+	})
+
+	.when('/gerenciar_ciclo', {
+		templateUrl: DJANGO_STATIC_URL+'partials/gerenciar_ciclo.html',
+		controller: 'gerenciar_cicloCtrl'
 	})
 
 	.when('/relatorioD7', {
@@ -157,17 +163,6 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 
 	})
 
-	.when('/inicio_ciclo', {
-		templateUrl: DJANGO_STATIC_URL+'partials/iniciar_ciclo.html',
-		controller: 'inicio_cicloCtrl'
-	})
-
-
-	.when('/gerenciar_ciclo', {
-		templateUrl: DJANGO_STATIC_URL+'partials/gerenciar_ciclo.html',
-		controller: 'gerenciar_cicloCtrl'
-	})
-
   
     .otherwise({ redirectTo: "/index" })
 
@@ -181,3 +176,30 @@ siadeApp.config(['$httpProvider', function($httpProvider) {
 	$httpProvider.defaults.xsrfCookieName = 'csrftoken';
 	$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 }])
+
+
+ siadeApp.directive('calendar', function () {
+            return {
+                require: 'ngModel',
+                link: function (scope, el, attr, ngModel) {
+                    $(el).datepicker({
+                        dateFormat: 'yy-mm-dd',
+                        onSelect: function (dateText) {
+                            scope.$apply(function () {
+                                ngModel.$setViewValue(dateText);
+                            });
+                        }
+                    });
+                }
+            };
+        })
+
+
+//myApp.factory('myService', function() {});
+
+function cadastrar_ciclo_Ctrl($scope) {
+    //$scope.name = 'Superhero';
+}
+
+
+
