@@ -927,29 +927,41 @@ siadeCtrls.controller('cadastrar_ciclo_Ctrl', ['$scope','$http', '$location', '$
 
         load();
 
-	//$scope.data_inicio  = $filter('date')(new Date(), 'yyyy-MM-dd');
-
 }]);
 
 
 //Gerenciar Ciclo
 siadeCtrls.controller('gerenciar_cicloCtrl', ['$scope','$http', '$location', '$filter', '$rootScope', '$routeParams', function ($scope,$http,$location,$filter,$rootScope,$routeParams) {
 
-var load = function() {
+
+	//data do dia...
+	//$scope.dataAtual  = $filter('date')(new Date(), 'yyyy-MM-dd');
+
+	$scope.trabalho ={};
+
+	$scope.saveTrabalho = function(){
+		
+		$http.post('/api/trabalhos/trabalho/', $scope.trabalho)
+		.success(function (data){
+			$scope.trabalhos.unshift(data)
+			$location.path('/gerenciar_ciclo')
+		}).error(function(data){
+			
+		})
+		
+	}
+		
+	 var load = function() {
             console.log('call load()...');
-            $http.get('/api/trabalhos/ciclo/')
+            $http.get('/api/trabalhos/trabalho/')
                     .success(function(data, status, headers, config) {
                         console.log(data)
-                        $scope.ciclos = data;
-                        angular.copy($scope.ciclos, $scope.copy);
+                        $scope.trabalhos = data;
+                        angular.copy($scope.trabalhos, $scope.copy);
                     });
         }
 
         load();
-/*
-	//data do dia...
-	$scope.dataInicio  = $filter('date')(new Date(), 'yyyy-MM-dd');
-*/
 
 
 }]);
