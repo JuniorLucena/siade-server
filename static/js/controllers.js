@@ -935,7 +935,17 @@ siadeCtrls.controller('cadastrar_ciclo_Ctrl', ['$scope','$http', '$location', '$
 //Gerenciar Ciclo
 siadeCtrls.controller('gerenciar_cicloCtrl', ['$scope','$http', '$location', '$filter', '$rootScope', '$routeParams', function ($scope,$http,$location,$filter,$rootScope,$routeParams) {
 
+var load = function() {
+            console.log('call load()...');
+            $http.get('/api/trabalhos/ciclo/')
+                    .success(function(data, status, headers, config) {
+                        console.log(data)
+                        $scope.ciclos = data;
+                        angular.copy($scope.ciclos, $scope.copy);
+                    });
+        }
 
+        load();
 /*
 	//data do dia...
 	$scope.dataInicio  = $filter('date')(new Date(), 'yyyy-MM-dd');
