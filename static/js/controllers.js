@@ -927,15 +927,11 @@ siadeCtrls.controller('cadastrar_ciclo_Ctrl', ['$scope','$http', '$location', '$
 
         load();
 
-	
-	
 }]);
 
 
 //Gerenciar Ciclo
-siadeCtrls.controller('gerenciar_ciclo_Ctrl', ['$scope','$http', '$location', '$filter', '$rootScope', '$routeParams', function ($scope,$http,$location,$filter,$rootScope,$routeParams) {
-
-	
+siadeCtrls.controller('gerenciar_cicloCtrl', ['$scope','$http', '$location', '$filter', '$rootScope', '$routeParams', function ($scope,$http,$location,$filter,$rootScope,$routeParams) {
 
 	//data do dia...
 	//$scope.dataAtual  = $filter('date')(new Date(), 'yyyy-MM-dd');
@@ -1058,4 +1054,6 @@ siadeCtrls.controller('relatorio_ciclo', ['$scope', function($scope) {
 siadeCtrls.controller('relatorio_pendente', ['$scope', function($scope) {
 	$scope.valor = 1
 }])
+
+
 
