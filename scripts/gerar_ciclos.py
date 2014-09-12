@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-Gerar dados ficticios de trabalhos
+Gerar dados ficticios de ciclos
 '''
 import logging
 from math import ceil

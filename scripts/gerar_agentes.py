@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+'''
+Gerar dados ficticios de agentes
+'''
 from random import randint, randrange
 from siade.agentes.models import Agente
 from faker import Factory
@@ -38,7 +42,7 @@ def gerar_agentes(qtd):
                               email=faker.email(),
                               codigo=codigo,
                               tipo=Agente.Tipo.AgenteCampo)
-        print '%s %s (CPF %s, COD %s)' % (nome, sobrenome, cpf, codigo)
+        print '* Agente: %s (CPF %s COD %s)' % (nome, cpf, codigo)
 
 
 def run(qtd=5):
