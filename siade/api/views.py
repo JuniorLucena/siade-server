@@ -28,7 +28,7 @@ class MunicipioViewSet(ModelViewSet):
     Municípios de uma UF
     '''
     queryset = Municipio.objects.all()
-    serializer_class = serializer_factory(Municipio, depth=1)
+    serializer_class = serializer_factory(Municipio)
     search_fields = ('nome', 'codigo')
     filter_fields = ('uf',)
 
@@ -58,7 +58,7 @@ class QuadraViewSet(ModelViewSet):
     Quadras de imóveis de um bairro
     '''
     queryset = Quadra.objects.all()
-    serializer_class = serializer_factory(Quadra, depth=1)
+    serializer_class = serializer_factory(Quadra)
     filter_fields = ('numero', 'bairro')
 
 
@@ -137,7 +137,7 @@ class AgenteViewSet(ModelViewSet):
     Agentes de endemias
     '''
     queryset = Agente.objects.all()
-    serializer_class = serializer_factory(Agente, depth=1,
+    serializer_class = serializer_factory(Agente,
                                           exclude=('password', 'last_login'))
 
 

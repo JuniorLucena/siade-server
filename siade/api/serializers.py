@@ -13,21 +13,14 @@ class ModelFieldsSerializer(serializers.ModelSerializer):
     '''
     def __init__(self, *args, **kwargs):
         # Instantiate the superclass normally
-        super(ModelFieldsSerializer, self).__init__(*args, **kwargs)
-
-        request = self.context.get('request', None)
+        fields = None
+        request = kwargs['context'].get('request', None)
         if request:
-            fields = request.QUERY_PARAMS.get('fields', None)
-            if fields:
-                fields = fields.split(',')
-        else:
-            fields = None
-        if fields:
-            # Drop any fields that are not specified in the `fields` argument.
-            allowed = set(fields)
-            existing = set(self.fields.keys())
-            for field_name in existing - allowed:
-                self.fields.pop(field_name)
+            fields = request.QUERY_PARAMS.get('fields')
+            self.Meta.fields = fields.split(',') if fields else None
+            self.Meta.depth = int(request.QUERY_PARAMS.get('depth', 0))
+
+        super(ModelFieldsSerializer, self).__init__(*args, **kwargs)
 
 
 def serializer_factory(model_class, base=ModelFieldsSerializer,
