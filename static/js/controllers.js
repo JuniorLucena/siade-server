@@ -963,6 +963,11 @@ siadeCtrls.controller('gerenciar_cicloCtrl', ['$scope','$http', '$location', '$f
 
         load();
 
+        $http.get('/api/agente/')
+			.success(function(data, status, headers, config) {
+				$scope.agentes = data;
+			});
+
 
 }]);
 

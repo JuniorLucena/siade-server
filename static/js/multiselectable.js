@@ -11,15 +11,15 @@
 	$.fn.multiselectable = function (options) {
 		var that = $(this);
 		options = $.extend({
-			template: '<div class="multiselectable">' +
-				'<div class="m-selectable-from"><label for="m-selectable"></label>' +
+			template: '<div class="multiselectable form-group">' +
+				'<div class="m-selectable-from my-select"><label for="m-selectable"></label>' +
 				'<select multiple="multiple" id="m-selectable"></select>' +
 				'</div>' +
 				'<div class="m-selectable-controls">' +
 					'<button class="multis-right btn-default"></button>' +
 					'<button class="multis-left btn-default"></button>' +
 				'</div>' +
-				'<div class="m-selectable-to "><label for="m-selected"></label>' +
+				'<div class="m-selectable-to my-select"><label for="m-selected"></label>' +
 				'<select multiple="multiple form-control" id="m-selected"></select>' +
 				'</div>' +
 			'</div>',
