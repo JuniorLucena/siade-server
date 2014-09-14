@@ -21,13 +21,13 @@
         <tr ng-repeat="municipio in municipios">
             <td>{{ municipio.codigo }}</td>
             <td>{{ municipio.nome }}</td>
-            <td><button  ng-click="editCidade($index)" class="btn btn-default">Editar</button></td>
+            <td><button  ng-click="editCidade($index)" class="btn btn-outline btn-primary">Editar</button></td>
             <td ><button  ng-click="excluir(municipio.id)" class="btn btn-default">Deletar</button></td>
 
         </tr>
         </tbody>
     </table>
-    <button  ng-click="addCidade()" class="btn btn-default">Cadastrar Cidade</button></td>
+    <button  ng-click="addCidade()" class="btn btn-outline btn-primary">Cadastrar Cidade</button></td>
 </div>
 
 

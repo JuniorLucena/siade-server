@@ -23,13 +23,13 @@
         <tr ng-repeat="agente in agentes">
             <td>{{ agente.codigo }}</td>
             <td>{{ agente.nome }}</td>
-            <td><button  ng-click="editAgente($index)" class="btn btn-default">Editar</button></td>
+            <td><button  ng-click="editAgente($index)" class="btn btn-outline btn-primary">Editar</button></td>
             <td ><button  ng-click="excluir(agente.id)" class="btn btn-default">Deletar</button></td>
 
         </tr>
         </tbody>
     </table>
-    <button  ng-click="addAgente()" class="btn btn-default">Cadastrar Agente</button></td>
+    <button  ng-click="addAgente()" class="btn btn-outline btn-primary">Cadastrar Agente</button></td>
 </div>
 
 

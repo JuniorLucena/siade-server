@@ -968,6 +968,11 @@ siadeCtrls.controller('gerenciar_cicloCtrl', ['$scope','$http', '$location', '$f
 				$scope.agentes = data;
 			});
 
+		$http.get('/api/trabalhos/atividade/')
+			.success(function(data, status, headers, config) {
+				$scope.atividades = data;
+			});
+
 
 }]);
 
