@@ -21,13 +21,13 @@
         <tr ng-repeat="bairro in bairros">
             <td>{{ bairro.nome}}</td>
             <td>{{ bairro.municipio}}</td>
-            <td ><button  ng-click="editBairro($index)" class="btn btn-default">Editar</button></td>
+            <td ><button  ng-click="editBairro($index)"class="btn btn-outline btn-primary">Editar</button></td>
             <td ><button  ng-click="excluir(bairro.id)" class="btn btn-default">Deletar</button></td>
 
         </tr>
         </tbody>
     </table>
-    <button  ng-click="addBairro()" class="btn btn-default">Cadastrar Bairro</button></td>
+    <button  ng-click="addBairro()" class="btn btn-outline btn-primary">Cadastrar Bairro</button></td>
 </div>
 
 
