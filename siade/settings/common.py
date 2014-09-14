@@ -93,3 +93,4 @@ REST_FRAMEWORK = {
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/api-auth/login'
+AUTH_USER_MODEL = 'agentes.Agente'
