@@ -6,17 +6,18 @@ from simple_history.models import HistoricalRecords
 
 
 class AgenteManager(BaseUserManager):
-    def create_user(self, cpf, tipo, password=None):
+    def create_user(self, cpf, nome, sobrenome, tipo, password=None):
         if not cpf:
             raise ValueError('Agentes devem possuir CPF')
 
-        user = self.model(cpf=cpf, tipo=tipo)
+        user = self.model(cpf=cpf, nome=nome, sobrenome=sobrenome, tipo=tipo)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, cpf, password):
-        user = self.create_user(cpf, Agente.Tipo.Administrador,
+    def create_superuser(self, cpf, nome, sobrenome, password):
+        user = self.create_user(cpf, nome, sobrenome,
+                                Agente.Tipo.Administrador,
                                 password=password)
         return user
 
