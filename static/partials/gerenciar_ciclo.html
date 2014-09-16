@@ -7,9 +7,13 @@ $(document).ready(function(){
         moveRightText: ">>",
         moveLeftText: "<<"
     });
+
     $("#selectBairro").change(function(){
-      var indice = $('#selectBairro').find(":selected").index();
+      var indice = $('#selectBairro').val();
+      indice++;
       $.get("/api/imoveis/quadra/?bairro="+ indice, function(data){
+        alert(indice)
+        console.log(data)
         $('#m-selectable').html("");
         //alert(data[0].numero)
         $.each(data, function(i, item){
@@ -126,7 +130,6 @@ $(document).ready(function(){
                                 </li>
                             </ul>-->
 
-
                             <div class="form-group">
                                 <label>Bairro:</label>
                                 <select id="selectBairro" ng-model="trabalho.bairro" ng-options="bairro.id as bairro.nome for bairro in bairros" ></select>
@@ -134,6 +137,7 @@ $(document).ready(function(){
 
                          </div>
                      </div>
+
                      <div class="col-lg-8 text-center">
                         <div class="panel-body">
                             <form role="form">
@@ -144,6 +148,7 @@ $(document).ready(function(){
 	                        </form>
                         </div>
                      </div>
+
                 </div><!-- /.row -->
 
                 <div class="row">
