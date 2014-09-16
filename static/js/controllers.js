@@ -376,8 +376,12 @@ siadeCtrls.controller('cidade_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 				var index = $scope.quadras.indexOf(quadra);
 				$scope.quadras.splice(index, 1);
 			});
-		
-	};
+	    };
+
+	    $http.get('/api/imoveis/bairro/')
+			.success(function(data, status, headers, config) {
+				$scope.bairros = data;
+			});
 }])
 
 //editar Quadra...
@@ -412,8 +416,7 @@ siadeCtrls.controller('quadraEditCtrl', ['$scope', '$http','$routeParams', '$loc
 			});
 
 		}
-         
-          $http.get('/api/imoveis/bairro/')
+		$http.get('/api/imoveis/bairro/')
 			.success(function(data, status, headers, config) {
 				$scope.bairros = data;
 			});
@@ -973,6 +976,15 @@ siadeCtrls.controller('gerenciar_cicloCtrl', ['$scope','$http', '$location', '$f
 				$scope.atividades = data;
 			});
 
+		$http.get('/api/imoveis/bairro/')
+			.success(function(data, status, headers, config) {
+				$scope.bairros = data;
+			});
+
+		$http.get('/api/imoveis/quadra/?bairro=1')
+			.success(function(data, status, headers, config) {
+				$scope.quadras = data;
+			});
 
 }]);
 

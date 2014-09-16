@@ -7,7 +7,21 @@ $(document).ready(function(){
         moveRightText: ">>",
         moveLeftText: "<<"
     });
+    $("#selectBairro").change(function(){
+      var indice = $('#selectBairro').find(":selected").index();
+      $.get("/api/imoveis/quadra/?bairro="+ indice, function(data){
+        $('#m-selectable').html("");
+        //alert(data[0].numero)
+        $.each(data, function(i, item){
+          console.log(item)
+          $('#m-selectable').append("<option value"+ item.id+">"+item.numero+"</option>");
+        });
+      });
+    });
 });
+
+
+
 
 </script>
 
@@ -98,7 +112,7 @@ $(document).ready(function(){
                 <div class="row">
                     <div class="col-lg-4 text-center">
                         <div class="panel-body">
-                            <label>Pesquisar Bairro e suas Quadras:</label>
+                            <!--<label>Pesquisar Bairro e suas Quadras:</label>
                             <ul class="nav" id="side-menu">
                                <li class="sidebar-search">
                                      <div class="input-group custom-search-form">
@@ -109,27 +123,23 @@ $(document).ready(function(){
                                         </button>
                                         </span>
                                     </div>
-                        <!-- /input-group -->
                                 </li>
-                            </ul>
+                            </ul>-->
+
+
+                            <div class="form-group">
+                                <label>Bairro:</label>
+                                <select id="selectBairro" ng-model="trabalho.bairro" ng-options="bairro.id as bairro.nome for bairro in bairros" ></select>
+                          </div>
+
                          </div>
                      </div>
                      <div class="col-lg-8 text-center">
                         <div class="panel-body">
-                            <form role="form" ng-controler="'agenteCtrl'">
+                            <form role="form">
                               <div class="form-group expansible" >
                                 <select multiple="multiple" class="my-select" name="my-select[]" >
-                                  <option value='elem_1'>elem 1</option>
-                                  <option value='elem_2'>elem 2</option>
-                                  <option value='elem_3'>elem 3</option>
-                                  <option value='elem_4'>elem 4</option>
-                                  <option value='elem_100'>elem 100</option>
-                                  <option value='elem_1'>elem 1</option>
-                                  <option value='elem_2'>elem 2</option>
-                                  <option value='elem_3'>elem 3</option>
-                                  <option value='elem_4'>elem 4</option>
-                                  <option value='elem_100'>elem 100</option>
-                                </select>
+                               </select>
                               </div>
 	                        </form>
                         </div>
