@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.serializers import HyperlinkedModelSerializer
+from rest_framework.decorators import detail_route, list_route
 from rest_sync.views import ModelSyncView, ModelSyncView_factory
 from .serializers import serializer_factory
 from .serializers import ImovelSyncSerializer
@@ -111,6 +112,11 @@ class CicloViewSet(ModelViewSet):
     serializer_class = serializer_factory(Ciclo)
     search_fields = ('numero',)
     filter_fields = ('ano_base', 'data_inicio', 'data_fim')
+
+    @list_route()
+    def atual(self, request):
+        serializer = self.get_serializer(Ciclo.atual())
+        return Response(serializer.data)
 
 
 class TrabalhoViewSet(ModelViewSet):
