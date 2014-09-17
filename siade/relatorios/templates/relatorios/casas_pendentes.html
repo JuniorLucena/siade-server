@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Casas pendêntes</title>
+<style>
+	body {
+		font-size: 12pt;
+		line-height: 12pt;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+	#header_content {
+		text-align: center;
+	}
+	.h1 {
+		font-size: 16pt;
+		font-weight: bold;
+	}
+	table {
+		border-collapse: collapse;
+		margin: auto;
+	}
+	th {
+		font-size: 10pt;
+		line-height: 10pt;
+	}
+	th, td {
+		border: 1px solid black;
+	}
+	.col-sm {
+		 width: 2cm;
+		 text-align: center;
+	}
+	.col-md {
+		 width: 2.5cm;
+		 text-align: center;
+	}
+	.col-lg {
+		width: 4.8cm;		
+	}
+    @page {
+        size: A4 landscape;
+        @frame header_frame {           /* Static Frame */
+            -pdf-frame-content: header_content;
+            -pdf-frame-border: 1;
+            left: 1cm; width: 27.7cm; top: 1cm; height: 2cm;
+        }
+        @frame content_col1 {          /* Content Frame */
+            left: 1cm; width: 13.85cm; top: 3cm; height: 15cm;
+        }
+        @frame content_col2 {          /* Content Frame */
+            left: 14.85cm; width: 13.85cm; top: 3cm; height: 15cm;
+        }
+        @frame footer_frame {           /* Another static Frame */
+            -pdf-frame-content: footer_content;
+            -pdf-frame-border: 1;
+            left: 1cm; width: 27.7cm; top: 18cm; height: 1cm;
+        }
+    }
+</style>
+</head>
+<body>
+	<div id="header_content">
+		<div>MINISTÉRIO DA SAÚDE FNS</div>
+		<div>PROGRAMA DE CONTROLE DE FEBRE AMARELA E DENGUE</div>
+		<div class="h1">BOLETIM DE CASAS PENDENTES</div>
+	</div>
+	<table repeat="1">
+		<tr>
+			<th class="col-sm">No.<br/>Quadra</th>
+			<th class="col-lg">Rua</th>
+			<th class="col-md">No.<br/>Imovel</th>
+			<th class="col-md">Data da<br/>Pendencia</th>
+			<th class="col-md">Data do<br/>Tratamento</th>
+		</tr>
+		{% for i in range %}
+		<tr>
+			<td class="col-sm">27</td>
+			<td class="col-lg">Rua sem nome</td>
+			<td class="col-md">1125a</td>
+			<td class="col-md">01 / 01</td>
+			<td class="col-md">01 / 01</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<div id="footer_content">
+		<div>Gerado em 25 / 06 / 2013</div>
+		<div><pdf:pagenumber/> de <pdf:pagecount/></div>
+	</div>
+</body>
+</html>

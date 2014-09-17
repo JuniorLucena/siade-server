@@ -1,0 +1,1 @@
+{"pk": 1, "model": "oauth2_provider.application", "fields": {"redirect_uris": "", "name": "siade", "client_type": "public", "user": 1, "client_id": "_h9x2-NQExPMxa4hLz6tuHF2TUNgslt6nqEl_IWK", "client_secret": "Y0pgWq8!CxP5A_zyC@0PSSS!jCz:=.nH0Fwi8LR_UaNCF!om@CinVmzmkjA3CgGH7Uem4ib-mXcwqDjEr;=GawaJElARqhY5M-kiF51NU7QOy8JzsObM.Zsf8738N;-b", "authorization_grant_type": "password"}}

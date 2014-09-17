@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Boletim de Reconhecimento Geográfico</title>
+<style type="text/css">
+    body {
+        font-size: 12pt;
+        line-height: 12pt;
+        font-family: Arial, Helvetica, sans-serif;
+        width: 21cm;
+        margin: auto;
+    }
+    table {
+        border-collapse: collapse;
+        margin: auto;
+    }
+    td.bordered {
+        padding-top: 2px;
+        border: 1px solid black;
+    }
+    th.bordered {
+        font-size: 10pt;
+        line-height: 8pt;
+        padding-top: 2px;
+        border: 1px solid black;
+    }
+    .col-1 {
+         width: 2cm;
+         text-align: center;
+    }
+    .col-3 {
+         width: 4cm;
+         text-align: left;
+    }
+    @page {
+        size: A4 portrait;
+        @frame header_frame {
+            -pdf-frame-content: header_content;
+            -pdf-frame-border: 1;
+            left: 1cm; width: 19cm; top: 1cm; height: 3.7cm;
+        }
+        @frame table1 {
+            -pdf-frame-border: 1;
+            left: 1cm; width: 9.5cm; top: 4.7cm; height: 9.6cm;
+        }
+        @frame table2 {
+            -pdf-frame-border: 1;
+            left: 10.5cm; width: 9.5cm; top: 4.7cm; height: 9.6cm;
+        }
+        @frame table3 {
+            -pdf-frame-border: 1;
+            left: 1cm; width: 9.5cm; top: 14.3cm; height: 9.6cm;
+        }
+        @frame table4 {
+            -pdf-frame-border: 1;
+            left: 10.5cm; width: 9.5cm; top: 14.3cm; height: 9.6cm;
+        }
+        @frame footer_frame {
+            -pdf-frame-content: footer_content;
+            -pdf-frame-border: 1;
+            left: 1cm; width: 19cm; top: 24cm; height: 4.7cm;
+        }
+    }
+</style>
+</head>
+<body>
+<div id="header_content">
+    <table style="width: 100%; border-style: none;">
+        <tr>
+            <td style="border-style: none;">
+                <div style="header1">ESTADO DO RIO GRANDE DO NORTE</div>
+                <div style="header1">PREFEITURA MUNICIPAL DE PAU DOS FERROS</div>
+                <div style="header1">SECRETARIA DE SAUDE - SESAU</div>
+            </td>
+            <td style="border-style: none; text-align: center; width: 9cm">
+                <div style="header2">Boletim de Reconhecimento</div>
+                <div style="header2">Geografico - RG 1 Urbano</div>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th class="col-3">UF:</th>
+            <td>RN</td>
+        </tr>
+        <tr>
+            <th class="col-3">CÓDIGO:</th>
+            <td>00175</td>
+            <th class="col-3">MUNICÍPIO:</th>
+            <td>Pau dos Ferros</td>
+            <th class="col-3">FOLHA:</th>
+            <td>
+                <pdf:pagenumber> /
+                <pdf:pagecount>
+            </td>
+        </tr>
+        <tr>
+            <th class="col-3">CÓDIGO:</th>
+            <td>00039</td>
+            <th class="col-3">LOC./CAT.:</th>
+            <td>João XXIII</td>
+            <th class="col-3">QUART.:</th>
+            <td>8</td>
+        </tr>
+    </table>
+</div>
+<div>
+{% for i in lados %}
+    <table repeat="1" class="bordered">
+        <tr>
+            <th class="bordered">Rua / Logradouro [Lado {{ i }}]</th>
+            <th class="bordered">Nº</th>
+            <th class="bordered">S<br/>e<br/>q</th>
+            <th class="bordered">C<br/>o<br/>m<br/>p</th>
+            <th class="bordered">T<br/>i<br/>p<br/>o</th>
+            <th class="bordered">H<br/>a<br/>b</th>
+            <th class="bordered">C<br/>ã<br/>o</th>
+            <th class="bordered">G<br/>a<br/>t<br/>o</th>
+        </tr>
+{% for j in range %}
+        <tr>
+            <td class="bordered">Rua 1</td>
+            <td class="bordered col-1">1</td>
+            <td class="bordered col-1">{{ j }}</td>
+            <td class="bordered col-1">0</td>
+            <td class="bordered col-1">1</td>
+            <td class="bordered col-1">1</td>
+            <td class="bordered col-1">0</td>
+            <td class="bordered col-1">0</td>
+        </tr>
+{% endfor %}
+    </table>
+    <pdf:nextframe/>
+{% endfor %}
+</div>
+<div id="footer_content">
+    Responsável pelo dados
+</div>
+</body>
+</html>
