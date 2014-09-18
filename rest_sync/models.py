@@ -6,7 +6,7 @@ from django_extensions.db.fields import ShortUUIDField
 
 
 def gen_sync_version_id():
-    return getrandbits(32)
+    return getrandbits(31)
 
 
 class SyncState(models.Model):
