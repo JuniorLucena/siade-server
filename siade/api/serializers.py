@@ -35,21 +35,3 @@ def serializer_factory(model_class, base=ModelFieldsSerializer,
     serializer_class = type(str(serializer_name), (base,),
                             {'Meta': meta})
     return serializer_class
-
-
-class ImovelSyncSerializer(ModelSyncSerializer):
-    pendencia = serializers.IntegerField(read_only=True)
-
-    def to_native(self, obj):
-        if not obj is None:
-            obj.pendencia = 0
-
-            if hasattr(obj, 'visitas'):
-                visita = obj.visitas.first()
-                if visita is not None:
-                    obj.pendencia = visita.pendencia
-
-        return super(ImovelSyncSerializer, self).to_native(obj)
-
-    class Meta:
-        model = Imovel

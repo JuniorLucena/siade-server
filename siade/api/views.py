@@ -9,7 +9,6 @@ from rest_framework.serializers import HyperlinkedModelSerializer
 from rest_framework.decorators import detail_route, list_route
 from rest_sync.views import ModelSyncView, ModelSyncView_factory
 from .serializers import serializer_factory
-from .serializers import ImovelSyncSerializer
 from .filters import AutoFilterSet
 from siade.imoveis.models import *
 from siade.trabalhos.models import *
@@ -147,18 +146,10 @@ class AgenteViewSet(ModelViewSet):
                                           exclude=('password', 'last_login'))
 
 
-### SyncViews
-class ImovelSyncView(ModelSyncView):
-    queryset = Imovel.objects.all().prefetch_related(
-        Prefetch('visitas', Visita.objects.filter(ciclo=Ciclo.atual()))
-    )
-    serializer_class = ImovelSyncSerializer
-
-
 from rest_sync import synchonizer
 synchonizer.register(Logradouro)
 synchonizer.register(Quadra)
 synchonizer.register(LadoQuadra)
-synchonizer.register(Imovel, view_class=ImovelSyncView)
+synchonizer.register(Imovel)
 synchonizer.register(Trabalho)
 synchonizer.register(Visita)
