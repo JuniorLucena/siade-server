@@ -86,6 +86,10 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_tipo_imovel.html',
 		controller: 'tipoImovelCtrl'
 	})
+	.when('/edit_tipoImovel/:id', {
+		templateUrl: DJANGO_STATIC_URL+'partials/edit_tipoImovel.html',
+		controller: 'tipoImovelEditCtrl'
+	})
 
 	.when('/cadastrar_tipo_imovel', {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_tipo_imovel.html',
@@ -95,6 +99,10 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_imovel.html',
 		controller: 'ImovelCtrl'
 	})
+	.when('/edit_imovel/:id', {
+		templateUrl: DJANGO_STATIC_URL+'partials/edit_imovel.html',
+		controller: 'imovelEditCtrl'
+	})
 
 	.when('/cadastrar_imovel', {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_imovel.html',
@@ -103,6 +111,10 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 	.when('/lado_quadra', {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_lado_quadra.html',
 		controller: 'lado_quadraCtrl'
+	})
+	.when('/edit_lado/:id', {
+		templateUrl: DJANGO_STATIC_URL+'partials/edit_lado.html',
+		controller: 'ladoEditCtrl'
 	})
 
 	.when('/cadastrar_lado_quadra', {
@@ -127,9 +139,14 @@ siadeApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: DJANGO_STATIC_URL+'partials/listar_atividade.html',
 		controller: 'atividadeCtrl'
 	})
+
 	.when('/cadastrar_atividade', {
 		templateUrl: DJANGO_STATIC_URL+'partials/cadastrar_atividade.html',
 		controller: 'Atividade_Cadastro_Ctrl'
+	})
+	.when('/edit_atividade/:id', {
+		templateUrl: DJANGO_STATIC_URL+'partials/edit_atividade.html',
+		controller: 'atividadeEditCtrl'
 	})
 
 	.when('/cadastrar_ciclo', {

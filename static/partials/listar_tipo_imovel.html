@@ -12,22 +12,17 @@
         <thead>
         <tr>
             <th style="min-width: 80px;">Nome</th>
-            <th style="min-width: 80px;">Sigla</th>
             <th style="width:20px;"> </th>
             <th style="width:20px;"> </th>
         </tr>
         </thead>
         <tbody >
         <tr ng-repeat="tipo in tipos">
-            <td>{{ tipo.nome }}</td>
-            <td>{{ tipo.sigla }}</td>
-            <td ><button  ng-click="editTipoImovel($index)" class="btn btn-outline btn-primary">Editar</button></td>
-            <td ><button  ng-click="excluir(tipo.id)" class="btn btn-default">Deletar</button></td>
-
+            <td>{{ tipo.nome }}</td>         
         </tr>
         </tbody>
     </table>
-    <button  ng-click="addTipoImovel()" class="btn btn-outline btn-primary">Cadastrar Tipo de Imovel</button></td>
+  
 </div>
 
 
