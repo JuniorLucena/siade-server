@@ -930,6 +930,11 @@ siadeCtrls.controller('cadastrar_ciclo_Ctrl', ['$scope','$http', '$location', '$
 
         load();
 
+        $http.get('/api/trabalhos/atividade/')
+			.success(function(data, status, headers, config) {
+				$scope.atividades = data;
+		});
+
 }]);
 
 
@@ -946,7 +951,7 @@ siadeCtrls.controller('gerenciar_cicloCtrl', ['$scope','$http', '$location', '$f
 		
 		$http.post('/api/trabalhos/trabalho/', $scope.trabalho)
 		.success(function (data){
-			$scope.trabalhos.unshift(data)
+			$scope.trabalhos.unshift(data)/api/trabalhos/atividade/
 			$location.path('/gerenciar_ciclo')
 		}).error(function(data){
 			
@@ -958,7 +963,6 @@ siadeCtrls.controller('gerenciar_cicloCtrl', ['$scope','$http', '$location', '$f
             console.log('call load()...');
             $http.get('/api/trabalhos/trabalho/')
                     .success(function(data, status, headers, config) {
-                        console.log(data)
                         $scope.trabalhos = data;
                         angular.copy($scope.trabalhos, $scope.copy);
                     });
@@ -971,11 +975,6 @@ siadeCtrls.controller('gerenciar_cicloCtrl', ['$scope','$http', '$location', '$f
 				$scope.agentes = data;
 			});
 
-		$http.get('/api/trabalhos/atividade/')
-			.success(function(data, status, headers, config) {
-				$scope.atividades = data;
-			});
-
 		$http.get('/api/imoveis/bairro/')
 			.success(function(data, status, headers, config) {
 				$scope.bairros = data;
@@ -985,6 +984,19 @@ siadeCtrls.controller('gerenciar_cicloCtrl', ['$scope','$http', '$location', '$f
 			.success(function(data, status, headers, config) {
 				$scope.quadras = data;
 			});
+
+		$http.get('/api/trabalhos/ciclo/')
+			.success(function(data, status, headers, config) {
+				$scope.ciclos = data;
+			});
+
+		$http.get('/api/trabalhos/ciclo/?last=true')
+			.success(function(data, status, headers, config) {
+				 var lastKey = Object.keys(data).sort().reverse()[0];
+				$scope.ciclo = data[lastKey];				
+			});
+
+		
 
 }]);
 

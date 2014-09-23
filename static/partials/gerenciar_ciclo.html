@@ -2,8 +2,8 @@
 
 $(document).ready(function(){
     $(".my-select").multiselectable({
-        selectableLabel: "Quadras do Bairro:",
-        selectedLabel: "Quadras selecionadas:",
+        selectableLabel: "Quadras:",
+        selectedLabel: "Selecionadas:",
         moveRightText: ">>",
         moveLeftText: "<<"
     });
@@ -12,8 +12,6 @@ $(document).ready(function(){
       var indice = $('#selectBairro').val();
       indice++;
       $.get("/api/imoveis/quadra/?bairro="+ indice, function(data){
-        alert(indice)
-        console.log(data)
         $('#m-selectable').html("");
         //alert(data[0].numero)
         $.each(data, function(i, item){
@@ -22,16 +20,74 @@ $(document).ready(function(){
         });
       });
     });
+    
+    var DAY = 1000*60*60*24;
+    var porcentagem;
+
+    $.get("/api/trabalhos/ciclo/?last=true",function(data){
+      var lastKey = Object.keys(data).sort().reverse()[0];
+  
+      var dataI = data[lastKey].data_inicio.toString().split('-');
+      dataI = dataI[0]+"-"+dataI[1]+"-"+dataI[2];
+      //console.log(data[lastKey]);
+     // var inicio = Date.UTC(data1[0],data1[1], data1[2],0,0,0);
+      var dataF = data[lastKey].data_fim.toString().split('-');
+      dataF = dataF[0]+"-"+dataF[1]+"-"+dataF[2];
+
+      var d1 = new Date(dataI);
+      var d2 = new Date(dataF);
+
+      var totalDias = Math.round((d2.getTime() - d1.getTime()) / DAY);
+
+      alert("Total de Dias: " + totalDias);
+
+      var dataAtual = new Date();
+      alert("Data Atual: "+dataAtual);
+
+      var diasRest = Math.round((d2.getTime() - dataAtual.getTime()) / DAY);
+      alert("Dias Restantes: " + diasRest);
+
+      document.getElementById("progresso").innerHTML = diasRest;
+
+      var porcentagem = (diasRest * 100)/totalDias;
+      console.log("Porcentagem : " + porcentagem);
+
+      //var fim = Date.UTC(data2[0],data2[1], data2[2],0,0,0);
+      
+      //var hoje = new Date();
+
+      /*console.log(inicio)
+      console.log(fim)
+      console.log(data1)
+      console.log(data2)
+      var dif = fim - inicio;
+      var totalDias = Math.abs((dif / 1000 / 60 / 60 / 24)
+      var diasRest = diferencaDias(inicio, hoje);
+      //porcentagem = (diasRest * 100)/totalDias;
+      //console.log(hoje)
+      console.log(totalDias);*/
+    
+    $(".progressbar").progressbar({
+        value: porcentagem
+      });
+
+    });
+
+/*function diferencaDias(data1, data2){
+    var dif =
+        Date.UTC(data1.getFullYear(),data1.getMonth(),data1.getDate(),0,0,0)
+      - Date.UTC(data2.getFullYear(),data2.getMonth(),data2.getDate(),0,0,0);
+    return Math.abs((dif / 1000 / 60 / 60 / 24));
+  }*/
+
+
 });
-
-
-
 
 </script>
 
 <style type="text/css">
 .multiselectable { width:500px; display:block; overflow: hidden; width: 200%; }
-.multiselectable select, .multiselectable div {width: 300px; float:left; }
+.multiselectable select, .multiselectable div {width: 200px; float:left; }
 .multiselectable div * { display: block; margin: 0 auto; }
 .multiselectable div { display: inline; }
 .multiselectable .m-selectable-controls { margin-top: 0.5em; width: 50px; }
@@ -67,22 +123,39 @@ $(document).ready(function(){
     									<tr>
     										<th>Data de Inicio</th>
     										<th>Data do Fim:</th>
-    										<th>Ano</th>
     										<th>Número</th>
+    										<th>Ano Base</th>
     									</tr>
     								</thead>
     								<tbody>
-    									<tr>
-    										<td></td>
+    									<tr ng-model="ciclo">
+    										<td id="data_inicio">{{ciclo.data_inicio}}</td>
+                        <td id="data_fim">{{ciclo.data_fim}}</td>
+                        <td>{{ciclo.numero}}</td>
+                        <td>{{ciclo.ano_base}}</td>
     									</tr>
     								</tbody>
     							</table>
     						</div>
-                        </center>
-                    </div>
-                 </div>
+
+                <div class="progress">  
+                  <div class="progressbar">
+                  </div>
+                </div>
+
+                <div style='float:right'>
+                  <h5><p>Dias Restantes para finalizar o ciclo: 
+                  <label id="progresso"></label></p></h5>
+                </div>
+
+              </center>
             </div>
          </div>
+
+         
+  </div>
+</div>
+
     </div> <!--fIM DO rOW -->
 
 
@@ -93,52 +166,26 @@ $(document).ready(function(){
     				<h3 class="panel-title"><center>Selecionar Participantes do Ciclo</center></h3>
     			 </div>
 
-
                 <div class="row">
-                    <div class="col-lg-6 text-center">
+                     <div class="col-lg-3 text-center">
                         <div class="panel-body">
                             <div class="form-group">
-                                <label>Selecionar Agente:</label>
+                                <label>Selecionar Agente:</label><br/>
                                 <select ng-model="trabalho.agente" ng-options="agente.id as agente.nome for agente in agentes" ></select>
                           </div>
                          </div>
                      </div>
-                     <div class="col-lg-6 text-center">
+
+                     <div class="col-lg-3 text-center">
                         <div class="panel-body">
                             <div class="form-group">
-                                <label>Selecionar Atividade:</label>
-                                <select ng-model="trabalho.atividade" ng-options="atividade.id as atividade.nome for atividade in atividades" ></select>
-                             </div>
-                        </div>
-                     </div>
-                </div><!-- /.row -->
-
-                <div class="row">
-                    <div class="col-lg-4 text-center">
-                        <div class="panel-body">
-                            <!--<label>Pesquisar Bairro e suas Quadras:</label>
-                            <ul class="nav" id="side-menu">
-                               <li class="sidebar-search">
-                                     <div class="input-group custom-search-form">
-                                        <input type="text" class="form-control" placeholder="Buscar bairro...">
-                                        <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">
-                                        <i class="fa fa-search"></i>
-                                        </button>
-                                        </span>
-                                    </div>
-                                </li>
-                            </ul>-->
-
-                            <div class="form-group">
-                                <label>Bairro:</label>
+                                <label>Bairro:</label><br/>
                                 <select id="selectBairro" ng-model="trabalho.bairro" ng-options="bairro.id as bairro.nome for bairro in bairros" ></select>
                           </div>
-
-                         </div>
+                        </div>
                      </div>
 
-                     <div class="col-lg-8 text-center">
+                     <div class="col-lg-6 text-center">
                         <div class="panel-body">
                             <form role="form">
                               <div class="form-group expansible" >
@@ -152,17 +199,12 @@ $(document).ready(function(){
                 </div><!-- /.row -->
 
                 <div class="row">
-                    <div class="col-lg-4 text-center">
+                    <div class="col-lg-6 text-center">
                         <div class="panel-body">
                             <button type="submit" ng-click="#" class="btn btn-outline btn-primary">Adicionar Agente</button>
                          </div>
                      </div>
-                    <div class="col-lg-4 text-center">
-                        <div class="panel-body">
-                            <button type="submit" ng-click="#" class="btn btn-outline btn-primary">Iniciar Ciclo</button>
-                         </div>
-                     </div>
-                     <div class="col-lg-4 text-center">
+                     <div class="col-lg-6 text-center">
                         <div class="panel-body">
                             <button type="submit" ng-click="#" class="btn btn-outline btn-primary">Finalizar Ciclo</button>
                          </div>
@@ -173,5 +215,3 @@ $(document).ready(function(){
          </div></center>
     </div> <!--fIM DO rOW -->
  </div>
-
-
