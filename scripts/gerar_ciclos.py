@@ -24,11 +24,14 @@ trabalho_atividades = (
 
 def gerar_ciclo(numero, ano_base, data_inicio):
     '''Gerar um ciclo'''
+    nome, sigla = choice(trabalho_atividades)
+    atividade, c = Atividade.objects.get_or_create(nome=nome, sigla=sigla)
     ciclo = Ciclo.objects.create(
         data_inicio=data_inicio,
         data_fim=data_inicio + timedelta(days=randint(50, 70)),
         numero=numero,
-        ano_base=ano_base
+        ano_base=ano_base,
+        atividade=atividade
     )
     logger.debug('Ciclo %d/%d (%s)', numero, ano_base, data_inicio)
     return ciclo
@@ -63,15 +66,13 @@ def gerar_visita(ciclo, agente, imovel):
     logger.debug('Visita %s (ciclo %s)', imovel, ciclo)
     datahora_visita = faker.date_time_between(
         ciclo.data_inicio, ciclo.data_fim)
-    nome, sigla = choice(trabalho_atividades)
-    atividade, c = Atividade.objects.get_or_create(nome=nome, sigla=sigla)
     return Visita.objects.create(
         data=datahora_visita.date(),
         hora=datahora_visita.time(),
         ciclo=ciclo,
         agente=agente,
         imovel=imovel,
-        atividade=atividade,
+        atividade=ciclo.atividade,
         pendencia=0
     )
 

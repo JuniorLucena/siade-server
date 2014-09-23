@@ -99,6 +99,7 @@ class Quadra(models.Model):
 
     class Meta:
         ordering = ('bairro', 'numero')
+        unique_together = ('bairro', 'numero')
 
 
 class LadoQuadra(models.Model):
@@ -121,6 +122,7 @@ class LadoQuadra(models.Model):
         verbose_name = 'lado de quadra'
         verbose_name_plural = 'lados de quadra'
         ordering = ('numero',)
+        unique_together = ('quadra', 'numero')
 
 
 class Imovel(models.Model):
@@ -170,3 +172,4 @@ class Imovel(models.Model):
         verbose_name = 'imóvel'
         verbose_name_plural = 'imóveis'
         ordering = ('numero',)
+        unique_together = ('lado', 'numero')

@@ -7,6 +7,20 @@ from siade.imoveis.models import Imovel, Quadra, Bairro
 from siade.agentes.models import Agente
 
 
+class Atividade(models.Model):
+    '''
+    Atividade que pode realizada
+    '''
+    nome = models.CharField(max_length=100, verbose_name=_('nome'))
+    sigla = models.CharField(max_length=5, verbose_name=_('sigla'))
+
+    def __unicode__(self):
+        return self.nome
+
+    class Meta:
+        ordering = ('nome',)
+
+
 class Ciclo(models.Model):
     '''
     Ciclo de trabalho de um agente em um ciclo
@@ -14,6 +28,7 @@ class Ciclo(models.Model):
     data_inicio = models.DateField(verbose_name='data inicial')
     data_fim = models.DateField(verbose_name='data final')
     fechado_em = models.DateField(editable=False, null=True, verbose_name='finalizado em')
+    atividade = models.ForeignKey(Atividade, related_name='ciclos')
     numero = models.PositiveIntegerField(verbose_name='número')
     ano_base = models.PositiveIntegerField()
 
@@ -41,19 +56,8 @@ class Trabalho(models.Model):
         return 'agente %s na quadra %s (ciclo %s)' % (
             self.agente.first_name, self.quadra, self.ciclo)
 
-
-class Atividade(models.Model):
-    '''
-    Atividade que pode realizada
-    '''
-    nome = models.CharField(max_length=100, verbose_name=_('nome'))
-    sigla = models.CharField(max_length=5, verbose_name=_('sigla'))
-
-    def __unicode__(self):
-        return self.nome
-
     class Meta:
-        ordering = ('nome',)
+        unique_together = ('agente', 'ciclo', 'quadra')
 
 
 class Tratamento(models.Model):
@@ -133,3 +137,4 @@ class Visita(Tratamento, Pesquisa):
         verbose_name = 'visita'
         verbose_name_plural = 'visitas'
         ordering = ('data', 'hora', 'ciclo')
+        unique_together = ('ciclo', 'agente', 'imovel')
