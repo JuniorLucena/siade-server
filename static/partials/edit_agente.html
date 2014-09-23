@@ -1,33 +1,48 @@
   <div class="row">
     <div class="col-lg-12">
-      <h1>Editar <small>Estado</small></h1>
+      <h1>Editar <small>Agente</small></h1>
       <ol class="breadcrumb">
         <li><a href="index.html"><i class="fa fa-home"></i> Início</a></li>
-        <li class="active"><i class="fa fa-edit"></i> Editar Estado</li>
+        <li class="active"><i class="fa fa-edit"></i> Editar Agente</li>
       </ol>          
     </div>
   </div><!-- /.row -->
-  <div class="panel panel-default" ng-controller="estadoEditCtrl">
+
+  <div class="panel panel-default" ng-controller="agenteEditCtrl">
     <div class="panel-body">
-      <div class="row">
-        <div class="col-lg-6">
-          <form role="form">
+     <div class="row">
+       <div class="col-lg-6">
 
-           <div class="form-group">
-            <label>Nome:</label>
-            <input class="form-control"  ng-model="ufs.nome" >
-          </div>
-
-          <div class="form-group">
-            <label>Sigla:</label>
-            <input class="form-control" ng-model="ufs.sigla">
-
-          </div>
-
-         
-
-          <button type="submit" ng-click="updateUf()" class="btn btn-outline btn-primary">Salvar</button>
+        <div class="form-group">
+          <label>Senha:</label>
+          <input class="form-control" ng-model="agentes.senha">
         </div>
+
+        <div class="form-group">
+          <label>CPF:</label>
+          <input class="form-control" ng-model="agentes.cpf">
+        </div>
+
+        <div class="form-group">
+          <label>Nome:</label>
+          <input class="form-control" ng-model="agentes.nome">
+        </div>
+
+        <div class="form-group">
+          <label>Sobrenome:</label>
+          <input type="email" class="form-control" ng-model="agentes.sobrenome">
+        </div>
+
+        <div class="form-group">
+          <label>Tipo:</label>
+          <select ng-model="agente.tipo" ng-options="tipo.id as tipo.tipo for tipo in tipos" ></select>
+        </div>
+
+
+        <button type="submit"  class="btn btn-outline btn-primary">Salvar</button>
+
       </div>
-    </div>
+    </div><!-- Fim Row -->
   </div>
+</div>
+</div>

@@ -20,7 +20,7 @@
         <tbody>
         <tr ng-repeat="logradouro in logradouros">
             <td>{{ logradouro.nome}}</td>
-            <td>{{ logradouro.municipio}}</td>
+            <td>{{ logradouro.municipio.nome}}</td>
             <td><button  ng-click="editLogradouro($index)" class="btn btn-outline btn-primary">Editar</button></td>
             <td ><button  ng-click="excluir(logradouro.id)" class="btn btn-default">Deletar</button></td>
 

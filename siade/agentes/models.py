@@ -76,7 +76,7 @@ class Agente(AbstractBaseUser):
 
     @property
     def is_superuser(self):
-        return self.tipo == Tipo.Administrador
+        return self.tipo == Tipos.Administrador
 
     @property
     def is_active(self):

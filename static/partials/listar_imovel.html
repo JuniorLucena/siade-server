@@ -1,14 +1,14 @@
 <div class="row">
     <div class="col-lg-12">
-      <h1>Listar <small>Tipo Imovel</small></h1>
+      <h1>Listar <small>Imovel</small></h1>
       <ol class="breadcrumb">
         <li><a href="index.html"><i class="fa fa-home"></i> Início</a></li>
-        <li class="active"><i class="fa fa-edit"></i> Listar Tipo Imovel</li>
+        <li class="active"><i class="fa fa-edit"></i> Listar Imovel</li>
       </ol>          
     </div>
   </div><!-- /.row -->
 <div class="span6">
-    <table class="table table-striped table-condensed" ng-controller="tipoImovelCtrl">
+    <table class="table table-striped table-condensed" ng-controller="ImovelCtrl">
         <thead>
         <tr>
             <th style="min-width: 80px;">Lado</th>
@@ -23,9 +23,9 @@
         </thead>
         <tbody >
         <tr ng-repeat="imovel in imoveis">
-            <td>{{ imovel.lado }}</td>
+            <td>{{ imovel.lado.numero}}</td>
             <td>{{ imovel.numero }}</td>
-            <td>{{ imovel.tipo}}</td>
+            <td>{{ imovel.tipo.nome}}</td>
             <td>{{ imovel.habitantes }}</td>
             <td>{{ imovel.caes }}</td>
             <td>{{ imovel.gatos }}</td>
