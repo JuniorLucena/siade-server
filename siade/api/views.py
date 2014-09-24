@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.serializers import HyperlinkedModelSerializer
 from rest_framework.decorators import detail_route, list_route
+from rest_framework_bulk.mixins import *
 from rest_sync.views import ModelSyncView, ModelSyncView_factory
 from .serializers import serializer_factory
 from .filters import AutoFilterSet
@@ -118,7 +119,8 @@ class CicloViewSet(ModelViewSet):
         return Response(serializer.data)
 
 
-class TrabalhoViewSet(ModelViewSet):
+class TrabalhoViewSet(BulkCreateModelMixin, BulkUpdateModelMixin,
+                      BulkDestroyModelMixin, ModelViewSet):
     '''
     Trabalho realizado por um agente em um ciclo
     '''
