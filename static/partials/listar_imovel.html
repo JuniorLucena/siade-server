@@ -25,7 +25,7 @@
         <tr ng-repeat="imovel in imoveis">
             <td>{{ imovel.lado.numero}}</td>
             <td>{{ imovel.numero }}</td>
-            <td>{{ imovel.tipo.nome}}</td>
+            <td>{{ tipos[imovel.tipo] }}</td>
             <td>{{ imovel.habitantes }}</td>
             <td>{{ imovel.caes }}</td>
             <td>{{ imovel.gatos }}</td>

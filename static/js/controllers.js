@@ -706,6 +706,12 @@ siadeCtrls.controller('ImovelCtrl', ['$scope','$http', '$location', '$window', f
 				$scope.tipos = data;
 			});
 	};
+	$scope.tipos = {
+		1: 'Residência',
+		2: 'Comércio',
+		3: 'Terreno Baldio',
+		4: 'Outros'
+	};
 
 	 
 	 
@@ -1042,7 +1048,7 @@ siadeCtrls.controller('gerenciar_cicloCtrl', ['$scope','$http', '$location', '$f
 	$scope.trabalho ={};
 
 	$scope.saveTrabalho = function(){
-		
+		//console.log($scope.trabalho.quadra);
 		$http.post('/api/trabalhos/trabalho/', $scope.trabalho)
 		.success(function (data){
 			$scope.trabalhos.unshift(data)/api/trabalhos/atividade/
