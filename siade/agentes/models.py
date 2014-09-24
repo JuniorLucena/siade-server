@@ -54,6 +54,14 @@ class Agente(AbstractBaseUser):
     def __unicode__(self):
         return self.get_short_name()
 
+    @property
+    def first_name(self):
+        return self.nome
+
+    @property
+    def last_name(self):
+        return self.sobrenome
+
     def get_short_name(self):
         return self.nome
 
