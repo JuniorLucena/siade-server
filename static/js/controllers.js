@@ -1010,6 +1010,14 @@ siadeCtrls.controller('cadastrar_ciclo_Ctrl', ['$scope','$http', '$location', '$
                     .success(function(data, status, headers, config) {
                         console.log(data)
                         $scope.ciclos = data;
+                        var ultimoCiclo;
+                        $http.get('/api/trabalhos/ciclo/atual/').success(function(ultimo,status,headers,config){
+                        	if(ultimo.fechado_em == null){
+                        		$location.path("/gerenciar_ciclo")
+                        	}
+                        });
+                        console.log(ultimoCiclo);
+                        
                         angular.copy($scope.ciclos, $scope.copy);
                     });
         }

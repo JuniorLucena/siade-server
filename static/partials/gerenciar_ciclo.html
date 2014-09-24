@@ -16,17 +16,19 @@ $(document).ready(function(){
         //alert(data[0].numero)
         $.each(data, function(i, item){
           console.log(item)
-          $('#m-selectable').append("<option value"+ item.id+">"+item.numero+"</option>");
+          $('#m-selectable').append("<option value='"+ item.id+"'>"+item.numero+"</option>");
         });
       });
     });
     
     var DAY = 1000*60*60*24;
+    var ciclo;
 
     $.get("/api/trabalhos/ciclo/?last=true",function(data){
       var lastKey = Object.keys(data).sort().reverse()[0];
   
       var dataI = data[lastKey].data_inicio.toString().split('-');
+      ciclo = data[lastKey].id;
       dataI = dataI[0]+"-"+dataI[1]+"-"+dataI[2];
       //console.log(data[lastKey]);
      // var inicio = Date.UTC(data1[0],data1[1], data1[2],0,0,0);
@@ -70,6 +72,26 @@ $(document).ready(function(){
     $(".progressbar").progressbar({
         value: porcentagem
       });
+    $("#adicionarAgente").click(function(){
+      
+      var quadras = $("#m-selected option");
+      var agente = $("#selectAgente").val();
+      var json = "[";
+      for (var  i = 0; i < quadras.length; i++) {
+        json += "{agente:" + agente + ", ciclo:" + ciclo + ", quadra:" + quadras[i].value + "},";              
+      };
+      json += "]";
+
+        
+        console.log(json);
+      $.post('/api/trabalhos/trabalho/', json)
+    .success(function (data){
+      $scope.trabalhos.unshift(data)
+      $location.path('/gerenciar_ciclo')
+    }).error(function(data){
+      
+    })
+    })
 
     });
 
@@ -106,9 +128,9 @@ $(document).ready(function(){
         </div>
     </div><!-- /.row -->
 
-    <div class="row">
+    <div class="row">saveTrabalho
     	<div class="col-lg-12">
-    		<div class="panel panel-default">
+    		<div class="panel panel-default" ng-controller="gerenciar_cicloCtrl">
                 <div class="panel-heading">
     				<h3 class="panel-title"><center>Dados do Ciclo Atual</center></h3>
     			 </div>
@@ -171,7 +193,7 @@ $(document).ready(function(){
                         <div class="panel-body">
                             <div class="form-group">
                                 <label>Selecionar Agente:</label><br/>
-                                <select ng-model="trabalho.agente" ng-options="agente.id as agente.nome for agente in agentes" ></select>
+                                <select id="selectAgente" ng-model="trabalho.agente" ng-options="agente.id as agente.nome for agente in agentes" ></select>
                           </div>
                          </div>
                      </div>
@@ -201,7 +223,7 @@ $(document).ready(function(){
                 <div class="row">
                     <div class="col-lg-6 text-center">
                         <div class="panel-body">
-                            <button type="submit" ng-click="#" class="btn btn-outline btn-primary">Adicionar Agente</button>
+                            <button type="submit" id="adicionarAgente" class="btn btn-outline btn-primary">Adicionar Agente</button>
                          </div>
                      </div>
                      <div class="col-lg-6 text-center">
