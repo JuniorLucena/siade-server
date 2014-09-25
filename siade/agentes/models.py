@@ -2,7 +2,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from djchoices import DjangoChoices, ChoiceItem
-from simple_history.models import HistoricalRecords
 
 
 class AgenteManager(BaseUserManager):
