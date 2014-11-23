@@ -29,6 +29,7 @@ INSTALLED_APPS = (
     'siade.trabalhos',
     'siade.api',
     'siade.relatorios',
+    'qrcode',
 )
 
 # middleware definition

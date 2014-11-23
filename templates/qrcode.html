@@ -1,0 +1,5 @@
+{% load qr_tags %}
+
+{% for code in qrcodes %}
+{% qr_from_text code "s" %}
+{% endfor %}
