@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth import get_user_model
-from django.db.models import Prefetch
 from rest_framework.viewsets import ViewSet, ModelViewSet
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.serializers import HyperlinkedModelSerializer
-from rest_framework.decorators import detail_route, list_route
+from rest_framework.decorators import list_route
 from rest_framework_bulk.mixins import *
-from rest_sync.views import ModelSyncView, ModelSyncView_factory
 from .serializers import serializer_factory
-from .filters import AutoFilterSet
 from siade.imoveis.models import *
 from siade.trabalhos.models import *
 
