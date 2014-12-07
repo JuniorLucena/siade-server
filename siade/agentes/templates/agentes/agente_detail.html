@@ -1,0 +1,44 @@
+{% extends 'base_site.html' %}
+{% load bootstrap3 cpf %}
+{% block main-content %}
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
+        <li><a href="{% url 'agente-listar' %}">Agentes</a></li>
+        <li class="active">{{ object }}</li>
+    </ol>
+</div>
+<form method="post" class="form-horizontal">{% csrf_token %}
+<div class="pull-right">
+    <a class="btn btn-primary" href="{% url 'agente-editar' object.id %}">Editar</a>
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ações <span class="caret"></span></button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        <li><a href="{% url 'agente-excluir' object.id %}">Excluir</a></li>
+        </ul>
+    </div>
+</div>
+<h1>Agente {{ object }}</h1>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <label class="col-md-2 control-label">Nome</label>
+        <div class="col-md-4 form-control-static">{{ object.nome }} {{ object.sobrenome }}</div>
+        <label class="col-md-2 control-label" for="id_cpf">CPF</label>
+        <div class="col-md-4 form-control-static">{{ object.cpf|cpf_format }}</div>
+        <label class="col-md-2 control-label">Código.</label>
+        <div class="col-md-4 form-control-static">{{ object.codigo }}</div>
+        <label class="col-md-2 control-label">Data de nasc.</label>
+        <div class="col-md-4 form-control-static">{{ object.nascimento }}</div>
+        <label class="col-md-2 control-label">Telefone</label>
+        <div class="col-md-4 form-control-static">{{ object.telefone }}</div>
+        <label class="col-md-2 control-label">E-mail</label>
+        <div class="col-md-4 form-control-static">{{ object.email }}</div>
+        <label class="col-md-2 control-label">Tipo</label>
+        <div class="col-md-4 form-control-static">{{ object.tipo }}</div>
+        <label class="col-md-2 control-label">Ativo</label>
+        <div class="col-md-4 form-control-static">{{ object.ativo }}</div>
+    </div>
+</div>
+</form>
+{{ form }}
+{% endblock %}

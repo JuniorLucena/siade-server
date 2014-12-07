@@ -38,7 +38,7 @@ class Agente(AbstractBaseUser):
     telefone = models.BigIntegerField(blank=True, null=True)
     nascimento = models.DateField(blank=True, null=True,
                                   verbose_name='data de nasc.')
-    codigo = models.CharField(max_length=20, blank=True, unique=True,
+    codigo = models.CharField(max_length=20, unique=True,
                               verbose_name='código')
     tipo = models.PositiveIntegerField(choices=Tipo.choices,
                                        default=Tipo.AgenteCampo)
@@ -51,7 +51,7 @@ class Agente(AbstractBaseUser):
     REQUIRED_FIELDS = ['nome', 'sobrenome']
 
     def __unicode__(self):
-        return self.get_short_name()
+        return self.get_full_name()
 
     @property
     def first_name(self):
@@ -83,7 +83,7 @@ class Agente(AbstractBaseUser):
 
     @property
     def is_superuser(self):
-        return self.tipo == Tipos.Administrador
+        return self.tipo == self.Tipo.Administrador
 
     @property
     def is_active(self):

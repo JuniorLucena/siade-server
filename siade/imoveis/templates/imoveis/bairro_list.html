@@ -1,0 +1,37 @@
+{% extends 'base_site.html' %}
+{% load cpf %}
+{% block main-content %}
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
+        <li class="active">Bairros</li>
+    </ol>
+</div>
+<div class="pull-right">
+    <a class="btn btn-primary" href="{% url 'bairro-adicionar' %}">Novo Bairro</a>
+</div>
+<h1>Bairros</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Municipio</th>
+        <th>Codigo</th>
+        <th class="col-sm-2">Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for bairro in object_list %}
+        <tr>
+            <td>{{ bairro.nome }}</a></td>
+            <td>{{ bairro.municipio }}</td>
+            <td>{{ bairro.codigo }}</td>
+            <td>
+                <a class="btn btn-sm btn-default" href="{% url 'bairro-detalhes' bairro.id %}" title="Detalhes"><i class="fa fa-eye"></i></a>
+                <a class="btn btn-sm btn-default" href="{% url 'bairro-editar' bairro.id %}" title="Editar"><i class="fa fa-edit"></i></a>
+            </td>
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}

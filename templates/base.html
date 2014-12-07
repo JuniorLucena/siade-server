@@ -13,27 +13,27 @@
     <link href="{{ STATIC_URL }}jquery-ui-1.11.1.custom/jquery-ui.css" rel="stylesheet">
     <!--<link href="{{ STATIC_URL }}js/select2/select2.css" rel="stylesheet" >-->
     <link href="{{ STATIC_URL }}css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ STATIC_URL }}css/estilos.css" rel="stylesheet">
 {% block extrahead %}{% endblock %}
 </head>
 <body>
-{% block content %}
-{% endblock %}
+{% block content %}{% endblock %}
     <script>window.DJANGO_STATIC_URL = {{ STATIC_URL }}</script>
     <script src="{{ STATIC_URL }}js/jquery-1.11.0.js"></script>
     <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-    <script src="{{ STATIC_URL }}js/angular/angular.min.js"></script>
+    <!--<script src="{{ STATIC_URL }}js/angular/angular.min.js"></script>
     <script src="{{ STATIC_URL }}js/angular/angular-route.min.js"></script>
-    <script src="{{ STATIC_URL }}js/angular/angular-resource.min.js"></script>
+    <script src="{{ STATIC_URL }}js/angular/angular-resource.min.js"></script>-->
     <script src="{{ STATIC_URL }}js/metisMenu/metisMenu.min.js"></script>
     <script src="{{ STATIC_URL }}js/sb-admin-2.js"></script>
-    <script src="{{ STATIC_URL }}js/app.js"></script>
+    <!--<script src="{{ STATIC_URL }}js/app.js"></script>
     <script src="{{ STATIC_URL }}js/controllers.js"></script>
     <script src="{{ STATIC_URL }}js/select2/select2.js"></script>
     <script src="{{ STATIC_URL }}js/select2.js"></script>
     <script src="{{ STATIC_URL }}js/autoComplete.js"></script>
     <script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
     <script src="{{ STATIC_URL }}jquery-ui-1.11.1.custom/jquery-ui.min.js"></script>
-    <script src="{{ STATIC_URL }}js/multiselectable.js"></script>
+    <script src="{{ STATIC_URL }}js/multiselectable.js"></script>-->
     <!--<script src="{{ STATIC_URL }}js/ui-bootstrap-tpls.js"></script>-->
 {% block extrascript %}{% endblock %}
 </body>

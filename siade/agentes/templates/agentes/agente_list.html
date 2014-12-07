@@ -1,0 +1,39 @@
+{% extends 'base_site.html' %}
+{% load cpf %}
+{% block main-content %}
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
+        <li class="active">Agentes</li>
+    </ol>
+</div>
+<div class="pull-right">
+    <a class="btn btn-primary" href="{% url 'agente-adicionar' %}">Novo Agente</a>
+</div>
+<h1>Agentes</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Sobrenome</th>
+        <th>CPF</th>
+        <th>Ativo</th>
+        <th class="col-xs-2">Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for agente in object_list %}
+        <tr>
+            <td>{{ agente.nome }}</a></td>
+            <td>{{ agente.sobrenome }}</td>
+            <td>{{ agente.cpf|cpf_format }}</td>
+            <td>{{ agente.ativo }}</td>
+            <td>
+                <a class="btn btn-sm btn-default" href="{% url 'agente-detalhes' agente.id %}" title="Detalhes"><i class="fa fa-eye"></i></a>
+                <a class="btn btn-sm btn-default" href="{% url 'agente-editar' agente.id %}" title="Editar"><i class="fa fa-edit"></i></a>
+            </td>
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base_site.html' %}
+{% load bootstrap3 %}
+{% block main-content %}
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
+        <li><a href="{% url list_url %}">{{ verbose_name_plural }}</a></li>
+        <li class="active">Excluir {{ object_name }}</li>
+    </ol>
+</div>
+<form method="post">{% csrf_token %}
+<div class="panel panel-danger">
+    <div class="panel-heading">
+        Excluir agente
+    </div>
+    <div class="panel-body">
+        <p>Deseja realmente excluir o agente
+        <strong>{{ object.get_full_name }} ({{ object.cpf }})</strong>?</p>
+    </div>
+    <div class="panel-footer">
+    	<a class="btn btn-default" href="{% url change_url object.id %}">Cancelar</a>
+    	<button class="btn btn-danger pull-right" type="submit">Excluir agente</button>
+    </div>
+</div>
+</form>
+{% endblock %}

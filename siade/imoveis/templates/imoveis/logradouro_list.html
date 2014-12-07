@@ -1,0 +1,36 @@
+{% extends 'base_site.html' %}
+{% load cpf %}
+{% block main-content %}
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
+        <li class="active">Logradouros</li>
+    </ol>
+</div>
+<div class="pull-right">
+    <a class="btn btn-primary" href="{% url 'logradouro-adicionar' %}">Novo Logradouro</a>
+</div>
+<h1>Logradouros</h1>
+{% include 'includes/pagination.html' %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Municipio</th>
+        <th class="col-sm-2">Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for logradouro in object_list %}
+        <tr>
+            <td>{{ logradouro.nome }}</a></td>
+            <td>{{ logradouro.municipio }}</td>
+            <td>
+                <a class="btn btn-sm btn-default" href="{% url 'logradouro-detalhes' logradouro.id %}" title="Detalhes"><i class="fa fa-eye"></i></a>
+                <a class="btn btn-sm btn-default" href="{% url 'logradouro-editar' logradouro.id %}" title="Editar"><i class="fa fa-edit"></i></a>
+            </td>
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}

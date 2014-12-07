@@ -1,0 +1,26 @@
+{% extends 'base_site.html' %}
+{% load bootstrap3 %}
+{% block main-content %}
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
+        <li><a href="">{{ verbose_name_plural }}</a></li>
+        <li class="active">Modificar {{ object }}</li>
+    </ol>
+</div>
+<form method="post" class="form-horizontal">{% csrf_token %}
+<div class="pull-right">
+    {% buttons submit='Salvar alterações' %}
+        <a class="btn btn-danger" href="">Excluir {{ object_name }}</a>
+    {% endbuttons %}
+</div>
+<h1>Modificar {{ object_name }}</h1>
+<div class="panel panel-default">
+    <div class="panel-body">
+    {% for field in form %}
+        {% bootstrap_field field layout='horizontal' %}
+    {% endfor %}
+    </div>
+</div>
+</form>
+{% endblock %}
