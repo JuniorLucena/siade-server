@@ -1,16 +1,6 @@
-{% extends 'base_site.html' %}
-{% load cpf %}
-{% block main-content %}
-<div class="row">
-    <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
-        <li class="active">Bairros</li>
-    </ol>
-</div>
-<div class="pull-right">
-    <a class="btn btn-primary" href="{% url 'bairro-adicionar' %}">Novo Bairro</a>
-</div>
-<h1>Bairros</h1>
+{% extends 'crud/object_list.html' %}
+{% block content %}
+{{ block.super }}
 <table class="table table-striped">
     <thead>
     <tr>
@@ -21,14 +11,14 @@
     </tr>
     </thead>
     <tbody>
-{% for bairro in object_list %}
+{% for object in object_list %}
         <tr>
-            <td>{{ bairro.nome }}</a></td>
-            <td>{{ bairro.municipio }}</td>
-            <td>{{ bairro.codigo }}</td>
+            <td>{{ object.nome }}</a></td>
+            <td>{{ object.municipio }}</td>
+            <td>{{ object.codigo }}</td>
             <td>
-                <a class="btn btn-sm btn-default" href="{% url 'bairro-detalhes' bairro.id %}" title="Detalhes"><i class="fa fa-eye"></i></a>
-                <a class="btn btn-sm btn-default" href="{% url 'bairro-editar' bairro.id %}" title="Editar"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-sm btn-default" href="{% url object_urls.detalhes object.id %}" title="Detalhes"><i class="fa fa-eye"></i></a>
+                <a class="btn btn-sm btn-default" href="{% url object_urls.editar object.id %}" title="Editar"><i class="fa fa-edit"></i></a>
             </td>
         </tr>
 {% endfor %}

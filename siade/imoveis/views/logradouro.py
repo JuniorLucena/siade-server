@@ -6,27 +6,42 @@ from siade.mixins.messages import MessageMixin
 from ..models import Logradouro
 
 
-class LogradouroMixin(object):
+class ContextMixin(object):
+    def get_context_data(self, **kwargs):
+        context = super(ContextMixin, self).get_context_data(**kwargs)
+        context['title'] = self.model._meta.verbose_name.capitalize()
+
+        object_urls = {}
+        for n in ('listar', 'adicionar', 'detalhes', 'editar', 'excluir'):
+            object_urls[n] = 'logradouro-%s' % n
+
+        context['object_urls'] = object_urls
+        return context
+
+
+class CfgMixin(object):
     model = Logradouro
-    success_url = reverse_lazy('Logradouro-listar')
-    paginate_by = 5
+    success_url = reverse_lazy('logradouro-listar')
+    paginate_by = 10
 
 
-class Listar(LogradouroMixin, ListView):
+class Listar(CfgMixin, ContextMixin, ListView):
     pass
 
 
-class Adicionar(LogradouroMixin, MessageMixin, CreateView):
+class Adicionar(CfgMixin, ContextMixin, MessageMixin, CreateView):
+    template_name = 'crud/object_form.html'
+
+
+class Detalhes(CfgMixin, ContextMixin, DetailView):
     pass
 
 
-class Detalhes(LogradouroMixin, DetailView):
-    pass
-
-
-class Editar(LogradouroMixin, MessageMixin, UpdateView):
+class Editar(CfgMixin, ContextMixin, MessageMixin, UpdateView):
     success_message = u'Logradouro atualizado com êxito'
+    template_name = 'crud/object_form.html'
 
 
-class Excluir(LogradouroMixin, MessageMixin, DeleteView):
+class Excluir(CfgMixin, ContextMixin, MessageMixin, DeleteView):
     success_message = u'Logradouro excluído com êxito'
+    template_name = 'crud/object_confirm_delete.html'

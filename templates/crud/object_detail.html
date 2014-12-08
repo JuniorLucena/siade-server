@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
+        <li><a href="{% url object_urls.listar %}">{{ title }}</a></li>
+        <li class="active">{{ object }}</li>
+    </ol>
+{% endblock %}
+
+{% block content-title %}
+<h1>Detalhes de {{ title }} <small>{{ object }}</small></h1>
+{% endblock %}
+
+{% block actions-buttons %}
+<a class="btn btn-primary" href="{% url object_urls.editar object.id %}">Editar</a>
+<div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ações <span class="caret"></span></button>
+    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+    <li><a href="{% url object_urls.excluir object.id %}">Excluir</a></li>
+    </ul>
+</div>
+{% endblock %}

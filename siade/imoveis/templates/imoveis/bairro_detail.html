@@ -1,24 +1,6 @@
-{% extends 'base_site.html' %}
-{% load bootstrap3 cpf %}
-{% block main-content %}
-<div class="row">
-    <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
-        <li><a href="{% url 'bairro-listar' %}">Bairros</a></li>
-        <li class="active">{{ object }}</li>
-    </ol>
-</div>
-<form method="post" class="form-horizontal">{% csrf_token %}
-<div class="pull-right">
-    <a class="btn btn-primary" href="{% url 'bairro-editar' object.id %}">Editar</a>
-    <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ações <span class="caret"></span></button>
-        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        <li><a href="{% url 'bairro-excluir' object.id %}">Excluir</a></li>
-        </ul>
-    </div>
-</div>
-<h1>Bairro {{ object }}</h1>
+{% extends 'crud/object_detail.html' %}
+{% block content %}
+{{ block.super }}
 <div class="panel panel-default">
     <div class="panel-body">
         <label class="col-md-2 control-label">Nome</label>
@@ -29,6 +11,4 @@
         <div class="col-md-4 form-control-static">{{ object.municipio }}</div>
     </div>
 </div>
-</form>
-{{ form }}
 {% endblock %}

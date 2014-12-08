@@ -1,37 +1,8 @@
-{% extends 'base_site.html' %}
-{% block main-content %}
-<div class="row">
-    <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
-        <li class="active">Agentes</li>
-    </ol>
-</div>
-<div class="pull-right">
-    <a class="btn btn-primary" href="{% url 'agente-adicionar' %}">Novo Agente</a>
-</div>
-<h1>Agentes</h1>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Nome</th>
-        <th>Sobrenome</th>
-        <th>CPF</th>
-        <th>Ativo</th>
-        <th class="col-xs-2">Ações</th>
-    </tr>
-    </thead>
-    <tbody>
-{% for agente in object_list %}
-        <tr>
-            <td>{{ agente.nome }}</td>
-            <td>{{ agente.sobrenome }}</td>
-            <td>{{ agente.cpf }}</td>
-            <td>{{ agente.ativo }}</td>
-            <td>
-                <a class="btn btn-sm btn-primary" href="{% url 'agente-editar' agente.id %}"><i class="fa fa-edit"></i> Editar</a>
-            </td>
-        </tr>
-{% endfor %}
-    </tbody>
-</table>
+{% extends 'base.html' %}
+{% block actions-buttons %}
+<a class="btn btn-primary" href="{% url object_urls.adicionar %}">Adicionar {{ title }}</a>
+{% endblock %}
+{% block content %}
+{{ block.super }}
+{% include 'blocks/pagination.html' %}
 {% endblock %}

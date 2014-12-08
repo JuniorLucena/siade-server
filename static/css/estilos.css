@@ -12,3 +12,7 @@ h1 {
 .table>tbody>tr>td {
 	vertical-align: middle;
 }
+
+.no-margin {
+	margin: 0px;
+}

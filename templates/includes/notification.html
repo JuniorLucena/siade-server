@@ -1,9 +1,0 @@
-{% block messages %}
-{% if messages %}
-{% for message in messages %}
-<div class="alert alert-dismissable{% if message.tags %} {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}{% endif %}">
-	{{ message|safe }}
-</div>
-{% endfor %}
-{% endif %}
-{% endblock messages %}

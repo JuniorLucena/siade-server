@@ -1,6 +1,8 @@
 from django.conf.urls import url, include, patterns
-from .views import *
-from .views import bairro, logradouro
+from siade.utils.urlutils import get_view_urls
+from .views import quadra, bairro, logradouro, municipio, uf
+
+quadra_urls = get_view_urls(quadra.actions, 'quadra')
 
 bairro_urls = patterns(
     '',
@@ -30,25 +32,38 @@ logradouro_urls = patterns(
         name='logradouro-excluir'),
 )
 
-urlpatterns = [
-    url(r'^uf/$', UFListar.as_view(),
+municipio_urls = patterns(
+    '',
+    url(r'^$', municipio.Listar.as_view(),
+        name='municipio-listar'),
+    url(r'^adicionar/$', municipio.Adicionar.as_view(),
+        name='municipio-adicionar'),
+    url(r'^(?P<pk>\d+)/$', municipio.Detalhes.as_view(),
+        name='municipio-detalhes'),
+    url(r'^(?P<pk>\d+)/editar$', municipio.Editar.as_view(),
+        name='municipio-editar'),
+    url(r'^(?P<pk>\d+)/excluir$', municipio.Excluir.as_view(),
+        name='municipio-excluir'),
+)
+
+uf_urls = patterns(
+    '',
+    url(r'^$', uf.Listar.as_view(),
         name='uf-listar'),
-    url(r'^uf/adicionar/$', UFAdicionar.as_view(),
+    url(r'^adicionar/$', uf.Adicionar.as_view(),
         name='uf-adicionar'),
-    url(r'^uf/(?P<pk>\d+)/$', UFEditar.as_view(),
+    url(r'^(?P<pk>\d+)/$', uf.Detalhes.as_view(),
+        name='uf-detalhes'),
+    url(r'^(?P<pk>\d+)/editar$', uf.Editar.as_view(),
         name='uf-editar'),
-    url(r'^uf/(?P<pk>\d+)/apagar$', UFApagar.as_view(),
-        name='uf-apagar'),
+    url(r'^(?P<pk>\d+)/excluir$', uf.Excluir.as_view(),
+        name='uf-excluir'),
+)
 
-    url(r'^Municipio/$', MunicipioListar.as_view(),
-        name='Municipio-listar'),
-    url(r'^Municipio/adicionar/$', MunicipioAdicionar.as_view(),
-        name='Municipio-adicionar'),
-    url(r'^Municipio/(?P<pk>\d+)/$', MunicipioEditar.as_view(),
-        name='Municipio-editar'),
-    url(r'^Municipio/(?P<pk>\d+)/apagar$', MunicipioApagar.as_view(),
-        name='Municipio-apagar'),
-
+urlpatterns = [
+    url(r'^quadra/', include(quadra_urls)),
     url(r'^logradouro/', include(logradouro_urls)),
-    url(r'^bairro/', include(bairro_urls))
+    url(r'^bairro/', include(bairro_urls)),
+    url(r'^municipio/', include(municipio_urls)),
+    url(r'^uf/', include(uf_urls))
 ]

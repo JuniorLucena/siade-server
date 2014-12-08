@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+<form class="form-horizontal">{% csrf_token %}
+<div class="pull-right">
+{% block actions-buttons %}
+<button class="btn btn-primary" type="submit">Alterar senha</button>
+{% endblock %}
+</div>
+{% block content-title %}<h1>Alterar senha</h1>{% endblock %}
+<div class="panel panel-default">
+    <div class="panel-body">
+		{% bootstrap_form form layout='horizontal' %}
+    </div>
+</div>
+</form>
+{% endblock %}
