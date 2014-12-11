@@ -1,0 +1,13 @@
+{% if is_paginated %}
+<nav>
+<ul class="pagination pagination-sm no-margin">
+{% for page in page_obj.paginator.page_range %}
+    {% ifequal page page_obj.number %}
+    <li class="active"><a>{{ page }}</a></li>
+    {% else %}
+    <li><a href="?page={{ page }}">{{ page }}</a></li>
+    {% endifequal %}
+{% endfor %}
+</ul>
+</nav>
+{% endif %}

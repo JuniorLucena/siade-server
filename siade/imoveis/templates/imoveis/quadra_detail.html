@@ -1,0 +1,12 @@
+{% extends 'crud/object_detail.html' %}
+{% block content %}
+{{ block.super }}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <label class="col-md-2 control-label">Numero</label>
+        <div class="col-md-4 form-control-static">{{ object.numero }}</div>
+        <label class="col-md-2 control-label">Bairro</label>
+        <div class="col-md-4 form-control-static">{{ object.bairro }}</div>
+    </div>
+</div>
+{% endblock %}

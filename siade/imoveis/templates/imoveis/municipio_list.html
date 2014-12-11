@@ -1,0 +1,28 @@
+{% extends 'crud/object_list.html' %}
+{% block content %}
+{{ block.super }}
+{% include 'blocks/pagination.html' %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Municipio</th>
+        <th>Codigo</th>
+        <th class="col-sm-2">Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for object in object_list %}
+        <tr>
+            <td>{{ object.nome }}</a></td>
+            <td>{{ object.municipio }}</td>
+            <td>{{ object.codigo }}</td>
+            <td>
+                <a class="btn btn-sm btn-default" href="{% url object_urls.detalhes object.id %}" title="Detalhes"><i class="fa fa-eye"></i></a>
+                <a class="btn btn-sm btn-default" href="{% url object_urls.editar object.id %}" title="Editar"><i class="fa fa-edit"></i></a>
+            </td>
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block actions-buttons %}
+<a class="btn btn-primary" href="{% url object_urls.adicionar %}">Adicionar {{ title }}</a>
+{% endblock %}
+{% block content %}
+{{ block.super }}
+{% include 'blocks/pagination.html' %}
+{% endblock %}
