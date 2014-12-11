@@ -188,7 +188,7 @@ siadeCtrls.controller('agenteEditCtrl', ['$scope', '$http','$routeParams', '$loc
 				if(!data.error) {
 					$location.path('/agentes');
 				} else {
-					
+					$location.path('/agentes');
 				}
 			}).error(function(data, status, headers, config) {
 				
@@ -215,8 +215,7 @@ siadeCtrls.controller('Agente_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 		$http.post('/api/agente/', $scope.agente)
 		.success(function (data){
 			$scope.agentes.unshift(data)
-			
-			$location.path('/agentes')
+			$location.path('/cidades')
 		}).error(function(data){
 				
 		})
@@ -240,6 +239,10 @@ siadeCtrls.controller('Agente_Cadastro_Ctrl', ['$scope','$http', '$location', fu
 				$scope.agentes.tipo = data;
 			});
 
+		$http.get('/api/agente/')
+			.success(function(data, status, headers, config) {
+				$scope.tipos = data;
+			});
 
 }])
 
