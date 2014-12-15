@@ -30,8 +30,8 @@
         <tr>
             <td>{{ quadra.numero }}</a></td>
             <td>{{ quadra.total_imoveis }}</td>
-            <td>{{ quadra.total_caes }}</td>
-            <td>{{ quadra.total_gatos }}</td>
+            <td>{{ quadra.total_caes|default:0 }}</td>
+            <td>{{ quadra.total_gatos|default:0 }}</td>
             <td>
                 <a class="btn btn-sm btn-default" href="{% object_detalhes quadra %}" title="Detalhes"><i class="fa fa-eye"></i></a>
             </td>

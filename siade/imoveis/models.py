@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.db.models import Sum
+from django.db.models import Max, Min, F
 from django.utils.translation import gettext as _
 from djchoices import DjangoChoices, ChoiceItem
 
@@ -152,4 +152,18 @@ class Imovel(models.Model):
         verbose_name = 'imovel'
         verbose_name_plural = 'imóveis'
         ordering = ('ordem',)
-        unique_together = ('lado', 'ordem')
+        #unique_together = ('lado', 'ordem')
+
+    def save(self, *args, **kwargs):
+        qs = self._default_manager.filter(lado=self.lado)
+        if self.ordem is None:
+            c = qs.aggregate(Max('ordem')).get('ordem__max')
+            self.ordem = 1 if c is None else c + 1
+        elif qs.filter(ordem=self.ordem).count > 0:
+            qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
+        super(Imovel, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        qs = self._default_manager.filter(lado=self.lado)
+        qs.filter(ordem__gt=self.ordem).update(ordem=F('ordem')-1)
+        super(Imovel, self).delete(*args, **kwargs)
