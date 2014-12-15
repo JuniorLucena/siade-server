@@ -1,12 +1,33 @@
 {% extends 'crud/object_detail.html' %}
+{% load object_urls cpf %}
+{% block actions-buttons %}
+<a class="btn btn-primary" href="{% object_editar object %}">Alterar agente</a>
+<a class="btn btn-primary" href="">Definir senha</a>
+<div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ações <span class="caret"></span></button>
+    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        <li><a href="{% object_excluir object %}">Excluir</a></li>
+    </ul>
+</div>
+{% endblock %}
 {% block content %}
 {{ block.super }}
 <div class="panel panel-default">
-    <div class="panel-body">
+    <div class="panel-body form-horizontal">
         <label class="col-md-2 control-label">Nome</label>
         <div class="col-md-4 form-control-static">{{ object.get_full_name }}</div>
         <label class="col-md-2 control-label">CPF</label>
-        <div class="col-md-4 form-control-static">{{ object.cpf }}</div>
+        <div class="col-md-4 form-control-static">{{ object.cpf|cpf_format }}</div>
+        <label class="col-md-2 control-label">Código</label>
+        <div class="col-md-4 form-control-static">{{ object.codigo }}</div>
+        <label class="col-md-2 control-label">Tipo</label>
+        <div class="col-md-4 form-control-static">{{ object.get_tipo_display }}</div>
+        <label class="col-md-2 control-label">Telefone</label>
+        <div class="col-md-4 form-control-static">{{ object.telefone|default:'&nbsp;' }}</div>
+        <label class="col-md-2 control-label">E-mail</label>
+        <div class="col-md-4 form-control-static">{{ object.email }}</div>
+        <label class="col-md-2 control-label">Data de Nasc.</label>
+        <div class="col-md-4 form-control-static">{{ object.nascimento }}</div>
     </div>
 </div>
 {% endblock %}
