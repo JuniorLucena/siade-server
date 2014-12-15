@@ -59,6 +59,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
+    'siade.trabalhos.context_processors.ciclo_atual'
 )
 
 # Internationalization
