@@ -1,56 +1,83 @@
 # -*- coding: utf-8 -*-
-from django.views.generic import (CreateView, ListView, UpdateView,
+from django.views.generic import (CreateView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
+from siade.utils.view_urls import registry
+from siade.utils.fields import ReadOnlyField
 from siade.mixins.messages import MessageMixin
-from ..models import Quadra
+from ..models import Quadra, Bairro, Imovel
 
 
-class ContextMixin(object):
-    def get_context_data(self, **kwargs):
-        context = super(ContextMixin, self).get_context_data(**kwargs)
-        context['title'] = self.model._meta.verbose_name.capitalize()
-
-        object_urls = {}
-        for n in ('listar', 'adicionar', 'detalhes', 'editar', 'excluir'):
-            object_urls[n] = 'quadra-%s' % n
-
-        context['object_urls'] = object_urls
-        return context
-
-
-class CfgMixin(object):
+class QuadraMixin(object):
     model = Quadra
     success_url = reverse_lazy('quadra-listar')
     paginate_by = 10
 
-
-class Listar(CfgMixin, ContextMixin, ListView):
-    pass
-
-
-class Adicionar(CfgMixin, ContextMixin, MessageMixin, CreateView):
-    success_message = u'Quadra criado com êxito'
-    template_name = 'crud/object_form.html'
+    def get_context_data(self, **kwargs):
+        context = super(QuadraMixin, self).get_context_data(**kwargs)
+        context['title'] = self.model._meta.verbose_name.capitalize()
+        context['object_class'] = self.model.__name__.lower()
+        return context
 
 
-class Detalhes(CfgMixin, ContextMixin, DetailView):
-    pass
+class Adicionar(QuadraMixin, MessageMixin, CreateView):
+    success_message = u'Quadra criada com êxito'
+
+    def get_form(self, form_class):
+        id_bairro = self.kwargs.get('bairro')
+        self.bairro = Bairro.objects.get(pk=id_bairro)
+
+        form_kwargs = self.get_form_kwargs()
+        form = form_class(**form_kwargs)
+        form.fields['bairro'] = ReadOnlyField(initial=self.bairro)
+
+        return form
+
+    def get_success_url(self):
+        return reverse_lazy('quadra-detalhes', kwargs={'pk': self.object.id})
+
+    def get_context_data(self, **kwargs):
+        context = super(Adicionar, self).get_context_data(**kwargs)
+        context['bairro'] = getattr(self, 'bairro', None)
+        return context
 
 
-class Editar(CfgMixin, ContextMixin, MessageMixin, UpdateView):
+class Detalhes(QuadraMixin, DetailView):
+    def get_context_data(self, **kwargs):
+        context = super(Detalhes, self).get_context_data(**kwargs)
+        lados = self.object.lados.all()
+        num_lado = self.kwargs.get('lado')
+        if lados.count() > 0:
+            if num_lado:
+                lado = self.object.lados.get(numero=num_lado)
+            else:
+                lado = self.object.lados.all()[0]
+            imoveis = Imovel.objects.filter(lado=lado)
+            context['imovel_list'] = imoveis
+            context['lado'] = lado
+
+        context['lado_list'] = lados
+        return context
+
+
+class Editar(QuadraMixin, MessageMixin, UpdateView):
     success_message = u'Quadra atualizado com êxito'
     template_name = 'crud/object_form.html'
 
 
-class Excluir(CfgMixin, ContextMixin, MessageMixin, DeleteView):
+class Excluir(QuadraMixin, MessageMixin, DeleteView):
     success_message = u'Quadra excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
-actions = {
-    'listar': Listar.as_view(),
-    'adicionar': Adicionar.as_view(),
-    'detalhes': Detalhes.as_view(),
-    'editar': Editar.as_view(),
-    'excluir': Excluir.as_view()
-}
+registry.register_actions(
+    'quadra',
+    ('adicionar', Adicionar.as_view(),
+        r'^adicionar/(?P<bairro>\d+)/$'),
+    ('detalhes', Detalhes.as_view(), (
+        r'^(?P<pk>\d+)/(?P<lado>\d+)/$',
+        r'^(?P<pk>\d+)/$',
+    )),
+    ('editar', Editar.as_view()),
+    ('excluir', Excluir.as_view())
+)
+urls = registry.get_urls_for_model('quadra')

@@ -1,11 +1,11 @@
-{% extends 'base_site.html' %}
-{% load bootstrap3 %}
+{% extends 'base.html' %}
+{% load bootstrap3 object_urls %}
 {% block breadcrumbs %}
 <div class="row">
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
-        <li><a href="{% url 'bairro-listar' %}">Bairros</a></li>
-        <li><a href="{% url 'bairro-detalhes' object.id %}">{{ object }}</a></li>
+        <li><a href="{% object_listar object_class %}">Bairros</a></li>
+        <li><a href="{% object_detalhes object %}">{{ object }}</a></li>
         <li class="active">Excluir</li>
     </ol>
 </div>
@@ -21,7 +21,7 @@
         <p>Deseja realmente excluir o {{ title }} <strong>{{ object }}</strong>?</p>
     </div>
     <div class="panel-footer">
-        <a class="btn btn-default" href="{% url object_urls.detalhes object.id %}">Cancelar</a>
+        <a class="btn btn-default" href="{% object_detalhes object %}">Cancelar</a>
         <button class="btn btn-danger pull-right" type="submit">Excluir {{ title }}</button>
     </div>
 </div>

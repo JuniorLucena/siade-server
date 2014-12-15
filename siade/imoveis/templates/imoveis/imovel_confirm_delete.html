@@ -1,0 +1,14 @@
+{% extends 'crud/object_confirm_delete.html' %}
+{% load object_urls %}
+{% block breadcrumbs %}
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
+        <li><a href="{% object_listar 'bairro' %}">Bairros</a></li>
+        <li><a href="{% object_detalhes object.lado.quadra.bairro %}">{{ object.lado.quadra.bairro }}</a></li>
+        <li><a href="{% object_detalhes object.lado.quadra %}">Quadra #{{ object.lado.quadra.numero }}</a></li>
+        <li><a href="{% object_detalhes object %}">{{ object }}</a></li>
+        <li class="active">Excluir</li>
+    </ol>
+</div>
+{% endblock %}

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.db.models import Sum
 from django.utils.translation import gettext as _
 from djchoices import DjangoChoices, ChoiceItem
 
@@ -73,29 +74,8 @@ class Quadra(models.Model):
     bairro = models.ForeignKey(Bairro, related_name='quadras')
     numero = models.CharField(max_length=10, verbose_name='número')
 
-    @property
-    def imoveis_count(self):
-        qs = Imovel.objects.filter(lado__quadra=self.pk)
-        return qs.count()
-
-    @property
-    def predios_count(self):
-        qs = Imovel.objects.filter(lado__quadra=self.pk)
-        qs = qs.exclude(tipo=Imovel.Tipo.Terreno)
-        return qs.count()
-
-    @property
-    def total_caes(self):
-        return Imovel.objects.filter(
-            lado__quadra=self.pk).aggregate(Sum('caes'))
-
-    @property
-    def total_gatos(self):
-        return Imovel.objects.filter(
-            lado__quadra=self.pk).aggregate(Sum('gatos'))
-
     def __unicode__(self):
-        return '%s quadra #%s' % (self.bairro.nome, self.numero)
+        return 'Quadra #%s, %s' % (self.numero, self.bairro.nome)
 
     class Meta:
         ordering = ('bairro', 'numero')
@@ -112,7 +92,7 @@ class LadoQuadra(models.Model):
     logradouro = models.ForeignKey(Logradouro, null=True)
 
     def __unicode__(self):
-        return '%s, %s' % (self.logradouro.nome, self.quadra)
+        return 'Lado %d, %s' % (self.numero, self.quadra)
 
     @property
     def imoveis_total(self):
@@ -169,7 +149,7 @@ class Imovel(models.Model):
         return self.lado_quadra.logradouro
 
     class Meta:
-        verbose_name = 'imóvel'
+        verbose_name = 'imovel'
         verbose_name_plural = 'imóveis'
-        ordering = ('numero',)
-        unique_together = ('lado', 'numero')
+        ordering = ('ordem',)
+        unique_together = ('lado', 'ordem')

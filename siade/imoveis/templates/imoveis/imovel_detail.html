@@ -1,0 +1,47 @@
+{% extends 'crud/object_detail.html' %}
+{% load object_urls %}
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
+        <li><a href="{% object_listar 'bairro' %}">Bairro</a></li>
+        <li><a href="{% object_detalhes object.lado.quadra.bairro %}">{{ object.lado.quadra.bairro }}</a></li>
+        <li><a href="{% object_detalhes object.lado.quadra %}">Quadra #{{ object.lado.quadra.numero }}</a></li>
+        <li class="active">{{ object }}</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<div class="panel panel-default">
+    <div class="panel-body form-horizontal">
+        <div class="col-md-6">
+            <label class="col-md-4 control-label">Quadra</label>
+            <div class="col-md-8"><p class="form-control-static">{{ object.lado }}</p></div>
+        </div>
+        <div class="col-md-6">
+            <label class="col-md-4 control-label">Ordem</label>
+            <div class="col-md-8"><p class="form-control-static">{{ object.ordem }}</p></div>
+        </div>
+        <div class="col-md-6">
+            <label class="col-md-4 control-label">Numero</label>
+            <div class="col-md-8"><p class="form-control-static">{{ object.numero }}</p></div>
+        </div>
+        <div class="col-md-6">
+            <label class="col-md-4 control-label">Tipo</label>
+            <div class="col-md-8"><p class="form-control-static">{{ object.get_tipo_display }}</p></div>
+        </div>
+        <div class="col-md-6">
+            <label class="col-md-4 control-label">Qtd habitantes</label>
+            <div class="col-md-8"><p class="form-control-static">{{ object.numero }}</p></div>
+        </div>
+        <div class="col-md-6">
+            <label class="col-md-4 control-label">Qtd cães</label>
+            <div class="col-md-8"><p class="form-control-static">{{ object.caes }}</p></div>
+        </div>
+        <div class="col-md-6">
+            <label class="col-md-4 control-label">Qtd gatos</label>
+            <div class="col-md-8"><p class="form-control-static">{{ object.gatos }}</p></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

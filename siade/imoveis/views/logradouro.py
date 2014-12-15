@@ -2,46 +2,50 @@
 from django.views.generic import (CreateView, ListView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
+from siade.utils.view_urls import registry
 from siade.mixins.messages import MessageMixin
 from ..models import Logradouro
 
 
-class ContextMixin(object):
-    def get_context_data(self, **kwargs):
-        context = super(ContextMixin, self).get_context_data(**kwargs)
-        context['title'] = self.model._meta.verbose_name.capitalize()
-
-        object_urls = {}
-        for n in ('listar', 'adicionar', 'detalhes', 'editar', 'excluir'):
-            object_urls[n] = 'logradouro-%s' % n
-
-        context['object_urls'] = object_urls
-        return context
-
-
-class CfgMixin(object):
+class LogradouroMixin(object):
     model = Logradouro
     success_url = reverse_lazy('logradouro-listar')
     paginate_by = 10
 
+    def get_context_data(self, **kwargs):
+        context = super(LogradouroMixin, self).get_context_data(**kwargs)
+        context['title'] = self.model._meta.verbose_name.capitalize()
+        context['object_class'] = self.model.__name__.lower()
+        return context
 
-class Listar(CfgMixin, ContextMixin, ListView):
+
+class Listar(LogradouroMixin, ListView):
     pass
 
 
-class Adicionar(CfgMixin, ContextMixin, MessageMixin, CreateView):
+class Adicionar(LogradouroMixin, MessageMixin, CreateView):
     template_name = 'crud/object_form.html'
 
 
-class Detalhes(CfgMixin, ContextMixin, DetailView):
+class Detalhes(LogradouroMixin, DetailView):
     pass
 
 
-class Editar(CfgMixin, ContextMixin, MessageMixin, UpdateView):
+class Editar(LogradouroMixin, MessageMixin, UpdateView):
     success_message = u'Logradouro atualizado com êxito'
     template_name = 'crud/object_form.html'
 
 
-class Excluir(CfgMixin, ContextMixin, MessageMixin, DeleteView):
+class Excluir(LogradouroMixin, MessageMixin, DeleteView):
     success_message = u'Logradouro excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
+
+registry.register_actions(
+    'logradouro',
+    ('listar', Listar.as_view()),
+    ('adicionar', Adicionar.as_view()),
+    ('detalhes', Detalhes.as_view()),
+    ('editar', Editar.as_view()),
+    ('excluir', Excluir.as_view())
+)
+urls = registry.get_urls_for_model('logradouro')

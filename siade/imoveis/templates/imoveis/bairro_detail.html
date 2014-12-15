@@ -1,14 +1,42 @@
 {% extends 'crud/object_detail.html' %}
+{% load object_urls %}
+{% block actions-buttons %}
+<a class="btn btn-success" href="{% object_adicionar 'quadra' object.id %}">Adicionar quadra</a>
+{{ block.super }}
+{% endblock %}
 {% block content %}
 {{ block.super }}
 <div class="panel panel-default">
-    <div class="panel-body">
-        <label class="col-md-2 control-label">Nome</label>
-        <div class="col-md-4 form-control-static">{{ object.nome }}</div>
-        <label class="col-md-2 control-label">Codigo</label>
-        <div class="col-md-4 form-control-static">{{ object.codigo }}</div>
+    <div class="panel-body form-horizontal">
         <label class="col-md-2 control-label">Município</label>
-        <div class="col-md-4 form-control-static">{{ object.municipio }}</div>
+        <div><p class="col-md-4 form-control-static">{{ object.municipio }}</p></div>
+        <label class="col-md-2 control-label">Codigo</label>
+        <div><p class="col-md-4 form-control-static">{{ object.codigo }}</p></div>
     </div>
 </div>
+<h3>Quadras</h3>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>Total de Imóveis</th>
+        <th>Total de Cães</th>
+        <th>Total de Gatos</th>
+        <th class="col-sm-2">Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for quadra in quadra_list %}
+        <tr>
+            <td>{{ quadra.numero }}</a></td>
+            <td>{{ quadra.total_imoveis }}</td>
+            <td>{{ quadra.total_caes }}</td>
+            <td>{{ quadra.total_gatos }}</td>
+            <td>
+                <a class="btn btn-sm btn-default" href="{% object_detalhes quadra %}" title="Detalhes"><i class="fa fa-eye"></i></a>
+            </td>
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
 {% endblock %}
