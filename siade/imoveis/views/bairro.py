@@ -2,55 +2,63 @@
 from django.views.generic import (CreateView, ListView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
+from django.db.models import Sum, Count
+from siade.utils.view_urls import registry
 from siade.mixins.messages import MessageMixin
 from ..models import Bairro
 
 
-class ContextMixin(object):
-    def get_context_data(self, **kwargs):
-        context = super(ContextMixin, self).get_context_data(**kwargs)
-        context['title'] = self.model._meta.verbose_name.capitalize()
-
-        object_urls = {}
-        for n in ('listar', 'adicionar', 'detalhes', 'editar', 'excluir'):
-            object_urls[n] = 'bairro-%s' % n
-
-        context['object_urls'] = object_urls
-        return context
-
-
-class CfgMixin(object):
+class BairroMixin(object):
     model = Bairro
     success_url = reverse_lazy('bairro-listar')
     paginate_by = 10
 
+    def get_context_data(self, **kwargs):
+        context = super(BairroMixin, self).get_context_data(**kwargs)
+        context['title'] = self.model._meta.verbose_name.capitalize()
+        context['object_class'] = self.model.__name__.lower()
+        return context
 
-class Listar(CfgMixin, ContextMixin, ListView):
+
+class Listar(BairroMixin, ListView):
     pass
 
 
-class Adicionar(CfgMixin, ContextMixin, MessageMixin, CreateView):
+class Adicionar(BairroMixin, MessageMixin, CreateView):
     success_message = u'Bairro criado com êxito'
     template_name = 'crud/object_form.html'
 
 
-class Detalhes(CfgMixin, ContextMixin, DetailView):
-    pass
+class Detalhes(BairroMixin, DetailView):
+    def get_context_data(self, **kwargs):
+        quadras = self.object.quadras.all()
+        quadras = quadras.annotate(total_imoveis=Count('lados__imoveis'))
+        quadras = quadras.annotate(total_caes=Sum('lados__imoveis__caes'))
+        quadras = quadras.annotate(total_gatos=Sum('lados__imoveis__gatos'))
+
+        context = super(Detalhes, self).get_context_data(**kwargs)
+        context.update({
+            'quadra_list': quadras,
+        })
+        return context
 
 
-class Editar(CfgMixin, ContextMixin, MessageMixin, UpdateView):
+class Editar(BairroMixin, MessageMixin, UpdateView):
     success_message = u'Bairro atualizado com êxito'
     template_name = 'crud/object_form.html'
 
 
-class Excluir(CfgMixin, ContextMixin, MessageMixin, DeleteView):
+class Excluir(BairroMixin, MessageMixin, DeleteView):
     success_message = u'Bairro excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
-actions = {
-    'listar': Listar,
-    'adicionar': Adicionar,
-    'detalhes': Detalhes,
-    'editar': Editar,
-    'excluir': Excluir
-}
+
+registry.register_actions(
+    'bairro',
+    ('listar', Listar.as_view()),
+    ('adicionar', Adicionar.as_view()),
+    ('detalhes', Detalhes.as_view()),
+    ('editar', Editar.as_view()),
+    ('excluir', Excluir.as_view())
+)
+urls = registry.get_urls_for_model('bairro')

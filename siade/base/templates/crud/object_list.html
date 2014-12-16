@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load bootstrap3 object_urls %}
 {% block actions-buttons %}
-<a class="btn btn-primary" href="{% url object_urls.adicionar %}">Adicionar {{ title }}</a>
+<a class="btn btn-primary" href="{% object_adicionar object_class %}">Adicionar {{ title }}</a>
 {% endblock %}
 {% block content %}
 {{ block.super }}
