@@ -5,14 +5,16 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>Nome</th>
+        <th>No.</th>
+        <th>Logradouro</th>
         <th class="col-sm-2">Ações</th>
     </tr>
     </thead>
     <tbody>
 {% for object in object_list %}
         <tr>
-            <td>{{ object.nome }}</a></td>
+            <td>{{ object.numero }}</a></td>
+            <td>{{ object.logradouro }}</td>
             <td>
                 <a class="btn btn-sm btn-default" href="{% object_detalhes object %}" title="Detalhes"><i class="fa fa-eye"></i></a>
                 <a class="btn btn-sm btn-default" href="{% object_editar object %}" title="Editar"><i class="fa fa-edit"></i></a>

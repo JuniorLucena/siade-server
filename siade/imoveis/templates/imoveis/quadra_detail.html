@@ -1,12 +1,88 @@
 {% extends 'crud/object_detail.html' %}
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/custom-tabs.css">
+{% endblock %}
+{% load object_urls %}
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
+        <li><a href="{% object_listar object.bairro %}">Bairro</a></li>
+        <li><a href="{% object_detalhes object.bairro %}">{{ object.bairro }}</a></li>
+        <li class="active">Quadra #{{ object.numero }}</li>
+    </ol>
+{% endblock %}
+{% block actions-buttons %}
+{% if lado %}
+<a class="btn btn-primary" href="{% object_adicionar 'imovel' object.id lado.numero %}?next={{ request.path }}">Adicionar Imóvel</a>
+{% endif %}
+<div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Lado <span class="caret"></span></button>
+    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        <li><a href="{% object_adicionar 'ladoquadra' object.id %}">Adicionar</a></li>
+{% if lado %}
+        <li><a href="{% object_editar lado %}">Alterar</a></li>
+        <li><a href="{% object_excluir lado %}">Excluir</a></li>
+{% endif %}
+    </ul>
+</div>
+<div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ações <span class="caret"></span></button>
+    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        <li><a href="{% object_editar object %}">Alterar quadra</a></li>
+        <li><a href="{% object_excluir object %}">Excluir quadra</a></li>
+    </ul>
+</div>
+{% endblock %}
 {% block content %}
 {{ block.super }}
-<div class="panel panel-default">
-    <div class="panel-body">
-        <label class="col-md-2 control-label">Numero</label>
-        <div class="col-md-4 form-control-static">{{ object.numero }}</div>
-        <label class="col-md-2 control-label">Bairro</label>
-        <div class="col-md-4 form-control-static">{{ object.bairro }}</div>
+<div class="row">
+    <div class="col-md-2">
+        <h3>Lados</h3>
+        <ul class="nav nav-pills nav-stacked">
+        {% for item in lado_list %}
+            <li{% ifequal item.id lado.id %} class="active"{% endifequal %}>
+                <a href="{% object_action 'quadra' 'detalhes' item.quadra.id item.numero %}" title="{{ item.logradouro }}">Lado #{{ item.numero }}<br/></a>
+            </li>
+        {% endfor %}
+        </ul>
     </div>
+    <div class="col-md-10">
+        <h3>Imoveis</h3>
+        <label class="col-md-4">Logradouro</label>
+        <div class="col-md-8">
+            {{ lado.logradouro }}
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Seq</th>
+                <th>Número</th>
+                <th>Tipo</th>
+                <th>Qtd. Hab.</th>
+                <th>Qtd. Cães</th>
+                <th>Qtd. Gatos</th>
+                <th class="col-sm-2">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+        {% for imovel in imovel_list %}
+                <tr{% if imovel.ponto_estrategico %} class="warning"{% endif %}>
+                    <td>{{ imovel.ordem }}</a></td>
+                    <td>{{ imovel.numero }}</a></td>
+                    <td>{{ imovel.get_tipo_display }}</a></td>
+                    <td>{{ imovel.habitantes }}</a></td>
+                    <td>{{ imovel.caes }}</a></td>
+                    <td>{{ imovel.gatos }}</a></td>
+                    <td>
+                        <a class="btn btn-sm btn-default" href="{% object_detalhes imovel %}" title="Detalhes"><i class="fa fa-eye"></i></a>
+                        <a class="btn btn-sm btn-default" href="{% object_editar imovel %}?next={{ request.path }}" title="Editar"><i class="fa fa-edit"></i></a>
+                    </td>
+                </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 </div>
 {% endblock %}

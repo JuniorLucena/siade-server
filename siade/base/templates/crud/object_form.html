@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-{% load bootstrap3 %}
+{% load bootstrap3 object_urls %}
 {% block breadcrumbs %}
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
-        <li><a href="{% url object_urls.listar %}">{{ title }}</a></li>
+        <li><a href="{% object_listar object_class %}">{{ title }}</a></li>
 {% if object %}
-        <li><a href="{% url object_urls.detalhes object.id %}">{{ object }}</a></li>
+        <li><a href="{% object_detalhes object %}">{{ object }}</a></li>
         <li class="active">Editar</li>
 {% else %}
         <li class="active">Adicionar</li>
@@ -30,9 +30,7 @@
 {{ block.super }}
 <div class="panel panel-default">
     <div class="panel-body">
-    {% for field in form %}
-        {% bootstrap_field field layout='horizontal' %}
-    {% endfor %}
+    {% bootstrap_form form layout='horizontal' %}
     </div>
 </div>
 </form>

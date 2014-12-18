@@ -1,4 +1,5 @@
 {% extends 'crud/object_list.html' %}
+{% load object_urls %}
 {% block content %}
 {{ block.super }}
 <table class="table table-striped">
@@ -17,8 +18,8 @@
             <td>{{ object.municipio }}</td>
             <td>{{ object.codigo }}</td>
             <td>
-                <a class="btn btn-sm btn-default" href="{% url object_urls.detalhes object.id %}" title="Detalhes"><i class="fa fa-eye"></i></a>
-                <a class="btn btn-sm btn-default" href="{% url object_urls.editar object.id %}" title="Editar"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-sm btn-default" href="{% object_detalhes object %}" title="Detalhes"><i class="fa fa-eye"></i></a>
+                <a class="btn btn-sm btn-default" href="{% object_editar object %}" title="Editar"><i class="fa fa-edit"></i></a>
             </td>
         </tr>
 {% endfor %}

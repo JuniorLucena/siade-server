@@ -1,0 +1,16 @@
+{% extends 'crud/object_form.html' %}
+{% load object_urls %}
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
+        <li><a href="{% object_listar 'bairro' %}">Bairro</a></li>
+{% if object %}
+        <li><a href="{% object_detalhes object.quadra.bairro %}">{{ object.quadra.bairro }}</a></li>
+        <li><a href="{% object_detalhes object.quadra %}">Quadra #{{ object.quadra.numero }}</a></li>
+        <li>Lado #{{ object.numero }}</li>
+        <li class="active">Editar</li>
+{% else %}
+        <li class="active">Novo lado</li>
+{% endif %}
+    </ol>
+{% endblock %}
