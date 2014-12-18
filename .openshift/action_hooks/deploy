@@ -1,0 +1,3 @@
+PYTHONPATH=$OPENSHIFT_REPO_DIR/openshift
+django-admin.py migrate --settings='openshift.production' --pythonpath=$PYTHONPATH
+python $PYTHONPATH/manage.py collectstatic -c --noinput --settings='openshift.production' --pythonpath=$PYTHONPATH
