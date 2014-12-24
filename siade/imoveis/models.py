@@ -149,18 +149,19 @@ class Imovel(models.Model):
         return self.lado_quadra.logradouro
 
     class Meta:
-        verbose_name = 'imovel'
+        verbose_name = 'imõvel'
         verbose_name_plural = 'imóveis'
         ordering = ('ordem',)
-        #unique_together = ('lado', 'ordem')
 
     def save(self, *args, **kwargs):
         qs = self._default_manager.filter(lado=self.lado)
         if self.ordem is None:
             c = qs.aggregate(Max('ordem')).get('ordem__max')
             self.ordem = 1 if c is None else c + 1
-        elif qs.filter(ordem=self.ordem).count > 0:
-            qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
+        else:
+            qs = qs.filter(ordem=self.ordem)
+            if qs.count > 0 and qs[0].id != self.id:
+                qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
         super(Imovel, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):

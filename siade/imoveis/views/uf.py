@@ -11,6 +11,7 @@ from ..models import UF
 class UfMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = UF
     success_url = reverse_lazy('UF-listar')
+    permission_required = 'imoveis.can_change_uf'
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
@@ -21,27 +22,25 @@ class UfMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class Listar(UfMixin, ListView):
-    permission_required = 'imoveis.view_uf'
+    pass
 
 
 class Adicionar(UfMixin, MessageMixin, CreateView):
-    permission_required = 'imoveis.add_uf'
     success_message = u'UF adicionado com êxito'
     template_name = 'crud/object_form.html'
 
 
 class Detalhes(UfMixin, DetailView):
-    permission_required = 'imoveis.view_uf'
+    pass
 
 
 class Editar(UfMixin, MessageMixin, UpdateView):
-    permission_required = 'imoveis.change_uf'
     success_message = u'UF atualizado com êxito'
     template_name = 'crud/object_form.html'
 
 
 class Excluir(UfMixin, MessageMixin, DeleteView):
-    permission_required = 'imoveis.delete_uf'
+    permission_required = 'imoveis.can_delete_uf'
     success_message = u'UF excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
