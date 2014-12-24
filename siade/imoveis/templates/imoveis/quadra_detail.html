@@ -1,7 +1,7 @@
 {% extends 'crud/object_detail.html' %}
 {% block extrahead %}
 {{ block.super }}
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/custom-tabs.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.vertical-tabs.min.css">
 {% endblock %}
 {% load object_urls %}
 {% block breadcrumbs %}
@@ -27,10 +27,10 @@
     </ul>
 </div>
 <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ações <span class="caret"></span></button>
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Quadra <span class="caret"></span></button>
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        <li><a href="{% object_editar object %}">Alterar quadra</a></li>
-        <li><a href="{% object_excluir object %}">Excluir quadra</a></li>
+        <li><a href="{% object_editar object %}">Alterar</a></li>
+        <li><a href="{% object_excluir object %}">Excluir</a></li>
     </ul>
 </div>
 {% endblock %}
@@ -38,20 +38,22 @@
 {{ block.super }}
 <div class="row">
     <div class="col-md-2">
-        <h3>Lados</h3>
-        <ul class="nav nav-pills nav-stacked">
+        <ul class="nav nav-tabs tabs-left">
         {% for item in lado_list %}
             <li{% ifequal item.id lado.id %} class="active"{% endifequal %}>
-                <a href="{% object_action 'quadra' 'detalhes' item.quadra.id item.numero %}" title="{{ item.logradouro }}">Lado #{{ item.numero }}<br/></a>
+                <a href="{% object_action 'quadra' 'detalhes' item.quadra.id item.numero %}">Lado #{{ item.numero }}</a>
             </li>
         {% endfor %}
         </ul>
     </div>
     <div class="col-md-10">
-        <h3>Imoveis</h3>
-        <label class="col-md-4">Logradouro</label>
-        <div class="col-md-8">
-            {{ lado.logradouro }}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <label class="col-md-4">Logradouro</label>
+                <div class="col-md-8">
+                    {{ lado.logradouro }}
+                </div>
+            </div>
         </div>
         <table class="table table-striped">
             <thead>

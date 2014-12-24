@@ -2,41 +2,45 @@
 from django.views.generic import (CreateView, ListView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from siade.utils.view_urls import registry
 from siade.mixins.messages import MessageMixin
 from ..models import Municipio
 
 
-class LogradouroMixin(object):
+class MunicipioMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Municipio
     success_url = reverse_lazy('municipio-listar')
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
-        context = super(LogradouroMixin, self).get_context_data(**kwargs)
+        context = super(MunicipioMixin, self).get_context_data(**kwargs)
         context['title'] = self.model._meta.verbose_name.capitalize()
         context['object_class'] = self.model.__name__.lower()
         return context
 
 
-class Listar(LogradouroMixin, ListView):
-    pass
+class Listar(MunicipioMixin, ListView):
+    permission_required = 'imoveis.view_municipio'
 
 
-class Adicionar(LogradouroMixin, MessageMixin, CreateView):
+class Adicionar(MunicipioMixin, MessageMixin, CreateView):
+    permission_required = 'imoveis.add_municipio'
     template_name = 'crud/object_form.html'
 
 
-class Detalhes(LogradouroMixin, DetailView):
-    pass
+class Detalhes(MunicipioMixin, DetailView):
+    permission_required = 'imoveis.view_municipio'
 
 
-class Editar(LogradouroMixin, MessageMixin, UpdateView):
+class Editar(MunicipioMixin, MessageMixin, UpdateView):
+    permission_required = 'imoveis.change_municipio'
     success_message = u'Municipio atualizado com êxito'
     template_name = 'crud/object_form.html'
 
 
-class Excluir(LogradouroMixin, MessageMixin, DeleteView):
+class Excluir(MunicipioMixin, MessageMixin, DeleteView):
+    permission_required = 'imoveis.delete_municipio'
     success_message = u'Municipio excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 

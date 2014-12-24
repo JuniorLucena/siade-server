@@ -8,6 +8,7 @@
     <li><a href="?page={{ page }}">{{ page }}</a></li>
     {% endifequal %}
 {% endfor %}
+    <li class="disabled"><a>{{ page_obj.paginator.count }} total</a></li>
 </ul>
 </nav>
 {% endif %}

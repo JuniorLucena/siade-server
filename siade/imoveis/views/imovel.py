@@ -2,15 +2,23 @@
 from django.views.generic import (CreateView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from siade.utils.fields import ReadOnlyField
 from siade.utils.view_urls import registry
 from siade.mixins.messages import MessageMixin
-from ..models import Imovel, Quadra, LadoQuadra
+from ..models import Imovel, LadoQuadra
 from ..forms import ImovelForm
 
 
-class ImovelMixin(object):
+class ImovelMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Imovel
+
+    def get_success_url(self):
+        nextUrl = self.request.GET.get('next')
+        if nextUrl is None:
+            nextUrl = reverse_lazy('imovel-detalhes',
+                                   kwargs={'pk': self.object.id})
+        return nextUrl
 
     def get_context_data(self, **kwargs):
         context = super(ImovelMixin, self).get_context_data(**kwargs)
@@ -20,6 +28,7 @@ class ImovelMixin(object):
 
 
 class Adicionar(ImovelMixin, MessageMixin, CreateView):
+    permission_required = 'imoveis.add_imovel'
     success_message = u'Imovel criado com êxito'
 
     def get_form(self, form_class):
@@ -34,9 +43,6 @@ class Adicionar(ImovelMixin, MessageMixin, CreateView):
 
         return form
 
-    def get_success_url(self):
-        return reverse_lazy('imovel-detalhes', kwargs={'pk': self.object.id})
-
     def get_context_data(self, **kwargs):
         context = super(Adicionar, self).get_context_data(**kwargs)
         context['lado'] = getattr(self, 'lado', None)
@@ -44,10 +50,11 @@ class Adicionar(ImovelMixin, MessageMixin, CreateView):
 
 
 class Detalhes(ImovelMixin, DetailView):
-    pass
+    permission_required = 'imoveis.view_imovel'
 
 
 class Editar(ImovelMixin, MessageMixin, UpdateView):
+    permission_required = 'imoveis.change_imovel'
     success_message = u'Imovel atualizado com êxito'
     form_class = ImovelForm
 
@@ -61,11 +68,9 @@ class Editar(ImovelMixin, MessageMixin, UpdateView):
         kwargs.update({'initial': {'lado': self.object.lado}})
         return kwargs
 
-    def get_success_url(self):
-        return reverse_lazy('imovel-detalhes', kwargs={'pk': self.object.id})
-
 
 class Excluir(ImovelMixin, MessageMixin, DeleteView):
+    permission_required = 'imoveis.delete_imovel'
     success_message = u'Imovel excluído com êxito'
 
     def get_success_url(self):

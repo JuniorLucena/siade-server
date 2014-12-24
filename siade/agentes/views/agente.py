@@ -2,21 +2,27 @@
 from django.views.generic import (CreateView, ListView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
+from django.forms.models import modelform_factory
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from siade.utils.view_urls import registry
 from siade.mixins.messages import MessageMixin
 from ..models import Agente
 
 
-class AgenteMixin(object):
+class AgenteMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Agente
-    success_url = reverse_lazy('agente-listar')
     fields = ('cpf', 'nome', 'sobrenome', 'nascimento',
-              'email', 'telefone', 'codigo', 'tipo', 'ativo')
+              'email', 'telefone', 'codigo', 'tipo')
+    form_class = modelform_factory(Agente, fields=fields)
+    permission_required = 'imoveis.change_agente'
+    success_url = reverse_lazy('agente-listar')
 
     def get_context_data(self, **kwargs):
         context = super(AgenteMixin, self).get_context_data(**kwargs)
         context['title'] = self.model._meta.verbose_name.capitalize()
         context['object_class'] = self.model.__name__.lower()
+        context['fields'] = getattr(self, 'fields',
+                                    self.model._meta.get_all_field_names())
         return context
 
 

@@ -2,7 +2,7 @@
 {% load object_urls cpf %}
 {% block actions-buttons %}
 <a class="btn btn-primary" href="{% object_editar object %}">Alterar agente</a>
-<a class="btn btn-primary" href="">Definir senha</a>
+<a class="btn btn-primary" href="{% url 'password_reset' %}">Definir senha</a>
 <div class="btn-group">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ações <span class="caret"></span></button>
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
