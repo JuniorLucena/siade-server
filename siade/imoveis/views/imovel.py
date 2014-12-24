@@ -12,6 +12,7 @@ from ..forms import ImovelForm
 
 class ImovelMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Imovel
+    permission_required = 'imoveis.can_change_imovel'
 
     def get_success_url(self):
         nextUrl = self.request.GET.get('next')
@@ -28,7 +29,6 @@ class ImovelMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class Adicionar(ImovelMixin, MessageMixin, CreateView):
-    permission_required = 'imoveis.add_imovel'
     success_message = u'Imovel criado com êxito'
 
     def get_form(self, form_class):
@@ -50,11 +50,10 @@ class Adicionar(ImovelMixin, MessageMixin, CreateView):
 
 
 class Detalhes(ImovelMixin, DetailView):
-    permission_required = 'imoveis.view_imovel'
+    pass
 
 
 class Editar(ImovelMixin, MessageMixin, UpdateView):
-    permission_required = 'imoveis.change_imovel'
     success_message = u'Imovel atualizado com êxito'
     form_class = ImovelForm
 
@@ -70,7 +69,7 @@ class Editar(ImovelMixin, MessageMixin, UpdateView):
 
 
 class Excluir(ImovelMixin, MessageMixin, DeleteView):
-    permission_required = 'imoveis.delete_imovel'
+    permission_required = 'imoveis.can_delete_imovel'
     success_message = u'Imovel excluído com êxito'
 
     def get_success_url(self):

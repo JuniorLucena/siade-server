@@ -30,7 +30,9 @@
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Quadra <span class="caret"></span></button>
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
         <li><a href="{% object_editar object %}">Alterar</a></li>
+{% if perms.imoveis.can_delete_quadra %}
         <li><a href="{% object_excluir object %}">Excluir</a></li>
+{% endif %}
     </ul>
 </div>
 {% endblock %}

@@ -19,7 +19,7 @@
             <td>{{ object.get_tipo_display }}</td>
             <td>
                 <a class="btn btn-sm btn-default" href="{% object_detalhes object %}" title="Detalhes"><i class="fa fa-eye"></i></a>
-                <a class="btn btn-sm btn-default" href="{% object_editar object %}" title="Editar"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-sm btn-default" href="{% object_editar object %}?next={{ request.path }}" title="Editar"><i class="fa fa-edit"></i></a>
             </td>
         </tr>
 {% endfor %}

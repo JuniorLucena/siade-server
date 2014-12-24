@@ -12,6 +12,7 @@ from ..models import Quadra, Bairro, Imovel
 class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Quadra
     success_url = reverse_lazy('quadra-listar')
+    permission_required = 'imoveis.can_change_quadra'
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
@@ -22,7 +23,6 @@ class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class Adicionar(QuadraMixin, MessageMixin, CreateView):
-    permission_required = 'imoveis.add_quadra'
     success_message = u'Quadra criada com êxito'
 
     def get_form(self, form_class):
@@ -45,8 +45,6 @@ class Adicionar(QuadraMixin, MessageMixin, CreateView):
 
 
 class Detalhes(QuadraMixin, DetailView):
-    permission_required = 'imoveis.view_quadra'
-
     def get_context_data(self, **kwargs):
         context = super(Detalhes, self).get_context_data(**kwargs)
         lados = self.object.lados.all()
@@ -65,13 +63,12 @@ class Detalhes(QuadraMixin, DetailView):
 
 
 class Editar(QuadraMixin, MessageMixin, UpdateView):
-    permission_required = 'imoveis.change_quadra'
     success_message = u'Quadra atualizado com êxito'
     template_name = 'crud/object_form.html'
 
 
 class Excluir(QuadraMixin, MessageMixin, DeleteView):
-    permission_required = 'imoveis.delete_quadra'
+    permission_required = 'imoveis.can_delete_quadra'
     success_message = u'Quadra excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 

@@ -14,8 +14,14 @@ class AgenteMixin(LoginRequiredMixin, PermissionRequiredMixin):
     fields = ('cpf', 'nome', 'sobrenome', 'nascimento',
               'email', 'telefone', 'codigo', 'tipo')
     form_class = modelform_factory(Agente, fields=fields)
-    permission_required = 'imoveis.change_agente'
-    success_url = reverse_lazy('agente-listar')
+    permission_required = 'agentes.change_agente'
+
+    def get_success_url(self):
+        nextUrl = self.request.GET.get('next')
+        if nextUrl is None:
+            nextUrl = reverse_lazy('agente-detalhes',
+                                   kwargs={'pk': self.object.id})
+        return nextUrl
 
     def get_context_data(self, **kwargs):
         context = super(AgenteMixin, self).get_context_data(**kwargs)

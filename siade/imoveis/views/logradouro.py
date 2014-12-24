@@ -9,6 +9,7 @@ from ..models import Logradouro
 
 
 class LogradouroMixin(LoginRequiredMixin, PermissionRequiredMixin):
+    permission_required = 'imoveis.can_change_logradouro'
     model = Logradouro
     success_url = reverse_lazy('logradouro-listar')
     paginate_by = 10
@@ -21,26 +22,24 @@ class LogradouroMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class Listar(LogradouroMixin, ListView):
-    permission_required = "imoveis.view_logradouro"
+    pass
 
 
 class Adicionar(LogradouroMixin, MessageMixin, CreateView):
-    permission_required = "imoveis.add_logradouro"
     template_name = 'crud/object_form.html'
 
 
 class Detalhes(LogradouroMixin, DetailView):
-    permission_required = "imoveis.view_logradouro"
+    pass
 
 
 class Editar(LogradouroMixin, MessageMixin, UpdateView):
-    permission_required = "imoveis.change_logradouro"
     success_message = u'Logradouro atualizado com êxito'
     template_name = 'crud/object_form.html'
 
 
 class Excluir(LogradouroMixin, MessageMixin, DeleteView):
-    permission_required = "imoveis.delete_logradouro"
+    permission_required = "imoveis.can_delete_logradouro"
     success_message = u'Logradouro excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 

@@ -9,6 +9,7 @@ from ..models import LadoQuadra, Quadra
 
 
 class LadoMixin(LoginRequiredMixin, PermissionRequiredMixin):
+    permission_required = 'imoveis.can_change_quadra'
     success_message = u'Quadra atualizada com êxito'
     model = LadoQuadra
 
@@ -26,8 +27,6 @@ class LadoMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class Adicionar(LadoMixin, MessageMixin, CreateView):
-    permission_required = 'imoveis.change_quadra'
-
     def get_form(self, form_class):
         id_quadra = self.kwargs.get('quadra')
         self.quadra = Quadra.objects.get(pk=id_quadra)
@@ -45,19 +44,15 @@ class Adicionar(LadoMixin, MessageMixin, CreateView):
 
 
 class Editar(LadoMixin, MessageMixin, UpdateView):
-    permission_required = 'imoveis.change_quadra'
-
     def get_form(self, form_class):
         form_kwargs = self.get_form_kwargs()
         form = form_class(**form_kwargs)
         form.fields['quadra'] = ReadOnlyField(initial=self.object.quadra)
-
         return form
 
 
 class Excluir(LadoMixin, MessageMixin, DeleteView):
     template_name = 'crud/object_confirm_delete.html'
-    permission_required = 'imoveis.change_quadra'
 
 
 registry.register_actions(

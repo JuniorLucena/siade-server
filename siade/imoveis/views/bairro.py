@@ -12,6 +12,7 @@ from ..models import Bairro, Imovel
 class BairroMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Bairro
     success_url = reverse_lazy('bairro-listar')
+    permission_required = 'imoveis.can_change_bairro'
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
@@ -22,17 +23,16 @@ class BairroMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class Listar(BairroMixin, ListView):
-    permission_required = 'imoveis.view_bairro'
+    pass
 
 
 class Adicionar(BairroMixin, MessageMixin, CreateView):
     success_message = u'Bairro criado com êxito'
     template_name = 'crud/object_form.html'
-    permission_required = 'imoveis.add_bairro'
+    permission_required = 'imoveis.can_add_bairro'
 
 
 class Detalhes(BairroMixin, DetailView):
-    permission_required = 'imoveis.view_bairro'
 
     def get_context_data(self, **kwargs):
         quadras = self.object.quadras.all()
@@ -50,13 +50,12 @@ class Detalhes(BairroMixin, DetailView):
 class Editar(BairroMixin, MessageMixin, UpdateView):
     success_message = u'Bairro atualizado com êxito'
     template_name = 'crud/object_form.html'
-    permission_required = 'imoveis.change_bairro'
 
 
 class Excluir(BairroMixin, MessageMixin, DeleteView):
     success_message = u'Bairro excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
-    permission_required = 'imoveis.delete_bairro'
+    permission_required = 'imoveis.can_delete_bairro'
 
 
 registry.register_actions(

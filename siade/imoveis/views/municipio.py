@@ -11,6 +11,7 @@ from ..models import Municipio
 class MunicipioMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Municipio
     success_url = reverse_lazy('municipio-listar')
+    permission_required = 'imoveis.can_change_municipio'
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
@@ -21,26 +22,24 @@ class MunicipioMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class Listar(MunicipioMixin, ListView):
-    permission_required = 'imoveis.view_municipio'
+    pass
 
 
 class Adicionar(MunicipioMixin, MessageMixin, CreateView):
-    permission_required = 'imoveis.add_municipio'
     template_name = 'crud/object_form.html'
 
 
 class Detalhes(MunicipioMixin, DetailView):
-    permission_required = 'imoveis.view_municipio'
+    pass
 
 
 class Editar(MunicipioMixin, MessageMixin, UpdateView):
-    permission_required = 'imoveis.change_municipio'
     success_message = u'Municipio atualizado com êxito'
     template_name = 'crud/object_form.html'
 
 
 class Excluir(MunicipioMixin, MessageMixin, DeleteView):
-    permission_required = 'imoveis.delete_municipio'
+    permission_required = 'imoveis.can_delete_municipio'
     success_message = u'Municipio excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 

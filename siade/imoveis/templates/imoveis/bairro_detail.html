@@ -1,7 +1,9 @@
 {% extends 'crud/object_detail.html' %}
 {% load object_urls %}
 {% block actions-buttons %}
+{% if perms.imoveis.can_change_quadra %}
 <a class="btn btn-success" href="{% object_adicionar 'quadra' object.id %}">Adicionar quadra</a>
+{% endif %}
 {{ block.super }}
 {% endblock %}
 {% block content %}
