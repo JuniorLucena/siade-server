@@ -11,12 +11,11 @@
 {% block content-title %}
 <h1>Detalhes de {{ title }} <small>{{ object }}</small></h1>
 {% endblock %}
-
 {% block actions-buttons %}
-<a class="btn btn-primary" href="{% object_editar object %}">Editar</a>
 <div class="btn-group">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ações <span class="caret"></span></button>
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
+    <li><a href="{% object_editar object %}">Editar</a></li>
     <li><a href="{% object_excluir object %}">Excluir</a></li>
     </ul>
 </div>

@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from siade.utils.view_urls import registry
 from siade.utils.fields import ReadOnlyField
 from siade.mixins.messages import MessageMixin
 from ..models import LadoQuadra, Quadra
 
 
-class LadoMixin(object):
+class LadoMixin(LoginRequiredMixin, PermissionRequiredMixin):
+    permission_required = 'imoveis.can_change_quadra'
+    success_message = u'Quadra atualizada com êxito'
     model = LadoQuadra
 
     def get_success_url(self):
@@ -24,8 +27,6 @@ class LadoMixin(object):
 
 
 class Adicionar(LadoMixin, MessageMixin, CreateView):
-    success_message = u'Lado criado com êxito'
-
     def get_form(self, form_class):
         id_quadra = self.kwargs.get('quadra')
         self.quadra = Quadra.objects.get(pk=id_quadra)
@@ -43,18 +44,14 @@ class Adicionar(LadoMixin, MessageMixin, CreateView):
 
 
 class Editar(LadoMixin, MessageMixin, UpdateView):
-    success_message = u'Lado atualizado com êxito'
-
     def get_form(self, form_class):
         form_kwargs = self.get_form_kwargs()
         form = form_class(**form_kwargs)
         form.fields['quadra'] = ReadOnlyField(initial=self.object.quadra)
-
         return form
 
 
 class Excluir(LadoMixin, MessageMixin, DeleteView):
-    success_message = u'Lado excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
 

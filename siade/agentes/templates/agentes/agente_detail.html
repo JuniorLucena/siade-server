@@ -1,11 +1,11 @@
 {% extends 'crud/object_detail.html' %}
 {% load object_urls cpf %}
 {% block actions-buttons %}
-<a class="btn btn-primary" href="{% object_editar object %}">Alterar agente</a>
-<a class="btn btn-primary" href="">Definir senha</a>
 <div class="btn-group">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ações <span class="caret"></span></button>
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        <li><a href="{% url 'password_reset' object.id %}">Definir senha</a></li>
+        <li><a href="{% object_editar object %}">Alterar dados</a></li>
         <li><a href="{% object_excluir object %}">Excluir</a></li>
     </ul>
 </div>

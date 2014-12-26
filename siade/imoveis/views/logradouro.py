@@ -2,12 +2,14 @@
 from django.views.generic import (CreateView, ListView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from siade.utils.view_urls import registry
 from siade.mixins.messages import MessageMixin
 from ..models import Logradouro
 
 
-class LogradouroMixin(object):
+class LogradouroMixin(LoginRequiredMixin, PermissionRequiredMixin):
+    permission_required = 'imoveis.can_change_logradouro'
     model = Logradouro
     success_url = reverse_lazy('logradouro-listar')
     paginate_by = 10
@@ -37,6 +39,7 @@ class Editar(LogradouroMixin, MessageMixin, UpdateView):
 
 
 class Excluir(LogradouroMixin, MessageMixin, DeleteView):
+    permission_required = "imoveis.can_delete_logradouro"
     success_message = u'Logradouro excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 

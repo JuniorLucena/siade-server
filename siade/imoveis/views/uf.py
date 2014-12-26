@@ -2,14 +2,16 @@
 from django.views.generic import (CreateView, ListView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from siade.utils.view_urls import registry
 from siade.mixins.messages import MessageMixin
 from ..models import UF
 
 
-class UfMixin(object):
+class UfMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = UF
     success_url = reverse_lazy('UF-listar')
+    permission_required = 'imoveis.can_change_uf'
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
@@ -38,6 +40,7 @@ class Editar(UfMixin, MessageMixin, UpdateView):
 
 
 class Excluir(UfMixin, MessageMixin, DeleteView):
+    permission_required = 'imoveis.can_delete_uf'
     success_message = u'UF excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 

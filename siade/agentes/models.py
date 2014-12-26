@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser,
+                                        PermissionsMixin, Group)
 from djchoices import DjangoChoices, ChoiceItem
+from siade.imoveis.models import Municipio
 
 
 class AgenteManager(BaseUserManager):
@@ -21,7 +23,7 @@ class AgenteManager(BaseUserManager):
         return user
 
 
-class Agente(AbstractBaseUser):
+class Agente(AbstractBaseUser, PermissionsMixin):
     '''
     Um agente de endemias
     '''
@@ -42,8 +44,8 @@ class Agente(AbstractBaseUser):
                               verbose_name='código')
     tipo = models.PositiveIntegerField(choices=Tipo.choices,
                                        default=Tipo.AgenteCampo)
+    municipio = models.ForeignKey(Municipio, blank=True, null=True)
     ativo = models.BooleanField(default=True)
-    is_staff = True
 
     _default_manager = AgenteManager()
     objects = _default_manager
@@ -52,6 +54,15 @@ class Agente(AbstractBaseUser):
 
     def __unicode__(self):
         return self.get_full_name()
+
+    def save(self, *args, **kwargs):
+        try:
+            group = Group.objects.get(name=self.get_tipo_display())
+            self.groups.add(group)
+        except:
+            pass
+
+        return super(Agente, self).save(*args, **kwargs)
 
     @property
     def first_name(self):
@@ -67,23 +78,9 @@ class Agente(AbstractBaseUser):
     def get_full_name(self):
         return '%s %s' % (self.nome, self.sobrenome)
 
-    def has_perm(self, perm, obj=None):
-        if self.tipo == self.Tipo.Administrador:
-            return True
-        return True
-
-    def has_perms(self, perm_list, obj=None):
-        for perm in perm_list:
-            if not self.has_perm(perm, obj):
-                return False
-        return True
-
-    def has_module_perms(self, app_label):
-        return True
-
     @property
-    def is_superuser(self):
-        return self.tipo == self.Tipo.Administrador
+    def is_staff(self):
+        return self.is_superuser
 
     @property
     def is_active(self):

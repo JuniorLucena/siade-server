@@ -16,7 +16,7 @@
         <tr>
             <td>{{ object.nome }}</a></td>
             <td>{{ object.municipio }}</td>
-            <td>{{ object.codigo }}</td>
+            <td>{{ object.codigo|default:'&nbsp;' }}</td>
             <td>
                 <a class="btn btn-sm btn-default" href="{% object_detalhes object %}" title="Detalhes"><i class="fa fa-eye"></i></a>
                 <a class="btn btn-sm btn-default" href="{% object_editar object %}" title="Editar"><i class="fa fa-edit"></i></a>

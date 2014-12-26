@@ -14,7 +14,6 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dummy')
 # Application definition
 INSTALLED_APPS = (
     'siade.agentes',
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -26,13 +25,14 @@ INSTALLED_APPS = (
     'bootstrap3',
     'oauth2_provider',
     'rest_framework',
+    'qrcode',
     'rest_sync',
     'siade.base',
     'siade.imoveis',
     'siade.trabalhos',
     'siade.api',
     'siade.relatorios',
-    'qrcode',
+    'django.contrib.admin',
 )
 
 # middleware definition
@@ -96,6 +96,6 @@ REST_FRAMEWORK = {
 }
 
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/api-auth/login'
+LOGIN_URL = '/usuario/login'
 AUTH_USER_MODEL = 'agentes.Agente'
 APPEND_SLASH = True

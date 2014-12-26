@@ -2,15 +2,17 @@
 from django.views.generic import (CreateView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from siade.utils.view_urls import registry
 from siade.utils.fields import ReadOnlyField
 from siade.mixins.messages import MessageMixin
 from ..models import Quadra, Bairro, Imovel
 
 
-class QuadraMixin(object):
+class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Quadra
     success_url = reverse_lazy('quadra-listar')
+    permission_required = 'imoveis.can_change_quadra'
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
@@ -62,10 +64,10 @@ class Detalhes(QuadraMixin, DetailView):
 
 class Editar(QuadraMixin, MessageMixin, UpdateView):
     success_message = u'Quadra atualizado com êxito'
-    template_name = 'crud/object_form.html'
 
 
 class Excluir(QuadraMixin, MessageMixin, DeleteView):
+    permission_required = 'imoveis.can_delete_quadra'
     success_message = u'Quadra excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
