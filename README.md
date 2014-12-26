@@ -5,12 +5,11 @@ SIADE é um sistema para coleta de dados realizada pelos agentes de endemias, el
 ## Requisitos
 
 * Python (2.7)
-* Django (1.6)
-* South (0.8)
+* Django (1.7)
 * reportlab (3.1+)
-* djangorestframework (2.3+)
+* djangorestframework (2.4)
+* django-extensions (1.4)
 * django-oauth-toolkit (0.7)
-* django-simple-history (latest)
 * [Entre outros](https://github.com/holocronifrn/siade-server/blob/master/requirements/common.txt)
 
 ## Instalando
@@ -23,10 +22,10 @@ Instalar requisitos
 
 	pip install -r requirements.txt
 
-Criar o banco de dados execute os comandos
+Criar o banco de dados e criar um usuario superusuário inicial
 
-	python manage.py syncdb --all
-	python manage.py migrate --fake
+	python manage.py migrate
+	python manage.py createuseruser
 
 Para inicar o servidor de desenvolvimento basta executar o comando:
 
