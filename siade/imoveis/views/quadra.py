@@ -3,7 +3,6 @@ from django.views.generic import (CreateView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
-from siade.utils.view_urls import registry
 from siade.utils.fields import ReadOnlyField
 from siade.mixins.messages import MessageMixin
 from ..models import Quadra, Bairro, Imovel
@@ -11,14 +10,14 @@ from ..models import Quadra, Bairro, Imovel
 
 class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Quadra
-    success_url = reverse_lazy('quadra-listar')
+    success_url = reverse_lazy('%s:quadra:listar' % model._meta.app_label)
     permission_required = 'imoveis.can_change_quadra'
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super(QuadraMixin, self).get_context_data(**kwargs)
         context['title'] = self.model._meta.verbose_name.capitalize()
-        context['object_class'] = self.model.__name__.lower()
+        context['object_class'] = self.model
         return context
 
 
@@ -71,15 +70,13 @@ class Excluir(QuadraMixin, MessageMixin, DeleteView):
     success_message = u'Quadra excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
-registry.register_actions(
-    'quadra',
-    ('adicionar', Adicionar.as_view(),
-        r'^adicionar/(?P<bairro>\d+)/$'),
-    ('detalhes', Detalhes.as_view(), (
-        r'^(?P<pk>\d+)/(?P<lado>\d+)/$',
-        r'^(?P<pk>\d+)/$',
-    )),
-    ('editar', Editar.as_view()),
-    ('excluir', Excluir.as_view())
+from django.conf.urls import url, patterns
+urls = patterns(
+    '',
+    url(r'^adicionar/(?P<bairro>\d+)/$', Adicionar.as_view(),
+        name='adicionar'),
+    url(r'^(?P<pk>\d+)/$', Detalhes.as_view(), name='detalhes'),
+    url(r'^(?P<pk>\d+)/(?P<lado>\d+)/$', Detalhes.as_view(), name='detalhes'),
+    url(r'^(?P<pk>\d+)/editar$', Editar.as_view(), name='editar'),
+    url(r'^(?P<pk>\d+)/excluir$', Excluir.as_view(), name='excluir')
 )
-urls = registry.get_urls_for_model('quadra')

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.views.generic import (CreateView, UpdateView,
                                   DeleteView, DetailView)
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from siade.utils.fields import ReadOnlyField
-from siade.utils.view_urls import registry
 from siade.mixins.messages import MessageMixin
 from ..models import Imovel, LadoQuadra
 from ..forms import ImovelForm
@@ -17,14 +16,15 @@ class ImovelMixin(LoginRequiredMixin, PermissionRequiredMixin):
     def get_success_url(self):
         nextUrl = self.request.GET.get('next')
         if nextUrl is None:
-            nextUrl = reverse_lazy('imovel-detalhes',
-                                   kwargs={'pk': self.object.id})
+            app_label = self.model._meta.app_label
+            nextUrl = reverse('%s:imovel:detalhes' % app_label,
+                              kwargs={'pk': self.object.id})
         return nextUrl
 
     def get_context_data(self, **kwargs):
         context = super(ImovelMixin, self).get_context_data(**kwargs)
         context['title'] = self.model._meta.verbose_name.capitalize()
-        context['object_class'] = self.model.__name__.lower()
+        context['object_class'] = self.model
         return context
 
 
@@ -78,13 +78,12 @@ class Excluir(ImovelMixin, MessageMixin, DeleteView):
             'pk': self.object.lado.quadra.id
         })
 
-
-registry.register_actions(
-    'imovel',
-    ('adicionar', Adicionar.as_view(),
-        r'^adicionar/(?P<quadra>\d+)/(?P<lado>\d+)/?$'),
-    ('detalhes', Detalhes.as_view()),
-    ('editar', Editar.as_view()),
-    ('excluir', Excluir.as_view())
+from django.conf.urls import url, patterns
+urls = patterns(
+    '',
+    url(r'^adicionar/(?P<quadra>\d+)/(?P<lado>\d+)/?$', Adicionar.as_view(),
+        name='adicionar'),
+    url(r'^(?P<pk>\d+)/$', Detalhes.as_view(), name='detalhes'),
+    url(r'^(?P<pk>\d+)/editar$', Editar.as_view(), name='editar'),
+    url(r'^(?P<pk>\d+)/excluir$', Excluir.as_view(), name='excluir')
 )
-urls = registry.get_urls_for_model('imovel')

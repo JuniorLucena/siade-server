@@ -2,7 +2,6 @@
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
-from siade.utils.view_urls import registry
 from siade.utils.fields import ReadOnlyField
 from siade.mixins.messages import MessageMixin
 from ..models import LadoQuadra, Quadra
@@ -14,15 +13,15 @@ class LadoMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = LadoQuadra
 
     def get_success_url(self):
-        return reverse_lazy('quadra-detalhes', kwargs={
-            'pk': self.quadra.id,
-            'lado': self.object.quadra.numero
-        })
+        app_label = self.model._meta.app_label
+        return reverse_lazy('%s:quadra:detalhes' % app_label,
+                            kwargs={'lado': self.object.quadra.numero,
+                                    'pk': self.quadra.id})
 
     def get_context_data(self, **kwargs):
         context = super(LadoMixin, self).get_context_data(**kwargs)
         context['title'] = self.model._meta.verbose_name.capitalize()
-        context['object_class'] = self.model.__name__.lower()
+        context['object_class'] = self.model
         return context
 
 
@@ -54,12 +53,11 @@ class Editar(LadoMixin, MessageMixin, UpdateView):
 class Excluir(LadoMixin, MessageMixin, DeleteView):
     template_name = 'crud/object_confirm_delete.html'
 
-
-registry.register_actions(
-    'ladoquadra',
-    ('adicionar', Adicionar.as_view(),
-        r'^adicionar/(?P<quadra>\d+)/$'),
-    ('editar', Editar.as_view()),
-    ('excluir', Excluir.as_view())
+from django.conf.urls import url, patterns
+urls = patterns(
+    '',
+    url(r'^adicionar/(?P<quadra>\d+)/$', Adicionar.as_view(),
+        name='adicionar'),
+    url(r'^(?P<pk>\d+)/editar$', Editar.as_view(), name='editar'),
+    url(r'^(?P<pk>\d+)/excluir$', Excluir.as_view(), name='excluir')
 )
-urls = registry.get_urls_for_model('ladoquadra')

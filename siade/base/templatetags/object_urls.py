@@ -7,8 +7,8 @@ register = template.Library()
 @register.simple_tag
 def object_action(obj, action, *args, **kwargs):
     if not isinstance(obj, basestring):
-        obj = obj.__class__.__name__
-    return reverse('%s-%s' % (obj.lower(), action),
+        obj = '%s:%s' % (obj._meta.app_label, obj._meta.object_name)
+    return reverse('%s:%s' % (obj.lower(), action),
                    args=args, kwargs=kwargs)
 
 

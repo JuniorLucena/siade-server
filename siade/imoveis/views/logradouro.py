@@ -3,7 +3,6 @@ from django.views.generic import (CreateView, ListView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
-from siade.utils.view_urls import registry
 from siade.mixins.messages import MessageMixin
 from ..models import Logradouro
 
@@ -17,7 +16,7 @@ class LogradouroMixin(LoginRequiredMixin, PermissionRequiredMixin):
     def get_context_data(self, **kwargs):
         context = super(LogradouroMixin, self).get_context_data(**kwargs)
         context['title'] = self.model._meta.verbose_name.capitalize()
-        context['object_class'] = self.model.__name__.lower()
+        context['object_class'] = self.model
         return context
 
 
@@ -43,12 +42,12 @@ class Excluir(LogradouroMixin, MessageMixin, DeleteView):
     success_message = u'Logradouro excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
-registry.register_actions(
-    'logradouro',
-    ('listar', Listar.as_view()),
-    ('adicionar', Adicionar.as_view()),
-    ('detalhes', Detalhes.as_view()),
-    ('editar', Editar.as_view()),
-    ('excluir', Excluir.as_view())
+from django.conf.urls import url, patterns
+urls = patterns(
+    '',
+    url(r'^$', Listar.as_view(), name='listar'),
+    url(r'^adicionar/$', Adicionar.as_view(), name='adicionar'),
+    url(r'^(?P<pk>\d+)/$', Detalhes.as_view(), name='detalhes'),
+    url(r'^(?P<pk>\d+)/editar$', Editar.as_view(), name='editar'),
+    url(r'^(?P<pk>\d+)/excluir$', Excluir.as_view(), name='excluir')
 )
-urls = registry.get_urls_for_model('logradouro')
