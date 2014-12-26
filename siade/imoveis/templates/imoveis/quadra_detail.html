@@ -21,7 +21,7 @@
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
         <li><a href="{% object_adicionar 'ladoquadra' object.id %}">Adicionar</a></li>
 {% if lado %}
-        <li><a href="{% object_editar lado %}">Alterar</a></li>
+        <li><a href="{% object_editar lado %}">Editar</a></li>
         <li><a href="{% object_excluir lado %}">Excluir</a></li>
 {% endif %}
     </ul>
@@ -29,7 +29,7 @@
 <div class="btn-group">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Quadra <span class="caret"></span></button>
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        <li><a href="{% object_editar object %}">Alterar</a></li>
+        <li><a href="{% object_editar object %}">Editar</a></li>
 {% if perms.imoveis.can_delete_quadra %}
         <li><a href="{% object_excluir object %}">Excluir</a></li>
 {% endif %}

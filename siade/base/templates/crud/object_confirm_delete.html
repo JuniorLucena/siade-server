@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 {% load bootstrap3 object_urls %}
 {% block breadcrumbs %}
-<div class="row">
-    <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
-        <li><a href="{% object_listar object_class %}">Bairros</a></li>
-        <li><a href="{% object_detalhes object %}">{{ object }}</a></li>
-        <li class="active">Excluir</li>
-    </ol>
-</div>
+<ol class="breadcrumb">
+    <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
+    <li><a href="{% object_listar object_class %}">Bairros</a></li>
+    <li><a href="{% object_detalhes object %}">{{ object }}</a></li>
+    <li class="active">Excluir</li>
+</ol>
 {% endblock %}
 
 {% block content %}

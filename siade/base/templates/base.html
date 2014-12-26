@@ -18,6 +18,7 @@
 </head>
 <body>
 <div id="wrapper">
+{% if not is_popup %}
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
@@ -31,11 +32,11 @@
         </div>
         <!-- /.navbar-header -->
         <ul class="nav navbar-top-links navbar-right">
-{% if ciclo_atual %}
+            {% if ciclo_atual %}
             <li>
-                <a href="">Ciclo {{ ciclo_atual }}</a>
+                <a href="#">Ciclo {{ ciclo_atual }}</a>
             </li>
-{% endif %}
+            {% endif %}
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-user fa-fw"></i> {{ request.user.get_short_name }} <i class="fa fa-caret-down"></i>
@@ -55,8 +56,10 @@
         {% include 'blocks/nav-menu.html' %}
         <!-- /.navbar-static-side -->
     </nav>
-    <div id="page-wrapper">
+{% endif %}    
+    <div id="page-wrapper"{% if is_popup %} style="margin:0px"{% endif %}>
 
+        {% if not is_popup %}
         <div class="row">
         {% block breadcrumbs %}
             <ol class="breadcrumb">
@@ -65,6 +68,8 @@
             </ol>
         {% endblock %}
         </div>
+        {% endif %}
+
 
         {% block messages %}
         {% if messages %}
@@ -75,7 +80,6 @@
         {% endfor %}
         {% endif %}
         {% endblock messages %}
-
         <!-- Content -->
         <div id="content" class="{% block coltype %}colM{% endblock %}">
         {% block content %}
@@ -90,6 +94,7 @@
         {% endblock %}
         </div>
     </div>
+</div>
     <script>window.DJANGO_STATIC_URL = {{ STATIC_URL }}</script>
     <script src="{{ STATIC_URL }}js/jquery-1.11.0.js"></script>
     <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>

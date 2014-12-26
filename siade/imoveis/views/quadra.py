@@ -64,7 +64,6 @@ class Detalhes(QuadraMixin, DetailView):
 
 class Editar(QuadraMixin, MessageMixin, UpdateView):
     success_message = u'Quadra atualizado com êxito'
-    template_name = 'crud/object_form.html'
 
 
 class Excluir(QuadraMixin, MessageMixin, DeleteView):
