@@ -43,7 +43,9 @@
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li><a href="{% url 'password_change' %}">Alterar senha</a>
-                    <li><a href="#">Preferências</a>
+                    {% if request.user.is_staff %}
+                    <li><a href="{% url 'admin:index' %}">Admintração</a>
+                    {% endif %}
                     <li class="divider"></li>
                     <li><a href="{% url 'user_logout' %}">Sair</a>
                     </li>
