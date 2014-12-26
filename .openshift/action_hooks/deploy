@@ -1,3 +1,11 @@
-PYTHONPATH=$OPENSHIFT_REPO_DIR/openshift
-django-admin.py migrate --settings='openshift.production' --pythonpath=$PYTHONPATH
-python $PYTHONPATH/manage.py collectstatic -c --noinput --settings='openshift.production' --pythonpath=$PYTHONPATH
+#!/bin/bash
+
+echo "Creanting openshift wsgi dir"
+mkdir -p wsgi
+
+echo "Making symbolic links"
+ln -ns siade/wsgi.py wsgi/application
+ln -ns static wsgi/static
+
+echo "Executing 'python $OPENSHIFT_REPO_DIR/wsgi/openshift/manage.py migrate --noinput'"
+python "$OPENSHIFT_REPO_DIR"wsgi/openshift/manage.py migrate --noinput
