@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser,
                                         PermissionsMixin, Group)
 from djchoices import DjangoChoices, ChoiceItem
+from siade.imoveis.models import Municipio
 
 
 class AgenteManager(BaseUserManager):
@@ -43,6 +44,7 @@ class Agente(AbstractBaseUser, PermissionsMixin):
                               verbose_name='código')
     tipo = models.PositiveIntegerField(choices=Tipo.choices,
                                        default=Tipo.AgenteCampo)
+    municipio = models.ForeignKey(Municipio, blank=True, null=True)
     ativo = models.BooleanField(default=True)
 
     _default_manager = AgenteManager()
