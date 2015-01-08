@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load bootstrap3 object_urls %}
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Início</a></li>
+        <li>Gerenciamento de ciclo</li>
+        <li class="active">Iniciar ciclo</li>
+    </ol>
+{% endblock %}
+
+{% block content-title %}
+<h1>Iniciar ciclo</h1>
+{% endblock %}
+
+{% block actions-buttons %}
+<button class="btn btn-success" type="submit">Iniciar ciclo</button>
+{% endblock %}
+
+{% block content %}
+<form method="post" class="form-horizontal">{% csrf_token %}
+{{ block.super }}
+<div class="panel panel-default">
+    <div class="panel-body">
+    {% bootstrap_form form layout='horizontal' %}
+    </div>
+</div>
+</form>
+{% endblock %}

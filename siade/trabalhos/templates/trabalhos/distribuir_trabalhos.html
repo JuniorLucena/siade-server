@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Início</a></li>
+        <li>Gerenciamento de ciclo</li>
+        <li class="active">Distribuir trabalhos</li>
+    </ol>
+{% endblock %}
+
+{% block content-title %}
+<h1>Distribuir trabalhos</h1>
+{% endblock %}
+
+{% block actions-buttons %}
+<button class="btn btn-primary" type="submit">Concluído</button>
+{% endblock %}
+
+{% block content %}
+<form method="post" class="form-horizontal">{% csrf_token %}
+{{ block.super }}
+<div class="panel panel-default">
+    <div class="panel-body">
+    {% bootstrap_form form layout='horizontal' %}
+    </div>
+</div>
+</form>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Trabalhos</h3>
+    </div>
+    <table class="table table-stripped">
+        <thead>
+            <th>Agente</th>
+            <th>Quadra</th>
+            <th>Total de Imóveis</th>
+        </thead>
+        <tbody>
+{% for trabalho in trabalhos %}
+            <tr>
+                <td>{{ trabalho.agente }}</td>
+                <td>{{ trabalho.quadra }}</td>
+                <td></td>
+            </tr>
+{% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import date
 from django.db import models
-from django.utils.translation import gettext as _
 from djchoices import DjangoChoices, ChoiceItem
-from siade.imoveis.models import Imovel, Quadra, Bairro
+from siade.imoveis.models import Imovel, Quadra
 from siade.agentes.models import Agente
 
 
@@ -11,8 +10,8 @@ class Atividade(models.Model):
     '''
     Atividade que pode realizada
     '''
-    nome = models.CharField(max_length=100, verbose_name=_('nome'))
-    sigla = models.CharField(max_length=5, verbose_name=_('sigla'))
+    nome = models.CharField(max_length=100, verbose_name='nome')
+    sigla = models.CharField(max_length=5, verbose_name='sigla')
 
     def __unicode__(self):
         return self.nome
