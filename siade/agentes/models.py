@@ -11,13 +11,15 @@ class AgenteManager(BaseUserManager):
         if not cpf:
             raise ValueError('Agentes devem possuir CPF')
 
-        user = self.model(cpf=cpf, nome=nome, sobrenome=sobrenome, tipo=tipo)
+        superuser = True if tipo == Agente.Tipo.Administrador else False
+        user = self.model(cpf=cpf, nome=nome, sobrenome=sobrenome, tipo=tipo,
+                          is_superuser=superuser)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
     def create_superuser(self, cpf, nome, sobrenome, password):
-        user = self.create_user(cpf, nome, sobrenome, is_superuser=True,
+        user = self.create_user(cpf, nome, sobrenome,
                                 Agente.Tipo.Administrador,
                                 password=password)
         return user

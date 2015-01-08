@@ -17,6 +17,11 @@ def qrcode(request):
     return render_to_response("qrcode.html", {'qrcodes': qrcodes})
 
 
+@login_required
+def home(request):
+    return TemplateResponse(request, "home.html", {})
+
+
 @sensitive_post_parameters()
 @csrf_protect
 @login_required
