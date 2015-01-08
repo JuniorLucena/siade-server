@@ -17,7 +17,7 @@ class AgenteManager(BaseUserManager):
         return user
 
     def create_superuser(self, cpf, nome, sobrenome, password):
-        user = self.create_user(cpf, nome, sobrenome,
+        user = self.create_user(cpf, nome, sobrenome, is_superuser=True,
                                 Agente.Tipo.Administrador,
                                 password=password)
         return user
