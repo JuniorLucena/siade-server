@@ -1,7 +1,8 @@
-from django.conf.urls import url, include
+from django.conf.urls import url, include, patterns
 from .views import imovel, quadra, lado, bairro, logradouro, municipio, uf
 
-urlpatterns = [
+urlpatterns = patterns(
+    '',
     url(r'^imovel/', include(imovel.urls, 'imovel')),
     url(r'^quadra/', include(quadra.urls, 'quadra')),
     url(r'^quadra/lado/', include(lado.urls, 'ladoquadra')),
@@ -9,4 +10,4 @@ urlpatterns = [
     url(r'^logradouro/', include(logradouro.urls, 'logradouro')),
     url(r'^municipio/', include(municipio.urls, 'municipio')),
     url(r'^uf/', include(uf.urls, 'uf'))
-]
+)

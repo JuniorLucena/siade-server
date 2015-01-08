@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.db.models import Max, Min, F
+from django.db.models import Max, F
 from django.utils.translation import gettext as _
 from djchoices import DjangoChoices, ChoiceItem
 
