@@ -16,7 +16,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 CRISPY_FAIL_SILENTLY = False
 INSTALLED_APPS = list(INSTALLED_APPS) + ['debug_toolbar']
 
-DEBUG_TOOLBAR_PATCH_SETTINGS = False
+DEBUG_TOOLBAR_PATCH_SETTINGS = True
 DEBUG_TOOLBAR_PANELS = [
     #'debug_toolbar.panels.versions.VersionsPanel',
     #'debug_toolbar.panels.timer.TimerPanel',
