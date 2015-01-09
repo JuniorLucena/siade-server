@@ -24,5 +24,5 @@ class TrabalhoForm(forms.ModelForm):
         exclude = ('ciclo',)
         widgets = {
             'agente': forms.RadioSelect(),
-            'quadra': forms.RadioSelect()
+            'quadras': forms.CheckboxSelectMultiple()
         }
