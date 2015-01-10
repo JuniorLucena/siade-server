@@ -3,7 +3,7 @@
 {% block breadcrumbs %}
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
-        <li><a href="{% object_listar 'bairro' %}">Bairro</a></li>
+        <li><a href="{% object_listar 'imoveis:bairro' %}">Bairro</a></li>
 {% if object %}
         <li><a href="{% object_detalhes object.lado.quadra.bairro %}">{{ object.lado.quadra.bairro }}</a></li>
         <li><a href="{% object_detalhes object.lado.quadra %}">Quadra #{{ object.lado.quadra.numero }}</a></li>
