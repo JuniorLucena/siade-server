@@ -32,20 +32,12 @@
         </div>
         <!-- /.navbar-header -->
         <ul class="nav navbar-top-links navbar-right">
-            {% if ciclo_atual %}
-            <li>
-                <a href="#">Ciclo {{ ciclo_atual }}</a>
-            </li>
-            {% endif %}
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-user fa-fw"></i> {{ request.user.get_short_name }} <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li><a href="{% url 'password_change' %}">Alterar senha</a>
-                    {% if request.user.is_staff %}
-                    <li><a href="{% url 'admin:index' %}">Admintração</a>
-                    {% endif %}
                     <li class="divider"></li>
                     <li><a href="{% url 'user_logout' %}">Sair</a>
                     </li>
@@ -99,21 +91,11 @@
 </div>
     <script>window.DJANGO_STATIC_URL = {{ STATIC_URL }}</script>
     <script src="{{ STATIC_URL }}js/jquery-1.11.0.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery-migrate-1.2.1.min.js"></script>
     <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-    <!--<script src="{{ STATIC_URL }}js/angular/angular.min.js"></script>
-    <script src="{{ STATIC_URL }}js/angular/angular-route.min.js"></script>
-    <script src="{{ STATIC_URL }}js/angular/angular-resource.min.js"></script>-->
     <script src="{{ STATIC_URL }}js/metisMenu/metisMenu.min.js"></script>
     <script src="{{ STATIC_URL }}js/sb-admin-2.js"></script>
-    <!--<script src="{{ STATIC_URL }}js/app.js"></script>
-    <script src="{{ STATIC_URL }}js/controllers.js"></script>
-    <script src="{{ STATIC_URL }}js/select2/select2.js"></script>
-    <script src="{{ STATIC_URL }}js/select2.js"></script>
-    <script src="{{ STATIC_URL }}js/autoComplete.js"></script>
-    <script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
-    <script src="{{ STATIC_URL }}jquery-ui-1.11.1.custom/jquery-ui.min.js"></script>
-    <script src="{{ STATIC_URL }}js/multiselectable.js"></script>-->
-    <!--<script src="{{ STATIC_URL }}js/ui-bootstrap-tpls.js"></script>-->
+    {{ form.media }}
 {% block extrascript %}{% endblock %}
 </body>
 </head>
