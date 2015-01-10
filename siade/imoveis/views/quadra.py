@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.views.generic import (CreateView, UpdateView,
                                   DeleteView, DetailView)
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from siade.utils.fields import ReadOnlyField
 from siade.mixins.messages import MessageMixin
@@ -10,9 +10,12 @@ from ..models import Quadra, Bairro, Imovel
 
 class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Quadra
-    success_url = reverse_lazy('%s:quadra:listar' % model._meta.app_label)
     permission_required = 'imoveis.can_change_quadra'
     paginate_by = 10
+
+    def get_success_url(self):
+        url = '%s:quadra:detalhes' % self.model._meta.app_label
+        return reverse_lazy(url, kwargs={'pk': self.object.id})
 
     def get_context_data(self, **kwargs):
         context = super(QuadraMixin, self).get_context_data(**kwargs)
@@ -34,9 +37,6 @@ class Adicionar(QuadraMixin, MessageMixin, CreateView):
 
         return form
 
-    def get_success_url(self):
-        return reverse_lazy('quadra-detalhes', kwargs={'pk': self.object.id})
-
     def get_context_data(self, **kwargs):
         context = super(Adicionar, self).get_context_data(**kwargs)
         context['bairro'] = getattr(self, 'bairro', None)
@@ -52,7 +52,7 @@ class Detalhes(QuadraMixin, DetailView):
             if num_lado:
                 lado = self.object.lados.get(numero=num_lado)
             else:
-                lado = self.object.lados.all()[0]
+                lado = self.object.lados.first()
             imoveis = Imovel.objects.filter(lado=lado)
             context['imovel_list'] = imoveis
             context['lado'] = lado
@@ -69,6 +69,10 @@ class Excluir(QuadraMixin, MessageMixin, DeleteView):
     permission_required = 'imoveis.can_delete_quadra'
     success_message = u'Quadra excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
+
+    def get_success_url(self):
+        url = '%s:bairro:detalhes' % self.model._meta.app_label
+        return reverse_lazy(url, kwargs={'pk': self.object.bairro})
 
 from django.conf.urls import url, patterns
 urls = patterns(

@@ -33,7 +33,8 @@ def password_reset(request, user=None):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            return HttpResponseRedirect(reverse('agente-detalhes', args=[user]))
+            return HttpResponseRedirect(
+                reverse('agentes:agente:detalhes', args=[user]))
     else:
         form = AdminPasswordChangeForm(user=request.user)
     context = {

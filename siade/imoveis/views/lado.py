@@ -53,6 +53,11 @@ class Editar(LadoMixin, MessageMixin, UpdateView):
 class Excluir(LadoMixin, MessageMixin, DeleteView):
     template_name = 'crud/object_confirm_delete.html'
 
+    def get_success_url(self):
+        app_label = self.model._meta.app_label
+        return reverse_lazy('%s:quadra:detalhes' % app_label,
+                            kwargs={'pk': self.quadra.id})
+
 from django.conf.urls import url, patterns
 urls = patterns(
     '',
