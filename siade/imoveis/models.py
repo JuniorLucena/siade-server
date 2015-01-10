@@ -41,7 +41,8 @@ class Bairro(models.Model):
     '''
     nome = models.CharField(max_length=100, verbose_name=_('nome'))
     municipio = models.ForeignKey(Municipio, related_name='bairros',
-                                  verbose_name=_('Município'))
+                                  verbose_name=_('Município'),
+                                  on_delete=models.PROTECT)
     codigo = models.IntegerField(blank=True, null=True,
                                  verbose_name=_('código'))
 
@@ -58,7 +59,8 @@ class Logradouro(models.Model):
     '''
     nome = models.CharField(max_length=100)
     municipio = models.ForeignKey(Municipio, blank=True, null=True,
-                                  verbose_name='município')
+                                  verbose_name='município',
+                                  on_delete=models.PROTECT)
 
     def __unicode__(self):
         return self.nome
@@ -71,7 +73,8 @@ class Quadra(models.Model):
     '''
     Quadra de imóveis de um bairro
     '''
-    bairro = models.ForeignKey(Bairro, related_name='quadras')
+    bairro = models.ForeignKey(Bairro, related_name='quadras',
+                               on_delete=models.PROTECT)
     numero = models.CharField(max_length=10, verbose_name='número')
 
     def __unicode__(self):
@@ -117,7 +120,8 @@ class Imovel(models.Model):
         Outros = ChoiceItem(4, label='Outros')
 
     ordem = models.PositiveIntegerField()
-    lado = models.ForeignKey(LadoQuadra, related_name='imoveis')
+    lado = models.ForeignKey(LadoQuadra, related_name='imoveis',
+                             on_delete=models.PROTECT)
     numero = models.CharField(max_length=10, blank=True,
                               verbose_name='número')
     tipo = models.PositiveIntegerField(choices=Tipo.choices,
