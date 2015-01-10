@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
-from django.views.generic import (CreateView, UpdateView,
-                                  DeleteView, DetailView)
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.db.models import ProtectedError
+from django.views.generic import (CreateView, DeleteView, DetailView)
+from django.core.urlresolvers import reverse_lazy
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
+from extra_views import UpdateWithInlinesView
 from siade.utils.fields import ReadOnlyField
 from siade.mixins.messages import MessageMixin
 from ..models import Quadra, Bairro, Imovel
+from ..forms import LadoInline
 
 
 class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
@@ -25,6 +29,7 @@ class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class Adicionar(QuadraMixin, MessageMixin, CreateView):
+    permission_required = 'imoveis.can_add_quadra'
     success_message = u'Quadra criada com êxito'
 
     def get_form(self, form_class):
@@ -61,8 +66,16 @@ class Detalhes(QuadraMixin, DetailView):
         return context
 
 
-class Editar(QuadraMixin, MessageMixin, UpdateView):
+class Editar(QuadraMixin, MessageMixin, UpdateWithInlinesView):
     success_message = u'Quadra atualizado com êxito'
+    inlines = [LadoInline]
+
+    def forms_valid(self, form, inlines):
+        try:
+            super(Editar, self).forms_valid(form, inlines)
+        except ProtectedError:
+            messages.warning(self.request, 'Alguns lados não foram excluídos, pois contém imoveis.')
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class Excluir(QuadraMixin, MessageMixin, DeleteView):
@@ -71,8 +84,8 @@ class Excluir(QuadraMixin, MessageMixin, DeleteView):
     template_name = 'crud/object_confirm_delete.html'
 
     def get_success_url(self):
-        url = '%s:bairro:detalhes' % self.model._meta.app_label
-        return reverse_lazy(url, kwargs={'pk': self.object.bairro})
+        return reverse_lazy('imoveis:bairro:detalhes',
+                            kwargs={'pk': self.object.bairro})
 
 from django.conf.urls import url, patterns
 urls = patterns(

@@ -1,5 +1,5 @@
- {% extends 'crud/object_form.html' %}
-{% load object_urls %}
+{% extends 'base.html' %}
+{% load bootstrap3 object_urls %}
 {% block breadcrumbs %}
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
@@ -9,8 +9,46 @@
         <li><a href="{% object_detalhes object %}">Quadra #{{ object.numero }}</a></li>
         <li class="active">Editar</li>
 {% else %}
-		<li><a href="{% object_detalhes bairro %}">{{ bairro }}</a></li>
+        <li><a href="{% object_detalhes bairro %}">{{ bairro }}</a></li>
         <li class="active">Adicionar</li>
 {% endif %}
     </ol>
+{% endblock %}
+
+{% block content-title %}
+{% if object %}
+<h1>Editar {{ title }} <small>{{ object }}</small></h1>
+{% else %}
+<h1>Adicionar {{ title }}</h1>
+{% endif %}
+{% endblock %}
+
+{% block actions-buttons %}
+<button class="btn btn-primary" type="submit">Salvar</button>
+{% endblock %}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+{{ block.super }}
+<div class="panel panel-default form-horizontal">
+    <div class="panel-body">
+    {% bootstrap_form form layout='horizontal' %}
+    </div>
+</div>
+{% for inline in inlines %}
+{{ inline.management_form }}
+<div class="panel panel-default form-inline">
+    <div class="panel-heading">
+        <h3 class="panel-title">Lados</h3>
+    </div>
+    <div class="panel-body">
+{% for form in inline %}
+        <div>
+            {% bootstrap_form form layout='inline' %}
+        </div>
+{% endfor %}
+    </div>
+</div>
+{% endfor %}
+</form>
 {% endblock %}
