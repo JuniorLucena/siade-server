@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.db import models
 from django.db.models import Max, F
 from django.utils.translation import gettext as _
@@ -78,7 +79,7 @@ class Quadra(models.Model):
     numero = models.CharField(max_length=10, verbose_name='número')
 
     def __unicode__(self):
-        return 'Quadra #%s, %s' % (self.numero, self.bairro.nome)
+        return 'Quadra %s, %s' % (self.numero, self.bairro.nome)
 
     class Meta:
         ordering = ('bairro', 'numero')
@@ -119,7 +120,7 @@ class Imovel(models.Model):
         Terreno = ChoiceItem(3, label='Terreno Baldio')
         Outros = ChoiceItem(4, label='Outros')
 
-    ordem = models.PositiveIntegerField()
+    ordem = models.PositiveIntegerField(blank=True)
     lado = models.ForeignKey(LadoQuadra, related_name='imoveis',
                              on_delete=models.PROTECT)
     numero = models.CharField(max_length=10, blank=True,
@@ -153,7 +154,7 @@ class Imovel(models.Model):
         return self.lado_quadra.logradouro
 
     class Meta:
-        verbose_name = 'imõvel'
+        verbose_name = 'imóvel'
         verbose_name_plural = 'imóveis'
         ordering = ('ordem',)
 
@@ -164,7 +165,7 @@ class Imovel(models.Model):
             self.ordem = 1 if c is None else c + 1
         else:
             qs = qs.filter(ordem=self.ordem)
-            if qs.count > 0 and qs[0].id != self.id:
+            if qs.count() > 0 and qs[0].id != self.id:
                 qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
         super(Imovel, self).save(*args, **kwargs)
 

@@ -73,7 +73,8 @@ class Excluir(ImovelMixin, MessageMixin, DeleteView):
     success_message = u'Imovel excluído com êxito'
 
     def get_success_url(self):
-        return reverse_lazy('quadra-detalhes', kwargs={
+        app_label = self.model._meta.app_label
+        return reverse('%s:quadra:detalhes' % app_label, kwargs={
             'lado': self.object.lado.id,
             'pk': self.object.lado.quadra.id
         })
