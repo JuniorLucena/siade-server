@@ -17,7 +17,7 @@ branches:
   - master
 deploy:
   provider: openshift
-  user: roldaojr
+  user: roldaogjr@gmail.com
   password:
     secure: QFVDG4WIBRTNfx0GVwoNom6LxR2nZISl5ikuCfTjwiDUV+kI9IXh9Zj2834MT3/O+6y+XawUk/74HRDHjNK3/MStNJIrbdlomynZFO9xDknfu07F+tk7StGg/Ou59JyvEz/5QzWfNVCoggCw0VYjUcBTKE4A1ZS25EfyxUsftW0=
   app: siade-server
