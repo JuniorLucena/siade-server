@@ -10,7 +10,8 @@ from ..models import Logradouro
 class LogradouroMixin(LoginRequiredMixin, PermissionRequiredMixin):
     permission_required = 'imoveis.can_change_logradouro'
     model = Logradouro
-    success_url = reverse_lazy('logradouro-listar')
+    success_url = reverse_lazy('%s:logradouro:listar'
+                               % model._meta.app_label)
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
@@ -25,6 +26,7 @@ class Listar(LogradouroMixin, ListView):
 
 
 class Adicionar(LogradouroMixin, MessageMixin, CreateView):
+    success_message = u'Logradouro adicionado com êxito'
     template_name = 'crud/object_form.html'
 
 

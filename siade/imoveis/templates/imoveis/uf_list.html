@@ -6,6 +6,7 @@
     <thead>
     <tr>
         <th>Nome</th>
+        <th>Sigla</th>
         <th class="col-sm-2">Ações</th>
     </tr>
     </thead>
@@ -13,6 +14,7 @@
 {% for object in object_list %}
         <tr>
             <td>{{ object.nome }}</a></td>
+            <td>{{ object.sigla }}</a></td>
             <td>
                 <a class="btn btn-sm btn-default" href="{% object_detalhes object %}" title="Detalhes"><i class="fa fa-eye"></i></a>
                 <a class="btn btn-sm btn-default" href="{% object_editar object %}" title="Editar"><i class="fa fa-edit"></i></a>

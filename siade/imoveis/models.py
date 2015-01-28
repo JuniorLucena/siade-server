@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.db import models
 from django.db.models import Max, F
 from django.utils.translation import gettext as _
@@ -41,7 +42,8 @@ class Bairro(models.Model):
     '''
     nome = models.CharField(max_length=100, verbose_name=_('nome'))
     municipio = models.ForeignKey(Municipio, related_name='bairros',
-                                  verbose_name=_('Município'))
+                                  verbose_name=_('Município'),
+                                  on_delete=models.PROTECT)
     codigo = models.IntegerField(blank=True, null=True,
                                  verbose_name=_('código'))
 
@@ -58,7 +60,8 @@ class Logradouro(models.Model):
     '''
     nome = models.CharField(max_length=100)
     municipio = models.ForeignKey(Municipio, blank=True, null=True,
-                                  verbose_name='município')
+                                  verbose_name='município',
+                                  on_delete=models.PROTECT)
 
     def __unicode__(self):
         return self.nome
@@ -71,11 +74,12 @@ class Quadra(models.Model):
     '''
     Quadra de imóveis de um bairro
     '''
-    bairro = models.ForeignKey(Bairro, related_name='quadras')
+    bairro = models.ForeignKey(Bairro, related_name='quadras',
+                               on_delete=models.PROTECT)
     numero = models.CharField(max_length=10, verbose_name='número')
 
     def __unicode__(self):
-        return 'Quadra #%s, %s' % (self.numero, self.bairro.nome)
+        return 'Quadra %s, %s' % (self.numero, self.bairro.nome)
 
     class Meta:
         ordering = ('bairro', 'numero')
@@ -116,8 +120,9 @@ class Imovel(models.Model):
         Terreno = ChoiceItem(3, label='Terreno Baldio')
         Outros = ChoiceItem(4, label='Outros')
 
-    ordem = models.PositiveIntegerField()
-    lado = models.ForeignKey(LadoQuadra, related_name='imoveis')
+    ordem = models.PositiveIntegerField(blank=True)
+    lado = models.ForeignKey(LadoQuadra, related_name='imoveis',
+                             on_delete=models.PROTECT)
     numero = models.CharField(max_length=10, blank=True,
                               verbose_name='número')
     tipo = models.PositiveIntegerField(choices=Tipo.choices,
@@ -149,7 +154,7 @@ class Imovel(models.Model):
         return self.lado_quadra.logradouro
 
     class Meta:
-        verbose_name = 'imõvel'
+        verbose_name = 'imóvel'
         verbose_name_plural = 'imóveis'
         ordering = ('ordem',)
 
@@ -160,7 +165,7 @@ class Imovel(models.Model):
             self.ordem = 1 if c is None else c + 1
         else:
             qs = qs.filter(ordem=self.ordem)
-            if qs.count > 0 and qs[0].id != self.id:
+            if qs.count() > 0 and qs[0].id != self.id:
                 qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
         super(Imovel, self).save(*args, **kwargs)
 

@@ -21,6 +21,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_extensions',
+    'input_mask',
     'activelink',
     'bootstrap3',
     'oauth2_provider',

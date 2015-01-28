@@ -2,17 +2,15 @@
 from django.views.generic import (CreateView, ListView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse
-from django.forms.models import modelform_factory
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from siade.mixins.messages import MessageMixin
 from ..models import Agente
+from ..forms import AgenteForm
 
 
 class AgenteMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Agente
-    fields = ('cpf', 'nome', 'sobrenome', 'nascimento',
-              'email', 'telefone', 'codigo', 'tipo')
-    form_class = modelform_factory(Agente, fields=fields)
+    form_class = AgenteForm
     permission_required = 'agentes.change_agente'
 
     def get_success_url(self):

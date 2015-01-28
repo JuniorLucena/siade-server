@@ -14,20 +14,10 @@
 {% endblock %}
 {% block actions-buttons %}
 {% if lado %}
-<a class="btn btn-primary" href="{% object_adicionar 'imovel' object.id lado.numero %}?next={{ request.path }}">Adicionar Imóvel</a>
+<a class="btn btn-primary" href="{% object_adicionar 'imoveis:imovel' object.id lado.numero %}?next={{ request.path }}">Adicionar Imóvel</a>
 {% endif %}
 <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Lado <span class="caret"></span></button>
-    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        <li><a href="{% object_adicionar 'ladoquadra' object.id %}">Adicionar</a></li>
-{% if lado %}
-        <li><a href="{% object_editar lado %}">Editar</a></li>
-        <li><a href="{% object_excluir lado %}">Excluir</a></li>
-{% endif %}
-    </ul>
-</div>
-<div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Quadra <span class="caret"></span></button>
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ações <span class="caret"></span></button>
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
         <li><a href="{% object_editar object %}">Editar</a></li>
 {% if perms.imoveis.can_delete_quadra %}
@@ -43,7 +33,7 @@
         <ul class="nav nav-tabs tabs-left">
         {% for item in lado_list %}
             <li{% ifequal item.id lado.id %} class="active"{% endifequal %}>
-                <a href="{% object_action 'quadra' 'detalhes' item.quadra.id item.numero %}">Lado #{{ item.numero }}</a>
+                <a href="{% object_action 'imoveis:quadra' 'detalhes' item.quadra.id item.numero %}">Lado #{{ item.numero }}</a>
             </li>
         {% endfor %}
         </ul>

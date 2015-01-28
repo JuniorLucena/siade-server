@@ -25,6 +25,7 @@ class Listar(MunicipioMixin, ListView):
 
 
 class Adicionar(MunicipioMixin, MessageMixin, CreateView):
+    success_message = u'Municipio adicionado com êxito'
     template_name = 'crud/object_form.html'
 
 

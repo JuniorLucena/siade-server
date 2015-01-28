@@ -2,7 +2,7 @@
 {% load object_urls %}
 {% block actions-buttons %}
 {% if perms.imoveis.can_change_quadra %}
-<a class="btn btn-success" href="{% object_adicionar 'quadra' object.id %}">Adicionar quadra</a>
+<a class="btn btn-success" href="{% object_adicionar 'imoveis:quadra' object.id %}">Adicionar quadra</a>
 {% endif %}
 {{ block.super }}
 {% endblock %}
@@ -32,15 +32,15 @@
                         Lados
                     </li>
                     <li class="list-group-item">
-                        <span class="pull-right text-muted small">{{ quadra.total_imoveis }}</span>
+                        <span class="pull-right text-muted small">{{ quadra.total_imoveis|default:0 }}</span>
                         Imóveis
                     </li>
                     <li class="list-group-item">
-                        <span class="pull-right text-muted small">{{ quadra.total_caes }}</span>
+                        <span class="pull-right text-muted small">{{ quadra.total_caes|default:0 }}</span>
                         Cães
                     </li>
                     <li class="list-group-item">
-                        <span class="pull-right text-muted small">{{ quadra.total_gatos }}</span>
+                        <span class="pull-right text-muted small">{{ quadra.total_gatos|default:0 }}</span>
                         Gatos
                     </li>
                 </ul>

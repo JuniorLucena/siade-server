@@ -11,7 +11,7 @@
             <li><a href="{% object_listar 'agentes:agente' %}"{% ifactive 'agentes:agente:listar' %} class="active"{% endifactive %}> Agentes</a></li>
 {% endif %}
             <li{% ifstartswith '/imoveis' %} class="active"{% endifstartswith %}>
-                <a href="#">Imoveis<span class="fa arrow"></span></a>
+                <a href="#">Cadastros<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
 {% if perms.imoveis.can_change_bairro %}
                     <li><a href="{% object_listar 'imoveis:bairro' %}"{% ifactive 'imoveis:bairro:listar' %} class="active"{% endifactive %}> Bairro</a></li>

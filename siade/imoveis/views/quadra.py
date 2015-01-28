@@ -1,18 +1,25 @@
 # -*- coding: utf-8 -*-
-from django.views.generic import (CreateView, UpdateView,
-                                  DeleteView, DetailView)
+from django.db.models import ProtectedError
+from django.views.generic import (CreateView, DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
+from extra_views import UpdateWithInlinesView
 from siade.utils.fields import ReadOnlyField
 from siade.mixins.messages import MessageMixin
 from ..models import Quadra, Bairro, Imovel
+from ..forms import LadoInline
 
 
 class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Quadra
-    success_url = reverse_lazy('%s:quadra:listar' % model._meta.app_label)
     permission_required = 'imoveis.can_change_quadra'
     paginate_by = 10
+
+    def get_success_url(self):
+        url = '%s:quadra:detalhes' % self.model._meta.app_label
+        return reverse_lazy(url, kwargs={'pk': self.object.id})
 
     def get_context_data(self, **kwargs):
         context = super(QuadraMixin, self).get_context_data(**kwargs)
@@ -22,6 +29,7 @@ class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class Adicionar(QuadraMixin, MessageMixin, CreateView):
+    permission_required = 'imoveis.can_add_quadra'
     success_message = u'Quadra criada com êxito'
 
     def get_form(self, form_class):
@@ -33,9 +41,6 @@ class Adicionar(QuadraMixin, MessageMixin, CreateView):
         form.fields['bairro'] = ReadOnlyField(initial=self.bairro)
 
         return form
-
-    def get_success_url(self):
-        return reverse_lazy('quadra-detalhes', kwargs={'pk': self.object.id})
 
     def get_context_data(self, **kwargs):
         context = super(Adicionar, self).get_context_data(**kwargs)
@@ -52,7 +57,7 @@ class Detalhes(QuadraMixin, DetailView):
             if num_lado:
                 lado = self.object.lados.get(numero=num_lado)
             else:
-                lado = self.object.lados.all()[0]
+                lado = self.object.lados.first()
             imoveis = Imovel.objects.filter(lado=lado)
             context['imovel_list'] = imoveis
             context['lado'] = lado
@@ -61,14 +66,26 @@ class Detalhes(QuadraMixin, DetailView):
         return context
 
 
-class Editar(QuadraMixin, MessageMixin, UpdateView):
+class Editar(QuadraMixin, MessageMixin, UpdateWithInlinesView):
     success_message = u'Quadra atualizado com êxito'
+    inlines = [LadoInline]
+
+    def forms_valid(self, form, inlines):
+        try:
+            super(Editar, self).forms_valid(form, inlines)
+        except ProtectedError:
+            messages.warning(self.request, 'Alguns lados não foram excluídos, pois contém imoveis.')
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class Excluir(QuadraMixin, MessageMixin, DeleteView):
     permission_required = 'imoveis.can_delete_quadra'
     success_message = u'Quadra excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('imoveis:bairro:detalhes',
+                            kwargs={'pk': self.object.bairro})
 
 from django.conf.urls import url, patterns
 urls = patterns(

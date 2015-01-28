@@ -20,7 +20,7 @@ Baixar o SIADE pelo repositõrio git
 
 Instalar requisitos
 
-	pip install -r requirements.txt
+	pip install -r requirements/dev.txt
 
 Criar o banco de dados e criar um usuario superusuário inicial
 
