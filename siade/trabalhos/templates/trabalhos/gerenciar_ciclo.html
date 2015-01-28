@@ -8,11 +8,11 @@
 {% endblock %}
 
 {% block content-title %}
-<h1>Gerenciar ciclo</h1>
+<h1>Gerenciar ciclo <small>{{ ciclo_atual|default:'' }}</small></h1>
 {% endblock %}
 
 {% block actions-buttons %}
-{% if ciclo_atual.fechado_em %}
+{% if not ciclo_atual or ciclo_atual.fechado_em %}
 <a class="btn btn-primary" href="{% url 'ciclo:iniciar' %}">Iniciar ciclo</a>
 {% else %}
 <a class="btn btn-default" href="{% url 'ciclo:distribuir_trabalhos' %}">Distribuir trabalhos</a>

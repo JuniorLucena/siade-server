@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load bootstrap3 object_urls %}
+{% block breadcrumbs %}
+<ol class="breadcrumb">
+    <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
+    <li><a href="{% url 'ciclo:gerenciar' %}">{{ ciclo }}</a></li>
+    <li class="active">Encerrar ciclo</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+<div class="panel panel-success">
+    <div class="panel-heading">
+        Encerrar ciclo {{ ciclo }}
+    </div>
+    <div class="panel-body">
+        <p>Deseja realmente encerrar o ciclo <strong>{{ ciclo }}</strong>?</p>
+    </div>
+    <div class="panel-footer">
+        <a class="btn btn-default" href="{% url 'ciclo:gerenciar' %}">Cancelar</a>
+        <button class="btn btn-success pull-right" type="submit">Encerrar</button>
+    </div>
+</div>
+</form>
+{% endblock %}

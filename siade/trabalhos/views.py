@@ -31,22 +31,26 @@ def iniciar_ciclo(request):
 
 def encerrar_ciclo(request):
     ciclo = Ciclo.atual()
-    ciclo.fechado_em = date.today()
-    ciclo.save()
-    return redirect(reverse('ciclo:gerenciar'))
+    if request.method == 'POST':
+        ciclo.fechado_em = date.today()
+        ciclo.save()
+        return redirect(reverse('ciclo:gerenciar'))
+    else:
+        context = RequestContext(request, {
+            'ciclo': ciclo,
+        })
+        return render_to_response('trabalhos/encerrar_ciclo.html', context)
 
 
 def distribuir_trabalhos(request):
     if request.method == 'POST':
-        form = TrabalhoForm(request.POST)
+        form = TrabalhoForm(request.POST, instance=Trabalho(ciclo=Ciclo.atual()))
         if form.is_valid():
-            instance = form.save(False)
-            instance.ciclo = Ciclo.atual()
-            instance.save()
+            form.save()
             form.save_m2m()
             return redirect(reverse('ciclo:distribuir_trabalhos'))
     else:
-        form = TrabalhoForm()
+        form = TrabalhoForm(instance=Trabalho(ciclo=Ciclo.atual()))
 
     trabalhos = Trabalho.objects.filter(ciclo=Ciclo.atual())\
         .annotate(total_imoveis=Count('quadras__lados__imoveis'))
