@@ -4,6 +4,9 @@
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
             <li><a href="{% url 'home' %}">Inicio</a></li>
+{% if perms.trabalhos.can_change_ciclo %}
+            <li><a href="{% url 'ciclo:gerenciar' %}"{% ifactive 'ciclo:gerenciar' %} class="active"{% endifactive %}> Gerenciamento de ciclo</a></li>
+{% endif %}
 {% if perms.imoveis.can_change_agente %}
             <li><a href="{% object_listar 'agentes:agente' %}"{% ifactive 'agentes:agente:listar' %} class="active"{% endifactive %}> Agentes</a></li>
 {% endif %}

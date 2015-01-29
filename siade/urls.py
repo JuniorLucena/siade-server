@@ -5,6 +5,7 @@ urlpatterns = patterns(
     '',
     url(r'^agentes/', include('siade.agentes.urls', 'agentes')),
     url(r'^imoveis/', include('siade.imoveis.urls', 'imoveis')),
+    url(r'^ciclo/', include('siade.trabalhos.urls', 'ciclo')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('siade.api.urls')),
     url(r'^api-auth/', include('rest_framework.urls',

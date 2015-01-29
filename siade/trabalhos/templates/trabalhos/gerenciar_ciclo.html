@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Início</a></li>
+        <li class="active">Gerenciamento de ciclo</li>
+    </ol>
+{% endblock %}
+
+{% block content-title %}
+<h1>Gerenciar ciclo <small>{{ ciclo_atual|default:'' }}</small></h1>
+{% endblock %}
+
+{% block actions-buttons %}
+{% if not ciclo_atual or ciclo_atual.fechado_em %}
+<a class="btn btn-primary" href="{% url 'ciclo:iniciar' %}">Iniciar ciclo</a>
+{% else %}
+<a class="btn btn-default" href="{% url 'ciclo:distribuir_trabalhos' %}">Distribuir trabalhos</a>
+<a class="btn btn-primary" href="{% url 'ciclo:encerrar' %}">Encerrar ciclo</a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Trabalhos</h3>
+    </div>
+    <table class="table table-stripped">
+        <thead>
+            <th>Agente</th>
+            <th>Quadra</th>
+            <th>Total de Imóveis</th>
+        </thead>
+        <tbody>
+{% for trabalho in trabalhos %}
+            <tr>
+                <td>{{ trabalho.agente }}</td>
+                <td>{% for q in trabalho.quadras.all %}
+                    {{ q.numero }}
+                {% endfor %}</td>
+                <td>{{ trabalho.total_imoveis }}</td>
+            </tr>
+{% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

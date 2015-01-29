@@ -2,9 +2,8 @@
 from __future__ import unicode_literals
 from datetime import date
 from django.db import models
-from django.utils.translation import gettext as _
 from djchoices import DjangoChoices, ChoiceItem
-from siade.imoveis.models import Imovel, Quadra, Bairro
+from siade.imoveis.models import Imovel, Quadra
 from siade.agentes.models import Agente
 
 
@@ -51,15 +50,15 @@ class Trabalho(models.Model):
     '''
     agente = models.ForeignKey(Agente, related_name='trabalhos')
     ciclo = models.ForeignKey(Ciclo, related_name='trabalhos')
-    quadra = models.ForeignKey(Quadra, related_name='trabalhos')
+    quadras = models.ManyToManyField(Quadra, related_name='trabalhos')
     concluido = models.BooleanField(default=False, editable=False)
 
     def __unicode__(self):
-        return 'agente %s na quadra %s (ciclo %s)' % (
-            self.agente.first_name, self.quadra, self.ciclo)
+        return 'trabalho de %s, ciclo %s' % (
+            self.agente.first_name, self.ciclo)
 
     class Meta:
-        unique_together = ('agente', 'ciclo', 'quadra')
+        unique_together = ('ciclo', 'agente')
 
 
 class Tratamento(models.Model):
