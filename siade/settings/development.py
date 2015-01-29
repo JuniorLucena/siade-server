@@ -5,7 +5,7 @@ from .common import *
 
 DEBUG = True
 TEMPLATE_DEBUG = True
-INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
+INTERNAL_IPS = ['127.0.0.1', '0.0.0.0']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
