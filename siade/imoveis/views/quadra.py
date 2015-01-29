@@ -10,6 +10,7 @@ from siade.utils.fields import ReadOnlyField
 from siade.mixins.messages import MessageMixin
 from ..models import Quadra, Bairro, Imovel
 from ..forms import LadoInline
+from django.db.models import Sum, Count
 
 
 class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
@@ -61,6 +62,13 @@ class Detalhes(QuadraMixin, DetailView):
             imoveis = Imovel.objects.filter(lado=lado)
             context['imovel_list'] = imoveis
             context['lado'] = lado
+
+            quadras = Quadra.objects.filter(lados=lado)
+            quadras = quadras.annotate(habitantes=Sum('lados__imoveis__habitantes')) \
+                         .annotate(caes=Sum('lados__imoveis__caes')) \
+                         .annotate(gatos=Sum('lados__imoveis__gatos'))
+            context['quadras'] = quadras
+
 
         context['lado_list'] = lados
         return context
