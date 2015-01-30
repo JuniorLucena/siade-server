@@ -21,6 +21,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_extensions',
+    'ajax_filtered_fields',
     'input_mask',
     'activelink',
     'bootstrap3',

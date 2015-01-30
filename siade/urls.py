@@ -12,5 +12,6 @@ urlpatterns = patterns(
                                namespace='rest_framework')),
     url(r'^o/', include('oauth2_provider.urls')),
     url(r'^relatorios/', include('siade.relatorios.urls')),
+    url(r'^ajax_filtered_fields/', include('ajax_filtered_fields.urls')),
     url(r'', include('siade.base.urls')),
 )

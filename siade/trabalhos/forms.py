@@ -4,6 +4,8 @@ from django import forms
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.db.models import Max
 from .models import Ciclo, Trabalho
+from siade.imoveis.models import Quadra
+from ajax_filtered_fields.forms.fields import ManyToManyByRelatedField
 
 
 class IniciarCicloForm(forms.ModelForm):
@@ -25,16 +27,15 @@ class IniciarCicloForm(forms.ModelForm):
 
 
 class TrabalhoForm(forms.ModelForm):
+    quadras = ManyToManyByRelatedField(Quadra, 'bairro', allow_all=False)
+
     class Meta:
         model = Trabalho
         exclude = ('ciclo',)
-        widgets = {
-            #'agente': forms.RadioSelect(),
-            #'quadras': forms.CheckboxSelectMultiple()
-        }
         error_messages = {
             NON_FIELD_ERRORS: {
-                'unique_together': "Já existe %(model_name)s para este %(field_labels)s",
+                'unique_together':
+                "Já existe %(model_name)s para este %(field_labels)s",
             }
         }
 
