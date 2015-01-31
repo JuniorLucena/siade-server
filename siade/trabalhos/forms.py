@@ -29,9 +29,17 @@ class IniciarCicloForm(forms.ModelForm):
 class TrabalhoForm(forms.ModelForm):
     quadras = ManyToManyByRelatedField(Quadra, 'bairro', allow_all=False)
 
+    def save(self):
+        ciclo = Ciclo.atual()
+        agente = self.cleaned_data['agente']
+        quadras = []
+        for quadra in self.cleaned_data['quadras']:
+            quadras += [Trabalho(ciclo=ciclo, agente=agente, quadra=quadra)]
+        Trabalho.objects.bulk_create(quadras)
+
     class Meta:
         model = Trabalho
-        exclude = ('ciclo',)
+        exclude = ('ciclo', 'quadra')
         error_messages = {
             NON_FIELD_ERRORS: {
                 'unique_together':

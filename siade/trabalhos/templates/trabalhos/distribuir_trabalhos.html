@@ -17,44 +17,61 @@
 {% endblock %}
 
 {% block content %}
-<form method="post">{% csrf_token %}
 {{ block.super }}
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Agentes e quadras</h3>
+<div class="row">
+    <div class="col-md-5">
+        <form method="post">{% csrf_token %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Agentes e quadras</h3>
+            </div>
+            <div class="panel-body">
+                {% bootstrap_form form %}
+                <button class="btn btn-primary pull-right" type="submit">Adicionar</button>
+            </div>
+        </div>
+        </form>
     </div>
-    <div class="panel-body">
-    {% bootstrap_form_errors form %}
-    {% for field in form %}
-    <div class="col-md-6">
-        {% bootstrap_field field %}
-    </div>
-    {% endfor %}
-    <button class="btn btn-primary" type="submit">Adicionar</button>
+    <div class="col-md-7">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Trabalhos</h3>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <th>Agente</th>
+                    <th>Quadra</th>
+                    <th>Total de Imóveis</th>
+                </thead>
+                <tbody>
+        {% for agente in agentes %}
+                    <tr>
+                        <td>{{ agente.nome }}</td>
+                        <td></td>
+                        <td>{{ agente.total_imoveis }}</td>
+                    </tr>
+        {% for t in agente.trabalhos.all %}
+                    <tr>
+                        <td>{{ t.quadra.bairro }}</td>
+                        <td>{{ t.quadra.numero }}</td>
+                        <td></td>
+                    </tr>
+        {% endfor %}
+        {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-</form>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Trabalhos</h3>
-    </div>
-    <table class="table table-striped">
-        <thead>
-            <th>Agente</th>
-            <th>Quadra</th>
-            <th>Total de Imóveis</th>
-        </thead>
-        <tbody>
-{% for trabalho in trabalhos %}
-            <tr>
-                <td>{{ trabalho.agente }}</td>
-                <td>{% for q in trabalho.quadras.all %}
-                    {{ q.numero }}
-                {% endfor %}</td>
-                <td>{{ trabalho.total_imoveis }}</td>
-            </tr>
-{% endfor %}
-        </tbody>
-    </table>
-</div>
+{% endblock %}
+{% block extrahead %}
+<link href="{{ STATIC_URL }}css/multi-select.css" media="screen" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block extrascript %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.multi-select.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+//    $("#id_quadras").multiSelect()
+})
+</script>
 {% endblock %}

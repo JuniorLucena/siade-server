@@ -21,7 +21,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_extensions',
-    'ajax_filtered_fields',
     'input_mask',
     'activelink',
     'bootstrap3',
@@ -35,6 +34,7 @@ INSTALLED_APPS = (
     'siade.api',
     'siade.relatorios',
     'django.contrib.admin',
+    'ajax_filtered_fields',
 )
 
 # middleware definition

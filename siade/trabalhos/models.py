@@ -50,7 +50,7 @@ class Trabalho(models.Model):
     '''
     agente = models.ForeignKey(Agente, related_name='trabalhos')
     ciclo = models.ForeignKey(Ciclo, related_name='trabalhos')
-    quadras = models.ManyToManyField(Quadra, related_name='trabalhos')
+    quadra = models.ForeignKey(Quadra, related_name='trabalhos')
     concluido = models.BooleanField(default=False, editable=False)
 
     def __unicode__(self):
@@ -58,7 +58,7 @@ class Trabalho(models.Model):
             self.agente.first_name, self.ciclo)
 
     class Meta:
-        unique_together = ('ciclo', 'agente')
+        unique_together = ('ciclo', 'agente', 'quadra')
 
 
 class Tratamento(models.Model):
