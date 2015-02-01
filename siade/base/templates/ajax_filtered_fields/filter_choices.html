@@ -1,9 +1,0 @@
-<div class="dropdown">
-<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">Bairros <span class="caret"></span></button>
-<ul class="dropdown-menu" role="menu">
-{% for label, lookup in lookup_list %}
-<li role="presentation"><a role="menuitem" href="javascript:void(0)"
-onclick="ajax_filtered_fields.{{ js_method_name }}('{{ element_id }}', '{{ app_label }}', '{{ object_name }}', '{{ lookup }}', '{{ select_related }}')">{{ label }}</a></li>
-{% endfor %}
-</ul>
-</div>

@@ -1,20 +1,19 @@
 from datetime import date
 from django.db.models import Count
-from django.shortcuts import (render_to_response, redirect,
-                              get_object_or_404)
+from django.shortcuts import render_to_response, redirect, render
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from .forms import IniciarCicloForm, TrabalhoForm
-from .models import Ciclo, Trabalho
+from .models import Ciclo
 from siade.agentes.models import Agente
 
 
 def gerenciar_ciclo(request):
-    #trabalhos = Trabalho.objects.filter(ciclo=Ciclo.atual())\
-        #.annotate(total_imoveis=Count('quadras__lados__imoveis'))
-    trabalhos = None
+    agentes = Agente.objects.filter(
+        trabalhos__ciclo=Ciclo.atual()).annotate(
+        total_imoveis=Count('trabalhos__quadra__lados__imoveis'))
     context = RequestContext(request, {
-        'trabalhos': trabalhos
+        'agentes': agentes
     })
     return render_to_response('trabalhos/gerenciar_ciclo.html', context)
 
@@ -46,21 +45,20 @@ def encerrar_ciclo(request):
 
 
 def distribuir_trabalhos(request):
+    agente_id = request.GET.get('agente') or request.POST.get('agente')
     if request.method == 'POST':
-        form = TrabalhoForm(request.POST,
-                            instance=Trabalho(ciclo=Ciclo.atual()))
+        form = TrabalhoForm(agente_id, request.POST)
         if form.is_valid():
             form.save()
             return redirect(reverse('ciclo:distribuir_trabalhos'))
     else:
-        form = TrabalhoForm(instance=Trabalho(ciclo=Ciclo.atual()))
+        form = TrabalhoForm(agente_id)
 
-    agentes = Agente.objects.filter(
-        trabalhos__ciclo=Ciclo.atual()).annotate(
-        total_imoveis=Count('trabalhos__quadra__lados__imoveis'))
+    agentes = Agente.objects.select_related('trabalhos')\
+        .annotate(total_imoveis=Count('trabalhos__quadra__lados__imoveis'))
 
-    context = RequestContext(request, {
+    context = {
         'form': form,
         'agentes': agentes
-    })
-    return render_to_response('trabalhos/distribuir_trabalhos.html', context)
+    }
+    return render(request, 'trabalhos/distribuir_trabalhos.html', context)

@@ -34,7 +34,6 @@ INSTALLED_APPS = (
     'siade.api',
     'siade.relatorios',
     'django.contrib.admin',
-    'ajax_filtered_fields',
 )
 
 # middleware definition

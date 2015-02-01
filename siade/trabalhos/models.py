@@ -7,6 +7,14 @@ from siade.imoveis.models import Imovel, Quadra
 from siade.agentes.models import Agente
 
 
+class CicloAtualManager(models.Manager):
+    use_for_related_fields = True
+
+    def get_queryset(self):
+        return super(CicloAtualManager, self).get_queryset().filter(
+            ciclo=Ciclo.atual())
+
+
 class Atividade(models.Model):
     '''
     Atividade que pode realizada
@@ -53,12 +61,15 @@ class Trabalho(models.Model):
     quadra = models.ForeignKey(Quadra, related_name='trabalhos')
     concluido = models.BooleanField(default=False, editable=False)
 
+    objects = CicloAtualManager()
+
     def __unicode__(self):
-        return 'trabalho de %s, ciclo %s' % (
-            self.agente.first_name, self.ciclo)
+        return '%s, quadra %s, ciclo %s' % (
+            self.agente.first_name, self.quadra, self.ciclo)
 
     class Meta:
-        unique_together = ('ciclo', 'agente', 'quadra')
+        unique_together = ('ciclo', 'quadra')
+        ordering = ('agente', 'ciclo', 'quadra')
 
 
 class Tratamento(models.Model):
@@ -133,6 +144,7 @@ class Visita(Tratamento, Pesquisa):
     pendencia = models.PositiveIntegerField(choices=Pendencia.choices,
                                             default=0,
                                             verbose_name='pendência')
+    objects = CicloAtualManager()
 
     class Meta:
         verbose_name = 'visita'
