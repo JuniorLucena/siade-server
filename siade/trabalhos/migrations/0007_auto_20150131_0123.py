@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='trabalho',
             name='quadra',
-            field=models.ForeignKey(related_name='trabalhos', default=0, to='imoveis.Quadra'),
+            field=models.ForeignKey(related_name='trabalhos', to='imoveis.Quadra'),
             preserve_default=False,
         ),
         migrations.AlterField(

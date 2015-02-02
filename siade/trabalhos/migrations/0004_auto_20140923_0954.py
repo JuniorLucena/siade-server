@@ -12,10 +12,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='trabalho',
-            unique_together=set([('agente', 'ciclo', 'quadra')]),
-        ),
-        migrations.AlterUniqueTogether(
             name='visita',
             unique_together=set([('ciclo', 'agente', 'imovel')]),
         ),
