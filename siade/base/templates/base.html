@@ -46,7 +46,12 @@
             <!-- /.dropdown -->
         </ul>
         <!-- /.navbar-top-links -->
-        {% include 'blocks/nav-menu.html' %}
+        {% load sitetree %}
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+            {% sitetree_menu from "main" include "this-ancestor-children" template "sitetree/nav-menu.html" %}
+            </div>
+        </div>
         <!-- /.navbar-static-side -->
     </nav>
 {% endif %}    
@@ -54,12 +59,9 @@
 
         {% if not is_popup %}
         <div class="row">
-        {% block breadcrumbs %}
-            <ol class="breadcrumb">
-                <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Início</a></li>
-                <li class="active">{{ title }}</li>
-            </ol>
-        {% endblock %}
+            <div class="breakcrombs">
+            {% sitetree_breadcrumbs from "main" template "sitetree/breadcrumbs_bootstrap3.html" %}	
+            </div>
         </div>
         {% endif %}
 
@@ -88,7 +90,8 @@
         </div>
     </div>
 </div>
-    <script>window.DJANGO_STATIC_URL = {{ STATIC_URL }}</script>
+    <script>window.DJANGO_STATIC_URL = '{{ STATIC_URL }}'</script>
+    <script src="{{ STATIC_URL }}js/jquery-1.11.0.js"></script>
     <script src="{{ STATIC_URL }}js/jquery-migrate-1.2.1.min.js"></script>
     <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}js/metisMenu/metisMenu.min.js"></script>

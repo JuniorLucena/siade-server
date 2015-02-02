@@ -1,4 +1,6 @@
 from django.conf.urls import url, include, patterns
+from sitetree.sitetreeapp import register_dynamic_trees, compose_dynamic_tree
+from sitetrees import sitetrees
 from .views import imovel, quadra, bairro, logradouro, municipio, uf
 
 urlpatterns = patterns(
@@ -9,4 +11,10 @@ urlpatterns = patterns(
     url(r'^logradouro/', include(logradouro.urls, 'logradouro')),
     url(r'^municipio/', include(municipio.urls, 'municipio')),
     url(r'^uf/', include(uf.urls, 'uf'))
+)
+
+register_dynamic_trees(
+    compose_dynamic_tree(sitetrees, target_tree_alias='main',
+                         parent_tree_item_alias='home'),
+    reset_cache=True
 )

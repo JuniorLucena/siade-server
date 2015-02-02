@@ -26,6 +26,8 @@ class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
         context = super(QuadraMixin, self).get_context_data(**kwargs)
         context['title'] = self.model._meta.verbose_name.capitalize()
         context['object_class'] = self.model
+        if self.object:
+            context['bairro'] = self.object.bairro
         return context
 
 
