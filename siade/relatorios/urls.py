@@ -8,4 +8,6 @@ urlpatterns = patterns(
     url(r'^pendencia\.(\w+)$', views.casas_pendentes),
     url(r'^diario/([0-9]{4})-([0-9]{2})-([0-9]+)\.(\w+)$', views.rel_diario),
     url(r'^semanal/([0-9]+)\.(\w+)$$', views.rel_semanal),
+   	url(r'^agente/$', views.estatisticas_agente),
+
 )
