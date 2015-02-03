@@ -2,10 +2,17 @@
 from __future__ import unicode_literals
 from datetime import date
 from django.db import models
-from django.utils.translation import gettext as _
 from djchoices import DjangoChoices, ChoiceItem
-from siade.imoveis.models import Imovel, Quadra, Bairro
+from siade.imoveis.models import Imovel, Quadra
 from siade.agentes.models import Agente
+
+
+class CicloAtualManager(models.Manager):
+    use_for_related_fields = True
+
+    def get_queryset(self):
+        return super(CicloAtualManager, self).get_queryset().filter(
+            ciclo=Ciclo.atual())
 
 
 class Atividade(models.Model):
@@ -54,12 +61,15 @@ class Trabalho(models.Model):
     quadra = models.ForeignKey(Quadra, related_name='trabalhos')
     concluido = models.BooleanField(default=False, editable=False)
 
+    objects = CicloAtualManager()
+
     def __unicode__(self):
-        return 'agente %s na quadra %s (ciclo %s)' % (
+        return '%s, quadra %s, ciclo %s' % (
             self.agente.first_name, self.quadra, self.ciclo)
 
     class Meta:
-        unique_together = ('agente', 'ciclo', 'quadra')
+        unique_together = ('ciclo', 'quadra')
+        ordering = ('agente', 'ciclo', 'quadra')
 
 
 class Tratamento(models.Model):
@@ -134,6 +144,7 @@ class Visita(Tratamento, Pesquisa):
     pendencia = models.PositiveIntegerField(choices=Pendencia.choices,
                                             default=0,
                                             verbose_name='pendência')
+    objects = CicloAtualManager()
 
     class Meta:
         verbose_name = 'visita'

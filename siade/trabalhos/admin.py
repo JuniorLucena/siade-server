@@ -14,8 +14,8 @@ class CicloAdmin(admin.ModelAdmin):
 
 
 class TrabalhoAdmin(admin.ModelAdmin):
-    list_display = ('ciclo', 'agente', 'quadra', 'concluido')
-    list_filter = ('ciclo', 'agente', 'quadra', 'concluido')
+    list_display = ('ciclo', 'agente', 'concluido')
+    list_filter = ('ciclo', 'agente', 'concluido')
 
 
 class VisitaAdmin(admin.ModelAdmin):

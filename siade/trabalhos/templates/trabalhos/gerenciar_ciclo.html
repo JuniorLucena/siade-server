@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Início</a></li>
+        <li class="active">Gerenciamento de ciclo</li>
+    </ol>
+{% endblock %}
+
+{% block content-title %}
+<h1>Gerenciar ciclo <small>{{ ciclo_atual|default:'' }}</small></h1>
+{% endblock %}
+
+{% block actions-buttons %}
+{% if not ciclo_atual or ciclo_atual.fechado_em %}
+<a class="btn btn-primary" href="{% url 'ciclo:iniciar' %}">Iniciar ciclo</a>
+{% else %}
+<a class="btn btn-default" href="{% url 'ciclo:distribuir_trabalhos' %}">Distribuir trabalhos</a>
+<a class="btn btn-primary" href="{% url 'ciclo:encerrar' %}">Encerrar ciclo</a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Trabalhos</h3>
+    </div>
+    <table class="table table-hover">
+    <thead>
+        <th>Agente</th>
+        <th>Quadras</th>
+        <th>Imóveis</th>
+    </thead>
+    <tbody>
+    {% for agente in agentes %}
+        <tr{% ifequal agente.pk|stringformat:"s" request.GET.agente %} class="warning"{% endifequal %}>
+            <td>{{ agente.nome }}</td>
+            <td>
+            {% regroup agente.trabalhos.all by quadra.bairro.nome as quadras_por_bairro %}
+            {% for bairro in quadras_por_bairro %}
+                {{ bairro.grouper }}:
+                {% for t in bairro.list %}
+                {{ t.quadra.numero }}
+                {% endfor %}
+                <br/>
+            {% endfor %}
+            </td>
+            <td>{{ agente.total_imoveis }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+</div>
+{% endblock %}

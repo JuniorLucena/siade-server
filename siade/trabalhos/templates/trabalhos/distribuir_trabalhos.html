@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Início</a></li>
+        <li><a href="{% url 'ciclo:gerenciar' %}">Gerenciamento de ciclo</a></li>
+        <li class="active">Distribuir trabalhos</li>
+    </ol>
+{% endblock %}
+
+{% block content-title %}
+<h1>Distribuir trabalhos</h1>
+{% endblock %}
+
+{% block actions-buttons %}
+<a href="{% url 'ciclo:gerenciar' %}" class="btn btn-default">Conclu&iacute;do</a>
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-hover">
+        <thead>
+            <th>Agente</th>
+            <th>Quadras</th>
+            <th>Imóveis</th>
+            <th></th>
+        </thead>
+        <tbody>
+        {% for agente in agentes %}
+            <tr{% ifequal agente.pk|stringformat:"s" request.GET.agente %} class="warning"{% endifequal %}>
+                <td>{{ agente.nome }}</td>
+                <td>
+                {% regroup agente.trabalhos.all by quadra.bairro.nome as quadras_por_bairro %}
+                {% for bairro in quadras_por_bairro %}
+                    {{ bairro.grouper }}:
+                    {% for t in bairro.list %}
+                    {{ t.quadra.numero }}
+                    {% endfor %}
+                    <br/>
+                {% endfor %}
+                </td>
+                <td>{{ agente.total_imoveis }}</td>
+                <td><a href="?agente={{ agente.pk }}">Alterar</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    </div>
+{% if request.GET.agente %}
+    <div class="col-md-4">
+        <form method="post" action="">{% csrf_token %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Selecionar Quadras</h3>
+            </div>
+            <div class="panel-body">
+                {% bootstrap_form form %}
+                <button class="btn btn-primary pull-right" type="submit">Salvar</button>
+            </div>
+        </div>
+        </form>
+    </div>
+{% endif %}
+</div>
+{% endblock %}
+{% block extrahead %}
+<style type="text/css">
+div.checkbox {
+    display: inline-block;
+}
+div.checkbox label.btn {
+    padding: 6px 12px;
+}
+</style>
+{% endblock %}

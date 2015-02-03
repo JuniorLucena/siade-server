@@ -25,6 +25,9 @@ class ImovelMixin(LoginRequiredMixin, PermissionRequiredMixin):
         context = super(ImovelMixin, self).get_context_data(**kwargs)
         context['title'] = self.model._meta.verbose_name.capitalize()
         context['object_class'] = self.model
+        if self.object:
+            context['quadra'] = self.object.lado.quadra
+            context['bairro'] = context['quadra'].bairro
         return context
 
 
@@ -32,8 +35,9 @@ class Adicionar(ImovelMixin, MessageMixin, CreateView):
     success_message = u'Imovel criado com êxito'
 
     def get_form(self, form_class):
-        id_lado = self.kwargs.get('lado')
-        self.lado = LadoQuadra.objects.get(pk=id_lado)
+        lado = self.kwargs.get('lado')
+        quadra = self.kwargs.get('quadra')
+        self.lado = LadoQuadra.objects.get(numero=lado, quadra=quadra)
 
         form_kwargs = self.get_form_kwargs()
         form_kwargs.update({'initial': {'lado': self.lado}})
@@ -45,7 +49,13 @@ class Adicionar(ImovelMixin, MessageMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(Adicionar, self).get_context_data(**kwargs)
-        context['lado'] = getattr(self, 'lado', None)
+        lado = getattr(self, 'lado', None)
+        context['lado'] = lado
+        if lado:
+            context.update({
+                'quadra': lado.quadra,
+                'bairro': lado.quadra.bairro
+            })
         return context
 
 

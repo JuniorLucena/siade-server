@@ -24,6 +24,7 @@ INSTALLED_APPS = (
     'input_mask',
     'activelink',
     'bootstrap3',
+    'sitetree',
     'oauth2_provider',
     'rest_framework',
     'qrcode',

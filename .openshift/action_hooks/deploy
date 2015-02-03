@@ -1,10 +1,10 @@
 #!/bin/bash
 
 echo "Creanting openshift wsgi dir"
-mkdir -p wsgi
+mkdir -p "$OPENSHIFT_REPO_DIR"/wsgi
 
 echo "Making symbolic links"
-ln -ns siade/wsgi.py wsgi/application
+cp "$OPENSHIFT_REPO_DIR"/siade/wsgi.py "$OPENSHIFT_REPO_DIR"/wsgi/application
 
 echo "Executing 'python $OPENSHIFT_REPO_DIR/wsgi/openshift/manage.py collectstatic --noinput'"
 python "$OPENSHIFT_REPO_DIR"/manage.py collectstatic --noinput
