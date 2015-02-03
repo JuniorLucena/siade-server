@@ -75,3 +75,20 @@ def estatisticas_bairro(request):
         'quadras': quadras,
         'form': form,
     })
+
+
+def estatisticas_agente(request):
+
+    bairros = [(bairro.id, bairro.nome) for bairro in Bairro.objects.all()]
+
+    class PesquisaForm(forms.Form):
+        bairro = forms.fields.ChoiceField(choices=bairros)
+
+    bairro_id = request.GET.get('bairro')
+    
+    form = PesquisaForm(request.GET)
+
+    return render(request, 'relatorios/relatorio_agente.html', {
+        'bairros': bairros,
+        'form': form,
+    })
