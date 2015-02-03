@@ -19,15 +19,15 @@
         <label class="col-md-2 control-label">CPF</label>
         <div class="col-md-4 form-control-static">{{ object.cpf|cpf_format }}</div>
         <label class="col-md-2 control-label">Código</label>
-        <div class="col-md-4 form-control-static">{{ object.codigo }}</div>
+        <div class="col-md-4 form-control-static">{{ object.codigo}}</div>
         <label class="col-md-2 control-label">Tipo</label>
         <div class="col-md-4 form-control-static">{{ object.get_tipo_display }}</div>
         <label class="col-md-2 control-label">Telefone</label>
         <div class="col-md-4 form-control-static">{{ object.telefone|default:'&nbsp;' }}</div>
         <label class="col-md-2 control-label">E-mail</label>
-        <div class="col-md-4 form-control-static">{{ object.email }}</div>
+        <div class="col-md-4 form-control-static">{{ object.email|default:'&nbsp;' }}</div>
         <label class="col-md-2 control-label">Data de Nasc.</label>
-        <div class="col-md-4 form-control-static">{{ object.nascimento }}</div>
+        <div class="col-md-4 form-control-static">{{ object.nascimento|default:'&nbsp;' }}</div>
     </div>
 </div>
 {% endblock %}
