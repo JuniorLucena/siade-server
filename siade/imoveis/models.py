@@ -76,7 +76,7 @@ class Quadra(models.Model):
     '''
     bairro = models.ForeignKey(Bairro, related_name='quadras',
                                on_delete=models.PROTECT)
-    numero = models.CharField(max_length=10, verbose_name='número')
+    numero = models.PositiveIntegerField(default=0, verbose_name='número')
 
     def __unicode__(self):
         return 'Quadra %s, %s' % (self.numero, self.bairro.nome)
