@@ -23,10 +23,13 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                <a href="{% object_detalhes quadra %}">Quadra {{ quadra.numero }}</a>
+                Quadra {{ quadra.numero }}
+                <a class="btn btn-sm btn-default" href="{% object_detalhes quadra %}"  title="Detalhes" style="float: right;"><i class="fa fa-eye"></i></a>
                 </h3>
+                <br />
             </div>
                 <ul class="list-group">
+
                     <li class="list-group-item">
                         <span class="pull-right text-muted small">{{ quadra.lados.count }}</span>
                         Lados
