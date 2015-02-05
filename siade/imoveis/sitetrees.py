@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from sitetree.utils import tree, item
 
-sitetrees = (
+dynamic_sitetrees = (
     tree('imoveis', items=[
         item('Imóveis e Localidades', '', alias='cadastros', children=[
             item('Bairros', 'imoveis:bairro:listar', children=[
