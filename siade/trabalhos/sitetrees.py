@@ -2,9 +2,10 @@
 from __future__ import unicode_literals
 from sitetree.utils import tree, item
 
-sitetrees = (
+dynamic_sitetrees = (
     tree('trabalhos', items=[
-        item('Gerenciamento de ciclo', 'ciclo:gerenciar', children=[
+        item('Gerenciamento de ciclo', '', children=[
+            item('Situação do ciclo', 'ciclo:gerenciar'),
             item('Distribuir trabalhos', 'ciclo:distribuir_trabalhos'),
             item('Iniciar ciclo', 'ciclo:iniciar',
                  in_menu=False, in_sitetree=False),
