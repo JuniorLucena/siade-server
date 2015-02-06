@@ -22,24 +22,27 @@ trabalho_atividades = (
 )
 
 
-def gerar_ciclo(numero, ano_base, data_inicio):
+def gerar_ciclo(numero, ano_base, data_inicio, fechado=True):
     '''Gerar um ciclo'''
+    print 'Ciclo %d/%d (%s)' % (numero, ano_base, data_inicio)
     nome, sigla = choice(trabalho_atividades)
     atividade, c = Atividade.objects.get_or_create(nome=nome, sigla=sigla)
+    data_fim = data_inicio + timedelta(days=randint(50, 70))
     ciclo = Ciclo.objects.create(
         data_inicio=data_inicio,
-        data_fim=data_inicio + timedelta(days=randint(50, 70)),
+        data_fim=data_fim,
         numero=numero,
         ano_base=ano_base,
-        atividade=atividade
+        atividade=atividade,
+        fechado_em=data_fim
     )
-    logger.debug('Ciclo %d/%d (%s)', numero, ano_base, data_inicio)
+    gerar_trabalhos(ciclo)
     return ciclo
 
 
 def gerar_ciclos(qtd, ano_base):
     '''Gerar ciclos para um ano'''
-    data_inicio = date(ano_base, 1, 1) + timedelta(days=randint(5, 7))
+    data_inicio = date(ano_base, 1, 5) + timedelta(days=randint(5, 7))
     for i in range(qtd):
         ciclo = gerar_ciclo(i + 1, ano_base, data_inicio)
         data_inicio = ciclo.data_inicio + timedelta(days=randint(5, 10))
@@ -54,19 +57,24 @@ def gerar_trabalhos(ciclo):
         for i in range(quadras_por_agente):
             try:
                 quadra = next(quadras)
-                logger.debug('Trabalho C.%s Q.%s A.%s', agente, quadra, ciclo)
+                print '* Trabalho A.%s Q.%s C.%s' % (agente, quadra, ciclo)
                 trabalho = Trabalho.objects.create(agente=agente,
                                                    quadra=quadra,
                                                    ciclo=ciclo)
+                # Gerar visitas para este trabalho
+                if ciclo.fechado_em:
+                    gerar_visitas(trabalho, 100)
+                else:
+                    gerar_visitas(trabalho, randint(0, 100))
             except StopIteration:
                 break
 
 
 def gerar_visita(ciclo, agente, imovel):
-    logger.debug('Visita %s (ciclo %s)', imovel, ciclo)
+    print '  * Visita em %s por %s' % (imovel, agente)
     datahora_visita = faker.date_time_between(
         ciclo.data_inicio, ciclo.data_fim)
-    return Visita.objects.create(
+    visita = Visita.objects.create(
         data=datahora_visita.date(),
         hora=datahora_visita.time(),
         ciclo=ciclo,
@@ -77,19 +85,17 @@ def gerar_visita(ciclo, agente, imovel):
     )
 
 
-def gerar_visitas(ciclo):
-    for trabalho in Trabalho.objects.all():
-        for imovel in Imovel.objects.filter(lado__quadra=trabalho.quadra):
-            gerar_visita(trabalho.ciclo, trabalho.agente, imovel)
+def gerar_visitas(trabalho, percentual=100):
+    imoveis = Imovel.objects.filter(lado__quadra=trabalho.quadra)
+    total_imoveis = imoveis.count()
+    total_visitas = total_imoveis * percentual/100
+    for imovel in imoveis[:total_visitas]:
+        gerar_visita(trabalho.ciclo, trabalho.agente, imovel)
 
 
-def run(qtd=2, ano=2013):
+def run(qtd=3, ano=2014):
     qtd, ano = int(qtd), int(ano)
     Ciclo.objects.all().delete()
     Trabalho.objects.all().delete()
     Visita.objects.all().delete()
     gerar_ciclos(qtd, ano)
-    ciclos = Ciclo.objects.all()
-    for ciclo in ciclos:
-        gerar_trabalhos(ciclo)
-    gerar_visitas(ciclo)
