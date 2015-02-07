@@ -28,23 +28,6 @@ class IniciarCicloForm(forms.ModelForm):
         exclude = ('fechado_em', 'numero')
 
 
-class BtnCheckboxChoiceInput(forms.widgets.CheckboxChoiceInput):
-    def render(self, name=None, value=None, attrs=None, choices=()):
-        if self.id_for_label:
-            label_for = format_html(' for="{}"', self.id_for_label)
-        else:
-            label_for = ''
-        attrs = dict(self.attrs, **attrs) if attrs else self.attrs
-        return format_html(
-            '<label{} class="btn btn-default btn-checkbox">{} {}</label>',
-            label_for, self.tag(), self.choice_label
-        )
-
-
-class BtnCheckboxFieldRenderer(forms.widgets.ChoiceFieldRenderer):
-    choice_input_class = BtnCheckboxChoiceInput
-
-
 class TrabalhoForm(forms.ModelForm):
     quadras = forms.MultipleChoiceField(
         required=False, widget=forms.CheckboxSelectMultiple())
