@@ -78,14 +78,14 @@ class SyncTest(APITestCase):
         data = [{
             'id': 1,
             'bairro': self.bairro.id,
-            'numero': '2A',
+            'numero': 2,
             'sync_changed': '2014-08-07T20:18:07.147',
             'sync_version': 1,
             'sync_deleted': False,
         }, {
             'id': 3,
             'bairro': self.bairro.id,
-            'numero': '4',
+            'numero': 4,
             'sync_changed': '2014-08-12T20:18:07.147',
             'sync_version': 1,
             'sync_deleted': False,
@@ -100,4 +100,3 @@ class SyncTest(APITestCase):
         del posted['sync_version'], saved['sync_version']
         del posted['sync_changed'], saved['sync_changed']
         self.assertEqual(posted, saved)
-
