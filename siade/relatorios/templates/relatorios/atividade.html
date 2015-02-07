@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+<form class="inline">
+{% bootstrap_form form layout=inline %}
+<button type="submit" class="btn btn-primary">Filtrar</button>
+</form>
+<table class="table">
+	<tr>
+		<td>Agente</td>
+		<td>Imoveis</td>
+		<td>Larvicida</td>
+		<td>Tubitos</td>
+		<td>Tratados</td>
+	</tr>
+{% for quadra in quadras %}
+	<tr>
+		<td>{{ visita.agente }}</td>
+		<td>{{ visita.imovel }}</td>
+		<td>{{ visita.larvicida }}</td>
+		<td>{{ visita.tubitos }}</td>
+		<td>{{ visita.tratads }}</td>
+	</tr>
+{% endfor %}
+</table>
+{% endblock %}

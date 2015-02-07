@@ -159,14 +159,21 @@ class Imovel(models.Model):
         ordering = ('ordem',)
 
     def save(self, *args, **kwargs):
-        qs = self._default_manager.filter(lado=self.lado)
+        qs = self._default_manager.filter(lado = self.lado)
+
+        print(qs)
+
         if self.ordem is None:
             c = qs.aggregate(Max('ordem')).get('ordem__max')
             self.ordem = 1 if c is None else c + 1
         else:
             qs = qs.filter(ordem=self.ordem)
             if qs.count() > 0 and qs[0].id != self.id:
-                qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
+                #qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
+                for imovel in qs.filter(ordem__gte=self.ordem):
+                    imovel.ordem += 1
+                    imovel.save()
+
         super(Imovel, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
