@@ -9,13 +9,23 @@ from siade.agentes.models import Agente
 
 
 def gerenciar_ciclo(request):
-    agentes = Agente.objects.filter(
-        trabalhos__ciclo=Ciclo.atual()).annotate(
-        total_imoveis=Count('trabalhos__quadra__lados__imoveis'))
-    context = RequestContext(request, {
+    agentes = Agente.objects.select_related('trabalhos').only('nome')\
+        .filter(tipo=Agente.Tipo.AgenteCampo)\
+        .annotate(total_imoveis=Count('trabalhos__quadra__lados__imoveis'))
+
+    vistas_agentes = dict(Agente.objects.annotate(
+        total=Count('visitas__imovel')).values_list('id', 'total'))
+
+    for a in agentes:
+        a.total_visitas = vistas_agentes[a.id]
+        percentual = float(a.total_visitas / float(a.total_imoveis))
+        print percentual
+        a.percentual = int(round(percentual * 100))
+
+    context = {
         'agentes': agentes
-    })
-    return render_to_response('trabalhos/gerenciar_ciclo.html', context)
+    }
+    return render(request, 'trabalhos/gerenciar_ciclo.html', context)
 
 
 def iniciar_ciclo(request):
@@ -54,11 +64,12 @@ def distribuir_trabalhos(request):
     else:
         form = TrabalhoForm(agente_id)
 
-    agentes = Agente.objects.select_related('trabalhos')\
+    agentes = Agente.objects.select_related('trabalhos').only('nome')\
+        .filter(tipo=Agente.Tipo.AgenteCampo)\
         .annotate(total_imoveis=Count('trabalhos__quadra__lados__imoveis'))
 
     context = {
         'form': form,
-        'agentes': agentes
+        'agentes': agentes,
     }
     return render(request, 'trabalhos/distribuir_trabalhos.html', context)

@@ -24,16 +24,24 @@ def gerar_uf():
     return UF.objects.create(sigla=sigla, nome=nome)
 
 
-def gerar_municipio(uf=None):
-    nome = faker.city()
-    print '* Municipio: %s' % nome
-    return Municipio.objects.create(nome=nome, uf=uf or gerar_uf())
+def pegar_municipio(uf=None):
+    total_municipio = Municipio.objects.count()
+    if total_municipio == 0:
+        municipio = Municipio.objects.create(nome=faker.city(),
+                                             uf=uf or gerar_uf())
+    else:
+        total_municipio = randint(0, total_municipio-1)
+        municipio = Municipio.objects.all()[total_municipio]
+    print 'Municipio: %s, %s' % (municipio.nome, municipio.uf)
+    return municipio
 
 
-def gerar_bairro(municipio):
-    nome = faker.bairro()
-    print '* Bairro: %s' % nome
-    return Bairro.objects.create(nome=nome, municipio=municipio)
+def gerar_bairro(municipio, tamanho_x=4, tamanho_y=4):
+    print 'Gerando dados de bairro (%d por %d quadras).' % (tamanho_x, tamanho_y)
+    bairro = Bairro.objects.create(nome=faker.bairro(), municipio=municipio)
+    print '* Bairro: %s' % bairro.nome
+    gerar_quadras(bairro, tamanho_x, tamanho_y)
+    return bairro
 
 
 def gerar_rua(municipio):
@@ -42,7 +50,7 @@ def gerar_rua(municipio):
 
 
 def gerar_lado_quadra(quadra, numero, logradouro, qtd_imoveis):
-    print '    * Lado %s, %s' % (numero, qtd_imoveis)
+    print '    * Lado %s, %s, %s' % (numero, logradouro, qtd_imoveis)
     lado = LadoQuadra.objects.create(quadra_id=quadra.pk, numero=numero,
                                      logradouro=logradouro)
     imoveis = gerar_imoveis(lado, qtd_imoveis)
@@ -133,10 +141,7 @@ def gerar_imoveis(lado, numeros):
             return gerar_imovel(lado, i + 1)
 
 
-def run(size_x=randint(4, 6), size_y=randint(4, 6)):
-    size_x, size_y = int(size_x), int(size_y)
-    print 'Gerando dados de bairro (%d por %d quadras).' % (size_x, size_y)
-    municipio = gerar_municipio()
-    bairro = gerar_bairro(municipio)
-    gerar_quadras(bairro, size_x, size_y)
+def run():
+    municipio = pegar_municipio()
+    bairro = gerar_bairro(municipio, randint(3, 10), randint(4, 10))
     print 'Dados gerados com sucesso.'
