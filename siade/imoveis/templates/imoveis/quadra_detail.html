@@ -71,6 +71,7 @@
                     <td>
                         <a class="btn btn-sm btn-default" href="{% object_detalhes imovel %}" title="Detalhes"><i class="fa fa-eye"></i></a>
                         <a class="btn btn-sm btn-default" href="{% object_editar imovel %}?next={{ request.path }}" title="Editar"><i class="fa fa-edit"></i></a>
+                         <a class="btn btn-sm btn-default" href="{% object_excluir imovel %}?next={{ request.path }}" title="Excluir"><i class="fa fa-trash-o"></i></a>
                     </td>
                 </tr>
         {% endfor %}
