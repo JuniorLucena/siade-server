@@ -18,9 +18,11 @@ def gerenciar_ciclo(request):
 
     for a in agentes:
         a.total_visitas = vistas_agentes[a.id]
-        percentual = float(a.total_visitas / float(a.total_imoveis))
-        print percentual
-        a.percentual = int(round(percentual * 100))
+        if a.total_imoveis > 0:
+            percentual = float(a.total_visitas / float(a.total_imoveis))
+            a.percentual = int(round(percentual * 100))
+        else:
+            a.percentual = 0
 
     context = {
         'agentes': agentes
