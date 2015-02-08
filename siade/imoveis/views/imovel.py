@@ -69,7 +69,6 @@ class Editar(ImovelMixin, MessageMixin, UpdateView):
 
     def get_form(self, form_class):
         form = super(Editar, self).get_form(form_class)
-        print '-- lado ', form.fields['lado'].initial,
         return form
 
     def get_form_kwargs(self):

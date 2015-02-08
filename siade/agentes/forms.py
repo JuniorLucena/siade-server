@@ -19,7 +19,6 @@ class AgenteForm(forms.ModelForm):
 
     def clean_telefone(self):
         value = self.cleaned_data['telefone']
-        print value, type(value)
         value = re.sub('-', '', smart_text(value))
         if value == '':
             return None
