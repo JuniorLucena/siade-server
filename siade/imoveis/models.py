@@ -158,25 +158,30 @@ class Imovel(models.Model):
         verbose_name_plural = 'imóveis'
         ordering = ('ordem',)
 
+    def __init__(self, *args, **kwargs):
+        super(Imovel, self).__init__(*args, **kwargs)
+        self._old_ordem = self.ordem
+
     def save(self, *args, **kwargs):
-        qs = self._default_manager.filter(lado = self.lado)
-
-        print(qs)
-
+        qs = self._default_manager.filter(lado=self.lado)
+        # definir número de ordem não definida
         if self.ordem is None:
             c = qs.aggregate(Max('ordem')).get('ordem__max')
             self.ordem = 1 if c is None else c + 1
+
+        if self.pk:
+            # Se estiver atualizando executar apenas se o numero mudar
+            if self._old_ordem != self.ordem:
+                qs.filter(ordem__gt=self._old_ordem).update(ordem=F('ordem')-1)
+                qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
         else:
-            qs = qs.filter(ordem=self.ordem)
-            if qs.count() > 0 and qs[0].id != self.id:
-                #qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
-                for imovel in qs.filter(ordem__gte=self.ordem):
-                    imovel.ordem += 1
-                    imovel.save()
+            # Se estiver inserindo alterações sequencia dos demais
+            qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
 
         super(Imovel, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         qs = self._default_manager.filter(lado=self.lado)
+        # atualizar ordem ao remover imovel
         qs.filter(ordem__gt=self.ordem).update(ordem=F('ordem')-1)
         super(Imovel, self).delete(*args, **kwargs)
