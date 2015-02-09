@@ -28,4 +28,4 @@ class AgenteForm(forms.ModelForm):
     class Meta:
         model = Agente
         fields = ('cpf', 'nome', 'sobrenome', 'nascimento',
-                  'email', 'telefone', 'codigo', 'tipo')
+                  'email', 'telefone', 'codigo', 'tipo','municipio')
