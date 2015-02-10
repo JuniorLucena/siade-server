@@ -138,6 +138,8 @@ class Visita(Tratamento, Pesquisa):
     agente = models.ForeignKey(Agente, related_name='visitas')
     imovel = models.ForeignKey(Imovel, related_name='visitas',
                                verbose_name='imóvel')
+    imovel_inspecionado = models.NullBooleanField(
+        blank=True, null=True, verbose_name='imóvel inspecionado')
     atividade = models.ForeignKey(Atividade, related_name='visitas')
     tipo = models.PositiveIntegerField(choices=Tipo.choices,
                                        default=Tipo.Normal)
