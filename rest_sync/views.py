@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import JSONRenderer
 from rest_framework import status
-from .serializers import ModelSyncSerializer, ModelSyncSerializer_factory
+from .serializers import ModelSyncSerializer, serializer_factory
 from .models import SyncState
 
 
@@ -64,26 +64,22 @@ class ModelSyncView(GenericAPIView):
         self.post_save(serializer.object)
         return self.get(request)
 
-    def get_serializer(self, instance=None, data=None, files=None, many=False,
-                       partial=False, allow_add_remove=False):
-        serializer_class = self.get_serializer_class()
-        context = self.get_serializer_context()
-        return serializer_class(instance, data=data, files=files,
-                                many=many, partial=partial,
-                                allow_add_remove=allow_add_remove,
-                                context=context)
-
     def get_serializer_class(self):
         serializer_class = self.serializer_class
-        if serializer_class is not None:
+        if serializer_class is not None and serializer_class is ModelSyncSerializer:
             return serializer_class
 
-        model_class = self.get_queryset().model
+        serializer_class = super(ModelSyncView, self).get_serializer_class()
+        if serializer_class is None:
+            model_class = self.get_queryset().model
+            serializer_class = serializer_factory(model_class)
 
-        class DefaultSerializer(ModelSyncSerializer):
-            class Meta:
-                model = model_class
-        return DefaultSerializer
+        sync_serializer_class = type('Sync%s' % str(serializer_class.__name__),
+                                     (ModelSyncSerializer, serializer_class),
+                                     {})
+
+        self.serializer_class = sync_serializer_class
+        return self.serializer_class
 
     def get_object(self):
         return self.get_queryset()
