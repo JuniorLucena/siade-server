@@ -33,7 +33,7 @@ class SyncTest(APITestCase):
         data = [{
             'id': 1,
             'bairro': self.bairro.id,
-            'numero': '1',
+            'numero': 1,
             'sync_changed': '2014-08-07T20:18:07.147',
             'sync_version': None,
             'sync_deleted': False,
@@ -58,8 +58,7 @@ class SyncTest(APITestCase):
             'sync_version': 1,
             'sync_deleted': False,
         }]
-        self.client.post(url, data, format='json')
-        response = self.client.get(url)
+        response = self.client.post(url, data, format='json')
         # pegar a quadra salva
         posted = data[0]
         saved = response.data[0]

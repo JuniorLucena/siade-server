@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from .models import UF, Municipio, Bairro, Quadra, Logradouro, Imovel
 from django.test import TestCase
+from ..models import UF, Municipio, Bairro, Quadra, Logradouro, Imovel
 
 
 class ImovelTest(TestCase):
