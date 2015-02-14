@@ -4,4 +4,5 @@ from .views import agentes, imoveis, trabalhos
 
 urlpatterns = patterns(
     '',
-) + imoveis.urls + agentes.urls + trabalhos.urls
+    url(r'', include(imoveis.urls + agentes.urls + trabalhos.urls)),
+)

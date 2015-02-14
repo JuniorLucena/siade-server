@@ -75,10 +75,10 @@ class ImovelView(ModelSyncView):
 
 urls = patterns(
     '',
-    url(r'^bairros/$', BairroView.as_view()),
-    url(r'^logradouros/$', LogradouroView.as_view()),
-    url(r'^quadras/$', QuadraView.as_view()),
-    url(r'^lados/$', LadoQuadraView.as_view()),
-    url(r'^tipos-imovel/$', TipoImovelView.as_view()),
-    url(r'^imoveis/$', ImovelView.as_view()),
+    url(r'^bairros/$', BairroView.as_view(), name='bairros'),
+    url(r'^logradouros/$', LogradouroView.as_view(), name='logradouros'),
+    url(r'^quadras/$', QuadraView.as_view(), name='quadras'),
+    url(r'^lados/$', LadoQuadraView.as_view(), name='lados'),
+    url(r'^tipos-imovel/$', TipoImovelView.as_view(), name='tipos-imovel'),
+    url(r'^imoveis/$', ImovelView.as_view(), name='imoveis'),
 )

@@ -29,7 +29,7 @@ class SyncTest(APITestCase):
         self.bairro.save()
 
     def test_sync_new_quadra(self):
-        url = '/api/sync/imoveis/quadra/'
+        url = reverse('api:quadras')
         data = [{
             'id': 1,
             'bairro': self.bairro.id,
@@ -42,7 +42,7 @@ class SyncTest(APITestCase):
         self.client.get(url)
 
     def test_sync_existing_quadra(self):
-        url = '/api/sync/imoveis/quadra/'
+        url = reverse('api:quadras')
         data = [{
             'id': 1,
             'bairro': self.bairro.id,

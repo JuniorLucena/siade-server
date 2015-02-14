@@ -20,5 +20,5 @@ class AgenteView(RetrieveAPIView):
 
 urls = patterns(
     '',
-    url(r'^agente/$', AgenteView.as_view()),
+    url(r'^agente/$', AgenteView.as_view(), name='agente'),
 )

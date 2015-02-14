@@ -66,7 +66,7 @@ class ModelSyncView(GenericAPIView):
 
     def get_serializer_class(self):
         serializer_class = self.serializer_class
-        if serializer_class is not None and serializer_class is ModelSyncSerializer:
+        if serializer_class is not None and ModelSyncSerializer in serializer_class.__mro__:
             return serializer_class
 
         serializer_class = super(ModelSyncView, self).get_serializer_class()
@@ -76,7 +76,7 @@ class ModelSyncView(GenericAPIView):
 
         sync_serializer_class = type('Sync%s' % str(serializer_class.__name__),
                                      (ModelSyncSerializer, serializer_class),
-                                     {})
+                                     {'Meta': serializer_class.Meta})
 
         self.serializer_class = sync_serializer_class
         return self.serializer_class

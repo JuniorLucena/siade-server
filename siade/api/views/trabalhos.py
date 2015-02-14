@@ -28,6 +28,6 @@ class VisitaView(ModelSyncView):
 
 urls = patterns(
     '',
-    url(r'^ciclo/$', CicloView.as_view()),
-    url(r'^visitas/$', VisitaView.as_view()),
+    url(r'^ciclo/$', CicloView.as_view(), name='ciclo'),
+    url(r'^visitas/$', VisitaView.as_view(), name='visitas'),
 )
