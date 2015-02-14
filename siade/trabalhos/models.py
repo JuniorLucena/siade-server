@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from djchoices import DjangoChoices, ChoiceItem
+from siade.base.models import BaseModel
 from siade.imoveis.models import Imovel, Quadra
 from siade.agentes.models import Agente
 
@@ -17,7 +18,7 @@ class CicloAtualManager(models.Manager):
             ciclo=Ciclo.atual())
 
 
-class Ciclo(models.Model):
+class Ciclo(BaseModel):
     '''
     Ciclo de trabalho de um agente em um ciclo
     '''
@@ -47,7 +48,7 @@ class Ciclo(models.Model):
         ordering = ('-ano_base', '-numero')
 
 
-class Trabalho(models.Model):
+class Trabalho(BaseModel):
     '''
     Trabalho realizado por um agente em um ciclo
     '''
@@ -112,7 +113,7 @@ class Pesquisa(models.Model):
         abstract = True
 
 
-class Visita(Tratamento, Pesquisa):
+class Visita(BaseModel, Tratamento, Pesquisa):
     '''
     Visita de um agente a um determinado imovel em um ciclo
     '''

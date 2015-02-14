@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.conf.urls import url, patterns
 from django.views.generic import (CreateView, ListView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse
@@ -52,12 +53,12 @@ class Excluir(AgenteMixin, MessageMixin, DeleteView):
     success_message = u'Agente excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
-from django.conf.urls import url, patterns
+
 urls = patterns(
     '',
     url(r'^$', Listar.as_view(), name='listar'),
     url(r'^adicionar/$', Adicionar.as_view(), name='adicionar'),
-    url(r'^(?P<pk>\d+)/$', Detalhes.as_view(), name='detalhes'),
-    url(r'^(?P<pk>\d+)/editar$', Editar.as_view(), name='editar'),
-    url(r'^(?P<pk>\d+)/excluir$', Excluir.as_view(), name='excluir')
+    url(r'^(?P<pk>\w+)/$', Detalhes.as_view(), name='detalhes'),
+    url(r'^(?P<pk>\w+)/editar$', Editar.as_view(), name='editar'),
+    url(r'^(?P<pk>\w+)/excluir$', Excluir.as_view(), name='excluir')
 )

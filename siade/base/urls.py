@@ -6,7 +6,7 @@ from .views import home, password_reset
 urlpatterns = patterns(
     '',
     url(r'^$',  home, name='home'),
-    url(r'^usuario/redefinir-senha/(?P<user>\d+)/$', password_reset,
+    url(r'^usuario/redefinir-senha/(?P<user>\w+)/$', password_reset,
         name='password_reset'),
     url(r'^usuario/alterar-senha/$', password_change,
         name='password_change'),

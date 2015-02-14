@@ -4,9 +4,10 @@ from django.db import models
 from django.db.models import Max, F
 from django.utils.translation import gettext as _
 from djchoices import DjangoChoices, ChoiceItem
+from siade.base.models import BaseModel
 
 
-class UF(models.Model):
+class UF(BaseModel):
     '''
     Uma Unidade Federativa
     '''
@@ -20,7 +21,7 @@ class UF(models.Model):
         verbose_name = 'estado'
 
 
-class Municipio(models.Model):
+class Municipio(BaseModel):
     '''
     Município de uma UF
     '''
@@ -36,7 +37,7 @@ class Municipio(models.Model):
         verbose_name = 'município'
 
 
-class Bairro(models.Model):
+class Bairro(BaseModel):
     '''
     Bairro de um município
     '''
@@ -54,7 +55,7 @@ class Bairro(models.Model):
         ordering = ('municipio',)
 
 
-class Logradouro(models.Model):
+class Logradouro(BaseModel):
     '''
     Logradouro de um município
     '''
@@ -70,7 +71,7 @@ class Logradouro(models.Model):
         ordering = ('nome',)
 
 
-class Quadra(models.Model):
+class Quadra(BaseModel):
     '''
     Quadra de imóveis de um bairro
     '''
@@ -86,7 +87,7 @@ class Quadra(models.Model):
         unique_together = ('bairro', 'numero')
 
 
-class LadoQuadra(models.Model):
+class LadoQuadra(BaseModel):
     '''
     Lado de uma quadra
     '''
@@ -109,7 +110,7 @@ class LadoQuadra(models.Model):
         unique_together = ('quadra', 'numero')
 
 
-class Imovel(models.Model):
+class Imovel(BaseModel):
     '''
     Detalhes de um imóvel
     '''

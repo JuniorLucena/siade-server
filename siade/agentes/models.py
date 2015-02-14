@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser,
                                         PermissionsMixin, Group)
 from djchoices import DjangoChoices, ChoiceItem
+from siade.base.models import BaseModel
 from siade.imoveis.models import Municipio
 
 
@@ -25,7 +26,7 @@ class AgenteManager(BaseUserManager):
         return user
 
 
-class Agente(AbstractBaseUser, PermissionsMixin):
+class Agente(BaseModel, AbstractBaseUser, PermissionsMixin):
     '''
     Um agente de endemias
     '''

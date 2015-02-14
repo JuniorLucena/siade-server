@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from django.conf.urls import url, patterns
 from django.db.models import ProtectedError
 from django.views.generic import (CreateView, DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
@@ -10,7 +12,9 @@ from siade.utils.fields import ReadOnlyField
 from siade.mixins.messages import MessageMixin
 from ..models import Quadra, Bairro, Imovel
 from ..forms import LadoInline
-from django.db.models import Sum, Count
+from django.db.models import Sum
+
+LADO_NOT_REMOVED = 'Alguns lados não podem ser removidos, pois contém imoveis.'
 
 
 class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
@@ -52,6 +56,7 @@ class Adicionar(QuadraMixin, MessageMixin, CreateView):
 
 
 class Detalhes(QuadraMixin, DetailView):
+
     def get_context_data(self, **kwargs):
         context = super(Detalhes, self).get_context_data(**kwargs)
         lados = self.object.lados.all()
@@ -66,11 +71,11 @@ class Detalhes(QuadraMixin, DetailView):
             context['lado'] = lado
 
             quadras = Quadra.objects.filter(lados=lado)
-            quadras = quadras.annotate(habitantes=Sum('lados__imoveis__habitantes')) \
-                         .annotate(caes=Sum('lados__imoveis__caes')) \
-                         .annotate(gatos=Sum('lados__imoveis__gatos'))
+            quadras = quadras.annotate(
+                habitantes=Sum('lados__imoveis__habitantes'),
+                caes=Sum('lados__imoveis__caes'),
+                gatos=Sum('lados__imoveis__gatos'))
             context['quadras'] = quadras
-
 
         context['lado_list'] = lados
         return context
@@ -84,7 +89,7 @@ class Editar(QuadraMixin, MessageMixin, UpdateWithInlinesView):
         try:
             super(Editar, self).forms_valid(form, inlines)
         except ProtectedError:
-            messages.warning(self.request, 'Alguns lados não foram excluídos, pois contém imoveis.')
+            messages.warning(self.request, LADO_NOT_REMOVED)
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -97,7 +102,6 @@ class Excluir(QuadraMixin, MessageMixin, DeleteView):
         return reverse_lazy('imoveis:bairro:detalhes',
                             kwargs={'pk': self.object.bairro})
 
-from django.conf.urls import url, patterns
 urls = patterns(
     '',
     url(r'^adicionar/(?P<bairro>\d+)/$', Adicionar.as_view(),
