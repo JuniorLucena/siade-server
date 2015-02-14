@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from datetime import date
 from django.db import models
 from djchoices import DjangoChoices, ChoiceItem
 from siade.imoveis.models import Imovel, Quadra
@@ -8,6 +7,9 @@ from siade.agentes.models import Agente
 
 
 class CicloAtualManager(models.Manager):
+    '''
+    Model manager que filtra o resultados pelo ciclo atual
+    '''
     use_for_related_fields = True
 
     def get_queryset(self):
@@ -15,29 +17,22 @@ class CicloAtualManager(models.Manager):
             ciclo=Ciclo.atual())
 
 
-class Atividade(models.Model):
-    '''
-    Atividade que pode realizada
-    '''
-    nome = models.CharField(max_length=100, verbose_name='nome')
-    sigla = models.CharField(max_length=5, verbose_name='sigla')
-
-    def __unicode__(self):
-        return self.nome
-
-    class Meta:
-        ordering = ('nome',)
-
-
 class Ciclo(models.Model):
     '''
     Ciclo de trabalho de um agente em um ciclo
     '''
+    class Atividade(DjangoChoices):
+        ''' Tipos de atividade possiveis para ciclo '''
+        LI = ChoiceItem(1, label='Levantamento de Índice (LI)')
+        T = ChoiceItem(1, label='Tratamento (T)')
+        LIT = ChoiceItem(1, label='Levantamento de Índice + Tratamento (LI+T)')
+
     data_inicio = models.DateField(verbose_name='data inicial')
     data_fim = models.DateField(verbose_name='data final')
     fechado_em = models.DateField(editable=False, null=True,
                                   verbose_name='finalizado em')
-    atividade = models.ForeignKey(Atividade, related_name='ciclos')
+    atividade = models.PositiveIntegerField(Atividade,
+                                            choices=Atividade.choices)
     numero = models.PositiveIntegerField(verbose_name='número')
     ano_base = models.PositiveIntegerField()
 
@@ -46,6 +41,7 @@ class Ciclo(models.Model):
 
     @staticmethod
     def atual():
+        ''' Pegar o último ciclo aberto '''
         return Ciclo.objects.first()
 
     class Meta:
@@ -122,12 +118,12 @@ class Visita(Tratamento, Pesquisa):
     Visita de um agente a um determinado imovel em um ciclo
     '''
     class Tipo(DjangoChoices):
-        '''Possiveis tipos para uma visita'''
+        ''' Possiveis tipos para uma visita '''
         Normal = ChoiceItem(1, label='Normal')
         Recuperada = ChoiceItem(2, label='Recuperada')
 
     class Pendencia(DjangoChoices):
-        '''Possiveis tipos de pendencia para uma visita'''
+        ''' Possiveis tipos de pendencia para uma visita '''
         Nenhuma = ChoiceItem(0, label='Nenhuma')
         Fechada = ChoiceItem(1, label='Fechada')
         Recusada = ChoiceItem(2, label='Recusada')
@@ -140,11 +136,10 @@ class Visita(Tratamento, Pesquisa):
                                verbose_name='imóvel')
     imovel_inspecionado = models.NullBooleanField(
         blank=True, null=True, verbose_name='imóvel inspecionado')
-    atividade = models.ForeignKey(Atividade, related_name='visitas')
     tipo = models.PositiveIntegerField(choices=Tipo.choices,
                                        default=Tipo.Normal)
     pendencia = models.PositiveIntegerField(choices=Pendencia.choices,
-                                            default=0,
+                                            default=Pendencia.Nenhuma,
                                             verbose_name='pendência')
     objects = CicloAtualManager()
 
