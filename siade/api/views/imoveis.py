@@ -10,7 +10,7 @@ from siade.imoveis.models import *
 
 
 class BairroView(ListAPIView):
-    ''' Listar bairros de município em que o agente trabalha '''
+    ''' Listar bairros de município '''
 
     model = Bairro
     serializer_class = serializer_factory(Bairro)
@@ -22,7 +22,7 @@ class BairroView(ListAPIView):
 
 
 class LogradouroView(ModelSyncView):
-    ''' Consultar/atualizar Logradouros do município em que o agente trabalha '''
+    ''' Consultar/atualizar Logradouros do município '''
 
     model = Logradouro
     serializer_class = sync_serializer_factory(Logradouro)
@@ -33,7 +33,7 @@ class LogradouroView(ModelSyncView):
 
 
 class QuadraView(ModelSyncView):
-    ''' Consultar/atualizar quadras de imóveis de um bairro em que o agente trabalha'''
+    ''' Consultar/atualizar quadras de um bairro '''
 
     model = Quadra
     serializer_class = sync_serializer_factory(Quadra)
@@ -44,7 +44,7 @@ class QuadraView(ModelSyncView):
 
 
 class LadoQuadraView(ModelSyncView):
-    ''' Consultar/atualizar Lado de uma Quadra '''
+    ''' Consultar/atualizar lados das quadras '''
 
     model = LadoQuadra
     serializer_class = sync_serializer_factory(LadoQuadra)
@@ -75,6 +75,7 @@ class ImovelView(ModelSyncView):
     def get_queryset(self):
         agente = self.request.user
         return Imovel.objects.filter(lado__quadra__trabalhos__agente=agente)
+
 
 urls = patterns(
     '',
