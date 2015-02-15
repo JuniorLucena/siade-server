@@ -4,6 +4,7 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_sync.views import ModelSyncView
 from ..serializers import serializer_factory
+from rest_sync.serializers import sync_serializer_factory
 from siade.trabalhos.models import *
 
 
@@ -22,7 +23,7 @@ class VisitaView(ModelSyncView):
     ''' Consultar/atualizar dados das visitas do agente '''
 
     model = Visita
-    serializer_class = serializer_factory(Visita)
+    serializer_class = sync_serializer_factory(Visita)
 
     def get_queryset(self):
         agente = self.request.user

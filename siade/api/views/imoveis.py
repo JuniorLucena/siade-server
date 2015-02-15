@@ -25,7 +25,7 @@ class LogradouroView(ModelSyncView):
     ''' Consultar/atualizar Logradouros do município em que o agente trabalha '''
 
     model = Logradouro
-    serializer_class = serializer_factory(Logradouro)
+    serializer_class = sync_serializer_factory(Logradouro)
 
     def get_queryset(self):
         agente = self.request.user
@@ -47,7 +47,7 @@ class LadoQuadraView(ModelSyncView):
     ''' Consultar/atualizar Lado de uma Quadra '''
 
     model = LadoQuadra
-    serializer_class = serializer_factory(LadoQuadra)
+    serializer_class = sync_serializer_factory(LadoQuadra)
 
     def get_queryset(self):
         agente = self.request.user
@@ -70,7 +70,7 @@ class ImovelView(ModelSyncView):
     ''' Consultar ou atualizar dados de imóvel '''
 
     model = Imovel
-    serializer_class = serializer_factory(Imovel)
+    serializer_class = sync_serializer_factory(Imovel)
 
     def get_queryset(self):
         agente = self.request.user
