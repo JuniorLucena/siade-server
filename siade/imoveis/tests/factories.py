@@ -1,4 +1,5 @@
 import factory
+import factory.fuzzy
 from factory.django import DjangoModelFactory
 from ..models import (UF, Municipio, Bairro, Logradouro, Quadra,
                       LadoQuadra, Imovel)
@@ -10,6 +11,7 @@ class UFFactory(DjangoModelFactory):
 
     class Meta:
         model = UF
+        django_get_or_create = ('nome',)
 
 
 class MunicipioFactory(DjangoModelFactory):
@@ -19,6 +21,7 @@ class MunicipioFactory(DjangoModelFactory):
 
     class Meta:
         model = Municipio
+        django_get_or_create = ('nome',)
 
 
 class BairroFactory(DjangoModelFactory):
@@ -28,6 +31,7 @@ class BairroFactory(DjangoModelFactory):
 
     class Meta:
         model = Bairro
+        django_get_or_create = ('nome', 'municipio')
 
 
 class LogradouroFactory(DjangoModelFactory):
@@ -36,14 +40,16 @@ class LogradouroFactory(DjangoModelFactory):
 
     class Meta:
         model = Logradouro
+        django_get_or_create = ('nome', 'municipio')
 
 
 class QuadraFactory(DjangoModelFactory):
-    bairro = factory.SubFactory(BairroFactory)
     numero = factory.Sequence(lambda n: n)
+    bairro = factory.SubFactory(BairroFactory)
 
     class Meta:
         model = Quadra
+        django_get_or_create = ('bairro', 'numero')
 
 
 class LadoFactory(DjangoModelFactory):
@@ -53,16 +59,18 @@ class LadoFactory(DjangoModelFactory):
 
     class Meta:
         model = LadoQuadra
+        django_get_or_create = ('quadra', 'numero')
 
 
 class ImovelFactory(DjangoModelFactory):
     lado = factory.SubFactory(LadoFactory)
     numero = factory.fuzzy.FuzzyInteger(1, 8000)
     tipo = factory.fuzzy.FuzzyChoice(Imovel.Tipo.values.keys())
-    habitantes = factory.fuzzy.FuzzyInteger()
-    caes = factory.fuzzy.FuzzyInteger()
-    gatos = factory.fuzzy.FuzzyInteger()
+    habitantes = factory.fuzzy.FuzzyInteger(0, 10)
+    caes = factory.fuzzy.FuzzyInteger(0, 5)
+    gatos = factory.fuzzy.FuzzyInteger(0, 5)
     ponto_estrategico = factory.fuzzy.FuzzyChoice((True, False))
 
     class Meta:
         model = Imovel
+        django_get_or_create = ('lado', 'numero')

@@ -7,8 +7,9 @@ from ..models import Ciclo, Trabalho
 
 class CicloFactory(DjangoModelFactory):
     data_inicio = factory.fuzzy.FuzzyDate(date(2014, 1, 1), date(2014, 10, 1))
-    numero = factory.Sequence(lambda n: n)
+    numero = 1
     ano_base = 2014
+    atividade = factory.fuzzy.FuzzyChoice(Ciclo.Atividade.values.keys())
 
     @factory.LazyAttribute
     def data_fim(self):
@@ -16,6 +17,7 @@ class CicloFactory(DjangoModelFactory):
 
     class Meta:
         model = Ciclo
+        django_get_or_create = ('numero', 'ano_base')
 
 
 class TrabalhoFactory(DjangoModelFactory):
