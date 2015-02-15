@@ -12,6 +12,11 @@ class ModelSyncSerializer(serializers.ModelSerializer):
         kwargs.update({'many': True, 'allow_add_remove': True})
         super(ModelSyncSerializer, self).__init__(*args, **kwargs)
 
+    def restore_fields(self, data, files):
+        new_data = super(ModelSyncSerializer, self).restore_fields(data, files)
+        new_data['id'] = data['id']
+        return new_data
+
     def to_native(self, obj):
         if obj is not None:
             state = SyncState.get_for_object(obj)
