@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from rest_sync.serializers import ModelSyncSerializer
-from siade.imoveis.models import Imovel
-from siade.trabalhos.models import Ciclo
 
 
 class ModelFieldsSerializer(serializers.ModelSerializer):
@@ -23,7 +19,7 @@ class ModelFieldsSerializer(serializers.ModelSerializer):
         super(ModelFieldsSerializer, self).__init__(*args, **kwargs)
 
 
-def serializer_factory(model_class, base=ModelFieldsSerializer,
+def serializer_factory(model_class, base=serializers.ModelSerializer,
                        *args, **kwargs):
     '''
     Retorna um ModelFieldsSerializer para um model

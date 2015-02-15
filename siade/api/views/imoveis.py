@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_sync.views import ModelSyncView
 from ..serializers import serializer_factory
+from rest_sync.serializers import sync_serializer_factory
 from siade.imoveis.models import *
 
 
@@ -14,7 +15,7 @@ class BairroView(ListAPIView):
     model = Bairro
     serializer_class = serializer_factory(Bairro)
     fields = ('nome',)
-    
+
     def get_queryset(self):
         agente = self.request.user
         return Bairro.objects.filter(municipio=agente.municipio)
@@ -22,7 +23,7 @@ class BairroView(ListAPIView):
 
 class LogradouroView(ModelSyncView):
     ''' Consultar/atualizar Logradouros do município em que o agente trabalha '''
-    
+
     model = Logradouro
     serializer_class = serializer_factory(Logradouro)
 
@@ -35,7 +36,7 @@ class QuadraView(ModelSyncView):
     ''' Consultar/atualizar quadras de imóveis de um bairro em que o agente trabalha'''
 
     model = Quadra
-    serializer_class = serializer_factory(Quadra)
+    serializer_class = sync_serializer_factory(Quadra)
 
     def get_queryset(self):
         agente = self.request.user
@@ -52,6 +53,7 @@ class LadoQuadraView(ModelSyncView):
         agente = self.request.user
         return LadoQuadra.objects.filter(quadra__trabalhos__agente=agente)
 
+
 class TipoImovelView(ListAPIView):
     ''' Listar tipos de imóvel '''
 
@@ -66,7 +68,8 @@ class TipoImovelView(ListAPIView):
 
 class ImovelView(ModelSyncView):
     ''' Consultar ou atualizar dados de imóvel '''
-    queryset = Imovel.objects.all()
+
+    model = Imovel
     serializer_class = serializer_factory(Imovel)
 
     def get_queryset(self):
