@@ -1,11 +1,13 @@
 import factory
 import factory.fuzzy
+from shortuuid import uuid
 from factory.django import DjangoModelFactory
 from ..models import (UF, Municipio, Bairro, Logradouro, Quadra,
                       LadoQuadra, Imovel)
 
 
 class UFFactory(DjangoModelFactory):
+    id = uuid()
     nome = factory.Sequence(lambda n: 'UF {0}'.format(n))
     sigla = factory.Sequence(lambda n: '{0}'.format(n))
 
@@ -15,6 +17,7 @@ class UFFactory(DjangoModelFactory):
 
 
 class MunicipioFactory(DjangoModelFactory):
+    id = uuid()
     nome = factory.Sequence(lambda n: 'Municipio {0}'.format(n))
     uf = factory.SubFactory(UFFactory)
     codigo = factory.Sequence(lambda n: n)
@@ -25,6 +28,7 @@ class MunicipioFactory(DjangoModelFactory):
 
 
 class BairroFactory(DjangoModelFactory):
+    id = uuid()
     nome = factory.Sequence(lambda n: 'Bairro {0}'.format(n))
     municipio = factory.SubFactory(MunicipioFactory)
     codigo = factory.Sequence(lambda n: n)
@@ -35,6 +39,7 @@ class BairroFactory(DjangoModelFactory):
 
 
 class LogradouroFactory(DjangoModelFactory):
+    id = uuid()
     nome = factory.Sequence(lambda n: 'Rua Projetada {0}'.format(n))
     municipio = factory.SubFactory(MunicipioFactory)
 
@@ -44,6 +49,7 @@ class LogradouroFactory(DjangoModelFactory):
 
 
 class QuadraFactory(DjangoModelFactory):
+    id = uuid()
     numero = factory.Sequence(lambda n: n)
     bairro = factory.SubFactory(BairroFactory)
 
@@ -53,6 +59,7 @@ class QuadraFactory(DjangoModelFactory):
 
 
 class LadoFactory(DjangoModelFactory):
+    id = uuid()
     numero = factory.Sequence(lambda n: n)
     quadra = factory.SubFactory(QuadraFactory)
     logradouro = factory.SubFactory(LogradouroFactory)
@@ -63,6 +70,7 @@ class LadoFactory(DjangoModelFactory):
 
 
 class ImovelFactory(DjangoModelFactory):
+    id = uuid()
     lado = factory.SubFactory(LadoFactory)
     numero = factory.fuzzy.FuzzyInteger(1, 8000)
     tipo = factory.fuzzy.FuzzyChoice(Imovel.Tipo.values.keys())

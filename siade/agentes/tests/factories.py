@@ -38,7 +38,9 @@ class AgenteFactory(DjangoModelFactory):
     codigo = factory.LazyAttribute(lambda a: 'AG%d' % (randint(0, 99)))
     tipo = Agente.Tipo.AgenteCampo
     municipio = factory.SubFactory(MunicipioFactory)
+    password = factory.PostGenerationMethodCall('set_password', 'dummy')
     ativo = True
 
     class Meta:
         model = Agente
+        django_get_or_create = ('cpf',)
