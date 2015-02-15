@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.renderers import JSONRenderer
 from rest_framework import status
-from .serializers import ModelSyncSerializer, serializer_factory
+from .serializers import sync_serializer_factory
 from .models import SyncState
 
 
@@ -36,49 +35,43 @@ class ModelSyncView(GenericAPIView):
         queryset = queryset.filter(id__in=obj_ids)
         return queryset
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         self.object_list = self.filter_queryset(self.get_queryset())
         serializer = self.get_serializer(self.object_list, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         if not type(request.DATA) is list:
             return Response('Invalid format',
                             status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = self.get_serializer(many=True,
-                                         data=request.DATA,
-                                         files=request.FILES)
+        object_list = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(object_list, many=True,
+                                         partial=True, data=request.DATA)
 
         if not serializer.is_valid():
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            self.pre_save(serializer.object)
+            for obj in serializer.object:
+                self.pre_save(obj)
         except ValidationError as err:
             return Response(err.message_dict,
                             status=status.HTTP_400_BAD_REQUEST)
 
-        serializer.save()
-        self.post_save(serializer.object)
+        self.object = serializer.save()
+        for obj in self.object:
+            self.post_save(obj)
         return self.get(request)
 
     def get_serializer_class(self):
         serializer_class = self.serializer_class
-        if serializer_class is not None and ModelSyncSerializer in serializer_class.__mro__:
+        if serializer_class is not None:
             return serializer_class
 
-        serializer_class = super(ModelSyncView, self).get_serializer_class()
-        if serializer_class is None:
-            model_class = self.get_queryset().model
-            serializer_class = serializer_factory(model_class)
-
-        sync_serializer_class = type('Sync%s' % str(serializer_class.__name__),
-                                     (ModelSyncSerializer, serializer_class),
-                                     {'Meta': serializer_class.Meta})
-
-        self.serializer_class = sync_serializer_class
+        model_class = self.get_queryset().model
+        self.serializer_class = sync_serializer_factory(model_class)
         return self.serializer_class
 
     def get_object(self):
