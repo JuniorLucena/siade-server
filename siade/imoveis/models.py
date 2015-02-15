@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models import Max, F
 from django.utils.translation import gettext as _
 from djchoices import DjangoChoices, ChoiceItem
+from rest_sync import sync_register
 from siade.base.models import BaseModel
 
 
@@ -55,6 +56,7 @@ class Bairro(BaseModel):
         ordering = ('municipio',)
 
 
+@sync_register
 class Logradouro(BaseModel):
     '''
     Logradouro de um município
@@ -71,6 +73,7 @@ class Logradouro(BaseModel):
         ordering = ('nome',)
 
 
+@sync_register
 class Quadra(BaseModel):
     '''
     Quadra de imóveis de um bairro
@@ -87,6 +90,7 @@ class Quadra(BaseModel):
         unique_together = ('bairro', 'numero')
 
 
+@sync_register
 class LadoQuadra(BaseModel):
     '''
     Lado de uma quadra
@@ -110,6 +114,7 @@ class LadoQuadra(BaseModel):
         unique_together = ('quadra', 'numero')
 
 
+@sync_register
 class Imovel(BaseModel):
     '''
     Detalhes de um imóvel

@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from djchoices import DjangoChoices, ChoiceItem
+from rest_sync import sync_register
 from siade.base.models import BaseModel
 from siade.imoveis.models import Imovel, Quadra
 from siade.agentes.models import Agente
@@ -113,6 +114,7 @@ class Pesquisa(models.Model):
         abstract = True
 
 
+@sync_register
 class Visita(BaseModel, Tratamento, Pesquisa):
     '''
     Visita de um agente a um determinado imovel em um ciclo
