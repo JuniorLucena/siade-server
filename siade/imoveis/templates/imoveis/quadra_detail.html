@@ -14,16 +14,11 @@
 {% endblock %}
 {% block actions-buttons %}
 {% if lado %}
-<a class="btn btn-primary" href="{% object_adicionar 'imoveis:imovel' object.id lado.numero %}?next={{ request.path }}">Adicionar Imóvel</a>
+<a class="btn btn-success" href="{% object_adicionar 'imoveis:imovel' object.id lado.numero %}?next={{ request.path }}">Adicionar Imóvel</a>
 {% endif %}
 <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ações <span class="caret"></span></button>
-    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        <li><a href="{% object_editar object %}">Editar</a></li>
-{% if perms.imoveis.can_delete_quadra %}
-        <li><a href="{% object_excluir object %}">Excluir</a></li>
-{% endif %}
-    </ul>
+    <a class="btn btn-primary" href="{% object_editar object %}">Editar</a>
+    <a class="btn btn-default" href="{% object_excluir object %}">Excluir</a>
 </div>
 {% endblock %}
 {% block content %}
