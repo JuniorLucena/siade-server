@@ -7,15 +7,21 @@ from input_mask.contrib.localflavor.br.widgets import (BRPhoneNumberInput,
 from .models import Agente
 
 
-class AgenteForm(forms.ModelForm):
-    cpf = BRCPFField(widget=BRCPFInput, label='CPF')
-    telefone = BRPhoneNumberField(widget=BRPhoneNumberInput, required=False)
+class CPFInput(BRCPFInput):
+    def render(self, name, value, attrs=None):
+        value = str(value).zfill(11)
+        return super(CPFInput, self).render(name, value, attrs)
 
-    def clean_cpf(self):
-        value = self.cleaned_data['cpf']
+    def value_from_datadict(self, data, files, name):
+        value = data.get('cpf')
         if not value.isdigit():
             value = re.sub("[-\. ]", "", value)
-        return int(value)
+        return value
+
+
+class AgenteForm(forms.ModelForm):
+    cpf = BRCPFField(widget=CPFInput, label='CPF')
+    telefone = BRPhoneNumberField(widget=BRPhoneNumberInput, required=False)
 
     def clean_telefone(self):
         value = self.cleaned_data['telefone']
@@ -28,4 +34,4 @@ class AgenteForm(forms.ModelForm):
     class Meta:
         model = Agente
         fields = ('cpf', 'nome', 'sobrenome', 'nascimento',
-                  'email', 'telefone', 'codigo', 'tipo','municipio')
+                  'email', 'telefone', 'codigo', 'tipo', 'municipio')
