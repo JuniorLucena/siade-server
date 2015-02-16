@@ -104,10 +104,10 @@ class Excluir(QuadraMixin, MessageMixin, DeleteView):
 
 urls = patterns(
     '',
-    url(r'^adicionar/(?P<bairro>\d+)/$', Adicionar.as_view(),
+    url(r'^adicionar/(?P<bairro>\w+)/$', Adicionar.as_view(),
         name='adicionar'),
-    url(r'^(?P<pk>\d+)/$', Detalhes.as_view(), name='detalhes'),
-    url(r'^(?P<pk>\d+)/(?P<lado>\d+)/$', Detalhes.as_view(), name='detalhes'),
-    url(r'^(?P<pk>\d+)/editar$', Editar.as_view(), name='editar'),
-    url(r'^(?P<pk>\d+)/excluir$', Excluir.as_view(), name='excluir')
+    url(r'^(?P<pk>\w+)/$', Detalhes.as_view(), name='detalhes'),
+    url(r'^(?P<pk>\w+)/(?P<lado>\w+)/$', Detalhes.as_view(), name='detalhes'),
+    url(r'^(?P<pk>\w+)/editar$', Editar.as_view(), name='editar'),
+    url(r'^(?P<pk>\w+)/excluir$', Excluir.as_view(), name='excluir')
 )
