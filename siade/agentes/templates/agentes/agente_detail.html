@@ -1,7 +1,7 @@
 {% extends 'crud/object_detail.html' %}
 {% load object_urls cpf %}
 {% block actions-buttons %}
-<a class="btn btn-success" href="{% url 'password_reset' object.id %}">Definir senha</a>
+<a class="btn btn-success" href="{% object_action object 'definir_senha' object.id %}">Definir senha</a>
 <div class="btn-group">
     <a class="btn btn-primary" href="{% object_editar object %}">Alterar</a>
     <a class="btn btn-default" href="{% object_excluir object %}">Excluir</a>

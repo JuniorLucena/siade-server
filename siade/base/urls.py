@@ -1,18 +1,23 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.views import (login, logout, password_change,
                                        password_change_done)
-from .views import home, password_reset
+from sitetree.sitetreeapp import register_dynamic_trees, compose_dynamic_tree
+from sitetrees import dynamic_sitetrees
+from .views import home
 
 urlpatterns = patterns(
     '',
     url(r'^$',  home, name='home'),
-    url(r'^usuario/redefinir-senha/(?P<user>\w+)/$', password_reset,
-        name='password_reset'),
-    url(r'^usuario/alterar-senha/$', password_change,
-        name='password_change'),
-    url(r'^usuario/senha-alterada/$', password_change_done,
+    url(r'^alterar-senha/$', password_change, name='password_change'),
+    url(r'^senha-alterada/$', password_change_done,
         name='password_change_done'),
-    url(r'^usuario/login/$', login, name='user_login'),
-    url(r'^usuario/logout/$', logout, {'next_page': '/usuario/login/'},
+    url(r'^login/$', login, name='user_login'),
+    url(r'^logout/$', logout, {'next_page': '/login/'},
         name='user_logout'),
+)
+
+register_dynamic_trees(
+    compose_dynamic_tree(dynamic_sitetrees, target_tree_alias='main',
+                         parent_tree_item_alias='home'),
+    reset_cache=True
 )
