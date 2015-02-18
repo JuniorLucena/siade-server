@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url, patterns
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_sync.views import ModelSyncView
 from ..serializers import serializer_factory
@@ -19,6 +19,30 @@ class CicloView(RetrieveAPIView):
         return Ciclo.atual()
 
 
+class TipoVisitalView(ListAPIView):
+    ''' Listar tipos de visita '''
+
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request):
+        choices = []
+        for val, label in Visita.Tipo.choices:
+            choices.append({'id': val, 'nome': label})
+        return Response(choices)
+
+
+class PendenciaVisitalView(ListAPIView):
+    ''' Listar tipos de pendencia de visita '''
+
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request):
+        choices = []
+        for val, label in Visita.Pendencia.choices:
+            choices.append({'id': val, 'nome': label})
+        return Response(choices)
+
+
 class VisitaView(ModelSyncView):
     ''' Consultar/atualizar dados das visitas do agente '''
 
@@ -33,5 +57,9 @@ class VisitaView(ModelSyncView):
 urls = patterns(
     '',
     url(r'^ciclo/$', CicloView.as_view(), name='ciclo'),
+    url(r'^tipos-visita/$', TipoVisitalView.as_view(),
+        name='tipos-visita'),
+    url(r'^pendencias-visita/$', PendenciaVisitalView.as_view(),
+        name='pendencias-visita'),
     url(r'^visitas/$', VisitaView.as_view(), name='visitas'),
 )

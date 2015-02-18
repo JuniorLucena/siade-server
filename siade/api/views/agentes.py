@@ -6,7 +6,7 @@ from siade.agentes.models import Agente
 
 
 class AgenteView(RetrieveAPIView):
-    ''' Retornar dados do agente atualmente logado no sistema '''
+    ''' Obter dados do agente atualmente logado no sistema '''
 
     model_class = Agente
     serializer_class = serializer_factory(
