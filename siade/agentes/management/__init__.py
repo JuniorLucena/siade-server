@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib.auth.models import Group, Permission
-from siade.agentes.models import Agente
 from siade.settings.permissions import GROUP_PERMISSIONS
+from ..models import Agente
 
 
 def permission_names_to_objects(names):
@@ -26,7 +26,7 @@ def permission_names_to_objects(names):
     return result
 
 
-def create_or_update_groups(*args, **kwargs):
+def create_or_update_groups():
     for val, name in Agente.Tipo.choices:
         group, c = Group.objects.get_or_create(name=name)
         if val in GROUP_PERMISSIONS.keys():

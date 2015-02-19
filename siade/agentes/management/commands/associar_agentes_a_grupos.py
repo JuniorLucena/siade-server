@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.core.management import BaseCommand
 from siade.agentes.models import Agente
 from django.contrib.auth.models import Group
