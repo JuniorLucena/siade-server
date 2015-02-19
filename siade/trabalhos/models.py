@@ -126,9 +126,9 @@ class Visita(BaseModel, Tratamento, Pesquisa):
 
     class Pendencia(DjangoChoices):
         ''' Possiveis tipos de pendencia para uma visita '''
-        Nenhuma = ChoiceItem(0, label='Nenhuma')
-        Fechada = ChoiceItem(1, label='Fechada')
-        Recusada = ChoiceItem(2, label='Recusada')
+        Nenhuma = ChoiceItem(1, label='Nenhuma')
+        Fechada = ChoiceItem(2, label='Fechada')
+        Recusada = ChoiceItem(3, label='Recusada')
 
     data = models.DateField()
     hora = models.TimeField()
