@@ -27,6 +27,14 @@ Criar o banco de dados e criar um usuario superusuário inicial
 	python manage.py migrate
 	python manage.py createuseruser
 
+Criar grupos e permissões iniciais
+
+	python manage.py atualizar_grupos
+
+Criar árvore de navegação
+
+	python manage.py sitetree_resync_apps
+
 Para inicar o servidor de desenvolvimento basta executar o comando:
 
 	python manage.py runserver
