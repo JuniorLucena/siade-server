@@ -1,9 +1,12 @@
-from datetime import date, timedelta
+from __future__ import unicode_literals
+from datetime import datetime, date, timedelta
 from random import randint
 from shortuuid import uuid
 import factory
 from factory.django import DjangoModelFactory
-from ..models import Ciclo, Trabalho
+from siade.agentes.tests.factories import AgenteFactory
+from siade.imoveis.tests.factories import ImovelFactory
+from ..models import Ciclo, Trabalho, Visita
 
 
 class CicloFactory(DjangoModelFactory):
@@ -28,3 +31,19 @@ class TrabalhoFactory(DjangoModelFactory):
 
     class Meta:
         model = Trabalho
+
+
+class VisitaFactory(DjangoModelFactory):
+    data = date.today()
+    hora = datetime.now().time()
+    ciclo = factory.SubFactory(CicloFactory)
+    agente = factory.SubFactory(AgenteFactory)
+    imovel = factory.SubFactory(ImovelFactory)
+    tipo = Visita.Tipo.Normal
+    pendencia = Visita.Pendencia.Nenhuma
+    imovel_tratado = False
+    imovel_inspecionado = False
+    larvicida = ''
+
+    class Meta:
+        model = Visita

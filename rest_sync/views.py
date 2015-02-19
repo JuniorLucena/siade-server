@@ -19,7 +19,7 @@ def datetime_from_string(s):
 
 
 class ModelSyncView(GenericAPIView):
-    object = None
+    object = []
 
     def filter_queryset(self, queryset):
         sync_from = self.request.GET.get('from')
@@ -36,8 +36,8 @@ class ModelSyncView(GenericAPIView):
         return queryset
 
     def get(self, request, *args, **kwargs):
-        self.object_list = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(self.object_list, many=True)
+        self.object = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(self.object, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
@@ -63,7 +63,7 @@ class ModelSyncView(GenericAPIView):
         self.object = serializer.save()
         for obj in self.object:
             self.post_save(obj)
-        return self.get(request)
+        return self.get(request, *args, **kwargs)
 
     def get_serializer_class(self):
         serializer_class = self.serializer_class
