@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from datetime import datetime, date, timedelta
+from time import time
 from random import randint
 from shortuuid import uuid
 import factory
@@ -35,7 +36,7 @@ class TrabalhoFactory(DjangoModelFactory):
 
 class VisitaFactory(DjangoModelFactory):
     data = date.today()
-    hora = datetime.today().time()
+    hora = datetime.fromtimestamp(round(time(), 3)).time()
     ciclo = factory.SubFactory(CicloFactory)
     agente = factory.SubFactory(AgenteFactory)
     imovel = factory.SubFactory(ImovelFactory)

@@ -35,7 +35,7 @@ class SyncTest(APITestCase):
         # Criar quadras e associá-las ao agente
         self.bairro = BairroFactory.create(municipio=self.agente.municipio)
 
-    def est_atualizar_quadra(self):
+    def test_atualizar_quadra(self):
         ''' Atualizar uma quadra já existente '''
 
         # criar quadra e associar ao agente
@@ -47,9 +47,10 @@ class SyncTest(APITestCase):
         request_data = quadra_serializer([quadra]).data
         url = reverse('api:quadras')
         response = self.client.post(url, request_data, format='json')
-        response_data = response.data
+        self.assertEqual(response.status_code, 200)
 
-        # ignorar dados que sempre mudam
+        # Remover dados desncessários e comparar resultados
+        response_data = response.data
         for i in request_data + response_data:
             del i['sync_version'], i['sync_changed']
         self.assertEqual(request_data, response_data)
@@ -71,9 +72,10 @@ class SyncTest(APITestCase):
         # fazer requisição a API
         url = reverse('api:logradouros')
         response = self.client.post(url, [request_data], format='json')
-        response_data = response.data[0]
+        self.assertEqual(response.status_code, 200)
 
         # Remover dados desncessários e comparar resultados
+        response_data = response.data[0]
         for i in [request_data, response_data]:
             del i['sync_version'], i['sync_changed']
         self.assertEqual(request_data, response_data)
@@ -88,9 +90,10 @@ class SyncTest(APITestCase):
         # fazer requisição a API
         url = reverse('api:lados')
         response = self.client.post(url, [request_data], format='json')
-        response_data = response.data[0]
+        self.assertEqual(response.status_code, 200)
 
         # Remover dados desncessários e comparar resultados
+        response_data = response.data[0]
         for i in [request_data, response_data]:
             del i['sync_version'], i['sync_changed']
         self.assertEqual(request_data, response_data)
@@ -121,9 +124,10 @@ class VisitasTest(APITestCase):
         # fazer requisição a API
         url = reverse('api:visitas')
         response = self.client.post(url, [request_data], format='json')
-        response_data = response.data[0]
+        self.assertEqual(response.status_code, 200)
 
         # Remover dados desncessários e comparar resultados
+        response_data = response.data[0]
         for i in [request_data, response_data]:
             del i['sync_version'], i['sync_changed']
         self.assertEqual(request_data, response_data)
