@@ -1,6 +1,5 @@
 import factory
 import factory.fuzzy
-from shortuuid import uuid
 from factory.django import DjangoModelFactory
 from ..models import (UF, Municipio, Bairro, Logradouro, Quadra,
                       LadoQuadra, Imovel)

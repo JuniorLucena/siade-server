@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 from datetime import datetime, date, timedelta
 from time import time
 from random import randint
-from shortuuid import uuid
 import factory
 from factory.django import DjangoModelFactory
 from siade.agentes.tests.factories import AgenteFactory
@@ -11,7 +10,6 @@ from ..models import Ciclo, Trabalho, Visita
 
 
 class CicloFactory(DjangoModelFactory):
-    id = uuid()
     data_inicio = factory.fuzzy.FuzzyDate(date(2014, 1, 1), date(2014, 10, 1))
     numero = 1
     ano_base = 2014
@@ -27,7 +25,6 @@ class CicloFactory(DjangoModelFactory):
 
 
 class TrabalhoFactory(DjangoModelFactory):
-    id = uuid()
     ciclo = factory.SubFactory(CicloFactory)
 
     class Meta:
