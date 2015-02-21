@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Bairro',
             fields=[
-                ('id', django_extensions.db.fields.ShortUUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
+                ('id', django_extensions.db.fields.UUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
                 ('nome', models.CharField(max_length=100, verbose_name='nome')),
                 ('codigo', models.IntegerField(null=True, verbose_name='c\xf3digo', blank=True)),
             ],
@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Imovel',
             fields=[
-                ('id', django_extensions.db.fields.ShortUUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
+                ('id', django_extensions.db.fields.UUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
                 ('ordem', models.PositiveIntegerField(blank=True)),
                 ('numero', models.CharField(max_length=10, verbose_name='n\xfamero', blank=True)),
                 ('tipo', models.PositiveIntegerField(default=1, verbose_name='tipo de im\xf3vel', choices=[(1, 'Resid\xeancia'), (2, 'Com\xe9rcio'), (3, 'Terreno Baldio'), (4, 'Outros')])),
@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='LadoQuadra',
             fields=[
-                ('id', django_extensions.db.fields.ShortUUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
+                ('id', django_extensions.db.fields.UUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
                 ('numero', models.PositiveIntegerField(null=True, verbose_name='n\xfamero', blank=True)),
             ],
             options={
@@ -59,7 +59,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Logradouro',
             fields=[
-                ('id', django_extensions.db.fields.ShortUUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
+                ('id', django_extensions.db.fields.UUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
                 ('nome', models.CharField(max_length=100)),
             ],
             options={
@@ -70,7 +70,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Municipio',
             fields=[
-                ('id', django_extensions.db.fields.ShortUUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
+                ('id', django_extensions.db.fields.UUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
                 ('nome', models.CharField(max_length=100)),
                 ('codigo', models.IntegerField(null=True, verbose_name='c\xf3digo', blank=True)),
             ],
@@ -82,7 +82,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Quadra',
             fields=[
-                ('id', django_extensions.db.fields.ShortUUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
+                ('id', django_extensions.db.fields.UUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
                 ('numero', models.PositiveIntegerField(default=0, verbose_name='n\xfamero')),
                 ('bairro', models.ForeignKey(related_name='quadras', on_delete=django.db.models.deletion.PROTECT, to='imoveis.Bairro')),
             ],
@@ -94,7 +94,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UF',
             fields=[
-                ('id', django_extensions.db.fields.ShortUUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
+                ('id', django_extensions.db.fields.UUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
                 ('nome', models.CharField(max_length=100)),
                 ('sigla', models.CharField(max_length=3)),
             ],
