@@ -36,7 +36,7 @@ class TrabalhoFactory(DjangoModelFactory):
 
 class VisitaFactory(DjangoModelFactory):
     data = date.today()
-    hora = datetime.fromtimestamp(round(time(), 3)).time()
+    hora = datetime.fromtimestamp(round(time())).time()
     ciclo = factory.SubFactory(CicloFactory)
     agente = factory.SubFactory(AgenteFactory)
     imovel = factory.SubFactory(ImovelFactory)
