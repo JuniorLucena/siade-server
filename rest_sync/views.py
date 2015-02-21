@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.renderers import JSONRenderer
 from rest_framework import status
-from .serializers import ModelSyncSerializer, ModelSyncSerializer_factory
+from .serializers import sync_serializer_factory
 from .models import SyncState
 
 
@@ -20,7 +19,7 @@ def datetime_from_string(s):
 
 
 class ModelSyncView(GenericAPIView):
-    object = None
+    object = []
 
     def filter_queryset(self, queryset):
         sync_from = self.request.GET.get('from')
@@ -36,42 +35,35 @@ class ModelSyncView(GenericAPIView):
         queryset = queryset.filter(id__in=obj_ids)
         return queryset
 
-    def get(self, request):
-        self.object_list = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(self.object_list, many=True)
+    def get(self, request, *args, **kwargs):
+        self.object = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(self.object, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         if not type(request.DATA) is list:
             return Response('Invalid format',
                             status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = self.get_serializer(many=True,
-                                         data=request.DATA,
-                                         files=request.FILES)
+        object_list = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(object_list, many=True,
+                                         partial=True, data=request.DATA)
 
         if not serializer.is_valid():
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            self.pre_save(serializer.object)
+            for obj in serializer.object:
+                self.pre_save(obj)
         except ValidationError as err:
             return Response(err.message_dict,
                             status=status.HTTP_400_BAD_REQUEST)
 
-        serializer.save()
-        self.post_save(serializer.object)
-        return self.get(request)
-
-    def get_serializer(self, instance=None, data=None, files=None, many=False,
-                       partial=False, allow_add_remove=False):
-        serializer_class = self.get_serializer_class()
-        context = self.get_serializer_context()
-        return serializer_class(instance, data=data, files=files,
-                                many=many, partial=partial,
-                                allow_add_remove=allow_add_remove,
-                                context=context)
+        self.object = serializer.save()
+        for obj in self.object:
+            self.post_save(obj)
+        return self.get(request, *args, **kwargs)
 
     def get_serializer_class(self):
         serializer_class = self.serializer_class
@@ -79,11 +71,8 @@ class ModelSyncView(GenericAPIView):
             return serializer_class
 
         model_class = self.get_queryset().model
-
-        class DefaultSerializer(ModelSyncSerializer):
-            class Meta:
-                model = model_class
-        return DefaultSerializer
+        self.serializer_class = sync_serializer_factory(model_class)
+        return self.serializer_class
 
     def get_object(self):
         return self.get_queryset()

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.conf.urls import url, patterns
 from django.views.generic import (CreateView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse
@@ -11,7 +12,9 @@ from ..forms import ImovelForm
 
 class ImovelMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Imovel
-    permission_required = 'imoveis.can_change_imovel'
+    permission_required = 'imoveis.change_imovel'
+    raise_exception = True
+    paginate_by = 50
 
     def get_success_url(self):
         nextUrl = self.request.GET.get('next')
@@ -69,7 +72,6 @@ class Editar(ImovelMixin, MessageMixin, UpdateView):
 
     def get_form(self, form_class):
         form = super(Editar, self).get_form(form_class)
-        print '-- lado ', form.fields['lado'].initial,
         return form
 
     def get_form_kwargs(self):
@@ -89,12 +91,12 @@ class Excluir(ImovelMixin, MessageMixin, DeleteView):
             'pk': self.object.lado.quadra.id
         })
 
-from django.conf.urls import url, patterns
+
 urls = patterns(
     '',
-    url(r'^adicionar/(?P<quadra>\d+)/(?P<lado>\d+)/?$', Adicionar.as_view(),
+    url(r'^adicionar/(?P<quadra>\w+)/(?P<lado>\w+)/?$', Adicionar.as_view(),
         name='adicionar'),
-    url(r'^(?P<pk>\d+)/$', Detalhes.as_view(), name='detalhes'),
-    url(r'^(?P<pk>\d+)/editar$', Editar.as_view(), name='editar'),
-    url(r'^(?P<pk>\d+)/excluir$', Excluir.as_view(), name='excluir')
+    url(r'^(?P<pk>\w+)/$', Detalhes.as_view(), name='detalhes'),
+    url(r'^(?P<pk>\w+)/editar$', Editar.as_view(), name='editar'),
+    url(r'^(?P<pk>\w+)/excluir$', Excluir.as_view(), name='excluir')
 )

@@ -10,3 +10,7 @@ DATABASES = {
         'PORT': os.environ.get('TEST_DB_PORT', 3306)
     }
 }
+
+PASSWORD_HASHERS = (
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+)

@@ -8,7 +8,7 @@
         <th>Nome</th>
         <th>Municipio</th>
         <th>Codigo</th>
-        <th class="col-sm-2">Ações</th>
+        <th class="col-sm-3">Ações</th>
     </tr>
     </thead>
     <tbody>
@@ -18,8 +18,9 @@
             <td>{{ object.municipio }}</td>
             <td>{{ object.codigo|default:'&nbsp;' }}</td>
             <td>
-                <a class="btn btn-sm btn-default" href="{% object_detalhes object %}" title="Detalhes"><i class="fa fa-eye"></i></a>
-                <a class="btn btn-sm btn-default" href="{% object_editar object %}" title="Editar"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-sm btn-default" href="{% object_detalhes object %}" title="Detalhes"><i class="fa fa-eye"></i> Detalhes</a>
+                <a class="btn btn-sm btn-default" href="{% object_editar object %}" title="Editar"><i class="fa fa-edit"></i> Editar</a>
+                <a class="btn btn-sm btn-default" href="{% object_excluir object %}" title="Excluir"><i class="fa fa-trash-o fa-fw"></i> Excluir</a>
             </td>
         </tr>
 {% endfor %}

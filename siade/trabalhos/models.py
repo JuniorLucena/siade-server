@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from datetime import date
 from django.db import models
 from djchoices import DjangoChoices, ChoiceItem
+from rest_sync import sync_register
+from siade.base.models import BaseModel
 from siade.imoveis.models import Imovel, Quadra
 from siade.agentes.models import Agente
 
 
 class CicloAtualManager(models.Manager):
+    '''
+    Model manager que filtra o resultados pelo ciclo atual
+    '''
     use_for_related_fields = True
 
     def get_queryset(self):
@@ -15,29 +19,21 @@ class CicloAtualManager(models.Manager):
             ciclo=Ciclo.atual())
 
 
-class Atividade(models.Model):
-    '''
-    Atividade que pode realizada
-    '''
-    nome = models.CharField(max_length=100, verbose_name='nome')
-    sigla = models.CharField(max_length=5, verbose_name='sigla')
-
-    def __unicode__(self):
-        return self.nome
-
-    class Meta:
-        ordering = ('nome',)
-
-
-class Ciclo(models.Model):
+class Ciclo(BaseModel):
     '''
     Ciclo de trabalho de um agente em um ciclo
     '''
+    class Atividade(DjangoChoices):
+        ''' Tipos de atividade possiveis para ciclo '''
+        LI = ChoiceItem(1, label='Levantamento de Índice (LI)')
+        T = ChoiceItem(1, label='Tratamento (T)')
+        LIT = ChoiceItem(1, label='Levantamento de Índice + Tratamento (LI+T)')
+
     data_inicio = models.DateField(verbose_name='data inicial')
     data_fim = models.DateField(verbose_name='data final')
     fechado_em = models.DateField(editable=False, null=True,
                                   verbose_name='finalizado em')
-    atividade = models.ForeignKey(Atividade, related_name='ciclos')
+    atividade = models.PositiveIntegerField(choices=Atividade.choices)
     numero = models.PositiveIntegerField(verbose_name='número')
     ano_base = models.PositiveIntegerField()
 
@@ -46,13 +42,14 @@ class Ciclo(models.Model):
 
     @staticmethod
     def atual():
+        ''' Pegar o último ciclo aberto '''
         return Ciclo.objects.first()
 
     class Meta:
         ordering = ('-ano_base', '-numero')
 
 
-class Trabalho(models.Model):
+class Trabalho(BaseModel):
     '''
     Trabalho realizado por um agente em um ciclo
     '''
@@ -117,20 +114,21 @@ class Pesquisa(models.Model):
         abstract = True
 
 
-class Visita(Tratamento, Pesquisa):
+@sync_register
+class Visita(BaseModel, Tratamento, Pesquisa):
     '''
     Visita de um agente a um determinado imovel em um ciclo
     '''
     class Tipo(DjangoChoices):
-        '''Possiveis tipos para uma visita'''
+        ''' Possiveis tipos para uma visita '''
         Normal = ChoiceItem(1, label='Normal')
         Recuperada = ChoiceItem(2, label='Recuperada')
 
     class Pendencia(DjangoChoices):
-        '''Possiveis tipos de pendencia para uma visita'''
-        Nenhuma = ChoiceItem(0, label='Nenhuma')
-        Fechada = ChoiceItem(1, label='Fechada')
-        Recusada = ChoiceItem(2, label='Recusada')
+        ''' Possiveis tipos de pendencia para uma visita '''
+        Nenhuma = ChoiceItem(1, label='Nenhuma')
+        Fechada = ChoiceItem(2, label='Fechada')
+        Recusada = ChoiceItem(3, label='Recusada')
 
     data = models.DateField()
     hora = models.TimeField()
@@ -138,11 +136,12 @@ class Visita(Tratamento, Pesquisa):
     agente = models.ForeignKey(Agente, related_name='visitas')
     imovel = models.ForeignKey(Imovel, related_name='visitas',
                                verbose_name='imóvel')
-    atividade = models.ForeignKey(Atividade, related_name='visitas')
+    imovel_inspecionado = models.NullBooleanField(
+        blank=True, null=True, verbose_name='imóvel inspecionado')
     tipo = models.PositiveIntegerField(choices=Tipo.choices,
                                        default=Tipo.Normal)
     pendencia = models.PositiveIntegerField(choices=Pendencia.choices,
-                                            default=0,
+                                            default=Pendencia.Nenhuma,
                                             verbose_name='pendência')
     objects = CicloAtualManager()
 

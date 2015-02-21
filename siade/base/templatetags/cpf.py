@@ -1,8 +1,8 @@
 from django import template
-from stdnum.br.cpf import format
+from stdnum.br import cpf
 register = template.Library()
 
 
 @register.filter()
 def cpf_format(value):
-    return format(str(value))
+    return cpf.format(str(value).zfill(11))

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser,
                                         PermissionsMixin, Group)
 from djchoices import DjangoChoices, ChoiceItem
+from siade.base.models import BaseModel
 from siade.imoveis.models import Municipio
 
 
@@ -25,12 +27,12 @@ class AgenteManager(BaseUserManager):
         return user
 
 
-class Agente(AbstractBaseUser, PermissionsMixin):
+class Agente(BaseModel, AbstractBaseUser, PermissionsMixin):
     '''
     Um agente de endemias
     '''
     class Tipo(DjangoChoices):
-        '''Possiveis tipos para uma visita'''
+        ''' Possiveis tipos para um agente '''
         AgenteCampo = ChoiceItem(1, label='Agente de campo')
         Supervisor = ChoiceItem(2, label='Supervisor')
         Administrador = ChoiceItem(99, label='Administrador')

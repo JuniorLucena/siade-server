@@ -8,7 +8,7 @@
         <th>Nome</th>
         <th>Sobrenome</th>
         <th>Tipo</th>
-        <th class="col-sm-2">Ações</th>
+        <th class="col-sm-3">Ações</th>
     </tr>
     </thead>
     <tbody>
@@ -18,8 +18,10 @@
             <td>{{ object.sobrenome }}</td>
             <td>{{ object.get_tipo_display }}</td>
             <td>
-                <a class="btn btn-sm btn-default" href="{% object_detalhes object %}" title="Detalhes"><i class="fa fa-eye"></i></a>
-                <a class="btn btn-sm btn-default" href="{% object_editar object %}?next={{ request.path }}" title="Editar"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-sm btn-default" href="{% object_detalhes object %}" title="Detalhes"><i class="fa fa-eye"></i> Detalhes</a>
+                <a class="btn btn-sm btn-default" href="{% object_editar object %}?next={{ request.path }}" title="Editar"><i class="fa fa-edit"></i> Editar</a>
+                <a class="btn btn-sm btn-default" href="{% object_excluir object %}?next={{ request.path }}" title="Excluir"><i class="fa fa-trash-o fa-fw"></i> Excluir</a>
+
             </td>
         </tr>
 {% endfor %}

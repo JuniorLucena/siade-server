@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
+<body>
+	<h2>With labels</h2>
+	<div>
+		<label class="default-checkbtn">
+			<input type="checkbox"> Unchecked
+		</label>
+		<label class="default-checkbtn">
+			<input type="checkbox" checked="checked"> Checked
+		</label>
+	</div>
+	<div>
+		<label class="success-checkbtn">
+			<input type="checkbox"> Unchecked
+		</label>
+		<label class="success-checkbtn">
+			<input type="checkbox" checked="checked"> Checked
+		</label>
+	</div>
+	<h2>With icons</h2>
+	<div>
+		<label class="success-checkbtn">
+			<input type="checkbox"> <i class="glyphicon glyphicon-repeat"></i>
+		</label>
+		<label class="success-checkbtn">
+			<input type="checkbox" checked="checked"> <i class="glyphicon glyphicon-repeat"></i>
+		</label>
+	</div>
+	<h2>Without labels</h2>
+	<div>
+		<label class="success-checkbtn">
+			<input type="checkbox">
+		</label>
+		<label class="success-checkbtn">
+			<input type="checkbox" checked="checked">
+		</label>
+	</div>
+	<script type="text/javascript" src="../js/jquery-1.11.0.js"></script>
+	<script type="text/javascript" src="checkbutton.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		checkButton(".default-checkbtn", "btn btn-default", "active")
+		checkButton(".success-checkbtn", "btn btn-success", "active")
+	})
+	</script>
+</body>
+</html>

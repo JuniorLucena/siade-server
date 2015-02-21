@@ -2,11 +2,12 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.db.models import Max, F
-from django.utils.translation import gettext as _
 from djchoices import DjangoChoices, ChoiceItem
+from rest_sync import sync_register
+from siade.base.models import BaseModel
 
 
-class UF(models.Model):
+class UF(BaseModel):
     '''
     Uma Unidade Federativa
     '''
@@ -20,7 +21,7 @@ class UF(models.Model):
         verbose_name = 'estado'
 
 
-class Municipio(models.Model):
+class Municipio(BaseModel):
     '''
     Município de uma UF
     '''
@@ -36,16 +37,16 @@ class Municipio(models.Model):
         verbose_name = 'município'
 
 
-class Bairro(models.Model):
+class Bairro(BaseModel):
     '''
     Bairro de um município
     '''
-    nome = models.CharField(max_length=100, verbose_name=_('nome'))
+    nome = models.CharField(max_length=100, verbose_name='nome')
     municipio = models.ForeignKey(Municipio, related_name='bairros',
-                                  verbose_name=_('Município'),
+                                  verbose_name='município',
                                   on_delete=models.PROTECT)
     codigo = models.IntegerField(blank=True, null=True,
-                                 verbose_name=_('código'))
+                                 verbose_name='código')
 
     def __unicode__(self):
         return "%s" % (self.nome,)
@@ -54,7 +55,8 @@ class Bairro(models.Model):
         ordering = ('municipio',)
 
 
-class Logradouro(models.Model):
+@sync_register
+class Logradouro(BaseModel):
     '''
     Logradouro de um município
     '''
@@ -70,7 +72,8 @@ class Logradouro(models.Model):
         ordering = ('nome',)
 
 
-class Quadra(models.Model):
+@sync_register
+class Quadra(BaseModel):
     '''
     Quadra de imóveis de um bairro
     '''
@@ -86,7 +89,8 @@ class Quadra(models.Model):
         unique_together = ('bairro', 'numero')
 
 
-class LadoQuadra(models.Model):
+@sync_register
+class LadoQuadra(BaseModel):
     '''
     Lado de uma quadra
     '''
@@ -109,7 +113,8 @@ class LadoQuadra(models.Model):
         unique_together = ('quadra', 'numero')
 
 
-class Imovel(models.Model):
+@sync_register
+class Imovel(BaseModel):
     '''
     Detalhes de um imóvel
     '''
@@ -158,18 +163,30 @@ class Imovel(models.Model):
         verbose_name_plural = 'imóveis'
         ordering = ('ordem',)
 
+    def __init__(self, *args, **kwargs):
+        super(Imovel, self).__init__(*args, **kwargs)
+        self._old_ordem = self.ordem
+
     def save(self, *args, **kwargs):
         qs = self._default_manager.filter(lado=self.lado)
+        # definir número de ordem não definida
         if self.ordem is None:
             c = qs.aggregate(Max('ordem')).get('ordem__max')
             self.ordem = 1 if c is None else c + 1
-        else:
-            qs = qs.filter(ordem=self.ordem)
-            if qs.count() > 0 and qs[0].id != self.id:
+
+        if self.pk:
+            # Se estiver atualizando executar apenas se o numero mudar
+            if self._old_ordem != self.ordem:
+                qs.filter(ordem__gt=self._old_ordem).update(ordem=F('ordem')-1)
                 qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
+        else:
+            # Se estiver inserindo alterações sequencia dos demais
+            qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
+
         super(Imovel, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         qs = self._default_manager.filter(lado=self.lado)
+        # atualizar ordem ao remover imovel
         qs.filter(ordem__gt=self.ordem).update(ordem=F('ordem')-1)
         super(Imovel, self).delete(*args, **kwargs)

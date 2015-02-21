@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.conf.urls import url, patterns
 from django.views.generic import (CreateView, ListView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse_lazy
@@ -11,8 +12,9 @@ from ..models import Bairro
 class BairroMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Bairro
     success_url = reverse_lazy('%s:bairro:listar' % model._meta.app_label)
-    permission_required = 'imoveis.can_change_bairro'
-    paginate_by = 10
+    permission_required = 'imoveis.change_bairro'
+    raise_exception = True
+    paginate_by = 50
 
     def get_context_data(self, **kwargs):
         context = super(BairroMixin, self).get_context_data(**kwargs)
@@ -56,12 +58,12 @@ class Excluir(BairroMixin, MessageMixin, DeleteView):
     template_name = 'crud/object_confirm_delete.html'
     permission_required = 'imoveis.can_delete_bairro'
 
-from django.conf.urls import url, patterns
+
 urls = patterns(
     '',
     url(r'^$', Listar.as_view(), name='listar'),
     url(r'^adicionar/$', Adicionar.as_view(), name='adicionar'),
-    url(r'^(?P<pk>\d+)/$', Detalhes.as_view(), name='detalhes'),
-    url(r'^(?P<pk>\d+)/editar$', Editar.as_view(), name='editar'),
-    url(r'^(?P<pk>\d+)/excluir$', Excluir.as_view(), name='excluir')
+    url(r'^(?P<pk>\w+)/$', Detalhes.as_view(), name='detalhes'),
+    url(r'^(?P<pk>\w+)/editar$', Editar.as_view(), name='editar'),
+    url(r'^(?P<pk>\w+)/excluir$', Excluir.as_view(), name='excluir')
 )

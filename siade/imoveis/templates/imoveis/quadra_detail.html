@@ -14,16 +14,11 @@
 {% endblock %}
 {% block actions-buttons %}
 {% if lado %}
-<a class="btn btn-primary" href="{% object_adicionar 'imoveis:imovel' object.id lado.numero %}?next={{ request.path }}">Adicionar Imóvel</a>
+<a class="btn btn-success" href="{% object_adicionar 'imoveis:imovel' object.id lado.numero %}?next={{ request.path }}">Adicionar Imóvel</a>
 {% endif %}
 <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ações <span class="caret"></span></button>
-    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        <li><a href="{% object_editar object %}">Editar</a></li>
-{% if perms.imoveis.can_delete_quadra %}
-        <li><a href="{% object_excluir object %}">Excluir</a></li>
-{% endif %}
-    </ul>
+    <a class="btn btn-primary" href="{% object_editar object %}">Editar</a>
+    <a class="btn btn-default" href="{% object_excluir object %}">Excluir</a>
 </div>
 {% endblock %}
 {% block content %}
@@ -56,7 +51,7 @@
                 <th>Qtd. Hab.</th>
                 <th>Qtd. Cães</th>
                 <th>Qtd. Gatos</th>
-                <th class="col-sm-2">Ações</th>
+                <th class="col-sm-4">Ações</th>
             </tr>
             </thead>
             <tbody>
@@ -69,8 +64,9 @@
                     <td>{{ imovel.caes }}</a></td>
                     <td>{{ imovel.gatos }}</a></td>
                     <td>
-                        <a class="btn btn-sm btn-default" href="{% object_detalhes imovel %}" title="Detalhes"><i class="fa fa-eye"></i></a>
-                        <a class="btn btn-sm btn-default" href="{% object_editar imovel %}?next={{ request.path }}" title="Editar"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-default" href="{% object_detalhes imovel %}" title="Detalhes"><i class="fa fa-eye"></i> Detalhes</a>
+                        <a class="btn btn-sm btn-default" href="{% object_editar imovel %}?next={{ request.path }}" title="Editar"><i class="fa fa-edit fa-fw"></i> Editar</a>
+                        <a class="btn btn-sm btn-default" href="{% object_excluir imovel %}?next={{ request.path }}"title="Excluir"><i class="fa fa-trash-o fa-fw"></i> Excluir</a>
                     </td>
                 </tr>
         {% endfor %}
