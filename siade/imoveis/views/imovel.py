@@ -12,7 +12,9 @@ from ..forms import ImovelForm
 
 class ImovelMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Imovel
-    permission_required = 'imoveis.can_change_imovel'
+    permission_required = 'imoveis.change_imovel'
+    raise_exception = True
+    paginate_by = 50
 
     def get_success_url(self):
         nextUrl = self.request.GET.get('next')

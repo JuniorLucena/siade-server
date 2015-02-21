@@ -10,9 +10,10 @@ from ..models import UF
 
 class UfMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = UF
+    permission_required = 'imoveis.change_uf'
+    raise_exception = True
+    paginate_by = 50
     success_url = reverse_lazy('%s:uf:listar' % model._meta.app_label)
-    permission_required = 'imoveis.can_change_uf'
-    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super(UfMixin, self).get_context_data(**kwargs)

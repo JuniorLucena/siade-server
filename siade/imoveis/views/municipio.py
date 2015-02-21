@@ -10,9 +10,10 @@ from ..models import Municipio
 
 class MunicipioMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Municipio
+    permission_required = 'imoveis.change_municipio'
+    raise_exception = True
+    paginate_by = 50
     success_url = reverse_lazy('%s:municipio:listar' % model._meta.app_label)
-    permission_required = 'imoveis.can_change_municipio'
-    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super(MunicipioMixin, self).get_context_data(**kwargs)

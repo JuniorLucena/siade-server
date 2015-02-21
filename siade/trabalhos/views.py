@@ -3,11 +3,13 @@ from django.db.models import Count
 from django.shortcuts import render_to_response, redirect, render
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import permission_required
 from .forms import IniciarCicloForm, TrabalhoForm
 from .models import Ciclo
 from siade.agentes.models import Agente
 
 
+@permission_required('trabalhos.change_ciclo', raise_exception=True)
 def gerenciar_ciclo(request):
     agentes = Agente.objects.select_related('trabalhos').only('nome')\
         .filter(tipo=Agente.Tipo.AgenteCampo)\
@@ -30,6 +32,7 @@ def gerenciar_ciclo(request):
     return render(request, 'trabalhos/gerenciar_ciclo.html', context)
 
 
+@permission_required('trabalhos.change_ciclo', raise_exception=True)
 def iniciar_ciclo(request):
     if request.method == 'POST':
         form = IniciarCicloForm(request.POST)
@@ -43,6 +46,7 @@ def iniciar_ciclo(request):
     return render_to_response('trabalhos/iniciar_ciclo.html', context)
 
 
+@permission_required('trabalhos.change_ciclo', raise_exception=True)
 def encerrar_ciclo(request):
     ciclo = Ciclo.atual()
     if request.method == 'POST':
@@ -56,6 +60,7 @@ def encerrar_ciclo(request):
         return render_to_response('trabalhos/encerrar_ciclo.html', context)
 
 
+@permission_required('trabalhos.change_ciclo', raise_exception=True)
 def distribuir_trabalhos(request):
     agente_id = request.GET.get('agente') or request.POST.get('agente')
     if request.method == 'POST':

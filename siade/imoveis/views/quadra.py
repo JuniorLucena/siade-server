@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.conf.urls import url, patterns
 from django.db.models import ProtectedError
 from django.views.generic import (CreateView, DeleteView, DetailView)
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
@@ -19,12 +19,17 @@ LADO_NOT_REMOVED = 'Alguns lados não podem ser removidos, pois contém imoveis.
 
 class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Quadra
-    permission_required = 'imoveis.can_change_quadra'
-    paginate_by = 10
+    permission_required = 'imoveis.change_quadra'
+    raise_exception = True
+    paginate_by = 50
 
     def get_success_url(self):
-        url = '%s:quadra:detalhes' % self.model._meta.app_label
-        return reverse_lazy(url, kwargs={'pk': self.object.id})
+        nextUrl = self.request.GET.get('next')
+        if nextUrl is None:
+            app_label = self.model._meta.app_label
+            nextUrl = reverse('%s:quadra:detalhes' % app_label,
+                              kwargs={'pk': self.object.id})
+        return nextUrl
 
     def get_context_data(self, **kwargs):
         context = super(QuadraMixin, self).get_context_data(**kwargs)

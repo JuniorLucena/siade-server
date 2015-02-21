@@ -13,7 +13,6 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dummy')
 
 # Application definition
 INSTALLED_APPS = (
-    'siade.agentes',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -30,6 +29,7 @@ INSTALLED_APPS = (
     'qrcode',
     'rest_sync',
     'siade.base',
+    'siade.agentes',
     'siade.imoveis',
     'siade.trabalhos',
     'siade.api',
@@ -98,6 +98,6 @@ REST_FRAMEWORK = {
 }
 
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/usuario/login'
+LOGIN_URL = '/login'
 AUTH_USER_MODEL = 'agentes.Agente'
 APPEND_SLASH = True

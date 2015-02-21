@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.db.models import Max, F
-from django.utils.translation import gettext as _
 from djchoices import DjangoChoices, ChoiceItem
 from rest_sync import sync_register
 from siade.base.models import BaseModel
@@ -42,12 +41,12 @@ class Bairro(BaseModel):
     '''
     Bairro de um município
     '''
-    nome = models.CharField(max_length=100, verbose_name=_('nome'))
+    nome = models.CharField(max_length=100, verbose_name='nome')
     municipio = models.ForeignKey(Municipio, related_name='bairros',
-                                  verbose_name=_('Município'),
+                                  verbose_name='município',
                                   on_delete=models.PROTECT)
     codigo = models.IntegerField(blank=True, null=True,
-                                 verbose_name=_('código'))
+                                 verbose_name='código')
 
     def __unicode__(self):
         return "%s" % (self.nome,)

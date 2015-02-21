@@ -22,6 +22,7 @@ class AgenteMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Agente
     form_class = AgenteForm
     permission_required = 'agentes.change_agente'
+    raise_exception = True
 
     def get_success_url(self):
         nextUrl = self.request.GET.get('next')

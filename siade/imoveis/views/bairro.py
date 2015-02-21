@@ -12,8 +12,9 @@ from ..models import Bairro
 class BairroMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Bairro
     success_url = reverse_lazy('%s:bairro:listar' % model._meta.app_label)
-    permission_required = 'imoveis.can_change_bairro'
-    paginate_by = 10
+    permission_required = 'imoveis.change_bairro'
+    raise_exception = True
+    paginate_by = 50
 
     def get_context_data(self, **kwargs):
         context = super(BairroMixin, self).get_context_data(**kwargs)

@@ -10,11 +10,14 @@ AgenteDeCampo_permissions = (
     'imoveis.add_quadra',
     'imoveis.change_quadra',
     'imoveis.add_logradouro',
+    'imoveis.change_logradouro',
+    'imoveis.change_bairro',
     'trabalhos.add_visita',
 )
 
 Supervisor_permissions = tuple(AgenteDeCampo_permissions + (
-    'imoveis.change_logradouro',
+    'imoveis.add_bairro',
+    'imoveis.delete_bairro',
     'imoveis.delete_logradouro',
     'trabalhos.add_trabalho',
     'trabalhos.delete_trabalho',

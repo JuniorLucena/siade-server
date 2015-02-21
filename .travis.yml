@@ -12,8 +12,9 @@ env:
   - TEST_DB_NAME=siade_test
   - TEST_DB_USER=travis
 script:
+  - python manage.py check
+  - python manage.py validate_templates
   - python manage.py test
-  - python manage.py validate_templates 
 branches:
   only:
   - master

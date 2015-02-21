@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.management import create_permissions
 from siade.settings.permissions import GROUP_PERMISSIONS
 from ..models import Agente
 
 
-def permission_names_to_objects(names):
+def permission_names_to_objects(names, label=None):
     '''
     Given an iterable of permission names (e.g. 'app_label.add_model'),
     return an iterable of Permission objects for them.
@@ -15,6 +16,8 @@ def permission_names_to_objects(names):
     result = []
     for name in names:
         app_label, codename = name.split(".", 1)
+        if label and app_label != label:
+            continue
         # Is that enough to be unique? Hope so
         try:
             result.append(Permission.objects.get(
@@ -26,9 +29,14 @@ def permission_names_to_objects(names):
     return result
 
 
-def create_or_update_groups():
+def create_or_update_groups(app_label=None):
     for val, name in Agente.Tipo.choices:
         group, c = Group.objects.get_or_create(name=name)
         if val in GROUP_PERMISSIONS.keys():
-            perms = permission_names_to_objects(GROUP_PERMISSIONS.get(val))
-            group.permissions = perms
+            perms = permission_names_to_objects(
+                GROUP_PERMISSIONS.get(val), app_label)
+            group.permissions.add(*perms)
+
+
+def atualizar_grupos(sender, **kwargs):
+    create_or_update_groups(sender.label)

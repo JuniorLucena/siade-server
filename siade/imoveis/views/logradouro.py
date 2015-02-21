@@ -9,11 +9,12 @@ from ..models import Logradouro
 
 
 class LogradouroMixin(LoginRequiredMixin, PermissionRequiredMixin):
-    permission_required = 'imoveis.can_change_logradouro'
     model = Logradouro
+    permission_required = 'imoveis.change_logradouro'
+    raise_exception = True
+    paginate_by = 50
     success_url = reverse_lazy('%s:logradouro:listar'
                                % model._meta.app_label)
-    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super(LogradouroMixin, self).get_context_data(**kwargs)
