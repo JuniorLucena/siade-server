@@ -1,13 +1,13 @@
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django_extensions.db.fields import ShortUUIDField
+from django_extensions.db.fields import ShortUUIDField, UUIDField
 from shortuuid import uuid
 
 
 class SyncState(models.Model):
     object_type = models.ForeignKey(ContentType)
-    object_id = ShortUUIDField()
+    object_id = UUIDField()
     object = GenericForeignKey('object_type', 'object_id')
     changed = models.DateTimeField(auto_now=True)
     deleted = models.BooleanField(default=False)
