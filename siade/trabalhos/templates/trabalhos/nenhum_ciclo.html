@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block content-title %}
+<h1>Gerenciar ciclo</h1>
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<p>Nenhum ciclo ainda foi iniciado</p>
+<a class="btn btn-lg btn-primary" href="{% url 'ciclo:iniciar' %}">Iniciar ciclo</a>
+{% endblock %}

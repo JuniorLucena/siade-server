@@ -11,6 +11,11 @@ from siade.agentes.models import Agente
 
 @permission_required('trabalhos.change_ciclo', raise_exception=True)
 def gerenciar_ciclo(request):
+    ciclo = Ciclo.atual()
+
+    if not ciclo:
+        return render(request, 'trabalhos/nenhum_ciclo.html')
+
     agentes = Agente.objects.select_related('trabalhos').only('nome')\
         .filter(tipo=Agente.Tipo.AgenteCampo)\
         .annotate(total_imoveis=Count('trabalhos__quadra__lados__imoveis'))

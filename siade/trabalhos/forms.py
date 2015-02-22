@@ -5,7 +5,6 @@ from django import forms
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.db import IntegrityError
 from django.db.models import Q
-from django.utils.html import format_html
 from .models import Ciclo, Trabalho
 from siade.imoveis.models import Quadra
 
@@ -14,7 +13,7 @@ class IniciarCicloForm(forms.ModelForm):
     def save(self, commit=True):
         instance = super(IniciarCicloForm, self).save(False)
         atual = Ciclo.atual()
-        if instance.ano_base == atual.ano_base:
+        if atual is not None and instance.ano_base == atual.ano_base:
             instance.numero = atual.numero + 1
         else:
             instance.numero = 1
