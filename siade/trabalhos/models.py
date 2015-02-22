@@ -43,7 +43,7 @@ class Ciclo(BaseModel):
     @staticmethod
     def atual():
         ''' Pegar o último ciclo aberto '''
-        return Ciclo.objects.first()
+        return Ciclo.objects.first() or Ciclo()
 
     class Meta:
         ordering = ('-ano_base', '-numero')
