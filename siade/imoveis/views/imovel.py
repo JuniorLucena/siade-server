@@ -94,7 +94,7 @@ class Excluir(ImovelMixin, MessageMixin, DeleteView):
 
 urls = patterns(
     '',
-    url(r'^adicionar/(?P<quadra>\w+)/(?P<lado>\w+)/?$', Adicionar.as_view(),
+    url(r'^adicionar/(?P<quadra>[^/]+)/(?P<lado>\w+)/?$', Adicionar.as_view(),
         name='adicionar'),
     url(r'^(?P<pk>[^/]+)/$', Detalhes.as_view(), name='detalhes'),
     url(r'^(?P<pk>[^/]+)/editar$', Editar.as_view(), name='editar'),
