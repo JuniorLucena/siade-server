@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('password', models.CharField(max_length=128, verbose_name='password')),
                 ('last_login', models.DateTimeField(default=django.utils.timezone.now, verbose_name='last login')),
                 ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
-                ('id', django_extensions.db.fields.ShortUUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
+                ('id', django_extensions.db.fields.UUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
                 ('cpf', models.BigIntegerField(unique=True, verbose_name='CPF')),
                 ('nome', models.CharField(max_length=30)),
                 ('sobrenome', models.CharField(max_length=30)),

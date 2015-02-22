@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Ciclo',
             fields=[
-                ('id', django_extensions.db.fields.ShortUUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
+                ('id', django_extensions.db.fields.UUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
                 ('data_inicio', models.DateField(verbose_name='data inicial')),
                 ('data_fim', models.DateField(verbose_name='data final')),
                 ('fechado_em', models.DateField(verbose_name='finalizado em', null=True, editable=False)),
@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Trabalho',
             fields=[
-                ('id', django_extensions.db.fields.ShortUUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
+                ('id', django_extensions.db.fields.UUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
                 ('concluido', models.BooleanField(default=False, editable=False)),
                 ('agente', models.ForeignKey(related_name='trabalhos', to=settings.AUTH_USER_MODEL)),
                 ('ciclo', models.ForeignKey(related_name='trabalhos', to='trabalhos.Ciclo')),
@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Visita',
             fields=[
-                ('id', django_extensions.db.fields.ShortUUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
+                ('id', django_extensions.db.fields.UUIDField(serialize=False, editable=False, primary_key=True, blank=True)),
                 ('imovel_tratado', models.NullBooleanField(verbose_name='im\xf3vel tratado')),
                 ('depositos_tratados', models.PositiveIntegerField(null=True, blank=True)),
                 ('depositos_eliminados', models.PositiveIntegerField(null=True, blank=True)),

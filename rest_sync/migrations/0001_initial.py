@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             name='SyncState',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('object_id', django_extensions.db.fields.ShortUUIDField(editable=False, blank=True)),
+                ('object_id', django_extensions.db.fields.UUIDField(editable=False, blank=True)),
                 ('changed', models.DateTimeField(auto_now=True)),
                 ('deleted', models.BooleanField(default=False)),
                 ('version', django_extensions.db.fields.ShortUUIDField(editable=False, blank=True)),

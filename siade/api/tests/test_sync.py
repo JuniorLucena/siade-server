@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from datetime import datetime
-from shortuuid import uuid
+from uuid import uuid4 as uuid
 from django.core.urlresolvers import reverse
 from rest_framework.test import APITestCase
 from rest_sync.serializers import sync_serializer_factory
@@ -116,7 +116,8 @@ class VisitasTest(APITestCase):
 
         # Criar objeto visita transiente
         visita = VisitaFactory.build(id=uuid(), imovel=self.imovel,
-                                     agente=self.agente)
+                                     agente=self.agente,
+                                     ciclo=self.trabalho.ciclo)
         serializer = serializer_factory(Visita)
         request_data = serializer(visita).data
         adicionar_sync_state(request_data)
