@@ -15,18 +15,11 @@ faker = Factory.create('pt_BR')
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-trabalho_atividades = (
-    ('Tratamento', 'T'),
-    ('Levantamento de índice', 'LI'),
-    ('Levantamento de índice + Tratamento', 'LI+T'),
-)
-
 
 def gerar_ciclo(numero, ano_base, data_inicio, fechado=True):
     '''Gerar um ciclo'''
     print 'Ciclo %d/%d (%s)' % (numero, ano_base, data_inicio)
-    nome, sigla = choice(trabalho_atividades)
-    atividade, c = Atividade.objects.get_or_create(nome=nome, sigla=sigla)
+    atividade = choice(Ciclo.Atividade.values.keys())
     data_fim = data_inicio + timedelta(days=randint(50, 70))
     ciclo = Ciclo.objects.create(
         data_inicio=data_inicio,
@@ -74,13 +67,12 @@ def gerar_visita(ciclo, agente, imovel):
     print '  * Visita em %s por %s' % (imovel, agente)
     datahora_visita = faker.date_time_between(
         ciclo.data_inicio, ciclo.data_fim)
-    visita = Visita.objects.create(
+    Visita.objects.create(
         data=datahora_visita.date(),
         hora=datahora_visita.time(),
         ciclo=ciclo,
         agente=agente,
         imovel=imovel,
-        atividade=ciclo.atividade,
         pendencia=0
     )
 
