@@ -104,15 +104,15 @@ class Excluir(QuadraMixin, MessageMixin, DeleteView):
     template_name = 'crud/object_confirm_delete.html'
 
     def get_success_url(self):
-        return reverse_lazy('imoveis:bairro:detalhes',
-                            kwargs={'pk': self.object.bairro})
+        return reverse('imoveis:bairro:detalhes',
+                       kwargs={'pk': self.object.bairro})
 
 urls = patterns(
     '',
     url(r'^adicionar/(?P<bairro>\w+)/$', Adicionar.as_view(),
         name='adicionar'),
-    url(r'^(?P<pk>\w+)/$', Detalhes.as_view(), name='detalhes'),
-    url(r'^(?P<pk>\w+)/(?P<lado>\w+)/$', Detalhes.as_view(), name='detalhes'),
-    url(r'^(?P<pk>\w+)/editar$', Editar.as_view(), name='editar'),
-    url(r'^(?P<pk>\w+)/excluir$', Excluir.as_view(), name='excluir')
+    url(r'^(?P<pk>[^/]+)/$', Detalhes.as_view(), name='detalhes'),
+    url(r'^(?P<pk>[^/]+)/(?P<lado>\w+)/$', Detalhes.as_view(), name='detalhes'),
+    url(r'^(?P<pk>[^/]+)/editar$', Editar.as_view(), name='editar'),
+    url(r'^(?P<pk>[^/]+)/excluir$', Excluir.as_view(), name='excluir')
 )

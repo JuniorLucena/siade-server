@@ -63,7 +63,7 @@ urls = patterns(
     '',
     url(r'^$', Listar.as_view(), name='listar'),
     url(r'^adicionar/$', Adicionar.as_view(), name='adicionar'),
-    url(r'^(?P<pk>\w+)/$', Detalhes.as_view(), name='detalhes'),
-    url(r'^(?P<pk>\w+)/editar$', Editar.as_view(), name='editar'),
-    url(r'^(?P<pk>\w+)/excluir$', Excluir.as_view(), name='excluir')
+    url(r'^(?P<pk>[^/]+)/$', Detalhes.as_view(), name='detalhes'),
+    url(r'^(?P<pk>[^/]+)/editar$', Editar.as_view(), name='editar'),
+    url(r'^(?P<pk>[^/]+)/excluir$', Excluir.as_view(), name='excluir')
 )
