@@ -26,8 +26,8 @@ class Ciclo(BaseModel):
     class Atividade(DjangoChoices):
         ''' Tipos de atividade possiveis para ciclo '''
         LI = ChoiceItem(1, label='Levantamento de Índice (LI)')
-        T = ChoiceItem(1, label='Tratamento (T)')
-        LIT = ChoiceItem(1, label='Levantamento de Índice + Tratamento (LI+T)')
+        T = ChoiceItem(2, label='Tratamento (T)')
+        LIT = ChoiceItem(3, label='Levantamento de Índice + Tratamento (LI+T)')
 
     data_inicio = models.DateField(verbose_name='data inicial')
     data_fim = models.DateField(verbose_name='data final')
