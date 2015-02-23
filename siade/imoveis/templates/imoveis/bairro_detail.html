@@ -19,9 +19,11 @@
 <h3>Quadras</h3>
 <div class="row">
 {% for quadra in quadra_list %}
-    <div class="col-sm-6 col-md-4 col-lg-3">
+    <div class="col-sm-6 col-md-4 col-lg-4">
         <div class="panel panel-default">
             <div class="panel-heading">
+                <a class="btn btn-xs btn-default" href="{% object_editar quadra %}"  title="Detalhes" style="float: right;"><i class="fa fa-eye"></i> Editar</a>
+                <div class="panel-title">
                 <a class="btn btn-xs btn-default" href="{% object_detalhes quadra %}"  title="Detalhes" style="float: right;"><i class="fa fa-eye"></i> Detalhes</a>
                 <div class="panel-title">
                 Quadra {{ quadra.numero }}
