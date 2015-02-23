@@ -82,6 +82,10 @@ STATIC_ROOT = 'staticfiles'
 # Global template dirs
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
 
+BOOTSTRAP3 = {
+    'required_css_class': 'required'
+}
+
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.DjangoFilterBackend',
@@ -101,3 +105,4 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login'
 AUTH_USER_MODEL = 'agentes.Agente'
 APPEND_SLASH = True
+

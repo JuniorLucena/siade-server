@@ -35,3 +35,5 @@ class AgenteForm(forms.ModelForm):
         model = Agente
         fields = ('cpf', 'nome', 'sobrenome', 'nascimento',
                   'email', 'telefone', 'codigo', 'tipo', 'municipio')
+
+        

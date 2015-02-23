@@ -13,6 +13,7 @@
     </ol>
 {% endblock %}
 
+
 {% block content-title %}
 {% if object %}
 <h1>Editar {{ title }} <small>{{ object }}</small></h1>
@@ -26,7 +27,7 @@
 {% endblock %}
 
 {% block content %}
-<form method="post" class="form-horizontal">{% csrf_token %}
+<form  method="post" class="form-horizontal">{% csrf_token %}
 {{ block.super }}
 <div class="panel panel-default">
     <div class="panel-body">
@@ -35,3 +36,7 @@
 </div>
 </form>
 {% endblock %}
+
+
+
+
