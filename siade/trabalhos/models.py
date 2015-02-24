@@ -66,7 +66,8 @@ class Trabalho(BaseModel):
 
     class Meta:
         unique_together = ('ciclo', 'quadra')
-        ordering = ('agente', 'ciclo', 'quadra__id')
+        ordering = ('agente', 'ciclo', 'quadra__bairro__nome',
+                    'quadra__numero')
 
 
 class Tratamento(models.Model):
