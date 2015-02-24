@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
-from extra_views import UpdateWithInlinesView
+from extra_views import CreateWithInlinesView, UpdateWithInlinesView
 from siade.utils.fields import ReadOnlyField
 from siade.mixins.messages import MessageMixin
 from ..models import Quadra, Bairro, Imovel
@@ -40,9 +40,10 @@ class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
         return context
 
 
-class Adicionar(QuadraMixin, MessageMixin, CreateView):
+class Adicionar(QuadraMixin, MessageMixin, CreateWithInlinesView):
     permission_required = 'imoveis.add_quadra'
     success_message = u'Quadra criada com êxito'
+    inlines = [LadoInline]
 
     def get_form(self, form_class):
         id_bairro = self.kwargs.get('bairro')
@@ -89,6 +90,13 @@ class Detalhes(QuadraMixin, DetailView):
 class Editar(QuadraMixin, MessageMixin, UpdateWithInlinesView):
     success_message = u'Quadra atualizado com êxito'
     inlines = [LadoInline]
+
+    def get_form(self, form_class):
+        form_kwargs = self.get_form_kwargs()
+        form = form_class(**form_kwargs)
+        del form.fields['bairro']
+
+        return form
 
     def forms_valid(self, form, inlines):
         try:
