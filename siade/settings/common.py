@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'siade.api',
     'siade.relatorios',
     'django.contrib.admin',
+    'bootstrap3_datetime',
 )
 
 # middleware definition
