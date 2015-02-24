@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from collections import defaultdict
 from django import forms
+from datetime import datetime
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.db import IntegrityError
 from django.db.models import Q
@@ -9,13 +10,16 @@ from .models import Ciclo, Trabalho
 from siade.imoveis.models import Quadra
 from bootstrap3_datetime.widgets import DateTimePicker
 
+
 class IniciarCicloForm(forms.ModelForm):
     data_inicio = forms.DateField(
         widget=DateTimePicker(options={"format": "DD/MM/YYYY",
-                                       "pickTime": False})) 
+                                       "pickTime": False, 
+                                       "startDate":str( datetime.now() )})) 
     data_fim = forms.DateField(
         widget=DateTimePicker(options={"format": "DD/MM/YYYY",
-                                       "pickTime": False})) 
+                                       "pickTime": False,
+                                       "startDate":str( datetime.now() )})) 
     def save(self, commit=True):
         instance = super(IniciarCicloForm, self).save(False)
         atual = Ciclo.atual()
