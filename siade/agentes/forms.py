@@ -5,6 +5,7 @@ from localflavor.br.forms import BRPhoneNumberField, BRCPFField
 from input_mask.contrib.localflavor.br.widgets import (BRPhoneNumberInput,
                                                        BRCPFInput)
 from .models import Agente
+from bootstrap3_datetime.widgets import DateTimePicker
 
 
 class CPFInput(BRCPFInput):
@@ -22,6 +23,9 @@ class CPFInput(BRCPFInput):
 class AgenteForm(forms.ModelForm):
     cpf = BRCPFField(widget=CPFInput, label='CPF')
     telefone = BRPhoneNumberField(widget=BRPhoneNumberInput, required=False)
+    nascimento = forms.DateField(
+        widget=DateTimePicker(options={"format": "DD/MM/YYYY",
+                                       "pickTime": False})) 
 
     def clean_telefone(self):
         value = self.cleaned_data['telefone']
