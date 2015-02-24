@@ -24,7 +24,6 @@ INSTALLED_APPS = (
     'activelink',
     'bootstrap3',
     'sitetree',
-    'oauth2_provider',
     'rest_framework',
     'qrcode',
     'rest_sync',
@@ -34,6 +33,7 @@ INSTALLED_APPS = (
     'siade.trabalhos',
     'siade.api',
     'siade.relatorios',
+    'oauth2_provider',
     'django.contrib.admin',
     'bootstrap3_datetime',
 )
