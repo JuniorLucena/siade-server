@@ -3,7 +3,8 @@ from django.contrib.auth.views import (login, logout, password_change,
                                        password_change_done)
 from sitetree.sitetreeapp import register_dynamic_trees, compose_dynamic_tree
 from sitetrees import dynamic_sitetrees
-from .views import home
+from .views import home, gerar_code, qrcode
+
 
 urlpatterns = patterns(
     '',
@@ -14,6 +15,9 @@ urlpatterns = patterns(
     url(r'^login/$', login, name='user_login'),
     url(r'^logout/$', logout, {'next_page': '/login/'},
         name='user_logout'),
+    url(r'^gerar-qrcode/$', qrcode, name='gerar_code'),
+    url(r'^qrcod-form/$', gerar_code, name='imprimir-qrcode'),
+
 )
 
 register_dynamic_trees(

@@ -8,6 +8,8 @@ def qrcode(request):
     qrcodes = [shortuuid.uuid() for i in range(qtd)]
     return render(request, 'qrcode.html', {'qrcodes': qrcodes})
 
+def gerar_code(request):
+	return render(request, 'qrcode_form.html', {})
 
 @login_required
 def home(request):
