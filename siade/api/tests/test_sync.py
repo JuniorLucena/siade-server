@@ -132,3 +132,36 @@ class VisitasTest(APITestCase):
         for i in [request_data, response_data]:
             del i['sync_version'], i['sync_changed']
         self.assertEqual(request_data, response_data)
+
+    def test_adicionar_visita_raw(self):
+        imovel = ImovelFactory()
+        visita_json = '''[{
+            "agente":"%(agente)s",
+            "tipo":1,
+            "pendencia":1,
+            "larvicida":"vl",
+            "imovel":"%(imovel)s",
+            "data":"2015-02-23",
+            "hora":"17:24:22.000000",
+            "C":0, "E":0, "A1":0,
+            "depositos_tratados":4,
+            "depositos_eliminados":7,
+            "imovel_inspecionado":false,
+            "imovel_tratado":true,
+            "A2":0, "D2":0, "B":0,
+            "amostra_inicial":0,
+            "qtd_larvicida":4.0,
+            "amostra_final":0,
+            "D1":0,
+            "tubitos":0,
+            "ciclo":"%(ciclo)s",
+            "id":"2655c7ae-3505-41c1-a3e6-a738d25915c0"}]
+        ''' % {
+            'agente': self.agente.id,
+            'imovel': imovel.id,
+            'ciclo': self.trabalho.ciclo.id
+        }
+
+        url = reverse('api:visitas')
+        response = self.client.post(url, visita_json, content_type='application/json')
+        self.assertEqual(response.status_code, 200)

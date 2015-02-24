@@ -42,7 +42,7 @@ class ModelSyncView(GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         if not type(request.DATA) is list:
-            return Response('Invalid format',
+            return Response('Post Data must be a list of objects',
                             status=status.HTTP_400_BAD_REQUEST)
 
         object_list = self.filter_queryset(self.get_queryset())

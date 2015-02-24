@@ -15,6 +15,8 @@ class ModelSyncSerializer(serializers.ModelSerializer):
     def restore_fields(self, data, files):
         new_data = super(ModelSyncSerializer, self).restore_fields(data, files)
         new_data['id'] = data['id']
+        new_data['sync_version'] = data.get('sync_version', '')
+        new_data['sync_deleted'] = data.get('sync_deleted', False)
         return new_data
 
     def to_native(self, obj):
