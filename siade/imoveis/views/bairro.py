@@ -30,7 +30,7 @@ class Listar(BairroMixin, ListView):
 class Adicionar(BairroMixin, MessageMixin, CreateView):
     success_message = u'Bairro criado com êxito'
     template_name = 'crud/object_form.html'
-    permission_required = 'imoveis.can_add_bairro'
+    permission_required = 'imoveis.add_bairro'
 
 
 class Detalhes(BairroMixin, DetailView):
@@ -56,7 +56,7 @@ class Editar(BairroMixin, MessageMixin, UpdateView):
 class Excluir(BairroMixin, MessageMixin, DeleteView):
     success_message = u'Bairro excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
-    permission_required = 'imoveis.can_delete_bairro'
+    permission_required = 'imoveis.delete_bairro'
 
 
 urls = patterns(

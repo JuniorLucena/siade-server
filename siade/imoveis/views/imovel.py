@@ -81,7 +81,7 @@ class Editar(ImovelMixin, MessageMixin, UpdateView):
 
 
 class Excluir(ImovelMixin, MessageMixin, DeleteView):
-    permission_required = 'imoveis.can_delete_imovel'
+    permission_required = 'imoveis.delete_imovel'
     success_message = u'Imovel excluído com êxito'
 
     def get_success_url(self):

@@ -42,7 +42,7 @@ class Editar(LogradouroMixin, MessageMixin, UpdateView):
 
 
 class Excluir(LogradouroMixin, MessageMixin, DeleteView):
-    permission_required = "imoveis.can_delete_logradouro"
+    permission_required = "imoveis.delete_logradouro"
     success_message = u'Logradouro excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 

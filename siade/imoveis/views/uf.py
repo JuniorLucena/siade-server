@@ -41,7 +41,7 @@ class Editar(UfMixin, MessageMixin, UpdateView):
 
 
 class Excluir(UfMixin, MessageMixin, DeleteView):
-    permission_required = 'imoveis.can_delete_uf'
+    permission_required = 'imoveis.delete_uf'
     success_message = u'UF excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 

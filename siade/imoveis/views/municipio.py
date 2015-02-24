@@ -41,7 +41,7 @@ class Editar(MunicipioMixin, MessageMixin, UpdateView):
 
 
 class Excluir(MunicipioMixin, MessageMixin, DeleteView):
-    permission_required = 'imoveis.can_delete_municipio'
+    permission_required = 'imoveis.delete_municipio'
     success_message = u'Municipio excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 

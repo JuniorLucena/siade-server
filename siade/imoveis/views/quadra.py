@@ -41,7 +41,7 @@ class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class Adicionar(QuadraMixin, MessageMixin, CreateView):
-    permission_required = 'imoveis.can_add_quadra'
+    permission_required = 'imoveis.add_quadra'
     success_message = u'Quadra criada com êxito'
 
     def get_form(self, form_class):
@@ -99,7 +99,7 @@ class Editar(QuadraMixin, MessageMixin, UpdateWithInlinesView):
 
 
 class Excluir(QuadraMixin, MessageMixin, DeleteView):
-    permission_required = 'imoveis.can_delete_quadra'
+    permission_required = 'imoveis.delete_quadra'
     success_message = u'Quadra excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
