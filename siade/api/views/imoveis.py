@@ -4,21 +4,23 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_sync.views import ModelSyncView
-from ..serializers import serializer_factory
 from rest_sync.serializers import sync_serializer_factory
 from siade.imoveis.models import *
+from siade.trabalhos.models import Ciclo
 
 
-class BairroView(ListAPIView):
+class BairroView(ModelSyncView):
     ''' Listar bairros de município '''
 
     model = Bairro
-    serializer_class = serializer_factory(Bairro)
+    serializer_class = sync_serializer_factory(Bairro)
     fields = ('nome',)
 
     def get_queryset(self):
         agente = self.request.user
-        return Bairro.objects.filter(municipio=agente.municipio)
+        trabalhos = agente.trabalhos.filter(ciclo=Ciclo.atual())\
+                          .values_list('quadra__bairro', flat=True)
+        return Bairro.objects.filter(id__in=set(trabalhos))
 
 
 class LogradouroView(ModelSyncView):
