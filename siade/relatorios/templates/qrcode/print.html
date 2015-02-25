@@ -1,0 +1,85 @@
+{% load qr_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+@page {
+    size: letter portrait;
+    @frame {
+        -pdf-frame-border: 1;
+        top: 0.5cm;
+        left: 0.25cm;
+        width: 7cm;
+        height: 7cm;
+    }
+    @frame {
+        -pdf-frame-border: 1;
+        top: 0.5cm;
+        left: 7.25cm;
+        width: 7cm;
+        height: 7cm;
+    }
+    @frame {
+        -pdf-frame-border: 1;
+        top: 0.5cm;
+        left: 14.25cm;
+        width: 7cm;
+        height: 7cm;
+    }
+    @frame {
+        -pdf-frame-border: 1;
+        top: 7.5cm;
+        left: 0.25cm;
+        width: 7cm;
+        height: 7cm;
+    }
+    @frame {
+        -pdf-frame-border: 1;
+        top: 7.5cm;
+        left: 7.25cm;
+        width: 7cm;
+        height: 7cm;
+    }
+    @frame {
+        -pdf-frame-border: 1;
+        top: 7.5cm;
+        left: 14.25cm;
+        width: 7cm;
+        height: 7cm;
+    }
+    @frame {
+        -pdf-frame-border: 1;
+        top: 14.5cm;
+        left: 0.25cm;
+        width: 7cm;
+        height: 7cm;
+    }
+    @frame {
+        -pdf-frame-border: 1;
+        top: 14.5cm;
+        left: 7.25cm;
+        width: 7cm;
+        height: 7cm;
+    }
+    @frame {
+        -pdf-frame-border: 1;
+        top: 14.5cm;
+        left: 14.25cm;
+        width: 7cm;
+        height: 7cm;
+    }
+}
+img {
+    width: 6.9cm;
+    height: 6.9cm;
+}
+</style>
+</head>
+<body>
+<div class="page">
+{% for code in qrcodes %}
+<div>{% qr_from_text code "m" %}</div>
+{% endfor %}
+</div>
+</body>
+</html>

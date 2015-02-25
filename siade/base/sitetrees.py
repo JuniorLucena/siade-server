@@ -13,6 +13,5 @@ dynamic_sitetrees = (
     tree('dynamic_main', items=[
         item('Alterar senha', 'password_change',
              in_menu=False, in_sitetree=False),
-        item('Gerar QrCode ', 'imprimir-qrcode'),
     ]),
 )
