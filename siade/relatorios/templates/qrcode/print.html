@@ -1,4 +1,4 @@
-{% load qr_tags %}
+{% load qrcode_tags %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,15 +70,15 @@
     }
 }
 img {
-    width: 6.9cm;
-    height: 6.9cm;
+    width: 7cm;
+    height: 7cm;
 }
 </style>
 </head>
 <body>
 <div class="page">
 {% for code in qrcodes %}
-<div>{% qr_from_text code "m" %}</div>
+<div><img src="{% qr_from_text_img_inline code %}"/></div>
 {% endfor %}
 </div>
 </body>
