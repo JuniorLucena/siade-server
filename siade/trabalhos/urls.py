@@ -10,6 +10,8 @@ urlpatterns = patterns(
     url(r'^gerenciar/$', gerenciar_ciclo, name='gerenciar'),
     url(r'^distribuir_trabalhos/$', distribuir_trabalhos,
         name='distribuir_trabalhos'),
+    url(r'^distribuir_trabalhos/remover_quadra/(?P<pk>[^/]+)/$',
+    	trabalhos_remover, name='remover_trabalho'),
 )
 
 register_dynamic_trees(

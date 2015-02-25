@@ -19,19 +19,41 @@
 {% block content %}
 {{ block.super }}
 <div class="row">
-    <div class="col-md-8">
-        <table class="table table-hover">
+    <div class="col-md-12">
+        <table class="table">
         <thead>
-            <th>Agente</th>
+            <th class="col-md-2">Agente</th>
             <th>Quadras</th>
-            <th>Imóveis</th>
-            <th></th>
+            <th class="col-md-1">Im&oacute;veis</th>
+            <th class="col-md-1">A&ccedil;&otilde;es</th>
         </thead>
         <tbody>
         {% for agente in agentes %}
-            <tr{% ifequal agente.pk|stringformat:"s" request.GET.agente %} class="warning"{% endifequal %}>
+            <tr{% ifequal agente.pk|stringformat:"s" request.GET.agente %} class="active"{% endifequal %}>
                 <td>{{ agente.nome }}</td>
                 <td>
+                {% if request.GET.agente and request.GET.agente == agente.id %}
+                    <div class="row">
+                    {% regroup agente.trabalhos.all by quadra.bairro.nome as quadras_por_bairro %}
+                    {% for bairro in quadras_por_bairro %}
+                        <div class="col-md-3">
+                            {{ bairro.grouper }}
+                        </div>
+                        <div class="col-md-9">
+                            {% for t in bairro.list %}
+                            <div class="quadra">
+                                {{ t.quadra.numero }}&nbsp;
+                                <a href="{% url 'ciclo:remover_trabalho' t.id %}" class="close" aria-label="Remover"><span aria-hidden="true">&times;</span></a>
+                            </div>
+                            {% endfor %}                            
+                        </div>
+                    {% endfor %}
+                    </div>
+                    <form class="form-inline" method="post" action="">{% csrf_token %}
+                        {% bootstrap_form form %}
+                        <button class="btn btn-primary" type="submit">Adicionar</button>
+                    </form>
+                {% else %}
                 {% regroup agente.trabalhos.all by quadra.bairro.nome as quadras_por_bairro %}
                 {% for bairro in quadras_por_bairro %}
                     {{ bairro.grouper }}:
@@ -40,6 +62,7 @@
                     {% endfor %}
                     <br/>
                 {% endfor %}
+                {% endif %}
                 </td>
                 <td>{{ agente.total_imoveis }}</td>
                 <td><a href="?agente={{ agente.pk }}">Alterar</a></td>
@@ -48,21 +71,6 @@
         </tbody>
         </table>
     </div>
-{% if request.GET.agente %}
-    <div class="col-md-4">
-        <form method="post" action="">{% csrf_token %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Selecionar Quadras</h3>
-            </div>
-            <div class="panel-body">
-                {{ form }}
-                <button class="btn btn-primary pull-right" type="submit">Salvar</button>
-            </div>
-        </div>
-        </form>
-    </div>
-{% endif %}
 </div>
 {% endblock %}
 {% block extrahead %}
@@ -74,11 +82,25 @@ ul#id_quadras, ul#id_quadras ul, ul#id_quadras li {
 ul#id_quadras li {
     display: inline-block;
 }
+.quadra {
+    display: inline-block;
+    border: 1px solid #aaaaaa;
+    border-radius: 3px;
+    padding: 3px 8px 3px 8px;
+    /*
+    margin: 3px 0 3px 5px;
+    position: relative;
+    line-height: 13px;
+    color: #333;
+    cursor: default;
+    border: 1px solid #aaaaaa;
+    border-radius: 3px;*/
+}
 </style>
 {% endblock %}
 {% block extrascript %}
 <script type="text/javascript" src="{{ STATIC_URL }}checkbutton/checkbutton.js"></script>
 <script type="text/javascript">
-    checkButton("#id_quadras label", "btn btn-default", "active")
+    //checkButton("#id_quadras label", "btn btn-default", "active")
 </script>
 {% endblock %}
