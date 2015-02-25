@@ -1,11 +1,14 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from datetime import date
 from django.db.models import Count
-from django.shortcuts import render_to_response, redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import permission_required
+from django.contrib import messages
 from .forms import IniciarCicloForm, TrabalhoForm
-from .models import Ciclo
+from .models import Ciclo, Trabalho
 from siade.agentes.models import Agente
 
 
@@ -51,7 +54,7 @@ def iniciar_ciclo(request):
         form = IniciarCicloForm()
 
     context = RequestContext(request, {'form': form})
-    return render_to_response('trabalhos/iniciar_ciclo.html', context)
+    return render(request, 'trabalhos/iniciar_ciclo.html', context)
 
 
 @permission_required('trabalhos.change_ciclo', raise_exception=True)
@@ -65,7 +68,7 @@ def encerrar_ciclo(request):
         context = RequestContext(request, {
             'ciclo': ciclo,
         })
-        return render_to_response('trabalhos/encerrar_ciclo.html', context)
+        return render(request, 'trabalhos/encerrar_ciclo.html', context)
 
 
 @permission_required('trabalhos.change_ciclo', raise_exception=True)
@@ -73,13 +76,10 @@ def distribuir_trabalhos(request):
     ciclo = Ciclo.atual()
 
     agente_id = request.GET.get('agente') or request.POST.get('agente')
-    if request.method == 'POST':
-        form = TrabalhoForm(agente_id, request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('ciclo:distribuir_trabalhos'))
+    if agente_id:
+        context = trabalhos_alterar(request)
     else:
-        form = TrabalhoForm(agente_id)
+        context = {}
 
     agentes = Agente.objects.filter(tipo=Agente.Tipo.AgenteCampo)
 
@@ -90,8 +90,35 @@ def distribuir_trabalhos(request):
     for a in agentes:
         a.total_imoveis = imoveis.get(a.id, 0)
 
-    context = {
-        'form': form,
-        'agentes': agentes,
-    }
+    context.update({'agentes': agentes})
     return render(request, 'trabalhos/distribuir_trabalhos.html', context)
+
+
+@permission_required('trabalhos.change_ciclo', raise_exception=True)
+def trabalhos_remover(request, pk):
+    return_to = request.META.get('HTTP_REFERER', 'ciclo:distribuir_trabalhos')
+    get_object_or_404(Trabalho, pk=pk).delete()
+    return redirect(return_to)
+
+
+def trabalhos_alterar(request, *args, **kwargs):
+    agente_id = request.GET.get('agente') or request.POST.get('agente')
+    agente = get_object_or_404(Agente, pk=agente_id)
+    if request.method == 'POST':
+        form = TrabalhoForm(agente, request.POST)
+        if form.is_valid():
+            # Guardar quantas quadras foram digitadas no form
+            n_quadras = len(form.cleaned_data.get('quadras'))
+            # salvar o form
+            form.save()
+            # Verificar quantas quadras foram relamente incluidas
+            n_incluidas = len(form.cleaned_data.get('quadras'))
+            # Se for diferente emitir um aviso
+            if n_quadras != n_incluidas:
+                messages.warning(request, 'Algumas quadras não foram incluídas.')
+
+            form = TrabalhoForm(agente)
+    else:
+        form = TrabalhoForm(agente)
+    context = {'form': form}
+    return context
