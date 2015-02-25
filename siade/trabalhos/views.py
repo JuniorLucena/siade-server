@@ -16,15 +16,18 @@ def gerenciar_ciclo(request):
     if not ciclo:
         return render(request, 'trabalhos/nenhum_ciclo.html')
 
-    agentes = Agente.objects.select_related('trabalhos').only('nome')\
-        .filter(tipo=Agente.Tipo.AgenteCampo)\
-        .annotate(total_imoveis=Count('trabalhos__quadra__lados__imoveis'))
+    agentes = Agente.objects.filter(tipo=Agente.Tipo.AgenteCampo)
 
-    vistas_agentes = dict(Agente.objects.annotate(
-        total=Count('visitas__imovel')).values_list('id', 'total'))
+    imoveis = dict(Agente.objects.filter(trabalhos__ciclo=ciclo)\
+        .annotate(total=Count('trabalhos__quadra__lados__imoveis'))\
+        .values_list('id', 'total'))
+
+    vistas = dict(Agente.objects.filter(visitas__ciclo=ciclo)\
+        .annotate(total=Count('visitas__imovel')).values_list('id', 'total'))
 
     for a in agentes:
-        a.total_visitas = vistas_agentes[a.id]
+        a.total_imoveis = imoveis.get(a.id, 0)
+        a.total_visitas = vistas.get(a.id, 0)
         if a.total_imoveis > 0:
             percentual = float(a.total_visitas / float(a.total_imoveis))
             a.percentual = int(round(percentual * 100))
@@ -67,6 +70,8 @@ def encerrar_ciclo(request):
 
 @permission_required('trabalhos.change_ciclo', raise_exception=True)
 def distribuir_trabalhos(request):
+    ciclo = Ciclo.atual()
+
     agente_id = request.GET.get('agente') or request.POST.get('agente')
     if request.method == 'POST':
         form = TrabalhoForm(agente_id, request.POST)
@@ -76,9 +81,14 @@ def distribuir_trabalhos(request):
     else:
         form = TrabalhoForm(agente_id)
 
-    agentes = Agente.objects.select_related('trabalhos').only('nome')\
-        .filter(tipo=Agente.Tipo.AgenteCampo)\
-        .annotate(total_imoveis=Count('trabalhos__quadra__lados__imoveis'))
+    agentes = Agente.objects.filter(tipo=Agente.Tipo.AgenteCampo)
+
+    imoveis = dict(Agente.objects.filter(trabalhos__ciclo=ciclo)\
+        .annotate(total=Count('trabalhos__quadra__lados__imoveis'))\
+        .values_list('id', 'total'))
+
+    for a in agentes:
+        a.total_imoveis = imoveis.get(a.id, 0)
 
     context = {
         'form': form,
