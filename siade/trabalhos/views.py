@@ -53,7 +53,7 @@ def iniciar_ciclo(request):
     else:
         form = IniciarCicloForm()
 
-    context = RequestContext(request, {'form': form})
+    context = {'form': form}
     return render(request, 'trabalhos/iniciar_ciclo.html', context)
 
 
