@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/holocronifrn/siade-server.svg?branch=master)](https://travis-ci.org/holocronifrn/siade-server)
+
 # SIADE
 
 SIADE é um sistema para coleta de dados realizada pelos agentes de endemias, eliminando todo o trabalho manual.

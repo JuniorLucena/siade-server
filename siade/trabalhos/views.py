@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import permission_required
 from django.contrib import messages
 from .forms import IniciarCicloForm, TrabalhoForm
-from .models import Ciclo, Trabalho
+from .models import Ciclo, Trabalho, Visita
 from siade.agentes.models import Agente
 
 
@@ -122,3 +122,19 @@ def trabalhos_alterar(request, *args, **kwargs):
         form = TrabalhoForm(agente)
     context = {'form': form}
     return context
+
+
+def listar_imoveis_visitados(request, pk):
+
+    agente = get_object_or_404(Agente, pk=pk)
+
+    visitas = Visita.objects.all()\
+        .filter(agente=agente)\
+        .filter(ciclo=Ciclo.atual())
+
+    context = {
+        'agente': agente,
+        'visitas': visitas
+    }
+
+    return render(request, 'trabalhos/listar_imoveis_visitados.html', context)

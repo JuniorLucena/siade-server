@@ -1,0 +1,30 @@
+{% extends 'crud/object_list.html' %}
+{% load object_urls %}
+{% block actions-buttons %}
+{% endblock %}
+{% block content %}
+{{ block.super }}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Ciclo</th>
+        <th>Data</th>
+        <th>Hora</th>
+        <th>Agente</th>
+        <th>Imovel</th>
+        
+    </tr>
+    </thead>
+    <tbody>
+{% for visita in visitas %}
+        <tr>
+            <td>{{ visita.ciclo }}</a></td>
+            <td>{{ visita.data }}</td>
+            <td>{{ visita.hora }}</td>
+            <td>{{ visita.agente }}</td>
+            <td>{{ visita.imovel }}</td>
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}

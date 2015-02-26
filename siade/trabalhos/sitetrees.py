@@ -11,6 +11,8 @@ dynamic_sitetrees = (
                  in_menu=False, in_sitetree=False),
             item('Encerrar ciclo', 'ciclo:encerrar',
                  in_menu=False, in_sitetree=False),
+            item('Imoveis Visitados', 'ciclo:imoveis_visitados agente.id',
+                in_menu=False, in_sitetree=False),
         ], access_by_perms='trabalhos.change_ciclo')
     ]),
 )
