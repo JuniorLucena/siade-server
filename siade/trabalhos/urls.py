@@ -12,6 +12,8 @@ urlpatterns = patterns(
         name='distribuir_trabalhos'),
     url(r'^distribuir_trabalhos/remover_quadra/(?P<pk>[^/]+)/$',
     	trabalhos_remover, name='remover_trabalho'),
+    url(r'^imoveis_visitados/(?P<pk>[^/]+)/$',
+        listar_imoveis_visitados, name='imoveis_visitados'),
 )
 
 register_dynamic_trees(
