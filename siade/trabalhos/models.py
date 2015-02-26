@@ -6,7 +6,7 @@ from rest_sync import sync_register
 from siade.base.models import BaseModel
 from siade.imoveis.models import Imovel, Quadra
 from siade.agentes.models import Agente
-
+from datetime import date
 
 class CicloAtualManager(models.Manager):
     '''
@@ -35,7 +35,7 @@ class Ciclo(BaseModel):
                                   verbose_name='finalizado em')
     atividade = models.PositiveIntegerField(choices=Atividade.choices)
     numero = models.PositiveIntegerField(verbose_name='número')
-    ano_base = models.PositiveIntegerField()
+    ano_base = models.PositiveIntegerField(default=date.today().year)
 
     def __unicode__(self):
         return '%d/%d' % (self.numero, self.ano_base)
@@ -66,7 +66,8 @@ class Trabalho(BaseModel):
 
     class Meta:
         unique_together = ('ciclo', 'quadra')
-        ordering = ('agente', 'ciclo', 'quadra__id')
+        ordering = ('agente', 'ciclo', 'quadra__bairro__nome',
+                    'quadra__numero')
 
 
 class Tratamento(models.Model):

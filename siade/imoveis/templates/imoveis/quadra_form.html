@@ -36,19 +36,33 @@
     </div>
 </div>
 {% for inline in inlines %}
-{{ inline.management_form }}
 <div class="panel panel-default form-inline">
+{{ inline.management_form }}
     <div class="panel-heading">
         <h3 class="panel-title">Lados</h3>
     </div>
     <div class="panel-body">
-{% for form in inline %}
-        <div>
+    {% for form in inline %}
+        <div class="inline-form">
             {% bootstrap_form form layout='inline' %}
         </div>
-{% endfor %}
+    {% endfor %}
     </div>
 </div>
 {% endfor %}
 </form>
+{% endblock %}
+
+{% block extrascript %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.formset.js"></script>
+<script type="text/javascript">
+$(".inline-form").formset({
+    'prefix': 'lados',
+    'showAddButton': true,
+    'addCssClass': 'btn btn-primary',
+    'addText': 'Adicionar lado',
+    'deleteCssClass': 'btn btn-default',
+    'deleteText': 'Remover'
+})
+</script>
 {% endblock %}

@@ -5,6 +5,7 @@ from sitetree.sitetreeapp import register_dynamic_trees, compose_dynamic_tree
 from sitetrees import dynamic_sitetrees
 from .views import home
 
+
 urlpatterns = patterns(
     '',
     url(r'^$',  home, name='home'),

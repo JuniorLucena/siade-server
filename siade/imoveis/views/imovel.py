@@ -63,7 +63,11 @@ class Adicionar(ImovelMixin, MessageMixin, CreateView):
 
 
 class Detalhes(ImovelMixin, DetailView):
-    pass
+    def get_context_data(self, **kwargs):
+        context = super(Detalhes, self).get_context_data(**kwargs)
+        context['lado'] = self.object.lado
+        context['quadra'] = self.object.lado.quadra
+        return context
 
 
 class Editar(ImovelMixin, MessageMixin, UpdateView):

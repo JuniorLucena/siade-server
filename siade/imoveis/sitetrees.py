@@ -4,7 +4,7 @@ from sitetree.utils import tree, item
 
 dynamic_sitetrees = (
     tree('imoveis', items=[
-        item('Imóveis e Localidades', '', alias='cadastros', children=[
+        item('Imóveis e Localidades', '#nolink', alias='cadastros', children=[
             item('Bairros', 'imoveis:bairro:listar', children=[
                 item('{{ bairro.nome }}', 'imoveis:bairro:detalhes bairro.id', children=[
                     item('Alterar Bairro', 'imoveis:bairro:editar bairro.id',
