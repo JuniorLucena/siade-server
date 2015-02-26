@@ -9,15 +9,16 @@ from siade.imoveis.models import Quadra
 from siade.imoveis.models import Bairro
 
 
-CicloDatePicker = DateTimePicker(options={
-    'format': 'DD/MM/YYYY', 'pickTime': False,
-    'startDate': str(datetime.now())
-})
+def CicloDatePicker():
+    return DateTimePicker(options={
+        'format': 'DD/MM/YYYY', 'pickTime': False,
+        'startDate': str(datetime.now())
+    })
 
 
 class IniciarCicloForm(forms.ModelForm):
-    data_inicio = forms.DateField(widget=CicloDatePicker)
-    data_fim = forms.DateField(widget=CicloDatePicker)
+    data_inicio = forms.DateField(widget=CicloDatePicker())
+    data_fim = forms.DateField(widget=CicloDatePicker())
 
     def save(self, commit=True):
         instance = super(IniciarCicloForm, self).save(False)
