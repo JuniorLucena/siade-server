@@ -16,6 +16,7 @@
 <a class="btn btn-primary" href="{% url 'ciclo:iniciar' %}">Iniciar ciclo</a>
 {% else %}
 <a class="btn btn-default" href="{% url 'ciclo:distribuir_trabalhos' %}">Distribuir trabalhos</a>
+<a class="btn btn-default" href="{% url 'ciclo:alterar_ciclo' ciclo.id %}">Adiar ciclo</a>
 <a class="btn btn-primary" href="{% url 'ciclo:encerrar' %}">Encerrar ciclo</a>
 {% endif %}
 {% endblock %}

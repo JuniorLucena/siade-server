@@ -2,14 +2,19 @@
 from __future__ import unicode_literals
 from datetime import date
 from django.db.models import Count
+from django.views.generic import (UpdateView)
 from django.shortcuts import redirect, render, get_object_or_404
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import permission_required
 from django.contrib import messages
+from django.core.urlresolvers import reverse_lazy
+from django.forms.models import modelform_factory
+from siade.trabalhos.forms import CicloDatePicker
 from .forms import IniciarCicloForm, TrabalhoForm
 from .models import Ciclo, Trabalho, Visita
 from siade.agentes.models import Agente
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 
 
 @permission_required('trabalhos.change_ciclo', raise_exception=True)
@@ -38,6 +43,7 @@ def gerenciar_ciclo(request):
             a.percentual = 0
 
     context = {
+        'ciclo' : ciclo,
         'agentes': agentes
     }
     return render(request, 'trabalhos/gerenciar_ciclo.html', context)
@@ -54,7 +60,7 @@ def iniciar_ciclo(request):
         form = IniciarCicloForm()
 
     context = {'form': form}
-    return render(request, 'trabalhos/iniciar_ciclo.html', context)
+    return render(request, 'trabalhos/ciclo_form.html', context)
 
 
 @permission_required('trabalhos.change_ciclo', raise_exception=True)
@@ -65,9 +71,9 @@ def encerrar_ciclo(request):
         ciclo.save()
         return redirect(reverse('ciclo:gerenciar'))
     else:
-        context = RequestContext(request, {
+        context = {
             'ciclo': ciclo,
-        })
+        }
         return render(request, 'trabalhos/encerrar_ciclo.html', context)
 
 
@@ -122,6 +128,15 @@ def trabalhos_alterar(request, *args, **kwargs):
         form = TrabalhoForm(agente)
     context = {'form': form}
     return context
+
+
+class AlterarCiclo(LoginRequiredMixin, PermissionRequiredMixin, UpdateView ):
+    model = Ciclo
+    success_message = u'Ciclo atualizado com êxito'
+    form_class = modelform_factory(Ciclo, fields=("data_fim",), widgets={"data_fim": CicloDatePicker()})
+    success_url = reverse_lazy('ciclo:gerenciar')
+    permission_required = 'trabalhos.change_ciclo'
+    raise_exception = True
 
 
 def listar_imoveis_visitados(request, pk):
