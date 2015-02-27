@@ -9,11 +9,19 @@
 {% endblock %}
 
 {% block content-title %}
+{% if object %}
+<h1>Editar {{ title }} <small>{{ object }}</small></h1>
+{% else %}
 <h1>Iniciar ciclo</h1>
+{% endif %}
 {% endblock %}
 
 {% block actions-buttons %}
+{% if object %}
+<button class="btn btn-primary" type="submit">Salvar</button>
+{% else %}
 <button class="btn btn-success" type="submit">Iniciar ciclo</button>
+{% endif %}
 {% endblock %}
 
 {% block content %}
