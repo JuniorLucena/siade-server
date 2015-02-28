@@ -34,7 +34,7 @@ class AgenteMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super(AgenteMixin, self).get_context_data(**kwargs)
-        context['title'] = self.model._meta.verbose_name.capitalize()
+        context['title'] = 'Usuario'
         context['object_class'] = self.model
         context['fields'] = getattr(self, 'fields',
                                     self.model._meta.get_all_field_names())
