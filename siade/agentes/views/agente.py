@@ -28,7 +28,7 @@ class AgenteMixin(LoginRequiredMixin, PermissionRequiredMixin):
         nextUrl = self.request.GET.get('next')
         if nextUrl is None:
             app_label = self.model._meta.app_label
-            nextUrl = reverse('%s:agente:detalhes' % app_label,
+            nextUrl = reverse('%s:agente:definir_senha' % app_label,
                               kwargs={'pk': self.object.id})
         return nextUrl
 
