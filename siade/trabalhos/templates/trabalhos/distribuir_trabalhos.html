@@ -1,12 +1,5 @@
 {% extends 'base.html' %}
 {% load bootstrap3 %}
-{% block breadcrumbs %}
-    <ol class="breadcrumb">
-        <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Início</a></li>
-        <li><a href="{% url 'ciclo:gerenciar' %}">Gerenciamento de ciclo</a></li>
-        <li class="active">Distribuir trabalhos</li>
-    </ol>
-{% endblock %}
 
 {% block content-title %}
 <h1>Distribuir trabalhos</h1>
@@ -25,7 +18,7 @@
             <th class="col-md-2">Agente</th>
             <th>Quadras</th>
             <th class="col-md-1">Im&oacute;veis</th>
-            <th class="col-md-1">A&ccedil;&otilde;es</th>
+            <th class="col-md-2">A&ccedil;&otilde;es</th>
         </thead>
         <tbody>
         {% for agente in agentes %}
@@ -65,7 +58,7 @@
                 {% endif %}
                 </td>
                 <td>{{ agente.total_imoveis }}</td>
-                <td><a href="?agente={{ agente.pk }}">Alterar</a></td>
+                <td><a href="{% url 'ciclo:distribuir_trabalhos' agente.pk %}">Selecionar quadras</a></td>
             </tr>
         {% endfor %}
         </tbody>
