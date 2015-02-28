@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 from django.forms.models import modelform_factory
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from siade.trabalhos.forms import CicloDatePicker
 from .forms import IniciarCicloForm, TrabalhoForm
 from .models import Ciclo, Trabalho, Visita
@@ -148,13 +149,30 @@ class AlterarCiclo(LoginRequiredMixin, PermissionRequiredMixin, UpdateView ):
 def listar_imoveis_visitados(request, pk):
     agente = get_object_or_404(Agente, pk=pk)
 
-    visitas = Visita.objects.all()\
+    visita_list = Visita.objects.all()\
         .filter(agente=agente)\
         .filter(ciclo=Ciclo.atual())
 
+    paginator = Paginator(visita_list, 40)
+
+    is_paged = False
+    page = request.GET.get('page')
+
+    try:
+        page = paginator.page(page)
+    except PageNotAnInteger:
+        page = paginator.page(1)
+    except EmptyPage:
+        page = paginator.page(paginator.num_pages)
+    
+    is_paged = paginator.num_pages > 1
+    
     context = {
+        'page_obj': page,
+        'is_paginated' : is_paged,
+        'paginator' : paginator,
         'agente': agente,
-        'visitas': visitas
+        'visitas': page.object_list
     }
 
-    return render(request, 'trabalhos/listar_imoveis_visitados.html', context)
+    return render(request, 'trabalhos/visita_list.html', context)
