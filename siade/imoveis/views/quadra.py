@@ -1,24 +1,23 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.conf.urls import url, patterns
-from django.db.models import ProtectedError
-from django.views.generic import (CreateView, DeleteView, DetailView)
+from django.db.models import ProtectedError, Sum
+from django.views.generic import DeleteView, DetailView
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from extra_views import CreateWithInlinesView, UpdateWithInlinesView
-from siade.utils.fields import ReadOnlyField
 from siade.mixins.messages import MessageMixin
 from ..models import Quadra, Bairro, Imovel
-from ..forms import LadoInline
-from django.db.models import Sum
+from ..forms import LadoInline, QuadraForm
 
 LADO_NOT_REMOVED = 'Alguns lados não podem ser removidos, pois contém imoveis.'
 
 
 class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Quadra
+    form_class = QuadraForm
     permission_required = 'imoveis.change_quadra'
     raise_exception = True
     paginate_by = 50
@@ -42,18 +41,16 @@ class QuadraMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
 class Adicionar(QuadraMixin, MessageMixin, CreateWithInlinesView):
     permission_required = 'imoveis.add_quadra'
-    success_message = u'Quadra criada com êxito'
+    success_message = 'Quadra criada com êxito'
     inlines = [LadoInline]
 
-    def get_form(self, form_class):
+    def get_form_kwargs(self):
         id_bairro = self.kwargs.get('bairro')
         self.bairro = Bairro.objects.get(pk=id_bairro)
 
-        form_kwargs = self.get_form_kwargs()
-        form = form_class(**form_kwargs)
-        form.fields['bairro'] = ReadOnlyField(initial=self.bairro)
-
-        return form
+        form_kwargs = super(Adicionar, self).get_form_kwargs()
+        form_kwargs.update({'initial': {'bairro': self.bairro}})
+        return form_kwargs
 
     def get_context_data(self, **kwargs):
         context = super(Adicionar, self).get_context_data(**kwargs)
@@ -62,7 +59,6 @@ class Adicionar(QuadraMixin, MessageMixin, CreateWithInlinesView):
 
 
 class Detalhes(QuadraMixin, DetailView):
-
     def get_context_data(self, **kwargs):
         context = super(Detalhes, self).get_context_data(**kwargs)
         lados = self.object.lados.all()
@@ -88,15 +84,13 @@ class Detalhes(QuadraMixin, DetailView):
 
 
 class Editar(QuadraMixin, MessageMixin, UpdateWithInlinesView):
-    success_message = u'Quadra atualizado com êxito'
+    success_message = 'Quadra atualizado com êxito'
     inlines = [LadoInline]
 
-    def get_form(self, form_class):
-        form_kwargs = self.get_form_kwargs()
-        form = form_class(**form_kwargs)
-        del form.fields['bairro']
-
-        return form
+    def get_form_kwargs(self):
+        kwargs = super(Editar, self).get_form_kwargs()
+        kwargs.update({'initial': {'bairro': self.object.bairro}})
+        return kwargs
 
     def forms_valid(self, form, inlines):
         try:
@@ -108,7 +102,7 @@ class Editar(QuadraMixin, MessageMixin, UpdateWithInlinesView):
 
 class Excluir(QuadraMixin, MessageMixin, DeleteView):
     permission_required = 'imoveis.delete_quadra'
-    success_message = u'Quadra excluído com êxito'
+    success_message = 'Quadra excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
     def get_success_url(self):

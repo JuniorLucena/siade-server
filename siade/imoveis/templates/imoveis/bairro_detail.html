@@ -21,36 +21,16 @@
 {% for quadra in quadra_list %}
     <div class="col-sm-6 col-md-4 col-lg-4">
         <div class="panel panel-default">
-
-            <div class="panel-heading">
-                <a class="btn btn-xs btn-default" href="{% object_editar quadra %}"  title="Detalhes" style="float: right;"><i class="fa fa-eye"></i> Editar</a>
-                <a class="btn btn-xs btn-default" href="{% object_detalhes quadra %}"  title="Detalhes" style="float: right;"><i class="fa fa-eye"></i> Detalhes</a>
-              
-                Quadra {{ quadra.numero }}
-    
-             <div class="btn-group pull-right">
-                 <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fa fa-chevron-down"></i>
-                 </button>
-                <ul class="dropdown-menu slidedown">
-
-                    <li class="list-group-item">
-                        <span class="pull-right text-muted small">{{ quadra.lados.count }}</span>
-                        Lados
-                    </li>
-                    <li class="list-group-item">
-                        <span class="pull-right text-muted small">{{ quadra.total_imoveis|default:0 }}</span>
-                        Imóveis
-                    </li>
-                    <li class="list-group-item">
-                        <span class="pull-right text-muted small">{{ quadra.total_caes|default:0 }}</span>
-                        Cães
-                    </li>
-                    <li class="list-group-item">
-                        <span class="pull-right text-muted small">{{ quadra.total_gatos|default:0 }}</span>
-                        Gatos
-                    </li>
-                </ul>
-            </div>
+            <div class="panel-body">
+                <div class="btn-group btn-group-sm pull-right">
+                    <a class="btn btn-default" href="{% object_detalhes quadra %}"  title="Detalhes"><i class="fa fa-eye"></i> Detalhes</a>
+                    <a class="btn btn-default" href="{% object_editar quadra %}"  title="Detalhes"><i class="fa fa-edit"></i> Editar</a>
+                </div>
+                <div>
+                    <div>Quadra {{ quadra.numero }}</div>
+                    <span class="text-muted small">{{ quadra.lados.count }} lados</span> /
+                    <span class="text-muted small">{{ quadra.total_imoveis|default:0 }} imóveis</span>
+                </div>
             </div>
         </div>
     </div>
