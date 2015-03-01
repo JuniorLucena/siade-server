@@ -52,6 +52,13 @@ class Editar(BairroMixin, MessageMixin, UpdateView):
     success_message = u'Bairro atualizado com êxito'
     template_name = 'crud/object_form.html'
 
+    def get_form(self, form_class):
+        form_kwargs = self.get_form_kwargs()
+        form = form_class(**form_kwargs)
+        del form.fields['municipio']
+
+        return form
+
 
 class Excluir(BairroMixin, MessageMixin, DeleteView):
     success_message = u'Bairro excluído com êxito'
