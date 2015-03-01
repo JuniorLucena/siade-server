@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.conf.urls import url, patterns
 from django.views.generic import (CreateView, ListView, UpdateView,
                                   DeleteView, DetailView)
@@ -28,7 +29,7 @@ class Listar(LogradouroMixin, ListView):
 
 
 class Adicionar(LogradouroMixin, MessageMixin, CreateView):
-    success_message = u'Logradouro adicionado com êxito'
+    success_message = 'Logradouro adicionado com êxito'
     template_name = 'crud/object_form.html'
 
 
@@ -37,13 +38,13 @@ class Detalhes(LogradouroMixin, DetailView):
 
 
 class Editar(LogradouroMixin, MessageMixin, UpdateView):
-    success_message = u'Logradouro atualizado com êxito'
+    success_message = 'Logradouro atualizado com êxito'
     template_name = 'crud/object_form.html'
 
 
 class Excluir(LogradouroMixin, MessageMixin, DeleteView):
     permission_required = "imoveis.delete_logradouro"
-    success_message = u'Logradouro excluído com êxito'
+    success_message = 'Logradouro excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
 
