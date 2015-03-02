@@ -51,7 +51,7 @@ class VisitaView(ModelSyncView):
 
     def get_queryset(self):
         agente = self.request.user
-        return Visita.objects.filter(agente=agente)
+        return Visita.objects.filter(agente=agente, ciclo=Ciclo.atual())
 
 
 urls = patterns(

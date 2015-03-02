@@ -42,7 +42,8 @@ class QuadraView(ModelSyncView):
 
     def get_queryset(self):
         agente = self.request.user
-        return Quadra.objects.filter(trabalhos__agente=agente)
+        return Quadra.objects.filter(trabalhos__agente=agente,
+                                     trabalhos__ciclo=Ciclo.atual())
 
 
 class LadoQuadraView(ModelSyncView):
@@ -53,7 +54,9 @@ class LadoQuadraView(ModelSyncView):
 
     def get_queryset(self):
         agente = self.request.user
-        return LadoQuadra.objects.filter(quadra__trabalhos__agente=agente)
+        return LadoQuadra.objects.filter(
+            quadra__trabalhos__ciclo=Ciclo.atual(),
+            quadra__trabalhos__agente=agente)
 
 
 class TipoImovelView(ListAPIView):
@@ -76,7 +79,9 @@ class ImovelView(ModelSyncView):
 
     def get_queryset(self):
         agente = self.request.user
-        return Imovel.objects.filter(lado__quadra__trabalhos__agente=agente)
+        return Imovel.objects.filter(
+            lado__quadra__trabalhos__agente=agente,
+            lado__quadra__trabalhos__ciclo=Ciclo.atual())
 
 
 urls = patterns(

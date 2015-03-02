@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.conf.urls import url, patterns
 from django.views.generic import (CreateView, ListView, UpdateView,
                                   DeleteView, DetailView)
@@ -27,7 +28,7 @@ class Listar(MunicipioMixin, ListView):
 
 
 class Adicionar(MunicipioMixin, MessageMixin, CreateView):
-    success_message = u'Municipio adicionado com êxito'
+    success_message = 'Municipio adicionado com êxito'
     template_name = 'crud/object_form.html'
 
 
@@ -36,13 +37,13 @@ class Detalhes(MunicipioMixin, DetailView):
 
 
 class Editar(MunicipioMixin, MessageMixin, UpdateView):
-    success_message = u'Municipio atualizado com êxito'
+    success_message = 'Municipio atualizado com êxito'
     template_name = 'crud/object_form.html'
 
 
 class Excluir(MunicipioMixin, MessageMixin, DeleteView):
     permission_required = 'imoveis.delete_municipio'
-    success_message = u'Municipio excluído com êxito'
+    success_message = 'Municipio excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
 
