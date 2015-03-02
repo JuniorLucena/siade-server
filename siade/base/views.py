@@ -1,7 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 import shortuuid
-
+from django.core.urlresolvers import reverse
+from django.shortcuts import redirect, render, get_object_or_404
+from siade.agentes.models import Agente
+from siade.imoveis.views import bairro
+from siade.trabalhos.views import *
 
 def qrcode(request):
     qtd = int(request.GET.get('qtd', 10))
@@ -13,4 +17,12 @@ def gerar_code(request):
 
 @login_required
 def home(request):
-    return render(request, 'home.html', {})
+	
+	if request.user.tipo == Agente.Tipo.AgenteCampo:
+		return redirect(reverse('imoveis:bairro:listar'))
+	elif request.user.tipo == Agente.Tipo.Supervisor:
+		return redirect(reverse('ciclo:gerenciar'))
+	else:
+		return render(request, 'home.html', {})
+
+	
