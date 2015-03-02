@@ -138,6 +138,7 @@ class Imovel(BaseModel):
     gatos = models.PositiveIntegerField(default=0, verbose_name='qtd. gatos')
     ponto_estrategico = models.BooleanField(default=False,
                                             verbose_name='ponto estratégico')
+    qrcode = models.CharField(max_length=32, blank=True, editable=False)
 
     def __unicode__(self):
         numero = self.numero if bool(self.numero) else 'S/N'
