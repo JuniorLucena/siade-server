@@ -5,19 +5,18 @@ from sitetree.utils import tree, item
 dynamic_sitetrees = (
     tree('imoveis', items=[
         item('Imóveis e Localidades', '#nolink', alias='cadastros', children=[
-            item('Bairros', 'imoveis:bairro:listar', children=[
-                item('{{ bairro.nome }}', 'imoveis:bairro:detalhes bairro.id', children=[
+            item('Bairros, Quadras e Imóveis', 'imoveis:bairro:listar', children=[
+                item('Bairro {{ bairro.nome }}', 'imoveis:bairro:detalhes bairro.id', children=[
                     item('Alterar Bairro', 'imoveis:bairro:editar bairro.id',
-                         in_menu=False, in_sitetree=False,
-                         access_by_perms='imoveis.change_bairro'),
+                         in_menu=False, in_sitetree=False),
                     item('Excluir Bairro', 'imoveis:bairro:excluir bairro.id',
-                         in_menu=False, in_sitetree=False,
-                         access_by_perms='imoveis.delete_bairro'),
-                    item('Quadra {{ quadra.numero }}', 'imoveis:quadra:detalhes quadra.id'),
+                         in_menu=False, in_sitetree=False),
+                    item('Quadra {{ quadra.numero }}', 'imoveis:quadra:detalhes quadra.id',
+                         children=[
+                            item('Editar Quadra', 'imoveis:quadra:editar quadra.id'),
+                            item('Excluir Quadra', 'imoveis:quadra:excluir quadra.id')],
+                         in_menu=False, in_sitetree=False),
                     item('Quadra {{ quadra.numero }}', 'imoveis:quadra:detalhes quadra.id lado.numero', children=[
-                        item('Editar Quadra', 'imoveis:quadra:editar quadra.id',
-                             access_by_perms='imoveis.change_quadra'),
-                        item('Excluir Quadra', 'imoveis:quadra:excluir quadra.id'),
                         item('{{ imovel }}', 'imoveis:imovel:detalhes imovel.id', children=[
                             item('Editar Imóvel', 'imoveis:imovel:editar imovel.id'),
                             item('Excluir Imóvel', 'imoveis:imovel:excluir imovel.id'),

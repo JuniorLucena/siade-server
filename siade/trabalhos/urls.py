@@ -10,8 +10,13 @@ urlpatterns = patterns(
     url(r'^gerenciar/$', gerenciar_ciclo, name='gerenciar'),
     url(r'^distribuir_trabalhos/$', distribuir_trabalhos,
         name='distribuir_trabalhos'),
-    url(r'^distribuir_trabalhos/remover_quadra/(?P<pk>[^/]+)/$',
-    	trabalhos_remover, name='remover_trabalho'),
+    url(r'^distribuir_trabalhos/(?P<pk>[^/]+)/$', trabalhos_alterar,
+        name='distribuir_trabalhos'),
+    url(r'^distribuir_trabalhos/quadras\.json$',
+        trabalhos_quadras, name='trabalhos_quadras'),
+    url(r'^imoveis_visitados/(?P<pk>[^/]+)/$',
+        listar_imoveis_visitados, name='imoveis_visitados'),
+    url(r'^alterar_ciclo/(?P<pk>[^/]+)/$', AlterarCiclo.as_view(), name='alterar_ciclo')
 )
 
 register_dynamic_trees(

@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.db.models import Q
 from django import forms
 from datetime import datetime
-from django.core.exceptions import NON_FIELD_ERRORS
 from bootstrap3_datetime.widgets import DateTimePicker
 from .models import Ciclo, Trabalho
 from siade.imoveis.models import Quadra
-from siade.imoveis.models import Bairro
 
 
-CicloDatePicker = DateTimePicker(options={
-    'format': 'DD/MM/YYYY', 'pickTime': False,
-    'startDate': str(datetime.now())
-})
+def CicloDatePicker():
+    return DateTimePicker(options={
+        'format': 'DD/MM/YYYY', 'pickTime': False,
+        'startDate': str(datetime.now())
+    })
 
 
 class IniciarCicloForm(forms.ModelForm):
-    data_inicio = forms.DateField(widget=CicloDatePicker)
-    data_fim = forms.DateField(widget=CicloDatePicker)
+    data_inicio = forms.DateField(widget=CicloDatePicker())
+    data_fim = forms.DateField(widget=CicloDatePicker())
 
     def save(self, commit=True):
         instance = super(IniciarCicloForm, self).save(False)
@@ -36,57 +36,42 @@ class IniciarCicloForm(forms.ModelForm):
         exclude = ('fechado_em', 'numero')
 
 
-class TrabalhoForm(forms.ModelForm):
-    bairro = forms.ModelChoiceField(queryset=Bairro.objects.all())
-    quadras = forms.RegexField(regex=r'^(\d+(-\d+)?)(,\d+(-\d+)?)*$')
+class TrabalhoForm(forms.Form):
+    quadras = forms.MultipleChoiceField(
+        required=False, widget=forms.MultipleHiddenInput())
 
     def __init__(self, agente, *args, **kwargs):
+        self.trabalhos = Trabalho.objects.filter(ciclo=Ciclo.atual())
+        self.agente = agente
+
+        # atualizar valores iniciais
         initial = kwargs.get('initial', {})
-        initial.update({'agente': agente})
+        initial.update({
+            'quadras': self.trabalhos.filter(agente=agente)\
+                           .values_list('quadra', flat=True),
+        })
         kwargs['initial'] = initial
 
         super(TrabalhoForm, self).__init__(*args, **kwargs)
 
-    def clean_quadras(self):
-        ranges = self.cleaned_data['quadras'].split(',')
-        quadras = []
-        for interval in ranges:
-            item = interval.split('-')
-            if len(item) > 1:
-                quadras += range(int(item[0]), int(item[1])+1)
-            else:
-                quadras += [int(item[0])]
-
-        return set(quadras)
+        # Quadras e não estão associada a esse a agente ou a nenhum a agente
+        trabalhos = self.trabalhos.exclude(agente=agente)\
+                        .values_list('quadra__id', flat=True)
+        quadras = Quadra.objects.exclude(id__in=trabalhos).values_list('id', 'numero')
+        self.fields['quadras'].choices = quadras
 
     def save(self):
         ciclo = Ciclo.atual()
-        agente = self.cleaned_data['agente']
         quadras = self.cleaned_data['quadras']
-        bairro = self.cleaned_data['bairro']
-
-        # Encontrar quadras já associadas
-        existentes = Trabalho.objects.filter(
-            quadra__bairro=bairro, quadra__numero__in=quadras, ciclo=ciclo
-            ).values_list('quadra__numero', flat=True)
-
-        quadras = quadras - set(existentes)
-
-        # Pegar objetos quadra
-        quadras_list = Quadra.objects.filter(bairro=bairro, numero__in=quadras)
-        trabalhos = [Trabalho(ciclo=ciclo, agente=agente,
-                              quadra=q) for q in quadras_list]
+        # Apagar trabalhos do agente que foram removidos
+        self.trabalhos.filter(~Q(quadra__in=quadras),
+                              agente=self.agente).delete()
+        # Pegar trabalhos já existentes
+        existentes = self.trabalhos.filter(quadra__in=quadras)\
+                         .values_list('quadra', flat=True)
+        # Remover da lista de quadras
+        quadras = set(quadras) - set(existentes)
+        # Criar trabalhos novos
+        trabalhos = [Trabalho(ciclo=ciclo, agente=self.agente,
+                              quadra=Quadra(q)) for q in quadras]
         Trabalho.objects.bulk_create(trabalhos)
-
-        self.cleaned_data['quadras'] = quadras
-
-    class Meta:
-        model = Trabalho
-        exclude = ('ciclo', 'quadra')
-        widgets = {'agente': forms.HiddenInput()}
-        error_messages = {
-            NON_FIELD_ERRORS: {
-                'unique_together':
-                "Já existe %(model_name)s para este %(field_labels)s",
-            }
-        }

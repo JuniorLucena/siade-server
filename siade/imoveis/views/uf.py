@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.conf.urls import url, patterns
 from django.views.generic import (CreateView, ListView, UpdateView,
                                   DeleteView, DetailView)
@@ -27,7 +28,7 @@ class Listar(UfMixin, ListView):
 
 
 class Adicionar(UfMixin, MessageMixin, CreateView):
-    success_message = u'UF adicionado com êxito'
+    success_message = 'UF adicionado com êxito'
     template_name = 'crud/object_form.html'
 
 
@@ -36,13 +37,13 @@ class Detalhes(UfMixin, DetailView):
 
 
 class Editar(UfMixin, MessageMixin, UpdateView):
-    success_message = u'UF atualizado com êxito'
+    success_message = 'UF atualizado com êxito'
     template_name = 'crud/object_form.html'
 
 
 class Excluir(UfMixin, MessageMixin, DeleteView):
     permission_required = 'imoveis.delete_uf'
-    success_message = u'UF excluído com êxito'
+    success_message = 'UF excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
 

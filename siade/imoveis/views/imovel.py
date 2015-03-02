@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.conf.urls import url, patterns
 from django.views.generic import (CreateView, UpdateView,
                                   DeleteView, DetailView)
 from django.core.urlresolvers import reverse
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
-from siade.utils.fields import ReadOnlyField
 from siade.mixins.messages import MessageMixin
 from ..models import Imovel, LadoQuadra
 from ..forms import ImovelForm
@@ -12,6 +12,7 @@ from ..forms import ImovelForm
 
 class ImovelMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Imovel
+    form_class = ImovelForm
     permission_required = 'imoveis.change_imovel'
     raise_exception = True
     paginate_by = 50
@@ -35,20 +36,16 @@ class ImovelMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class Adicionar(ImovelMixin, MessageMixin, CreateView):
-    success_message = u'Imovel criado com êxito'
+    success_message = 'Imovel criado com êxito'
 
-    def get_form(self, form_class):
+    def get_form_kwargs(self):
         lado = self.kwargs.get('lado')
         quadra = self.kwargs.get('quadra')
         self.lado = LadoQuadra.objects.get(numero=lado, quadra=quadra)
 
-        form_kwargs = self.get_form_kwargs()
+        form_kwargs = super(Adicionar, self).get_form_kwargs()
         form_kwargs.update({'initial': {'lado': self.lado}})
-
-        form = form_class(**form_kwargs)
-        form.fields['lado'] = ReadOnlyField()
-
-        return form
+        return form_kwargs
 
     def get_context_data(self, **kwargs):
         context = super(Adicionar, self).get_context_data(**kwargs)
@@ -71,12 +68,7 @@ class Detalhes(ImovelMixin, DetailView):
 
 
 class Editar(ImovelMixin, MessageMixin, UpdateView):
-    success_message = u'Imovel atualizado com êxito'
-    form_class = ImovelForm
-
-    def get_form(self, form_class):
-        form = super(Editar, self).get_form(form_class)
-        return form
+    success_message = 'Imovel atualizado com êxito'
 
     def get_form_kwargs(self):
         kwargs = super(Editar, self).get_form_kwargs()
@@ -86,12 +78,12 @@ class Editar(ImovelMixin, MessageMixin, UpdateView):
 
 class Excluir(ImovelMixin, MessageMixin, DeleteView):
     permission_required = 'imoveis.delete_imovel'
-    success_message = u'Imovel excluído com êxito'
+    success_message = 'Imovel excluído com êxito'
 
     def get_success_url(self):
         app_label = self.model._meta.app_label
         return reverse('%s:quadra:detalhes' % app_label, kwargs={
-            'lado': self.object.lado.id,
+            'lado': self.object.lado.numero,
             'pk': self.object.lado.quadra.id
         })
 

@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block content-title %}
+<h1>Selecionar quadras para {{ agente.nome }}</h1>
+{% endblock %}
+
+{% block actions-buttons %}
+<button class="btn btn-primary" type="submit">Salvar</button>
+{% endblock %}
+{% block content %}
+<form class="form" id="agente_quadras_form" method="post" action="">
+{{ block.super }}
+{% csrf_token %}
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Quadras do Disponíveis</h3>
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<select class="form-control" id="bairro">
+						<option value="">(Selecionar bairro)</option>
+						{% for bairro in bairros %}
+						<option value="{{ bairro.id }}">{{ bairro.nome }}</option>
+						{% endfor %}
+					</select>                   
+				</div>
+				<div class="form-group" id="quadras-disponiveis">
+					<div class="bairro"></div>
+				</div>
+				<div class="form-group form-inline" id="range_form">
+					<input type="text" class="form-control range-input" />
+					<button type="button" class="btn btn-primary">Adicionar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Quadras do Agente</h3>
+			</div>
+			<div class="panel-body">
+				<div id="quadras-agente">
+				{% regroup agente.trabalhos.all by quadra.bairro.nome as quadras_por_bairro %}
+                {% for bairro in quadras_por_bairro %}
+                    <div class="form-group">
+                        <label>{{ bairro.grouper }}</label>
+                        <div class="bairro bairro_{{ bairro.list.0.quadra.bairro.id }}">
+                        	{% for t in bairro.list %}
+                        	<button type="button" data-bairro="{{ t.quadra.bairro.id }}" data-id="{{ t.quadra.id }}" data-numero="{{ t.quadra.numero }}" class="btn btn-default">{{ t.quadra.numero }}</button>
+                        	{% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}"/>
+{{ form }}
+</form>
+{% endblock %}
+{% block extrahead %}
+<style type="text/css">
+.bairro {
+	font-size: 0;
+}
+</style>
+{% endblock %}
+{% block extrascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+	ordenar_quadra_por_numero = function(a, b) {
+		num_a = $(a).data("numero")
+		num_b = $(b).data("numero")
+ 		return (num_a > num_b) ? 1 : -1
+	}
+	adicionar_bairro_agente = function(id, nome){
+		$("#quadras-agente").append('<div class="form-group"><label>'+nome+'</label><div class="bairro bairro_'+id+'"></div></div>')
+	}
+	quadras_disponiveis_click = function(){
+		var bairro = $(this).attr('data-bairro')
+		// Criar bairro se não houver
+		if(!$("#quadras-agente .bairro_"+bairro).length) {
+			nome = $('select#bairro option[value='+bairro+']').text()
+			adicionar_bairro_agente(bairro, nome)
+		}
+		// colocar click handler
+		$(this).off("click")
+		$(this).click(quadras_agente_click)
+		// colocar quadra na lista de quadras do agente
+		var bairroEle = $("#quadras-agente .bairro_"+bairro)
+		bairroEle.append(this)
+		// reordenar lista de quadras do agente
+		buttons = $(bairroEle).find("button")
+		buttons.detach().sort(ordenar_quadra_por_numero).appendTo(bairroEle)
+	}
+	quadras_agente_click = function(){
+		var bairro = $(this).attr('data-bairro')
+		// colocar click handler
+		$(this).off("click")
+		$(this).click(quadras_disponiveis_click)
+		// colocar quadra na lista de quadras do agente
+		var bairroEle = $("#quadras-disponiveis .bairro_"+bairro)
+		if(bairroEle.length) {
+			// mover elemento para o outro lado
+			$(bairroEle).append(this)
+			// reordenar lista de quadras do agente
+			buttons = $(bairroEle).find("button")
+			buttons.detach().sort(ordenar_quadra_por_numero).appendTo(bairroEle)
+		} else {
+			// remover elemento
+			$(this).remove()
+		}
+		// Remover bairro das quadras do agente caso esteja vazio
+		var biarro_agente = $("#quadras-agente .bairro_"+bairro)
+		if(!biarro_agente.find("button").length) {
+			biarro_agente.parent().remove()
+		}
+	}
+	$('select#bairro').change(function(){
+		var bairro = this.value
+		// pegar listar de quadras do servidor
+		$.getJSON("{% url 'ciclo:trabalhos_quadras' %}?agente={{ agente.id }}&bairro="+bairro, function(data){
+			var items = []
+			// montar uma lista de botões
+			$.each( data, function(key, val) {
+				if(!$("#quadras-agente .bairro .btn[data-id="+val.id+"]").length) {
+					items.push('<button type="button" data-bairro="'+val.bairro+'" data-id="'+val.id+'" data-numero="'+val.numero+'" class="btn btn-default">'+val.numero+'</button>')
+				}
+			})
+			var bairroEle = $("#quadras-disponiveis .bairro")
+			bairroEle.html(items.join(""))
+			// remover todas as classes CSS e ele uma com o ID do bairro
+			bairroEle.removeClass()
+			bairroEle.addClass('bairro')
+			bairroEle.addClass('bairro_'+bairro)
+			// colocar evento click em todos o botões criados
+			$('#quadras-disponiveis .bairro .btn').click(quadras_disponiveis_click)
+		})
+	})
+	$("#agente_quadras_form").on("submit", function(){
+		var items = []
+		var bairros_agente = $("#quadras-agente .bairro .btn")
+		var form = $("form#agente_quadras_form")
+		bairros_agente.each(function(key, val) {
+			quadra = $(val).data('id')
+			items.push('<input id="id_quadras_'+key+'" name="quadras" type="hidden" value="'+$(val).data('id')+'" />')
+		})
+		form.find("input[name=quadras]").remove()
+		form.append(items.join(""))
+	})
+	$('#quadras-agente .bairro .btn').click(quadras_agente_click)
+
+	regex = new RegExp('^(\\d+(-\\d+)?)(,\\d+(-\\d+)?)*$')
+	$('#range_form button').click(function(){
+		input = $('#range_form input.range-input')
+		if(regex.test(input.val())) {
+			quadras = []
+			var ranges = input.val().split(',')
+			$.each(ranges, function(key, val){
+				item = val.split('-')
+				if(item.length > 1) {
+					// é uma intervalo
+					start = parseInt(item[0])
+					end = parseInt(item[1])
+					if(end > start) {
+						for(var i = start; i <= end; i++) {
+							quadras.push(i)
+						}
+					}
+				} else {
+					// é um item
+					quadras.push(parseInt(item))
+				}
+			})
+			$.each(quadras, function(key, val){
+				$('#quadras-disponiveis .btn[data-numero='+val+']').trigger('click')
+			})
+			input.val('')
+		}
+	})
+})
+</script>
+{% endblock %}

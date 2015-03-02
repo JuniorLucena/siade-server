@@ -28,13 +28,13 @@ class AgenteMixin(LoginRequiredMixin, PermissionRequiredMixin):
         nextUrl = self.request.GET.get('next')
         if nextUrl is None:
             app_label = self.model._meta.app_label
-            nextUrl = reverse('%s:agente:detalhes' % app_label,
+            nextUrl = reverse('%s:agente:definir_senha' % app_label,
                               kwargs={'pk': self.object.id})
         return nextUrl
 
     def get_context_data(self, **kwargs):
         context = super(AgenteMixin, self).get_context_data(**kwargs)
-        context['title'] = self.model._meta.verbose_name.capitalize()
+        context['title'] = 'Usuario'
         context['object_class'] = self.model
         context['fields'] = getattr(self, 'fields',
                                     self.model._meta.get_all_field_names())
