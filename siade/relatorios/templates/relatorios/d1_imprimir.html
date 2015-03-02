@@ -2,39 +2,139 @@
 <html>
 <head>
 <title>Relatório diário</title>
-<style>
-    @page {
-        size: A4 landscape;
-        margin: 1cm;
-        @frame header_frame {           /* Static Frame */
-            -pdf-frame-content: header_content;
-            -pdf-frame-border: 1;
-            left: 1cm; width: 27.7cm; top: 1cm; height: 2cm;
-        }
-        @frame footer_frame {           /* Another static Frame */
-            -pdf-frame-content: footer_content;
-            -pdf-frame-border: 1;
-            left: 1pt; width: 27.7pt; top: 18cm; height: 2cm;
-        }
-    }
-</style>
+<link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<table>
-		<tr>
-			<td>Municipio</td>
-			<td>Localidade</td>
-			<td>Ciclo/Ano</td>
-			<td>Atividade</td>
-			<td>Concluida</td>
-		</tr>
-		<tr>
-			<td>Pau dos Ferros</td>
-			<td>00132 - Carvao</td>
-			<td>3/2013</td>
-			<td>Tratamento</td>
-			<td>Nao</td>
-		</tr>
-	</table>
+	<div id="page-wrapper">
+		 <div class="row">
+			  <div class="col-lg-14 text-center">
+				    <div class="panel panel-default">
+					      <div class="panel-heading">
+						<h3 class="panel-title"><center>Dados do Agente Selecionado</center></h3>
+					      </div>
+					      <div class="panel-body">
+							<div id="morris-chart-donut"></div>
+							<div class="text-right">
+							<center>
+							<div class="table">
+							    <table class="table">
+								<thead>
+								    <tr>
+									<th>Agente:</th>
+									<th>Ciclo:</th>
+									<th>Data:</th>
+									<th>Bairro:</th>
+									<th>Atividade:</th>
+								     </tr>
+								</thead>
+								<tbody>
+									    <tr>
+										<td>Cristiano Nunes</td>
+										<td>1º</td>
+										<td>03/03/2015</td>
+										<td>São Benedito</td>										
+										<td>Tratamento</td>
+									    </tr>
+								</tbody>
+
+							    </table>
+							</div><br/>
+
+
+
+							<div class="row">
+							  <div class="col-lg-14 text-center">
+							    <div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><center>Pesquisa Entomológica / Tratamento</center></h3>
+					      			</div>
+							      <div class="panel-body">
+								<div id="morris-chart-donut"></div>
+										<div class="text-right">
+										<center>
+											<div class="table">
+											    <table class="table">
+												<thead>
+												    <tr>
+												    <th>Quarteirão</th>
+													<th>Lado:</th>
+													<th>Logradouro:</th>
+													<th>Nº Imóvel:</th>
+													<th>Tipo:</th>
+													<th>Visita:</th>
+													<th>Pendência:</th>
+													<th>Eliminado:</th>
+													<th>Imóvel Tratado:</th>
+													<th>Tipo de Larvicida:</th>
+													<th>Qtd Larvicida:</th>
+													<th>Qtd de Depósitos Tratados:</th>
+												    </tr>
+												</thead>
+												<tbody>
+												   <tr>
+													<td>10</td>
+													<td>1</td>
+													<td>Rua: Independência</td>
+													<td>220</td>
+													<th>R</th>
+													<th>N</th>
+													<th></th>
+													<th>6</th>
+													<th>Sim</th>
+													<th>L6</th>
+													<th>5,3</th>
+													<th>1</th>
+												    </tr>
+												    <tr>
+													<td>10</td>
+													<td>1</td>
+													<td>Rua: Independência</td>
+													<td>230</td>
+													<th>R</th>
+													<th>N</th>
+													<th>F</th>
+													<th></th>
+													<th></th>
+													<th></th>
+													<th></th>
+													<th></th>
+												    </tr>
+												    <tr>
+													<td>10</td>
+													<td>1</td>
+													<td>Rua: Independência</td>
+													<td>240</td>
+													<th>C</th>
+													<th>N</th>
+													<th></th>
+													<th>2</th>
+													<th>Sim</th>
+													<th>L6</th>
+													<th>2,2</th>
+													<th>1</th>
+												    </tr>
+												</tbody>
+											    </table>
+											</div>	 
+										</center>
+										</div>
+							      </div>
+							    </div>            
+							  </div>
+							</div>
+							
+
+							<!-- Fim da quinta tabela -->
+
+							<!-- Fim Rows Interiores-->
+							</center>
+							</div>
+					      </div>	
+				      
+			    </div>
+		  </div><!-- /.row -->
+	
+
+</div>
 </body>
 </html>

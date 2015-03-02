@@ -24,4 +24,4 @@ def imprimir(request):
     # e colocar no context para serem exibidas no relatório
     context = {}
     return render_html_or_pdf(request, 'relatorios/d1_imprimir.html',
-                              context, fmt='pdf')
+                              context, fmt='html')
