@@ -5,6 +5,8 @@
 <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+{% for visita in visitas_agentes %}
+{% for visita2 in visita.bairros %}
 	<div id="page-wrapper">
 		 <div class="row">
 			  <div class="col-lg-14 text-center">
@@ -27,16 +29,15 @@
 									<th>Atividade:</th>
 								     </tr>
 								</thead>
-								<tbody>
+								<tbody>	
 									    <tr>
-										<td>Cristiano Nunes</td>
-										<td>1º</td>
-										<td>03/03/2015</td>
-										<td>São Benedito</td>										
-										<td>Tratamento</td>
+										<td>{{ visita.agente }}</td>
+										<td>{{ visita.ciclo }}</td>
+										<td>{{ visita.data }}</td>
+										<td>{{ visita2.bairro }}</td>	
+										<td>{{ visita.ciclo.get_atividade_display }}</td>
 									    </tr>
 								</tbody>
-
 							    </table>
 							</div><br/>
 
@@ -52,6 +53,7 @@
 								<div id="morris-chart-donut"></div>
 										<div class="text-right">
 										<center>
+										
 											<div class="table">
 											    <table class="table">
 												<thead>
@@ -71,48 +73,22 @@
 												    </tr>
 												</thead>
 												<tbody>
+											{% for visitas_do_agente in visita2.visitas %}
 												   <tr>
-													<td>10</td>
-													<td>1</td>
-													<td>Rua: Independência</td>
-													<td>220</td>
-													<th>R</th>
-													<th>N</th>
-													<th></th>
-													<th>6</th>
-													<th>Sim</th>
-													<th>L6</th>
-													<th>5,3</th>
-													<th>1</th>
+													<td>{{ visitas_do_agente.imovel.lado.quadra }}</td>
+													<td>{{ visitas_do_agente.imovel.lado }}</td>
+													<td>{{ visitas_do_agente.imovel.lado.logradouro }}</td>
+													<td>{{ visitas_do_agente.imovel.numero }}</td>
+													<td>{{ visitas_do_agente.get_tipo_display }}</td>
+													<td>{{ visitas_do_agente.visita }}</td>
+													<td>{{ visitas_do_agente.get_pendencia_display }}</td>
+													<td>{{ visitas_do_agente.depositos_eliminados|default:'0' }}</td>
+													<td>{{ visitas_do_agente.imovel_tratado|default:'0' }}</td>
+													<td>{{ visitas_do_agente.larvicida|default:'0' }}</td>
+													<td>{{ visitas_do_agente.qtd_larvicida|default:'0' }}</td>
+													<td>{{ visitas_do_agente.depositos_tratados|default:'0' }}</td>
 												    </tr>
-												    <tr>
-													<td>10</td>
-													<td>1</td>
-													<td>Rua: Independência</td>
-													<td>230</td>
-													<th>R</th>
-													<th>N</th>
-													<th>F</th>
-													<th></th>
-													<th></th>
-													<th></th>
-													<th></th>
-													<th></th>
-												    </tr>
-												    <tr>
-													<td>10</td>
-													<td>1</td>
-													<td>Rua: Independência</td>
-													<td>240</td>
-													<th>C</th>
-													<th>N</th>
-													<th></th>
-													<th>2</th>
-													<th>Sim</th>
-													<th>L6</th>
-													<th>2,2</th>
-													<th>1</th>
-												    </tr>
+											{% endfor %}
 												</tbody>
 											    </table>
 											</div>	 
@@ -133,8 +109,8 @@
 				      
 			    </div>
 		  </div><!-- /.row -->
-	
-
 </div>
+{% endfor %}
+{% endfor %}
 </body>
 </html>
