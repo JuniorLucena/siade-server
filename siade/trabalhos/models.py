@@ -150,4 +150,3 @@ class Visita(BaseModel, Tratamento, Pesquisa):
         verbose_name = 'visita'
         verbose_name_plural = 'visitas'
         ordering = ('data', 'hora', 'ciclo')
-        unique_together = ('ciclo', 'agente', 'imovel')
