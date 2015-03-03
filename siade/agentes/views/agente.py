@@ -10,7 +10,6 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import update_session_auth_hash, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AdminPasswordChangeForm
-
 from django.shortcuts import get_object_or_404
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from siade.mixins.messages import MessageMixin
@@ -34,7 +33,7 @@ class AgenteMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super(AgenteMixin, self).get_context_data(**kwargs)
-        context['title'] = 'Usuario'
+        context['title'] = 'Usuários'
         context['object_class'] = self.model
         context['fields'] = getattr(self, 'fields',
                                     self.model._meta.get_all_field_names())

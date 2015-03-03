@@ -138,6 +138,7 @@ class Imovel(BaseModel):
     gatos = models.PositiveIntegerField(default=0, verbose_name='qtd. gatos')
     ponto_estrategico = models.BooleanField(default=False,
                                             verbose_name='ponto estratégico')
+    qrcode = models.CharField(max_length=32, blank=True, editable=False)
 
     def __unicode__(self):
         numero = self.numero if bool(self.numero) else 'S/N'
@@ -170,18 +171,17 @@ class Imovel(BaseModel):
     def save(self, *args, **kwargs):
         qs = self._default_manager.filter(lado=self.lado)
         # definir número de ordem não definida
-        if self.ordem is None:
+        if self.ordem is None or self.ordem == 0:
             c = qs.aggregate(Max('ordem')).get('ordem__max')
             self.ordem = 1 if c is None else c + 1
 
         if self.pk:
             # Se estiver atualizando executar apenas se o numero mudar
-            if self._old_ordem != self.ordem:
+            if self._old_ordem is not None:
                 qs.filter(ordem__gt=self._old_ordem).update(ordem=F('ordem')-1)
-                qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
-        else:
-            # Se estiver inserindo alterações sequencia dos demais
-            qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
+                
+        # Se estiver inserindo alterações sequencia dos demais
+        qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
 
         super(Imovel, self).save(*args, **kwargs)
 

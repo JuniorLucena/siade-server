@@ -4,7 +4,7 @@ from sitetree.utils import tree, item
 
 dynamic_sitetrees = (
     tree('agentes', items=[
-        item('Usuarios', 'agentes:agente:listar', children=[
+        item('Usuários', 'agentes:agente:listar', children=[
             item('{{ agente.nome }}', 'agentes:agente:detalhes agente.id', children=[
                 item('Alterar Usuario', 'agentes:agente:editar agente.id'),
                 item('Excluir Usuario', 'agentes:agente:excluir agente.id'),

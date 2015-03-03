@@ -48,7 +48,7 @@ class Agente(BaseModel, AbstractBaseUser, PermissionsMixin):
                               verbose_name='código')
     tipo = models.PositiveIntegerField(choices=Tipo.choices,
                                        default=Tipo.AgenteCampo)
-    municipio = models.ForeignKey(Municipio, blank=True, null=True)
+    municipio = models.ForeignKey(Municipio, blank=False, null=True)
     ativo = models.BooleanField(default=True)
 
     _default_manager = AgenteManager()
