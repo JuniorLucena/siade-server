@@ -93,3 +93,5 @@ class Agente(BaseModel, AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'agente'
         verbose_name_plural = 'agentes'
+        ordering = ('nome','sobrenome',)
+

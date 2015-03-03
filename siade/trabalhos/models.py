@@ -149,4 +149,4 @@ class Visita(BaseModel, Tratamento, Pesquisa):
     class Meta:
         verbose_name = 'visita'
         verbose_name_plural = 'visitas'
-        ordering = ('data', 'hora', 'ciclo')
+        ordering = ('data', 'hora', 'ciclo','agente','imovel')
