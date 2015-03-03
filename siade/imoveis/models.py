@@ -19,6 +19,7 @@ class UF(BaseModel):
 
     class Meta:
         verbose_name = 'estado'
+        ordering = ('nome',)
 
 
 class Municipio(BaseModel):
@@ -52,7 +53,7 @@ class Bairro(BaseModel):
         return "%s" % (self.nome,)
 
     class Meta:
-        ordering = ('municipio',)
+        ordering = ('municipio','nome',)
 
 
 @sync_register

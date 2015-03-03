@@ -13,8 +13,10 @@
     </ol>
 {% endblock %}
 {% block actions-buttons %}
+<a href="#" class="btn btn-success" id="addLado">Adicionar Lado</a>
 {% if lado %}
 <a class="btn btn-success" href="{% object_adicionar 'imoveis:imovel' object.id lado.numero %}?next={{ request.path }}">Adicionar Imóvel</a>
+
 {% endif %}
 <div class="btn-group">
     <a class="btn btn-primary" href="{% object_editar object %}">Editar</a>
@@ -88,3 +90,42 @@
 </div>
 </div>
 {% endblock %}
+{% block extrascript%}
+<script type="text/javascript">
+    var lados;
+    function saveLado(){
+        if($("#id_numero").val() == "" || $("#id_logradouro").val()==""){
+            $("#msgLado").text("Preencha todos os campos").show("slow");
+            
+        }else{
+            if(lados.indexOf($("#id_numero").val()) != -1){
+                $("#msgLado").text("O Lado já existe").show("slow");
+            }else{
+                $.post("{% object_adicionar 'imoveis:ladoquadra' object.id %}", $("#formLado").serialize(), function(data){
+                    location.reload();
+                });
+            } 
+        }
+        
+    }
+    $(function($){
+        lados = [
+            {% for item in lado_list %}
+                '{{item.numero}}',
+            {% endfor %}
+        ];
+        
+
+        $.get("{% object_adicionar 'imoveis:ladoquadra' object.id %}", function(data){
+            $("#addLado").popover({
+                content:data +'<div id="msgLado" style="display:none" class="alert alert-danger"></div>', 
+                html:true,
+                placement:"bottom",
+                show: true,
+                container: "#content"
+            });
+            
+        });
+    });
+</script>
+{% endblock%}

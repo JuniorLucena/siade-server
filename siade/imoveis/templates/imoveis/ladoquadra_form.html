@@ -1,16 +1,13 @@
-{% extends 'crud/object_form.html' %}
-{% load object_urls %}
-{% block breadcrumbs %}
-    <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-home"></i> Início</a></li>
-        <li><a href="{% object_listar 'imoveis:bairro' %}">Bairro</a></li>
-{% if object %}
-        <li><a href="{% object_detalhes object.quadra.bairro %}">{{ object.quadra.bairro }}</a></li>
-        <li><a href="{% object_detalhes object.quadra %}">Quadra #{{ object.quadra.numero }}</a></li>
-        <li>Lado #{{ object.numero }}</li>
-        <li class="active">Editar</li>
-{% else %}
-        <li class="active">Novo lado</li>
-{% endif %}
-    </ol>
+{% load bootstrap3 object_urls %}
+{% block content %}
+<form  method="post" class="form-horizontal" id="formLado">{% csrf_token %}
+<div class="panel panel-default">
+    <div class="panel-body">
+    {% bootstrap_form form layout='vertical' %}
+    </div>
+</div>
+
+<a id="saveLado" class="btn btn-primary" onClick="saveLado()" href="#">Salvar</a>
+
+</form><br />
 {% endblock %}

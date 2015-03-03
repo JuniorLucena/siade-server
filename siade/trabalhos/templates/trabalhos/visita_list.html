@@ -12,6 +12,7 @@
         <th>Hora</th>
         <th>Agente</th>
         <th>Imovel</th>
+        <th>Quadra</th>
         
     </tr>
     </thead>
@@ -23,6 +24,8 @@
             <td>{{ visita.hora }}</td>
             <td>{{ visita.agente }}</td>
             <td>{{ visita.imovel }}</td>
+            <td>{{ visita.imovel.lado.quadra }}</td>
+
         </tr>
 {% endfor %}
     </tbody>
