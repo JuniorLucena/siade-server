@@ -62,6 +62,7 @@ class Agente(BaseModel, AbstractBaseUser, PermissionsMixin):
     def save(self, *args, **kwargs):
         try:
             group = Group.objects.get(name=self.get_tipo_display())
+            self.groups.clear()
             self.groups.add(group)
         except:
             pass
