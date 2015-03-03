@@ -165,3 +165,16 @@ class VisitasTest(APITestCase):
         url = reverse('api:visitas')
         response = self.client.post(url, visita_json, content_type='application/json')
         self.assertEqual(response.status_code, 200)
+
+
+    def test_adicionar_imovel_raw(self):
+        lado = LadoFactory()
+        imovel_json = '''[{
+            "numero":"007","id":"1076acde-944b-4469-8f23-951338f9646b",
+            "lado":"%(lado)s","tipo":1,"ordem":0,
+            "habitantes":0,"gatos":0,"status":0,"caes":0,
+            "sync_version":"","sync_changed":"2015-03-01T23:53:29.941",
+            "sync_deleted":false}]''' % {'lado': lado.id}
+        url = reverse('api:imoveis')
+        response = self.client.post(url, imovel_json, content_type='application/json')
+        self.assertEqual(response.status_code, 200)
