@@ -10,7 +10,6 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import update_session_auth_hash, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AdminPasswordChangeForm
-
 from django.shortcuts import get_object_or_404
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from siade.mixins.messages import MessageMixin
@@ -34,7 +33,7 @@ class AgenteMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super(AgenteMixin, self).get_context_data(**kwargs)
-        context['title'] = 'Usuario'
+        context['title'] = 'Usuários'
         context['object_class'] = self.model
         context['fields'] = getattr(self, 'fields',
                                     self.model._meta.get_all_field_names())
@@ -46,7 +45,7 @@ class Listar(AgenteMixin, ListView):
 
 
 class Adicionar(AgenteMixin, MessageMixin, CreateView):
-    success_message = u'Agente adicionado com êxito'
+    success_message = u'Usuário adicionado com êxito'
     template_name = 'crud/object_form.html'
 
 
@@ -55,12 +54,12 @@ class Detalhes(AgenteMixin, DetailView):
 
 
 class Editar(AgenteMixin, MessageMixin, UpdateView):
-    success_message = u'Agente atualizado com êxito'
+    success_message = u'Usuário atualizado com êxito'
     template_name = 'crud/object_form.html'
 
 
 class Excluir(AgenteMixin, MessageMixin, DeleteView):
-    success_message = u'Agente excluído com êxito'
+    success_message = u'Usuário excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
 

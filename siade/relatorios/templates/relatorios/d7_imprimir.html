@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Relatório diário</title>
+<link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div id="page-wrapper">
+		 <div class="row">
+			  <div class="col-lg-9 text-center">
+				    <div class="panel panel-default">
+					      <div class="panel-heading">
+						<h3 class="panel-title"><center>Dados do Agente Selecionado</center></h3>
+					      </div>
+					      <div class="panel-body">
+							<div id="morris-chart-donut"></div>
+							<div class="text-right">
+							<center>
+							<div class="table">
+							    <table class="table ">
+								<thead>
+								    <tr>
+									<th>Agente:</th>
+									<th>Ciclo:</th>
+									<th>Data Início</th>
+									<th>Data Final</th>
+									<th>Semana:</th>
+									<th>Bairro:</th>
+									<th>Atividade:</th>
+								    </tr>
+								</thead>
+								<tbody>
+									    <tr>
+										<td>{{ agente.nome }}</td>
+										<td>{{ ciclo }}</td>
+										<td>{{ ciclo.data_inicio }}</td>
+										<td>{{ ciclo.data_fim }}</td>
+										<td>{{ semana }}</td>
+										<td>{{ bairo.nome }}</td>										
+										<td>{{ ciclo.atividade }}</td>
+									    </tr>
+								</tbody>
+							    </table>
+							</div>
+
+
+
+							<div class="row">
+							  <div class="col-lg-12 text-center">
+							    <div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><center>Número de móveis trabalhados por tipo</center></h3>
+					      			</div>
+							      <div class="panel-body">
+								<div id="morris-chart-donut"></div>
+										<div class="text-right">
+										<center>
+											<div class="table">
+											    <table class="table">
+												<thead>
+												    <tr>
+												    <th>Quarteirões Concluidos</th>
+													<th>Residência:</th>
+													<th>Comércio:</th>
+													<th>TB:</th>
+													<th>PE:</th>
+													<th>Outros:</th>
+													<th>Total:</th>
+													<th>Informados:</th>
+												    </tr>
+												</thead>
+												<tbody>
+												   <tr>
+													<td>25</td>
+													<td>3</td>
+													<td>7</td>
+													<td>2</td>
+													<th>37</th>
+													<th>37</th>
+													<th>37</th>
+													<th>40</th>
+												    </tr>
+												</tbody>
+											    </table>
+											</div>	 
+										</center>
+										</div>
+							      </div>
+							    </div>            
+							  </div>
+							</div>
+							 
+							<!-- Inicio Rows Interiores-->	
+
+							<!-- Row interior primeira tabela -->
+
+							 <div class="row">
+							  <div class="col-lg-7 text-center">
+							    <div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><center>Número imóveis</center></h3>
+					      			</div>
+							      <div class="panel-body">
+								<div id="morris-chart-donut"></div>
+										<div class="text-right">
+										<center>
+											<div class="table">
+											    <table class="table">
+												<thead>
+												    <tr>
+													<th>Tratamento Focal:</th>
+													<th>Tratamento Perifocal:</th>
+													<th>Inspecionados:</th>
+													<th>Amostras Coletadas:</th>
+												     </tr>
+												</thead>
+												<tbody>
+												   <tr>
+													<td>3</td>
+													<td>83</td>
+													<td>3</td>
+													<td>0</td>
+												    </tr>
+												</tbody>
+											    </table>
+											</div>	 
+										</center>
+										</div>
+							      </div>
+							    </div>            
+							  </div><!-- /.row -->
+							 
+							  <div class="col-lg-5 text-center">
+							    <div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><center>Pendências</center></h3>
+					      			</div>
+							      <div class="panel-body">
+								<div id="morris-chart-donut"></div>
+										<div class="text-right">
+										<center>
+											<div class="table">
+											    <table class="table">
+												<thead>
+												    <tr>
+													<th>Recusados:</th>
+													<th>Fechados:</th>
+													<th>Recuperados:</th>
+												     </tr>
+												</thead>
+												<tbody>
+												   <tr>
+													<td>3</td>
+													<td>83</td>
+												    </tr>
+												</tbody>
+											    </table>
+											</div>	 
+										</center>
+										</div>
+							      </div>
+							    </div>            
+							  </div>
+							</div><!-- /.row -- Fim da primeira tabela -->
+							
+							<!-- Inicio da Segunda tabela -->
+
+							
+
+							 <!--Inicio da terceira tabela -->
+							 
+							  
+
+							<!-- Inicio da quarta tabela -->
+
+							<div class="row">
+							  <div class="col-lg-7 text-center">
+							    <div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><center>Informações de Tratamento com Larvicida</center></h3>
+					      			</div>
+							      <div class="panel-body">
+								<div id="morris-chart-donut"></div>
+										<div class="text-right">
+										<center>
+											<div class="table">
+											    <table class="table">
+												<thead>
+												    <tr>
+												    <th>Eliminados</th>
+													<th>Tipo:</th>
+													<th>Quantidade:</th>
+													<th>Quantidade de Depósitos Tratados:</th>
+												     </tr>
+												</thead>
+												<tbody>
+												   <tr>
+												   	<td>8</td>
+													<td>L6</td>
+													<td>25,8</td>
+													<td>30</td>
+												    </tr>
+												</tbody>
+											    </table>
+											</div>	 
+										</center>
+										</div>
+							      </div>
+							    </div>            
+							  </div><!-- /.row -->
+							 
+							  <div class="col-lg-5 text-center">
+							    <div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><center>Informações de produção</center></h3>
+					      			</div>
+							      <div class="panel-body">
+								<div id="morris-chart-donut"></div>
+										<div class="text-right">
+										<center>
+											<div class="table">
+											    <table class="table">
+												<thead>
+												    <tr>
+													<th>Redimento/Dia:</th>
+													<th>Total de Agentes na Semana:</th>
+													<th>Total de dias trabalhados na semana</th>
+												     </tr>
+												</thead>
+												<tbody>
+												   <tr>
+													<td>3</td>
+													<td>83</td>
+													<td>83</td>
+												    </tr>
+												</tbody>
+											    </table>
+											</div>	 
+										</center>
+										</div>
+							      </div>
+							    </div>            
+							  </div>
+							</div><!-- /.row -- Fim da primeira tabela -->
+
+
+							<!-- Inicio da quinta tabela -->
+
+							<div class="row">
+							  <div class="col-lg-12 text-center">
+							    <div class="panel panel-default">
+							       <div class="panel-heading">
+							       <h3 class="panel-title"><center>Números de depósitos inspecionados por tipo</center></h3>
+					      		       </div>
+							      <div class="panel-body">
+								<div id="morris-chart-donut"></div>
+										<div class="text-right">
+										<center>
+											<div class="table">
+											    <table class="table">
+												<thead>
+												    <tr>
+													<th>A1:</th>
+													<th>A2:</th>
+													<th>B:</th>
+													<th>C:</th>
+													<th>D1:</th>
+													<th>D2:</th>
+													<th>C:</th>
+													<th>Total:</th>
+												     </tr>
+												</thead>
+												<tbody>
+												   <tr>
+													<td>2</td>
+													<td>0</td>
+													<td>3</td>
+													<td>0</td>
+													<td>4</td>
+													<td>0</td>
+													<td>1</td>
+													<th>10</th>
+												    </tr>
+												</tbody>
+											    </table>
+											</div>	 
+										</center>
+										</div>
+							      </div>
+							    </div>            
+							  </div>
+							</div><!-- /.row --> 
+
+							<!-- Fim da quinta tabela -->
+
+							<!-- Fim Rows Interiores-->
+							</center>
+							</div>
+					      </div>	
+				      
+			    </div>
+		  </div><!-- /.row -->
+</div>
+</body>
+</html>
