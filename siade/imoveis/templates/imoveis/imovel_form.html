@@ -16,3 +16,19 @@
 {% endif %}
     </ol>
 {% endblock %}
+
+{% block extrascript%}
+<script type="text/javascript">
+    $("#id_tipo").change(function(){
+        if($("#id_tipo").val() == 3){
+            $("#id_habitantes").val(0).attr("disabled", true);
+            $("#id_caes").val(0).attr("disabled", true);
+            $("#id_gatos").val(0).attr("disabled", true);
+        }else{
+            $("#id_habitantes").attr("disabled", false);
+            $("#id_caes").attr("disabled", false);
+            $("#id_gatos").attr("disabled", false);
+        }
+    });
+</script>
+{% endblock%}

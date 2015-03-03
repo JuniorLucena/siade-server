@@ -13,7 +13,7 @@ class AgenteManager(BaseUserManager):
         if not cpf:
             raise ValueError('Agentes devem possuir CPF')
 
-        superuser = True if tipo == Agente.Tipo.Administrador else False
+        superuser = True if tipo == 99 else False
         user = self.model(cpf=cpf, nome=nome, sobrenome=sobrenome, tipo=tipo,
                           is_superuser=superuser)
         user.set_password(password)
@@ -22,7 +22,7 @@ class AgenteManager(BaseUserManager):
 
     def create_superuser(self, cpf, nome, sobrenome, password):
         user = self.create_user(cpf, nome, sobrenome,
-                                Agente.Tipo.Administrador,
+                                99,
                                 password=password)
         return user
 
@@ -35,7 +35,7 @@ class Agente(BaseModel, AbstractBaseUser, PermissionsMixin):
         ''' Possiveis tipos para um agente '''
         AgenteCampo = ChoiceItem(1, label='Agente de campo')
         Supervisor = ChoiceItem(2, label='Supervisor')
-        Administrador = ChoiceItem(99, label='Administrador')
+        
 
     cpf = models.BigIntegerField(verbose_name='CPF', unique=True)
     nome = models.CharField(max_length=30)
@@ -84,7 +84,7 @@ class Agente(BaseModel, AbstractBaseUser, PermissionsMixin):
 
     @property
     def is_staff(self):
-        return self.is_superuser or self.tipo == self.Tipo.Administrador
+        return self.is_superuser or self.tipo == 99
 
     @property
     def is_active(self):
