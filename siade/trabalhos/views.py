@@ -132,8 +132,10 @@ def trabalhos_quadras(request):
     agente = request.GET.get('agente')
     trabalhos = Trabalho.objects.filter(ciclo=Ciclo.atual())
     exclude = trabalhos.exclude(agente=agente).values_list('quadra', flat=True)
-    quadras = Quadra.objects.filter(bairro=bairro).exclude(id__in=exclude)
-    return JsonResponse(list(quadras.values('id', 'numero', 'bairro')),
+    quadras = Quadra.objects.filter(bairro=bairro).exclude(id__in=exclude)\
+            .annotate(total_imoveis=Count('lados__imoveis'))
+
+    return JsonResponse(list(quadras.values('id', 'numero', 'bairro','total_imoveis')),
                         safe=False)
 
 

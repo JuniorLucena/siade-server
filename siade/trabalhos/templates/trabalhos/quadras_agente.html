@@ -53,6 +53,7 @@
                         	<button type="button" data-bairro="{{ t.quadra.bairro.id }}" data-id="{{ t.quadra.id }}" data-numero="{{ t.quadra.numero }}" class="btn btn-default">{{ t.quadra.numero }}</button>
                         	{% endfor %}
                         </div>
+                        <p id="total_imoveis">Total:</p>
                     </div>
                 {% endfor %}
 				</div>
@@ -79,6 +80,7 @@ $(document).ready(function(){
 		num_b = $(b).data("numero")
  		return (num_a > num_b) ? 1 : -1
 	}
+
 	adicionar_bairro_agente = function(id, nome){
 		$("#quadras-agente").append('<div class="form-group"><label>'+nome+'</label><div class="bairro bairro_'+id+'"></div></div>')
 	}
@@ -98,6 +100,7 @@ $(document).ready(function(){
 		// reordenar lista de quadras do agente
 		buttons = $(bairroEle).find("button")
 		buttons.detach().sort(ordenar_quadra_por_numero).appendTo(bairroEle)
+		atualizar_numero_imoveis();
 	}
 	quadras_agente_click = function(){
 		var bairro = $(this).attr('data-bairro')
@@ -119,8 +122,17 @@ $(document).ready(function(){
 		// Remover bairro das quadras do agente caso esteja vazio
 		var biarro_agente = $("#quadras-agente .bairro_"+bairro)
 		if(!biarro_agente.find("button").length) {
-			biarro_agente.parent().remove()
+			biarro_agente.parent().remove();
 		}
+		atualizar_numero_imoveis();
+	}
+	atualizar_numero_imoveis = function(){
+		var total = 0;
+		$("#quadras-agente button").each(function(indice, quadra){
+			total += $(quadra).data("imoveis");
+			$("#total_imoveis").text(total);
+			
+		});
 	}
 	$('select#bairro').change(function(){
 		var bairro = this.value
@@ -130,7 +142,7 @@ $(document).ready(function(){
 			// montar uma lista de botões
 			$.each( data, function(key, val) {
 				if(!$("#quadras-agente .bairro .btn[data-id="+val.id+"]").length) {
-					items.push('<button type="button" data-bairro="'+val.bairro+'" data-id="'+val.id+'" data-numero="'+val.numero+'" class="btn btn-default">'+val.numero+'</button>')
+					items.push('<button title="total de imovéis: '+val.total_imoveis+'" data-imoveis="'+val.total_imoveis+'" type="button" data-bairro="'+val.bairro+'" data-id="'+val.id+'" data-numero="'+val.numero+'" class="btn btn-default">'+val.numero+'</button>')
 				}
 			})
 			var bairroEle = $("#quadras-disponiveis .bairro")
