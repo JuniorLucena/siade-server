@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django import forms
 from django.forms.widgets import CheckboxSelectMultiple
 from siade.agentes.models import Agente
@@ -39,7 +39,6 @@ class D7Form(forms.Form):
         ciclo = Ciclo.atual()
         data_inicio = ciclo.data_inicio + timedelta(days=(semana-1)*7)
         data_fim = ciclo.data_inicio + timedelta(days=semana*7)
-        print data_inicio, data_fim
         if data_inicio > ciclo.data_fim or data_fim > ciclo.data_fim:
             raise forms.ValidationError("Semana fora do ciclo.")
         else:
