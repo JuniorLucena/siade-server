@@ -42,7 +42,7 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">Quadras do Agente</h3>
 			</div>
-			<div class="panel-body">
+			<div class="panel-body">	
 				<div id="quadras-agente">
 				{% regroup agente.trabalhos.all by quadra.bairro.nome as quadras_por_bairro %}
                 {% for bairro in quadras_por_bairro %}
@@ -53,10 +53,10 @@
                         	<button type="button" data-bairro="{{ t.quadra.bairro.id }}" data-id="{{ t.quadra.id }}" data-numero="{{ t.quadra.numero }}" class="btn btn-default">{{ t.quadra.numero }}</button>
                         	{% endfor %}
                         </div>
-                        <p id="total_imoveis">Total:</p>
                     </div>
                 {% endfor %}
 				</div>
+				<h5 class="panel-title">Total de imovéis do Agente: <medium id="total_imoveis">{{ total|default:0 }}</medium></h5>
 			</div>
 		</div>
 	</div>
