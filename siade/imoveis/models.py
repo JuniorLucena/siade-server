@@ -19,6 +19,7 @@ class UF(BaseModel):
 
     class Meta:
         verbose_name = 'estado'
+        ordering = ('nome',)
 
 
 class Municipio(BaseModel):
@@ -52,7 +53,7 @@ class Bairro(BaseModel):
         return "%s" % (self.nome,)
 
     class Meta:
-        ordering = ('municipio',)
+        ordering = ('municipio','nome',)
 
 
 @sync_register
@@ -80,13 +81,15 @@ class Quadra(BaseModel):
     bairro = models.ForeignKey(Bairro, related_name='quadras',
                                on_delete=models.PROTECT)
     numero = models.PositiveIntegerField(default=0, verbose_name='número')
+    sequencia = models.PositiveIntegerField(blank=True, null=True,
+                                           verbose_name='sequência')
 
     def __unicode__(self):
         return 'Quadra %s, %s' % (self.numero, self.bairro.nome)
 
     class Meta:
         ordering = ('bairro', 'numero')
-        unique_together = ('bairro', 'numero')
+        unique_together = ('bairro', 'numero', 'sequencia')
 
 
 @sync_register

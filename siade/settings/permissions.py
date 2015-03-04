@@ -34,6 +34,6 @@ Administrador_permissions = tuple(Supervisor_permissions + (
 
 GROUP_PERMISSIONS = {
     Agente.Tipo.AgenteCampo: AgenteDeCampo_permissions,
-    Agente.Tipo.Supervisor: Supervisor_permissions,
-    Agente.Tipo.Administrador: Administrador_permissions
+    Agente.Tipo.Supervisor: Supervisor_permissions
+    #Agente.Tipo.Administrador: Administrador_permissions
 }

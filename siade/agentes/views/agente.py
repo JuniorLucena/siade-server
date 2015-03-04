@@ -45,7 +45,7 @@ class Listar(AgenteMixin, ListView):
 
 
 class Adicionar(AgenteMixin, MessageMixin, CreateView):
-    success_message = u'Agente adicionado com êxito'
+    success_message = u'Usuário adicionado com êxito'
     template_name = 'crud/object_form.html'
 
 
@@ -54,12 +54,12 @@ class Detalhes(AgenteMixin, DetailView):
 
 
 class Editar(AgenteMixin, MessageMixin, UpdateView):
-    success_message = u'Agente atualizado com êxito'
+    success_message = u'Usuário atualizado com êxito'
     template_name = 'crud/object_form.html'
 
 
 class Excluir(AgenteMixin, MessageMixin, DeleteView):
-    success_message = u'Agente excluído com êxito'
+    success_message = u'Usuário excluído com êxito'
     template_name = 'crud/object_confirm_delete.html'
 
 

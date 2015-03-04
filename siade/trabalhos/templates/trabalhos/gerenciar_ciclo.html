@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block content-title %}
-<h1>Gerenciar ciclo <small>{{ ciclo_atual|default:'' }}</small>
-<small>- Data inicio: {{ ciclo_atual.data_inicio|date:"d M Y"|default:0}} - Data fim: {{ciclo_atual.data_fim|date:"d M Y"|default:0}}</small></h1>
+<h1>Gerenciar ciclo</h1><h1> <small>{{ ciclo_atual|default:'' }}
+ - Data inicio: {{ ciclo_atual.data_inicio|date:"d M Y"|default:''}} - Data fim: {{ciclo_atual.data_fim|date:"d M Y"|default:''}}</small></h1>
 {% endblock %}
 
 {% block actions-buttons %}

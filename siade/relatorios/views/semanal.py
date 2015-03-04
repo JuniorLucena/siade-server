@@ -25,4 +25,4 @@ def imprimir(request):
     # intevalo de datas e colocar no context para serem exibidas no relatório
     context = {}
     return render_html_or_pdf(request, 'relatorios/d7_imprimir.html',
-                              context, fmt='pdf')
+                              context, fmt='html')
