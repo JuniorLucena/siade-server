@@ -62,6 +62,9 @@ def imprimir(request):
             filter_visitas.filter(pendencia=2).aggregate(fechada=Count('pendencia')),
             filter_visitas.filter(tipo=2).aggregate(recuperada=Count('tipo')),
 
+            filter_visitas.filter(imovel_tratado=True).aggregate(tratado=Count('imovel_tratado')),
+            filter_visitas.filter(imovel_inspecionado=True).aggregate(inspecionado=Count('imovel_inspecionado')),
+
             filter_visitas.aggregate(eliminados=Sum('depositos_eliminados')),
             filter_visitas.aggregate(tipo_larvicida=Sum('larvicida')),
             filter_visitas.aggregate(qtd_larvicida=Sum('qtd_larvicida')),

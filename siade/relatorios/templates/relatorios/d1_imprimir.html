@@ -3,6 +3,9 @@
 <head>
 <title>Relatório diário</title>
 <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
+<style type="text/css">
+    #page-wrapper{page-break-before: always;}
+</style>
 </head>
 <body>
 {% for visita in visitas_agentes %}

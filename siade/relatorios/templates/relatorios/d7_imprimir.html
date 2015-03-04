@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Relatório diário</title>
+<title>Relatório Semanal</title>
 <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
+<style type="text/css">
+    #page-wrapper{page-break-before: always;}
+</style>
 </head>
 <body>
 {% for visita in visitas_agentes %}
@@ -109,17 +112,15 @@
 												<thead>
 												    <tr>
 													<th>Tratamento Focal:</th>
-													<th>Tratamento Perifocal:</th>
 													<th>Inspecionados:</th>
 													<th>Amostras Coletadas:</th>
 												     </tr>
 												</thead>
 												<tbody>
 												   <tr>
-													<td>3</td>
-													<td>83</td>
-													<td>3</td>
-													<td>0</td>
+													<td>{{ visita2.tratado }}</td>
+													<td>{{ visita2.inspecionado }}</td>
+													<td>#</td>
 												    </tr>
 												</tbody>
 											    </table>
@@ -208,8 +209,8 @@
 										</div>
 							      </div>
 							    </div>            
-							  </div><!-- /.row -->
-							 
+							  </div><!-- /.row -->	 
+
 							 <!--  <div class="col-lg-5 text-center">
 							    <div class="panel panel-default">
 								<div class="panel-heading">
@@ -243,6 +244,7 @@
 							    </div>            
 							  </div>
 							</div>/.row -- Fim da primeira tabela -->
+
 
 
 							<!-- Inicio da quinta tabela -->
@@ -308,7 +310,9 @@
 			    </div>
 		  </div><!-- /.row -->
 </div>
+
 {% endfor %}
 {% endfor %}
+
 </body>
 </html>
