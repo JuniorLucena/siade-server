@@ -155,7 +155,7 @@ def listar_imoveis_visitados(request, pk):
         .filter(agente=agente)\
         .filter(ciclo=Ciclo.atual())
 
-    paginator = Paginator(visita_list, 40)
+    paginator = Paginator(visita_list, 13)
 
     is_paged = False
     page = request.GET.get('page')
