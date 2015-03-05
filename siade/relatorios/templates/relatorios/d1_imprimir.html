@@ -66,7 +66,6 @@
 													<th>Logradouro:</th>
 													<th>Nº Imóvel:</th>
 													<th>Tipo:</th>
-													<th>Visita:</th>
 													<th>Pendência:</th>
 													<th>Eliminado:</th>
 													<th>Imóvel Tratado:</th>
@@ -83,10 +82,9 @@
 													<td>{{ visitas_do_agente.imovel.lado.logradouro }}</td>
 													<td>{{ visitas_do_agente.imovel.numero }}</td>
 													<td>{{ visitas_do_agente.get_tipo_display }}</td>
-													<td>{{ visitas_do_agente.visita }}</td>
 													<td>{{ visitas_do_agente.get_pendencia_display }}</td>
 													<td>{{ visitas_do_agente.depositos_eliminados|default:'0' }}</td>
-													<td>{{ visitas_do_agente.imovel_tratado|default:'0' }}</td>
+													<td>{{ visitas_do_agente.imovel_tratado|yesno:"Sim,Não" }}</td>
 													<td>{{ visitas_do_agente.larvicida|default:'0' }}</td>
 													<td>{{ visitas_do_agente.qtd_larvicida|default:'0' }}</td>
 													<td>{{ visitas_do_agente.depositos_tratados|default:'0' }}</td>
