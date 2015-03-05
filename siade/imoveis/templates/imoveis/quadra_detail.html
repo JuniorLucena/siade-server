@@ -20,7 +20,9 @@
 {% endif %}
 <div class="btn-group">
     <a class="btn btn-primary" href="{% object_editar object %}">Editar</a>
+    {% if perms.imoveis.delete_quadra %}
     <a class="btn btn-default" href="{% object_excluir object %}">Excluir</a>
+    {% endif %}
 </div>
 {% endblock %}
 {% block content %}
