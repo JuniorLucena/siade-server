@@ -166,6 +166,7 @@ class Imovel(BaseModel):
         verbose_name = 'imóvel'
         verbose_name_plural = 'imóveis'
         ordering = ('ordem',)
+        unique_together = ("numero","lado")
 
     def __init__(self, *args, **kwargs):
         super(Imovel, self).__init__(*args, **kwargs)
