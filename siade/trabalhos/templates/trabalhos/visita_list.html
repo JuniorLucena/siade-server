@@ -18,14 +18,13 @@
     </thead>
     <tbody>
 {% for visita in visitas %}
-        <tr>
+        <tr {% if visita.imovel_inspecionado == 0 %} class="danger" {% endif %}>
             <td>{{ visita.ciclo }}</a></td>
             <td>{{ visita.data }}</td>
             <td>{{ visita.hora }}</td>
             <td>{{ visita.agente }}</td>
             <td>{{ visita.imovel }}</td>
             <td>{{ visita.imovel.lado.quadra }}</td>
-
         </tr>
 {% endfor %}
     </tbody>

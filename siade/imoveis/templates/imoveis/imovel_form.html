@@ -20,7 +20,7 @@
 {% block extrascript%}
 <script type="text/javascript">
     $("#id_tipo").change(function(){
-        if($("#id_tipo").val() == 2 || $("#id_tipo").val() == 3 || $("#id_tipo").val() == 4){
+        if( $("#id_tipo").val() == 3){
             $("#id_habitantes").val(0).attr("readonly", true);
             $("#id_caes").val(0).attr("readonly", true);
             $("#id_gatos").val(0).attr("readonly", true);
