@@ -80,7 +80,7 @@
 													<td>{{ visitas_do_agente.imovel.lado.quadra }}</td>
 													<td>{{ visitas_do_agente.imovel.lado }}</td>
 													<td>{{ visitas_do_agente.imovel.lado.logradouro }}</td>
-													<td>{{ visitas_do_agente.imovel.numero }}</td>
+													<td>{{ visitas_do_agente.imovel.numero|default:'S/N' }}</td>
 													<td>{{ visitas_do_agente.get_tipo_display }}</td>
 													<td>{{ visitas_do_agente.get_pendencia_display }}</td>
 													<td>{{ visitas_do_agente.depositos_eliminados|default:'0' }}</td>

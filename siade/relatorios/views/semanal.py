@@ -36,6 +36,8 @@ def imprimir(request):
 
     visitas_agentes = []
 
+
+
     for agente in agentes:
         bairros = set(visitas.filter(agente=agente).values_list('imovel__lado__quadra__bairro', flat=True))
 
@@ -44,9 +46,14 @@ def imprimir(request):
         filter_visitas = visitas.filter(agente=agente)
 
         for bairro in bairros:
+            qtd_amostras = 0
+            for visita in filter_visitas.filter(imovel__lado__quadra__bairro=bairro):
+                qtd_amostras += (visita.amostra_final or 0)-(visita.amostra_inicial or 0)
+
             visita_agente = {
                 'bairro': Bairro.objects.get(pk=bairro),
                 'num_informados' : filter_visitas.count(),
+                'qtd_amostras' : qtd_amostras,
             }
 
             v = [
@@ -64,7 +71,7 @@ def imprimir(request):
 
             filter_visitas.filter(imovel_tratado=True).aggregate(tratado=Count('imovel_tratado')),
             filter_visitas.filter(imovel_inspecionado=True).aggregate(inspecionado=Count('imovel_inspecionado')),
-
+        
             filter_visitas.aggregate(eliminados=Sum('depositos_eliminados')),
             filter_visitas.aggregate(tipo_larvicida=Sum('larvicida')),
             filter_visitas.aggregate(qtd_larvicida=Sum('qtd_larvicida')),
@@ -84,8 +91,6 @@ def imprimir(request):
 
             for d in v:
                 visita_agente.update(d)        
-
-            print  visita_agente
 
             visitas_bairros.append(visita_agente)
 
