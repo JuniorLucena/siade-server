@@ -14,7 +14,7 @@ def DatePicker():
 class D1Form(forms.Form):
     data = forms.DateField(widget=DatePicker())
     agentes = forms.MultipleChoiceField(
-        required=False, widget=CheckboxSelectMultiple(),
+        required=True, widget=CheckboxSelectMultiple(),
         choices=Agente.objects.values_list('id', 'nome').filter(
             tipo=Agente.Tipo.AgenteCampo))
 
@@ -30,7 +30,7 @@ class D1Form(forms.Form):
 class D7Form(forms.Form):
     semana = forms.IntegerField(initial=1, min_value=1)
     agentes = forms.MultipleChoiceField(
-        required=False, widget=CheckboxSelectMultiple(),
+        required=True, widget=CheckboxSelectMultiple(),
         choices=Agente.objects.values_list('id', 'nome').filter(
             tipo=Agente.Tipo.AgenteCampo))
 
@@ -43,3 +43,4 @@ class D7Form(forms.Form):
             raise forms.ValidationError("Semana fora do ciclo.")
         else:
             return semana
+
