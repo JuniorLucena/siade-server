@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Relatório diário</title>
+<title>Relatório Semanal</title>
 <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
+<style type="text/css">
+    #page-wrapper{page-break-before: always;}
+</style>
 </head>
 <body>
+{% for visita in visitas_agentes %}
+{% for visita2 in visita.bairros %}
 	<div id="page-wrapper">
 		 <div class="row">
 			  <div class="col-lg-9 text-center">
@@ -31,19 +36,17 @@
 								</thead>
 								<tbody>
 									    <tr>
-										<td>{{ agente.nome }}</td>
-										<td>{{ ciclo }}</td>
-										<td>{{ ciclo.data_inicio }}</td>
-										<td>{{ ciclo.data_fim }}</td>
-										<td>{{ semana }}</td>
-										<td>{{ bairo.nome }}</td>										
-										<td>{{ ciclo.atividade }}</td>
+										<td>{{ visita.agente }}</td>
+										<td>{{ visita.ciclo }}</td>
+										<td>{{ data_inicio }}</td>
+										<td>{{ data_fim }}</td>
+										<td>{{ request.POST.semana }}</td>
+										<td>{{ visita2.bairro }}</td>										
+										<td>{{ visita.ciclo.get_atividade_display }}</td>
 									    </tr>
 								</tbody>
 							    </table>
 							</div>
-
-
 
 							<div class="row">
 							  <div class="col-lg-12 text-center">
@@ -71,14 +74,14 @@
 												</thead>
 												<tbody>
 												   <tr>
-													<td>25</td>
-													<td>3</td>
-													<td>7</td>
-													<td>2</td>
-													<th>37</th>
-													<th>37</th>
-													<th>37</th>
-													<th>40</th>
+													<td>{{ visita2.num_quadra }}</td>
+													<td>{{ visita2.num_residencia }}</td>
+													<td>{{ visita2.num_comercio }}</td>
+													<td>{{ visita2.num_TB }}</td>
+													<td>{{ visita2.num_PE }}</td>
+													<td>{{ visita2.num_outros }}</td>
+													<td>{{ visita2.num_total }}</td>
+													<td>{{ visita2.num_informados }}</td>
 												    </tr>
 												</tbody>
 											    </table>
@@ -109,17 +112,15 @@
 												<thead>
 												    <tr>
 													<th>Tratamento Focal:</th>
-													<th>Tratamento Perifocal:</th>
 													<th>Inspecionados:</th>
 													<th>Amostras Coletadas:</th>
 												     </tr>
 												</thead>
 												<tbody>
 												   <tr>
-													<td>3</td>
-													<td>83</td>
-													<td>3</td>
-													<td>0</td>
+													<td>{{ visita2.tratado }}</td>
+													<td>{{ visita2.inspecionado }}</td>
+													<td>{{ visita2.qtd_amostras }}</td>
 												    </tr>
 												</tbody>
 											    </table>
@@ -150,9 +151,10 @@
 												</thead>
 												<tbody>
 												   <tr>
-													<td>3</td>
-													<td>83</td>
-												    </tr>
+													<td>{{ visita2.recusada }}</td>
+													<td>{{ visita2.fechada }}</td>
+													<td>{{ visita2.recuperada }}</td>
+												   </tr>
 												</tbody>
 											    </table>
 											</div>	 
@@ -174,7 +176,7 @@
 							<!-- Inicio da quarta tabela -->
 
 							<div class="row">
-							  <div class="col-lg-7 text-center">
+							  <div class="col-lg-12 text-center">
 							    <div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title"><center>Informações de Tratamento com Larvicida</center></h3>
@@ -195,10 +197,10 @@
 												</thead>
 												<tbody>
 												   <tr>
-												   	<td>8</td>
-													<td>L6</td>
-													<td>25,8</td>
-													<td>30</td>
+												   	<td>{{ visita2.eliminados|default:'0' }}</td>
+													<td>{{ visita2.tipo_larvicida|default:'0' }}</td>
+													<td>{{ visita2.qtd_larvicida|default:'0' }}</td>
+													<td>{{ visita2.qtd_deposito_tratados|default:'0' }}</td>
 												    </tr>
 												</tbody>
 											    </table>
@@ -207,9 +209,9 @@
 										</div>
 							      </div>
 							    </div>            
-							  </div><!-- /.row -->
-							 
-							  <div class="col-lg-5 text-center">
+							  </div><!-- /.row -->	 
+
+							 <!--  <div class="col-lg-5 text-center">
 							    <div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title"><center>Informações de produção</center></h3>
@@ -241,7 +243,8 @@
 							      </div>
 							    </div>            
 							  </div>
-							</div><!-- /.row -- Fim da primeira tabela -->
+							</div>/.row -- Fim da primeira tabela -->
+
 
 
 							<!-- Inicio da quinta tabela -->
@@ -266,20 +269,26 @@
 													<th>C:</th>
 													<th>D1:</th>
 													<th>D2:</th>
-													<th>C:</th>
+													<th>E:</th>
+													<th>Amostra Inicial:</th>
+													<th>Amostra Final:</th>
+													<th>Tubitos:</th>
 													<th>Total:</th>
 												     </tr>
 												</thead>
 												<tbody>
 												   <tr>
-													<td>2</td>
-													<td>0</td>
-													<td>3</td>
-													<td>0</td>
-													<td>4</td>
-													<td>0</td>
-													<td>1</td>
-													<th>10</th>
+													<td>{{ visita2.a1|default:'0' }}</td>
+													<td>{{ visita2.a2|default:'0' }}</td>
+													<td>{{ visita2.b|default:'0' }}</td>
+													<td>{{ visita2.c|default:'0' }}</td>
+													<td>{{ visita2.d1|default:'0' }}</td>
+													<td>{{ visita2.d2|default:'0' }}</td>
+													<td>{{ visita2.e|default:'0' }}</td>
+													<td>{{ visita2.amostra_inicial|default:'0' }}</td>
+													<td>{{ visita2.amostra_final|default:'0' }}</td>
+													<td>{{ visita2.tubitos|default:'0' }}</td>
+													<td>#</td>
 												    </tr>
 												</tbody>
 											    </table>
@@ -301,5 +310,9 @@
 			    </div>
 		  </div><!-- /.row -->
 </div>
+
+{% endfor %}
+{% endfor %}
+
 </body>
 </html>
