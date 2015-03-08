@@ -118,7 +118,7 @@
 												</thead>
 												<tbody>
 												   <tr>
-													<td>{{ totais.depositos_tratados|default:0 }}</td>
+													<td>{{ totais.depositos_tratados }}</td>
 													<td>{{ totais.imovel_inspecionado }}</td>
 													<td>{{ totais.amostras }}</td>
 												    </tr>
@@ -288,7 +288,7 @@
 													<td>{{ totais.amostra_inicial|default:'0' }}</td>
 													<td>{{ totais.amostra_final|default:'0' }}</td>
 													<td>{{ totais.tubitos|default:'0' }}</td>
-													<td>{{ totais.imovel_inspecionado|default:'0' }}</td>
+													<td>{{ totais.depositos_inspecionados|default:'0' }}</td>
 												    </tr>
 												</tbody>
 											    </table>

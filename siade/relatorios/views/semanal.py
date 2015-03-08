@@ -49,20 +49,27 @@ def imprimir(request):
 
             # Agregados de vários campos
             totais.update(visitas_do_bairro.aggregate(
-                a1=Sum('A1'), a2=Sum('A2'), b=Sum('B'), c=Sum('C'),
-                d1=Sum('D1'), d2=Sum('D2'), e=Sum('E'), tubitos=Sum('tubitos'),
+                tubitos=Sum('tubitos'),
                 depositos_eliminados=Sum('depositos_eliminados'),
-                deposito_tratados=Sum('depositos_tratados'),
+                depositos_tratados=Sum('depositos_tratados'),
                 qtd_larvicida=Sum('qtd_larvicida'),
                 imovel_tratado=Count('imovel_tratado'),
                 imovel_inspecionado=Count('imovel_inspecionado'),
                 informados=Count('pk')
             ))
 
-            #
+            # Totais de depositos
+            depositos_inspecionados = visitas_do_bairro.aggregate(
+                    a1=Sum('A1'), a2=Sum('A2'), b=Sum('B'), c=Sum('C'),
+                    d1=Sum('D1'), d2=Sum('D2'), e=Sum('E'))
+            totais.update(depositos_inspecionados)
+            totais['depositos_inspecionados'] = reduce(
+                lambda x, y: (x or 0) + (y or 0),
+                depositos_inspecionados.values())
+
+            # totais de imoveis
             totais['ponto_estrategico'] = visitas_do_bairro.filter(
                 imovel__ponto_estrategico=True).count()
-
             # contar imóveis por tipo
             imoveis_por_tipo = to_djchoices_totals(
                 visitas_do_bairro, 'imovel__tipo', Count('imovel'),
@@ -108,5 +115,6 @@ def imprimir(request):
         'data_inicio': data_inicio,
         'data_fim': data_fim,
     }
+
     return render_html_or_pdf(request, 'relatorios/d7_imprimir.html',
                               context, fmt='html')
