@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
-from datetime import datetime, timedelta
+from datetime import timedelta
 from django.shortcuts import render
-from ..utils import render_html_or_pdf
-from ..forms import D7Form
 from siade.agentes.models import Agente
-from siade.imoveis.models import Bairro
+from siade.imoveis.models import Bairro, Imovel
 from siade.trabalhos.models import Ciclo, Visita
 from django.db.models import Count, Sum
+from ..utils import render_html_or_pdf, to_djchoices_totals
+from ..forms import D7Form
 
 
 @login_required
@@ -25,86 +25,88 @@ def form(request):
 def imprimir(request):
     semana = int(request.POST.get('semana'))
     agentes = request.POST.getlist('agentes')
-
     ciclo = Ciclo.atual()
     data_inicio = ciclo.data_inicio + timedelta(days=(semana-1)*7)
-    data_fim = ciclo.data_fim + timedelta(days=semana*7)
-
-    print data_inicio, data_fim
-      
-    visitas = Visita.objects.filter(data__gt=data_inicio,data__lt=data_fim)
-
-    visitas_agentes = []
-
-
+    data_fim = data_inicio + timedelta(days=semana*7)
+    visitas = Visita.objects.filter(data__gt=data_inicio, data__lt=data_fim)
+    visitas_por_agente = []
 
     for agente in agentes:
-        bairros = set(visitas.filter(agente=agente).values_list('imovel__lado__quadra__bairro', flat=True))
-
-        visitas_bairros = []
-
-        filter_visitas = visitas.filter(agente=agente)
+        visitas_por_bairro = []
+        visitas_do_agente = visitas.filter(agente=agente)
+        bairros_ids = set(visitas_do_agente.values_list(
+            'imovel__lado__quadra__bairro', flat=True))
+        bairros = Bairro.objects.filter(id__in=bairros_ids)
 
         for bairro in bairros:
-            qtd_amostras = 0
-            for visita in filter_visitas.filter(imovel__lado__quadra__bairro=bairro):
-                qtd_amostras += (visita.amostra_final or 0)-(visita.amostra_inicial or 0)
+            visitas_do_bairro = visitas_do_agente.filter(
+                imovel__lado__quadra__bairro=bairro)
 
-            visita_agente = {
-                'bairro': Bairro.objects.get(pk=bairro),
-                'num_informados' : filter_visitas.count(),
-                'qtd_amostras' : qtd_amostras,
+            # inicia dict totais
+            totais = {
+                'bairro': bairro,
             }
 
-            v = [
-            filter_visitas.filter(imovel__tipo=2).aggregate(num_comercio=Count('imovel')),
-            filter_visitas.filter(imovel__tipo=1).aggregate(num_residencia=Count('imovel')),
-            filter_visitas.filter(imovel__tipo=3).aggregate(num_TB=Count('imovel')),
-            filter_visitas.filter(imovel__tipo=4).aggregate(num_outros=Count('imovel')),
-            filter_visitas.filter(imovel__ponto_estrategico=True).aggregate(num_PE=Count('imovel')),
-            filter_visitas.aggregate(num_total=Count('imovel')),
-            filter_visitas.distinct().aggregate(num_quadra=Count('imovel__lado__quadra')),
+            # Agregados de vários campos
+            totais.update(visitas_do_bairro.aggregate(
+                a1=Sum('A1'), a2=Sum('A2'), b=Sum('B'), c=Sum('C'),
+                d1=Sum('D1'), d2=Sum('D2'), e=Sum('E'), tubitos=Sum('tubitos'),
+                depositos_eliminados=Sum('depositos_eliminados'),
+                deposito_tratados=Sum('depositos_tratados'),
+                qtd_larvicida=Sum('qtd_larvicida'),
+                imovel_tratado=Count('imovel_tratado'),
+                imovel_inspecionado=Count('imovel_inspecionado'),
+                informados=Count('pk')
+            ))
 
-            filter_visitas.filter(pendencia=3).aggregate(recusada=Count('pendencia')),
-            filter_visitas.filter(pendencia=2).aggregate(fechada=Count('pendencia')),
-            filter_visitas.filter(tipo=2).aggregate(recuperada=Count('tipo')),
+            #
+            totais['ponto_estrategico'] = visitas_do_bairro.filter(
+                imovel__ponto_estrategico=True).count()
 
-            filter_visitas.filter(imovel_tratado=True).aggregate(tratado=Count('imovel_tratado')),
-            filter_visitas.filter(imovel_inspecionado=True).aggregate(inspecionado=Count('imovel_inspecionado')),
-        
-            filter_visitas.aggregate(eliminados=Sum('depositos_eliminados')),
-            filter_visitas.aggregate(tipo_larvicida=Sum('larvicida')),
-            filter_visitas.aggregate(qtd_larvicida=Sum('qtd_larvicida')),
-            filter_visitas.aggregate(qtd_deposito_tratados=Sum('depositos_tratados')),
+            # contar imóveis por tipo
+            imoveis_por_tipo = to_djchoices_totals(
+                visitas_do_bairro, 'imovel__tipo', Count('imovel'),
+                Imovel.Tipo, 'imovel_')
+            totais.update(imoveis_por_tipo)
 
-            filter_visitas.aggregate(a1=Sum('A1')),
-            filter_visitas.aggregate(a2=Sum('A2')),
-            filter_visitas.aggregate(b=Sum('B')),
-            filter_visitas.aggregate(c=Sum('C')),
-            filter_visitas.aggregate(d1=Sum('D1')),
-            filter_visitas.aggregate(d2=Sum('D2')),
-            filter_visitas.aggregate(e=Sum('E')),
-            filter_visitas.aggregate(amostra_inicial=Sum('amostra_inicial')),
-            filter_visitas.aggregate(amostra_final=Sum('amostra_final')),
-            filter_visitas.aggregate(tubitos=Sum('tubitos')),   
-            ]
+            # Pegar total de imóveis
+            totais['imoveis'] = visitas_do_bairro\
+                .values('imovel').distinct().count()
 
-            for d in v:
-                visita_agente.update(d)        
+            # Pegar total de quadras
+            totais['quadras'] = visitas_do_bairro\
+                .values('imovel__lado__quadra').distinct().count()
 
-            visitas_bairros.append(visita_agente)
+            # contar visitas por tipo
+            visitas_por_tipo = to_djchoices_totals(
+                visitas_do_bairro, 'tipo', Count('pk'),
+                Visita.Tipo, 'tipo_')
+            totais.update(visitas_por_tipo)
 
-        visitas_agentes += [{
+            # contar visitas por pendencia
+            visitas_por_pendencia = to_djchoices_totals(
+                visitas_do_bairro, 'pendencia', Count('pk'),
+                Visita.Pendencia, 'pendencia_')
+            totais.update(visitas_por_pendencia)
+
+            # pegar quantidade de amostras
+            qtd_amostras = 0
+            for visita in visitas_do_bairro:
+                qtd_amostras += (visita.amostra_final or 0)-(visita.amostra_inicial or 0)
+            totais['amostras'] = qtd_amostras
+
+            visitas_por_bairro += [totais]
+
+        visitas_por_agente += [{
             'agente': Agente.objects.get(pk=agente),
-            'ciclo': Ciclo.atual(),
-            'bairros': visitas_bairros
+            'bairros': visitas_por_bairro
         }]
 
-
     context = {
-        'visitas_agentes':visitas_agentes,
-        'data_inicio':data_inicio,
-        'data_fim':data_fim,
+        'ciclo': ciclo,
+        'totais_por_agente': visitas_por_agente,
+        'data_inicio': data_inicio,
+        'data_fim': data_fim,
     }
     return render_html_or_pdf(request, 'relatorios/d7_imprimir.html',
                               context, fmt='html')

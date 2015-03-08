@@ -8,8 +8,8 @@
 </style>
 </head>
 <body>
-{% for visita in visitas_agentes %}
-{% for visita2 in visita.bairros %}
+{% for total_agente in totais_por_agente %}
+{% for totais in total_agente.bairros %}
 	<div id="page-wrapper">
 		 <div class="row">
 			  <div class="col-lg-9 text-center">
@@ -36,13 +36,13 @@
 								</thead>
 								<tbody>
 									    <tr>
-										<td>{{ visita.agente }}</td>
-										<td>{{ visita.ciclo }}</td>
+										<td>{{ total_agente.agente }}</td>
+										<td>{{ ciclo }}</td>
 										<td>{{ data_inicio }}</td>
 										<td>{{ data_fim }}</td>
 										<td>{{ request.POST.semana }}</td>
-										<td>{{ visita2.bairro }}</td>										
-										<td>{{ visita.ciclo.get_atividade_display }}</td>
+										<td>{{ totais.bairro }}</td>										
+										<td>{{ ciclo.get_atividade_display }}</td>
 									    </tr>
 								</tbody>
 							    </table>
@@ -74,14 +74,14 @@
 												</thead>
 												<tbody>
 												   <tr>
-													<td>{{ visita2.num_quadra }}</td>
-													<td>{{ visita2.num_residencia }}</td>
-													<td>{{ visita2.num_comercio }}</td>
-													<td>{{ visita2.num_TB }}</td>
-													<td>{{ visita2.num_PE }}</td>
-													<td>{{ visita2.num_outros }}</td>
-													<td>{{ visita2.num_total }}</td>
-													<td>{{ visita2.num_informados }}</td>
+													<td>{{ totais.quadras }}</td>
+													<td>{{ totais.imovel_residencia }}</td>
+													<td>{{ totais.imovel_comercio }}</td>
+													<td>{{ totais.imovel_terreno }}</td>
+													<td>{{ totais.ponto_estrategico }}</td>
+													<td>{{ totais.imovel_outros }}</td>
+													<td>{{ totais.imoveis }}</td>
+													<td>{{ totais.informados }}</td>
 												    </tr>
 												</tbody>
 											    </table>
@@ -118,9 +118,9 @@
 												</thead>
 												<tbody>
 												   <tr>
-													<td>{{ visita2.tratado }}</td>
-													<td>{{ visita2.inspecionado }}</td>
-													<td>{{ visita2.qtd_amostras }}</td>
+													<td>{{ totais.depositos_tratados|default:0 }}</td>
+													<td>{{ totais.imovel_inspecionado }}</td>
+													<td>{{ totais.amostras }}</td>
 												    </tr>
 												</tbody>
 											    </table>
@@ -151,9 +151,9 @@
 												</thead>
 												<tbody>
 												   <tr>
-													<td>{{ visita2.recusada }}</td>
-													<td>{{ visita2.fechada }}</td>
-													<td>{{ visita2.recuperada }}</td>
+													<td>{{ totais.pendencia_recusada }}</td>
+													<td>{{ totais.pendencia_fechada }}</td>
+													<td>{{ totais.tipo_recuperada }}</td>
 												   </tr>
 												</tbody>
 											    </table>
@@ -163,7 +163,7 @@
 							      </div>
 							    </div>            
 							  </div>
-							</div><!-- /.row -- Fim da primeira tabela -->
+							</div><!-- /.row Fim da primeira tabela -->
 							
 							<!-- Inicio da Segunda tabela -->
 
@@ -197,10 +197,10 @@
 												</thead>
 												<tbody>
 												   <tr>
-												   	<td>{{ visita2.eliminados|default:'0' }}</td>
-													<td>{{ visita2.tipo_larvicida|default:'0' }}</td>
-													<td>{{ visita2.qtd_larvicida|default:'0' }}</td>
-													<td>{{ visita2.qtd_deposito_tratados|default:'0' }}</td>
+												   	<td>{{ totais.depositos_eliminados|default:'0' }}</td>
+													<td>{{ totais.tipo_larvicida|default:'0' }}</td>
+													<td>{{ totais.qtd_larvicida|default:'0' }}</td>
+													<td>{{ totais.depositos_tratados|default:'0' }}</td>
 												    </tr>
 												</tbody>
 											    </table>
@@ -243,7 +243,7 @@
 							      </div>
 							    </div>            
 							  </div>
-							</div>/.row -- Fim da primeira tabela -->
+							</div>/.row Fim da primeira tabela -->
 
 
 
@@ -278,17 +278,17 @@
 												</thead>
 												<tbody>
 												   <tr>
-													<td>{{ visita2.a1|default:'0' }}</td>
-													<td>{{ visita2.a2|default:'0' }}</td>
-													<td>{{ visita2.b|default:'0' }}</td>
-													<td>{{ visita2.c|default:'0' }}</td>
-													<td>{{ visita2.d1|default:'0' }}</td>
-													<td>{{ visita2.d2|default:'0' }}</td>
-													<td>{{ visita2.e|default:'0' }}</td>
-													<td>{{ visita2.amostra_inicial|default:'0' }}</td>
-													<td>{{ visita2.amostra_final|default:'0' }}</td>
-													<td>{{ visita2.tubitos|default:'0' }}</td>
-													<td>#</td>
+													<td>{{ totais.a1|default:'0' }}</td>
+													<td>{{ totais.a2|default:'0' }}</td>
+													<td>{{ totais.b|default:'0' }}</td>
+													<td>{{ totais.c|default:'0' }}</td>
+													<td>{{ totais.d1|default:'0' }}</td>
+													<td>{{ totais.d2|default:'0' }}</td>
+													<td>{{ totais.e|default:'0' }}</td>
+													<td>{{ totais.amostra_inicial|default:'0' }}</td>
+													<td>{{ totais.amostra_final|default:'0' }}</td>
+													<td>{{ totais.tubitos|default:'0' }}</td>
+													<td>{{ totais.imovel_inspecionado|default:'0' }}</td>
 												    </tr>
 												</tbody>
 											    </table>
@@ -305,7 +305,7 @@
 							<!-- Fim Rows Interiores-->
 							</center>
 							</div>
-					      </div>	
+					      </div>
 				      
 			    </div>
 		  </div><!-- /.row -->

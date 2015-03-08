@@ -40,7 +40,6 @@ class D7Form(forms.Form):
         data_inicio = ciclo.data_inicio + timedelta(days=(semana-1)*7)
         data_fim = ciclo.data_inicio + timedelta(days=semana*7)
         if data_inicio > ciclo.data_fim or data_fim > ciclo.data_fim:
-            raise forms.ValidationError("Semana fora do ciclo.")
+            raise forms.ValidationError("Semana fora do ciclo")
         else:
             return semana
-
