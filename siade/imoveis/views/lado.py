@@ -8,7 +8,7 @@ from ..models import LadoQuadra, Quadra
 
 
 class LadoMixin(LoginRequiredMixin, PermissionRequiredMixin):
-    permission_required = 'imoveis.can_change_quadra'
+    permission_required = 'imoveis.change_quadra'
     success_message = u'Quadra atualizada com êxito'
     model = LadoQuadra
 
