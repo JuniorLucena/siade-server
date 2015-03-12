@@ -27,7 +27,7 @@
                     <a class="btn btn-default" href="{% object_editar quadra %}"  title="Detalhes"><i class="fa fa-edit"></i> Editar</a>
                 </div>
                 <div>
-                    <div>Quadra {{ quadra.numero }}</div>
+                    <div>Quadra {{ quadra.numero }}{% if quadra.sequencia %}/{{ quadra.sequencia }}{% endif %}</div>
                     <span class="text-muted small">{{ quadra.lados.count }} lados</span> /
                     <span class="text-muted small">{{ quadra.total_imoveis|default:0 }} imóveis</span>
                 </div>

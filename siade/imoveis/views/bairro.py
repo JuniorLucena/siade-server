@@ -53,8 +53,6 @@ class Detalhes(BairroMixin, DetailView):
     def get_context_data(self, **kwargs):
         quadras = self.object.quadras.all()
         quadras = quadras.annotate(total_imoveis=Count('lados__imoveis'))
-        quadras = quadras.annotate(total_caes=Sum('lados__imoveis__caes'))
-        quadras = quadras.annotate(total_gatos=Sum('lados__imoveis__gatos'))
 
         context = super(Detalhes, self).get_context_data(**kwargs)
         context.update({

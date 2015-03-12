@@ -107,7 +107,7 @@ class Excluir(QuadraMixin, MessageMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('imoveis:bairro:detalhes',
-                       kwargs={'pk': self.object.bairro})
+                       kwargs={'pk': self.object.bairro.id})
 
 urls = patterns(
     '',

@@ -27,7 +27,7 @@ class AgenteMixin(LoginRequiredMixin, PermissionRequiredMixin):
         nextUrl = self.request.GET.get('next')
         if nextUrl is None:
             app_label = self.model._meta.app_label
-            nextUrl = reverse('%s:agente:definir_senha' % app_label,
+            nextUrl = reverse('%s:agente:detalhes' % app_label,
                               kwargs={'pk': self.object.id})
         return nextUrl
 
@@ -47,6 +47,15 @@ class Listar(AgenteMixin, ListView):
 class Adicionar(AgenteMixin, MessageMixin, CreateView):
     success_message = u'Usuário adicionado com êxito'
     template_name = 'crud/object_form.html'
+
+    def get_success_url(self):
+        nextUrl = self.request.GET.get('next')
+        if nextUrl is None:
+            app_label = self.model._meta.app_label
+            nextUrl = reverse('%s:agente:definir_senha' % app_label,
+                              kwargs={'pk': self.object.id})
+        return nextUrl
+
 
 
 class Detalhes(AgenteMixin, DetailView):

@@ -10,6 +10,8 @@ ROOT_URLCONF = 'siade.urls'
 WSGI_APPLICATION = 'siade.wsgi.application'
 ALLOWED_HOSTS = []
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dummy')
+ADMINS = [(e.strip(), e.strip()) for e in os.environ.get('ADMINS_EMAILS', '').split(',')]
+
 
 # Application definition
 INSTALLED_APPS = (
@@ -36,6 +38,7 @@ INSTALLED_APPS = (
     'oauth2_provider',
     'django.contrib.admin',
     'bootstrap3_datetime',
+    'djrill',
 )
 
 # middleware definition
@@ -107,3 +110,34 @@ LOGIN_URL = '/login'
 AUTH_USER_MODEL = 'agentes.Agente'
 APPEND_SLASH = True
 
+# Email configuration
+EMAIL_SUBJECT_PREFIX = '[SIADE] '
+SERVER_EMAIL = os.environ.get('SERVER_EMAIL', 'webmaster@localhost')
+DEFAULT_FROM_EMAIL = SERVER_EMAIL
+MANDRILL_API_KEY = 'lwNLl0_-FNT5nOjT0orD1A'
+EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
+
+# Logging configation
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}

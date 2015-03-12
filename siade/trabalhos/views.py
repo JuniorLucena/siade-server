@@ -119,8 +119,9 @@ def trabalhos_alterar(request, pk=None):
     context = {
         'form': form,
         'agente': agente,
-        'trabalhos': Trabalho.objects.filter(ciclo=Ciclo.atual(),
-                                             agente=agente),
+        'trabalhos': Trabalho.objects.filter(
+            ciclo=Ciclo.atual(), agente=agente
+            ).annotate(total_imoveis=Count('quadra__lados__imoveis')),
         'bairros': Bairro.objects.filter(municipio=agente.municipio),
     }
     return render(request, 'trabalhos/quadras_agente.html', context)
@@ -132,12 +133,12 @@ def trabalhos_quadras(request):
     agente = request.GET.get('agente')
     trabalhos = Trabalho.objects.filter(ciclo=Ciclo.atual())
     exclude = trabalhos.exclude(agente=agente).values_list('quadra', flat=True)
-    quadras = Quadra.objects.filter(bairro=bairro).exclude(id__in=exclude)
-    return JsonResponse(list(quadras.values('id', 'numero', 'bairro')),
-                        safe=False)
+    quadras = Quadra.objects.filter(bairro=bairro).exclude(id__in=exclude)\
+                    .annotate(total_imoveis=Count('lados__imoveis'))
+    return JsonResponse(list(quadras.values()), safe=False)
 
 
-class AlterarCiclo(LoginRequiredMixin, PermissionRequiredMixin, UpdateView ):
+class AlterarCiclo(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Ciclo
     success_message = u'Ciclo atualizado com êxito'
     form_class = modelform_factory(Ciclo, fields=("data_fim",), widgets={"data_fim": CicloDatePicker()})
@@ -153,7 +154,7 @@ def listar_imoveis_visitados(request, pk):
         .filter(agente=agente)\
         .filter(ciclo=Ciclo.atual())
 
-    paginator = Paginator(visita_list, 40)
+    paginator = Paginator(visita_list, 13)
 
     is_paged = False
     page = request.GET.get('page')
@@ -164,13 +165,13 @@ def listar_imoveis_visitados(request, pk):
         page = paginator.page(1)
     except EmptyPage:
         page = paginator.page(paginator.num_pages)
-    
+
     is_paged = paginator.num_pages > 1
-    
+
     context = {
         'page_obj': page,
-        'is_paginated' : is_paged,
-        'paginator' : paginator,
+        'is_paginated': is_paged,
+        'paginator': paginator,
         'agente': agente,
         'visitas': page.object_list
     }

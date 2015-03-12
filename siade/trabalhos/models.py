@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from datetime import date
 from django.db import models
 from djchoices import DjangoChoices, ChoiceItem
 from rest_sync import sync_register
 from siade.base.models import BaseModel
 from siade.imoveis.models import Imovel, Quadra
 from siade.agentes.models import Agente
-from datetime import date
+
 
 class CicloAtualManager(models.Manager):
     '''
@@ -144,9 +145,10 @@ class Visita(BaseModel, Tratamento, Pesquisa):
     pendencia = models.PositiveIntegerField(choices=Pendencia.choices,
                                             default=Pendencia.Nenhuma,
                                             verbose_name='pendência')
+    validado = models.BooleanField(editable=False, default=False)
     objects = CicloAtualManager()
 
     class Meta:
         verbose_name = 'visita'
         verbose_name_plural = 'visitas'
-        ordering = ('data', 'hora', 'ciclo','agente','imovel')
+        ordering = ('data', 'hora', 'ciclo', 'agente', 'imovel')

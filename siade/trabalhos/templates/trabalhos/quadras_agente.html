@@ -42,20 +42,27 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">Quadras do Agente</h3>
 			</div>
-			<div class="panel-body">
+			<div class="panel-body">	
 				<div id="quadras-agente">
-				{% regroup agente.trabalhos.all by quadra.bairro.nome as quadras_por_bairro %}
+				{% regroup trabalhos.all by quadra.bairro.nome as quadras_por_bairro %}
                 {% for bairro in quadras_por_bairro %}
                     <div class="form-group">
                         <label>{{ bairro.grouper }}</label>
                         <div class="bairro bairro_{{ bairro.list.0.quadra.bairro.id }}">
                         	{% for t in bairro.list %}
-                        	<button type="button" data-bairro="{{ t.quadra.bairro.id }}" data-id="{{ t.quadra.id }}" data-numero="{{ t.quadra.numero }}" class="btn btn-default">{{ t.quadra.numero }}</button>
+                        	<button type="button" data-bairro="{{ t.quadra.bairro.id }}"
+                        	data-id="{{ t.quadra.id }}" data-numero="{{ t.quadra.numero }}"
+                        	data-imoveis="{{ t.total_imoveis }}"
+                        	title="{{ t.total_imoveis }} im&oacute;veis"
+                        	class="btn btn-default">{{ t.quadra.numero }}</button>
                         	{% endfor %}
                         </div>
                     </div>
                 {% endfor %}
 				</div>
+			</div>
+			<div class="panel-footer">
+				Total de im&oacute;veis: <medium id="total_imoveis"></medium>
 			</div>
 		</div>
 	</div>
@@ -74,14 +81,19 @@
 {% block extrascript %}
 <script type="text/javascript">
 $(document).ready(function(){
+	// função usada para ordernar as quadras
 	ordenar_quadra_por_numero = function(a, b) {
 		num_a = $(a).data("numero")
 		num_b = $(b).data("numero")
  		return (num_a > num_b) ? 1 : -1
 	}
+
+	// Criar uma div do bairro para colocar as quadras dentro
 	adicionar_bairro_agente = function(id, nome){
 		$("#quadras-agente").append('<div class="form-group"><label>'+nome+'</label><div class="bairro bairro_'+id+'"></div></div>')
 	}
+
+	// Clicar numa quadra disponível para adicionar
 	quadras_disponiveis_click = function(){
 		var bairro = $(this).attr('data-bairro')
 		// Criar bairro se não houver
@@ -98,7 +110,10 @@ $(document).ready(function(){
 		// reordenar lista de quadras do agente
 		buttons = $(bairroEle).find("button")
 		buttons.detach().sort(ordenar_quadra_por_numero).appendTo(bairroEle)
+		atualizar_numero_imoveis();
 	}
+
+	// Clicar em quadra já adicionada ao agente
 	quadras_agente_click = function(){
 		var bairro = $(this).attr('data-bairro')
 		// colocar click handler
@@ -121,7 +136,19 @@ $(document).ready(function(){
 		if(!biarro_agente.find("button").length) {
 			biarro_agente.parent().remove()
 		}
+		atualizar_numero_imoveis()
 	}
+
+	// Atualizar total de imóveis
+	atualizar_numero_imoveis = function(){
+		var total = 0;
+		$("#quadras-agente button").each(function(indice, quadra){
+			total += $(quadra).data("imoveis")
+			$("#total_imoveis").text(total)
+		})
+	}
+
+	// Carregar lista de quadras do bairro ao mudar o valor do select#bairro
 	$('select#bairro').change(function(){
 		var bairro = this.value
 		// pegar listar de quadras do servidor
@@ -129,13 +156,16 @@ $(document).ready(function(){
 			var items = []
 			// montar uma lista de botões
 			$.each( data, function(key, val) {
+				if(val.sequencia) {
+					val.numero + val.numero+'/'+val.sequencia
+				}
 				if(!$("#quadras-agente .bairro .btn[data-id="+val.id+"]").length) {
-					items.push('<button type="button" data-bairro="'+val.bairro+'" data-id="'+val.id+'" data-numero="'+val.numero+'" class="btn btn-default">'+val.numero+'</button>')
+					items.push('<button type="button" data-bairro="'+val.bairro+'" data-id="'+val.id+'" data-numero="'+val.numero+'" data-imoveis="'+val.total_imoveis+'" title="'+val.total_imoveis+' im&oacute;veis" class="btn btn-default">'+val.numero+'</button>')
 				}
 			})
 			var bairroEle = $("#quadras-disponiveis .bairro")
 			bairroEle.html(items.join(""))
-			// remover todas as classes CSS e ele uma com o ID do bairro
+			// remover todas as classes CSS e colocar uma com o ID do bairro
 			bairroEle.removeClass()
 			bairroEle.addClass('bairro')
 			bairroEle.addClass('bairro_'+bairro)
@@ -143,6 +173,8 @@ $(document).ready(function(){
 			$('#quadras-disponiveis .bairro .btn').click(quadras_disponiveis_click)
 		})
 	})
+
+	// Criar inputs form de acordo com as quadras selecionadas
 	$("#agente_quadras_form").on("submit", function(){
 		var items = []
 		var bairros_agente = $("#quadras-agente .bairro .btn")
@@ -156,6 +188,7 @@ $(document).ready(function(){
 	})
 	$('#quadras-agente .bairro .btn').click(quadras_agente_click)
 
+	// Eventos para form de adicionar várias quadras rapidamente
 	regex = new RegExp('^(\\d+(-\\d+)?)(,\\d+(-\\d+)?)*$')
 	$('#range_form button').click(function(){
 		input = $('#range_form input.range-input')
@@ -184,6 +217,7 @@ $(document).ready(function(){
 			input.val('')
 		}
 	})
+	atualizar_numero_imoveis()
 })
 </script>
 {% endblock %}
