@@ -91,7 +91,7 @@ class Quadra(BaseModel):
             return '%d' % self.numero
 
     def __unicode__(self):
-       return 'Quadra %d, %s' % (self.get_numero_display(), self.bairro.nome)
+       return 'Quadra %s, %s' % (self.get_numero_display(), self.bairro.nome)
 
     def imoveis_count(self):
         return self.lados.aggregate(t=Count('imoveis')).get('t')

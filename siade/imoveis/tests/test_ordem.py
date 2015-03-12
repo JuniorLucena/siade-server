@@ -10,6 +10,7 @@ class ImovelTest(TestCase):
         # criar registros necessários para se adicionar um imovel
         self.lado = LadoFactory()
         ImovelFactory.create_batch(20, lado=self.lado)
+        self.numero = Imovel.objects.all().order_by('-numero').first().numero
 
     def test_ordem_imovel(self):
         ''' Ordem de imoveis se mantém ao adicionar '''
@@ -20,8 +21,8 @@ class ImovelTest(TestCase):
     def test_adicionar_imovel(self):
         ''' Ordem de imoveis se mantém ao adicionar no meio '''
         # Adcionar alguns imoveis no meio
-        self.lado.imoveis.create(numero=3, habitantes=1, ordem=3)
-        Imovel(lado=self.lado, numero=3, habitantes=1, ordem=12).save()
+        ImovelFactory.create(lado=self.lado, ordem=3)
+        ImovelFactory.create(lado=self.lado, ordem=12)
         # testar se foi inserido corretamente
         ordem = [i.ordem for i in self.lado.imoveis.all()]
         total = self.lado.imoveis.count()
