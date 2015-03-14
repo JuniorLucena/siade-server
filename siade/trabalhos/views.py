@@ -151,9 +151,11 @@ class AlterarCiclo(LoginRequiredMixin, PermissionRequiredMixin, UpdateView ):
 def listar_imoveis_visitados(request, pk):
     agente = get_object_or_404(Agente, pk=pk)
 
+    form = modelform_factory(Ciclo, fields=("data_inicio","data_fim"), widgets={"data_fim": CicloDatePicker(), "data_inicio": CicloDatePicker()})
     visita_list = Visita.objects.all()\
         .filter(agente=agente)\
         .filter(ciclo=Ciclo.atual())
+
 
     paginator = Paginator(visita_list, 13)
 
@@ -174,7 +176,8 @@ def listar_imoveis_visitados(request, pk):
         'is_paginated' : is_paged,
         'paginator' : paginator,
         'agente': agente,
-        'visitas': page.object_list
+        'visitas': page.object_list,
+        'form':form
     }
 
     return render(request, 'trabalhos/visita_list.html', context)

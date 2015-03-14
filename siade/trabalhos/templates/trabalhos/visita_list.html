@@ -1,32 +1,57 @@
 {% extends 'crud/object_list.html' %}
 {% load object_urls %}
+{% load bootstrap3 object_urls %}
 {% block actions-buttons %}
+<a href="#" class="btn btn-success" style="display:none" id="btnFiltrar">Selecionar período</a>
 {% endblock %}
+
 {% block content %}
+<div id="formFiltrar" style="display:none">
+<form method="post" class="form-inline">{% csrf_token %}
+    <div class="">
+    {% bootstrap_form form layout='vertical' %}
+    </div>
+</form>
+</div>
 {{ block.super }}
+{% regroup visitas by data as datas_list %}
+{% for data in datas_list %}
+<h4 class="text-center">{{data.grouper}}</h4>
 <table class="table table-striped">
     <thead>
     <tr>
         <th>Ciclo</th>
-        <th>Data</th>
         <th>Hora</th>
         <th>Agente</th>
         <th>Imovel</th>
         <th>Quadra</th>
-        
     </tr>
     </thead>
     <tbody>
-{% for visita in visitas %}
+        {% for visita in data.list %}
         <tr {% if visita.imovel_inspecionado == 0 %} class="danger" {% endif %}>
             <td>{{ visita.ciclo }}</a></td>
-            <td>{{ visita.data }}</td>
             <td>{{ visita.hora }}</td>
             <td>{{ visita.agente }}</td>
             <td>{{ visita.imovel }}</td>
             <td>{{ visita.imovel.lado.quadra }}</td>
         </tr>
-{% endfor %}
+        {% endfor %}
     </tbody>
-</table>
+    </table>
+{% endfor %}
+{% endblock %}
+
+{% block extrascript %}
+    <script type="text/javascript">
+        $(function($) {
+            $("#btnFiltrar").popover({
+                content: $("#formFiltrar").html(),
+                html:true,
+                placement:"bottom",
+                show: true,
+                container: "#content"
+            });
+        });
+    </script>
 {% endblock %}
