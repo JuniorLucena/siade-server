@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
-from django.db.models import Max, F
+from django.db.models import Max, F, Count
 from djchoices import DjangoChoices, ChoiceItem
 from rest_sync import sync_register
 from siade.base.models import BaseModel
@@ -53,7 +53,7 @@ class Bairro(BaseModel):
         return "%s" % (self.nome,)
 
     class Meta:
-        ordering = ('municipio','nome',)
+        ordering = ('municipio', 'nome',)
 
 
 @sync_register
@@ -82,13 +82,22 @@ class Quadra(BaseModel):
                                on_delete=models.PROTECT)
     numero = models.PositiveIntegerField(default=0, verbose_name='número')
     sequencia = models.PositiveIntegerField(blank=True, null=True,
-                                           verbose_name='sequência')
+                                            verbose_name='sequência')
+
+    def get_numero_display(self):
+        if self.sequencia:
+            return '%d/%d' % (self.numero, self.sequencia)
+        else:
+            return '%d' % self.numero
 
     def __unicode__(self):
-        return 'Quadra %s, %s' % (self.numero, self.bairro.nome)
+       return 'Quadra %s, %s' % (self.get_numero_display(), self.bairro.nome)
+
+    def imoveis_count(self):
+        return self.lados.aggregate(t=Count('imoveis')).get('t')
 
     class Meta:
-        ordering = ('bairro', 'numero')
+        ordering = ('bairro', 'numero', 'sequencia')
         unique_together = ('bairro', 'numero', 'sequencia')
 
 
@@ -162,12 +171,6 @@ class Imovel(BaseModel):
     def logradouro(self):
         return self.lado_quadra.logradouro
 
-    class Meta:
-        verbose_name = 'imóvel'
-        verbose_name_plural = 'imóveis'
-        ordering = ('ordem',)
-        unique_together = ("numero","lado")
-
     def __init__(self, *args, **kwargs):
         super(Imovel, self).__init__(*args, **kwargs)
         self._old_ordem = self.ordem
@@ -183,7 +186,7 @@ class Imovel(BaseModel):
             # Se estiver atualizando executar apenas se o numero mudar
             if self._old_ordem is not None:
                 qs.filter(ordem__gt=self._old_ordem).update(ordem=F('ordem')-1)
-                
+
         # Se estiver inserindo alterações sequencia dos demais
         qs.filter(ordem__gte=self.ordem).update(ordem=F('ordem')+1)
 
@@ -194,3 +197,8 @@ class Imovel(BaseModel):
         # atualizar ordem ao remover imovel
         qs.filter(ordem__gt=self.ordem).update(ordem=F('ordem')-1)
         super(Imovel, self).delete(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'imóvel'
+        verbose_name_plural = 'imóveis'
+        ordering = ('ordem',)

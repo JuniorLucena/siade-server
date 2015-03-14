@@ -12,7 +12,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'siade.db'),
     }
 }
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 CRISPY_FAIL_SILENTLY = False
 INSTALLED_APPS = list(INSTALLED_APPS) + ['debug_toolbar']
 

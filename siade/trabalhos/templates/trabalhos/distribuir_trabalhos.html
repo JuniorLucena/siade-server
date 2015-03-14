@@ -21,37 +21,14 @@
             <tr{% ifequal agente.pk|stringformat:"s" request.GET.agente %} class="active"{% endifequal %}>
                 <td>{{ agente.nome }}</td>
                 <td>
-                {% if request.GET.agente and request.GET.agente == agente.id %}
-                    <div class="row">
-                    {% regroup agente.trabalhos.all by quadra.bairro.nome as quadras_por_bairro %}
-                    {% for bairro in quadras_por_bairro %}
-                        <div class="col-md-3">
-                            {{ bairro.grouper }}
-                        </div>
-                        <div class="col-md-9">
-                            {% for t in bairro.list %}
-                            <div class="quadra">
-                                {{ t.quadra.numero }}&nbsp;
-                                <a href="{% url 'ciclo:remover_trabalho' t.id %}" class="close" aria-label="Remover"><span aria-hidden="true">&times;</span></a>
-                            </div>
-                            {% endfor %}                            
-                        </div>
-                    {% endfor %}
-                    </div>
-                    <form class="form-inline" method="post" action="">{% csrf_token %}
-                        {% bootstrap_form form %}
-                        <button class="btn btn-primary" type="submit">Adicionar</button>
-                    </form>
-                {% else %}
                 {% regroup agente.trabalhos.all by quadra.bairro.nome as quadras_por_bairro %}
                 {% for bairro in quadras_por_bairro %}
                     {{ bairro.grouper }}:
                     {% for t in bairro.list %}
-                    {{ t.quadra.numero }}
+                    {{ t.quadra.numero }}{% if t.quadra.sequencia %}/{{ t.quadra.sequencia }}{% endif %}
                     {% endfor %}
                     <br/>
                 {% endfor %}
-                {% endif %}
                 </td>
                 <td>{{ agente.total_imoveis }}</td>
                 <td><a href="{% url 'ciclo:distribuir_trabalhos' agente.pk %}">Selecionar quadras</a></td>
