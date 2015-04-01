@@ -145,7 +145,7 @@ class Imovel(BaseModel):
     tipo = models.PositiveIntegerField(choices=Tipo.choices,
                                        default=Tipo.Residencia,
                                        verbose_name='tipo de imóvel')
-    habitantes = models.PositiveIntegerField(verbose_name='qtd. habitantes')
+    habitantes = models.PositiveIntegerField(default=0, verbose_name='qtd. habitantes')
     caes = models.PositiveIntegerField(default=0, verbose_name='qtd. cães')
     gatos = models.PositiveIntegerField(default=0, verbose_name='qtd. gatos')
     ponto_estrategico = models.BooleanField(default=False,
