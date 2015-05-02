@@ -137,7 +137,7 @@ class Imovel(BaseModel):
         Terreno = ChoiceItem(3, label='Terreno Baldio')
         Outros = ChoiceItem(4, label='Outros')
 
-    ordem = models.PositiveIntegerField(blank=True)
+    ordem = models.PositiveIntegerField(blank=True, null=True)
     lado = models.ForeignKey(LadoQuadra, related_name='imoveis',
                              on_delete=models.PROTECT)
     numero = models.CharField(max_length=10, blank=True,

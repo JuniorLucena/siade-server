@@ -28,16 +28,25 @@ class ModelSyncView(GenericAPIView):
         since = datetime_from_string(since_param)
         object_type = ContentType.objects.get_for_model(queryset.model)
         time_range = (since, datetime.now())
-        obj_qs = SyncState.objects.filter(object_type=object_type,
-                                          changed__range=time_range)
-        obj_ids = obj_qs.values_list('object_id', flat=True)
+        self.sync_qs = SyncState.objects.filter(object_type=object_type,
+                                                changed__range=time_range)
+        obj_ids = self.sync_qs.values_list('object_id', flat=True)
         queryset = queryset.filter(id__in=obj_ids)
         return queryset
 
+    def get_deleted_objects(self):
+        deleted_ids = (self.sync_qs.filter(deleted=True)
+                           .values_list('object_id', flat=True))
+        return [{'id': i, 'sync_deleted': True} for i in deleted_ids]
+
     def get(self, request, format=None):
-        object_list = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(object_list, many=True)
-        return Response(serializer.data)
+        if request.GET.get('deleted') == 'only':
+            return Response(self.get_deleted_objects())
+
+        objects_qs = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(objects_qs, many=True)
+        object_list = serializer.data + self.get_deleted_objects()
+        return Response(object_list)
 
     def post(self, request, fmt=None):
         if not type(request.DATA) is list:
@@ -54,7 +63,7 @@ class ModelSyncView(GenericAPIView):
 
         self.object_list = serializer.save()
 
-        if getattr(request, 'is_filtered'):
+        if getattr(request, 'is_filtered', False):
             return self.get(request, fmt)
 
         return Response({'status': 'ok'})

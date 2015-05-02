@@ -77,7 +77,6 @@ class LadoFactory(DjangoModelFactory):
 
 class ImovelFactory(DjangoModelFactory):
     lado = factory.SubFactory(LadoFactory)
-    ordem = factory.Sequence(lambda n: n)
     numero = factory.fuzzy.FuzzyInteger(1, 8000)
     tipo = factory.fuzzy.FuzzyChoice(Imovel.Tipo.values.keys())
     habitantes = factory.fuzzy.FuzzyInteger(0, 10)

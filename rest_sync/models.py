@@ -11,7 +11,7 @@ class SyncState(models.Model):
     object = GenericForeignKey('object_type', 'object_id')
     changed = models.DateTimeField(auto_now=True)
     deleted = models.BooleanField(default=False)
-    version = ShortUUIDField()
+    version = ShortUUIDField(unique=True)
 
     @classmethod
     def get_for_object(cls, obj):
