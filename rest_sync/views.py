@@ -19,63 +19,53 @@ def datetime_from_string(s):
 
 
 class ModelSyncView(GenericAPIView):
-    object = []
-
     def filter_queryset(self, queryset):
-        sync_from = self.request.GET.get('from')
-        if sync_from is None:
+        since_param = self.request.GET.get('from') or self.request.GET.get('since')
+        if since_param is None:
             return queryset
 
-        sync_time = datetime_from_string(sync_from)
+        self.request.is_filtered = True
+        since = datetime_from_string(since_param)
         object_type = ContentType.objects.get_for_model(queryset.model)
-        change_range = (sync_time, datetime.now())
+        time_range = (since, datetime.now())
         obj_qs = SyncState.objects.filter(object_type=object_type,
-                                          changed__range=change_range)
+                                          changed__range=time_range)
         obj_ids = obj_qs.values_list('object_id', flat=True)
         queryset = queryset.filter(id__in=obj_ids)
         return queryset
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(self.object, many=True)
+    def get(self, request, format=None):
+        object_list = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(object_list, many=True)
         return Response(serializer.data)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, fmt=None):
         if not type(request.DATA) is list:
             return Response('Post Data must be a list of objects',
                             status=status.HTTP_400_BAD_REQUEST)
 
         object_list = self.filter_queryset(self.get_queryset())
         serializer = self.get_serializer(object_list, many=True,
-                                         partial=True, data=request.DATA)
+                                         data=request.DATA)
 
         if not serializer.is_valid():
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            for obj in serializer.object:
-                self.pre_save(obj)
-        except ValidationError as err:
-            return Response(err.message_dict,
-                            status=status.HTTP_400_BAD_REQUEST)
+        self.object_list = serializer.save()
 
-        self.object = serializer.save()
-        for obj in self.object:
-            self.post_save(obj)
-        return self.get(request, *args, **kwargs)
+        if getattr(request, 'is_filtered'):
+            return self.get(request, fmt)
+
+        return Response({'status': 'ok'})
 
     def get_serializer_class(self):
-        serializer_class = self.serializer_class
-        if serializer_class is not None:
-            return serializer_class
+        if self.serializer_class is not None:
+            return self.serializer_class
 
         model_class = self.get_queryset().model
         self.serializer_class = sync_serializer_factory(model_class)
         return self.serializer_class
-
-    def get_object(self):
-        return self.get_queryset()
 
 
 def ModelSyncView_factory(model_class, serializer=None):
