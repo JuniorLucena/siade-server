@@ -20,13 +20,15 @@ def datetime_from_string(s):
 
 class ModelSyncView(GenericAPIView):
     def filter_queryset(self, queryset):
+        object_type = ContentType.objects.get_for_model(queryset.model)
+
         since_param = self.request.GET.get('from') or self.request.GET.get('since')
         if since_param is None:
+            self.sync_qs = SyncState.objects.filter(object_type=object_type)
             return queryset
 
         self.request.is_filtered = True
         since = datetime_from_string(since_param)
-        object_type = ContentType.objects.get_for_model(queryset.model)
         time_range = (since, datetime.now())
         self.sync_qs = SyncState.objects.filter(object_type=object_type,
                                                 changed__range=time_range)
@@ -40,10 +42,11 @@ class ModelSyncView(GenericAPIView):
         return [{'id': i, 'sync_deleted': True} for i in deleted_ids]
 
     def get(self, request, format=None):
+        objects_qs = self.filter_queryset(self.get_queryset())
+
         if request.GET.get('deleted') == 'only':
             return Response(self.get_deleted_objects())
 
-        objects_qs = self.filter_queryset(self.get_queryset())
         serializer = self.get_serializer(objects_qs, many=True)
         object_list = serializer.data + self.get_deleted_objects()
         return Response(object_list)
